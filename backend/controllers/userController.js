@@ -1,10 +1,14 @@
 const asyncHandler = require("express-async-handler");
+const User = require("../models/users");
 
 // @desc Register a new user
 // route POST /api/user/register
 // @access Public
 const registerUser = asyncHandler(async (req, res) => {
-  res.status(200).json({ message: "Register User" });
+  const userData = req.body;
+  const user = new User(userData);
+  const savedUser = await user.save();
+  res.status(200).json(savedUser);
 });
 
 // @desc Auth user/set token
@@ -25,7 +29,8 @@ const logoutUser = asyncHandler(async (req, res) => {
 // route GET /api/user/profile
 // @access Private
 const getUserProfile = asyncHandler(async (req, res) => {
-  res.json({ message: "User profile" });
+  const user = await User.find({});
+  res.json(user);
 });
 
 // @desc Update user profile
