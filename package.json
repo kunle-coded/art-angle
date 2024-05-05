@@ -1,0 +1,14 @@
+{
+  "name": "art-angle",
+  "version": "1.0.0",
+  "description": "Online Art Store",
+  "main": "index.js",
+  "scripts": {
+    "dev": "concurrently \"cd backend npm run dev\" \"cd frontend npm run dev\""
+  },
+  "author": "Adekunle Adesokan",
+  "license": "MIT",
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
