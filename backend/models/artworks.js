@@ -40,20 +40,33 @@ const artworkSchema = new mongoose.Schema({
   },
   keywords: [String],
   price: Number,
-  dimensions: { width: 15, height: 10, depth: 0.1 },
+  dimensions: { width: Number, height: Number, depth: Number },
   images: [String],
   editions: {
     type: String,
-    minLength: 3,
+    enum: ["limited", "one"],
     required: true,
   },
+  quantity: Number,
   availability: {
     type: String,
-    minLength: 3,
+    enum: ["for sale", "not for sale", "sold"],
     required: true,
   },
-  user: {
+  owner: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
+    ref: "Artist",
   },
 });
+
+artworkSchema.set("toJSON", {
+  transform: (document, returnedObject) => {
+    returnedObject.id = returnedObject._id;
+    delete returnedObject._id;
+    delete returnedObject.__v;
+  },
+});
+
+const Artwork = mongoose.model("Artwork", artworkSchema);
+
+module.exports = Artwork;

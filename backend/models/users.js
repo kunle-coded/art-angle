@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const bcrypt = require("bcrypt");
 
 const userSchema = new mongoose.Schema({
   firstname: {
@@ -16,10 +17,93 @@ const userSchema = new mongoose.Schema({
     minLength: 3,
     required: true,
   },
+  password: {
+    type: String,
+    minLength: 8,
+    required: true,
+  },
+  userType: {
+    type: String,
+    enum: ["buyer", "artist"],
+    required: true,
+  },
+});
+
+const artistSchema = new mongoose.Schema({
+  contactNumber: {
+    type: String,
+    minLength: 5,
+    required: true,
+  },
+  biography: {
+    type: String,
+  },
+  specialisation: {
+    type: String,
+  },
+  portfolioLinks: [String],
+  paymentDetails: {
+    accountName: {
+      type: String,
+      required: true,
+    },
+    accountNumber: {
+      type: String,
+      required: true,
+    },
+    bankName: {
+      type: String,
+      required: true,
+    },
+  },
   artworks: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Artwork",
+    },
+  ],
+});
+
+const buyerSchema = new mongoose.Schema({
+  orders: [
+    {
+      artwork: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Artwork",
+      },
+      date: {
+        type: Date,
+        required: true,
+      },
+      quantity: Number,
+      status: {
+        type: String,
+        enum: ["in progress", "completed"],
+      },
+    },
+  ],
+  wishlist: [
+    {
+      artwork: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Artwork",
+      },
+    },
+  ],
+  cart: [
+    {
+      artwork: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Artwork",
+      },
+    },
+  ],
+  favouriteArtists: [
+    {
+      artist: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Artist",
+      },
     },
   ],
 });
@@ -29,9 +113,31 @@ userSchema.set("toJSON", {
     returnedObject.id = returnedObject._id.toString();
     delete returnedObject._id;
     delete returnedObject.__v;
+    delete returnedObject.password;
   },
 });
 
+userSchema.pre("save", async function (next) {
+  if (!this.isModified()) {
+    next();
+  }
+
+  const saltRounds = 10;
+  const salt = await bcrypt.genSalt(saltRounds);
+  this.password = await bcrypt.hash(this.password, salt);
+});
+
+userSchema.methods.matchPassword = async function (enteredPassword) {
+  return await bcrypt.compare(enteredPassword, this.password);
+};
+
 const User = mongoose.model("User", userSchema);
 
-module.exports = User;
+const Artist = User.discriminator("Artist", artistSchema);
+const Buyer = User.discriminator("Buyer", buyerSchema);
+
+module.exports = {
+  Artist,
+  Buyer,
+  User,
+};
