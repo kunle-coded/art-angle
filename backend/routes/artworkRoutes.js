@@ -1,16 +1,17 @@
 const router = require("express").Router();
 const {
-  getArtworks,
   addArtworks,
   getUserArtworks,
   updateArtworks,
+  deleteArtworks,
 } = require("../controllers/artworkController");
+const { protect } = require("../middleware/authMiddleware");
 
-router.get("/artworks", getArtworks);
+router.get("/", protect, getUserArtworks);
+router.post("/upload", protect, addArtworks);
 router
-  .route("/user/artworks")
-  .get(getUserArtworks)
-  .post(addArtworks)
-  .put(updateArtworks);
+  .route("/:id")
+  .put(protect, updateArtworks)
+  .delete(protect, deleteArtworks);
 
 module.exports = router;

@@ -71,16 +71,13 @@ const buyerSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "Artwork",
       },
-      date: {
-        type: Date,
-        required: true,
-      },
       quantity: Number,
       status: {
         type: String,
         enum: ["in progress", "completed"],
       },
     },
+    { timestamps: true },
   ],
   wishlist: [
     {

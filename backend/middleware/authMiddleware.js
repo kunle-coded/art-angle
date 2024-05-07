@@ -10,6 +10,9 @@ const protect = asyncHandler(async (req, res, next) => {
   if (token) {
     try {
       const decoded = jwt.verify(token, JWT_SECRET);
+      req.user = await User.findById(decoded.userId).select("-password");
+
+      next();
     } catch (error) {
       res.status(401);
       throw new Error("Not authorized, invalid token");
@@ -19,3 +22,5 @@ const protect = asyncHandler(async (req, res, next) => {
     throw new Error("Not authorized");
   }
 });
+
+module.exports = { protect };
