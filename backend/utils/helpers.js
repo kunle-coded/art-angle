@@ -1,3 +1,5 @@
+const { v4: uuidv4 } = require("uuid");
+
 const emptyObject = (res, object) => {
   if (Object.keys(object).length === 0) {
     res.status(401);
@@ -5,4 +7,9 @@ const emptyObject = (res, object) => {
   }
 };
 
-module.exports = { emptyObject };
+const generateId = () => {
+  const id = uuidv4();
+  return id;
+};
+
+module.exports = { emptyObject, generateId };

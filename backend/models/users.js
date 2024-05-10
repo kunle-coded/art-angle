@@ -67,40 +67,37 @@ const artistSchema = new mongoose.Schema({
 const buyerSchema = new mongoose.Schema({
   orders: [
     {
-      artwork: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Artwork",
-      },
-      quantity: Number,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Artwork",
+    },
+  ],
+  orderDetails: [
+    {
+      orderId: { type: String, required: true },
+      productId: { type: String, required: true },
+      orderDate: Date,
       status: {
         type: String,
         enum: ["in progress", "completed"],
       },
     },
-    { timestamps: true },
   ],
   wishlist: [
     {
-      artwork: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Artwork",
-      },
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Artwork",
     },
   ],
   cart: [
     {
-      artwork: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Artwork",
-      },
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Artwork",
     },
   ],
   favouriteArtists: [
     {
-      artist: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Artist",
-      },
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Artist",
     },
   ],
 });

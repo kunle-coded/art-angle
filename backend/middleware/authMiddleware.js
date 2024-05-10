@@ -10,9 +10,15 @@ const protect = asyncHandler(async (req, res, next) => {
   if (token) {
     try {
       const decoded = jwt.verify(token, JWT_SECRET);
-      req.user = await User.findById(decoded.userId).select("-password");
+      const user = await User.findById(decoded.userId).select("-password");
 
-      next();
+      if (user) {
+        req.user = user;
+        next();
+      } else {
+        res.status(404);
+        throw new Error("User not found");
+      }
     } catch (error) {
       res.status(401);
       throw new Error("Not authorized, invalid token");

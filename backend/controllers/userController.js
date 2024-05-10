@@ -14,19 +14,19 @@ const registerUser = asyncHandler(async (req, res) => {
 
   if (userExist) {
     res.status(400);
-    throw new Error("User already exist");
+    throw new Error("User with email already exist");
   }
 
   if (userType === "artist") {
     const user = new Artist(userData);
-    const registeredUser = await user.save();
-    generateToken(res, registeredUser.id);
-    res.status(201).json(registeredUser);
+    await user.save();
+    // generateToken(res, registeredUser.id);
+    res.status(201).json({ message: "Registration successful" });
   } else {
     const user = new Buyer(userData);
-    const registeredUser = await user.save();
-    generateToken(res, registeredUser.id);
-    res.status(201).json(registeredUser);
+    await user.save();
+    // generateToken(res, registeredUser.id);
+    res.status(201).json({ message: "Registration successful" });
   }
 });
 
@@ -40,7 +40,7 @@ const authUser = asyncHandler(async (req, res) => {
 
   if (user && (await user.matchPassword(password))) {
     generateToken(res, user.id);
-    res.status(200).json(user);
+    res.status(200).json({ message: "Login successful" });
   } else {
     res.status(401);
     throw new Error("Invalid email or password");
@@ -55,7 +55,7 @@ const logoutUser = asyncHandler(async (req, res) => {
     httpOnly: true,
     expires: new Date(0),
   });
-  res.json({ message: "User logeed out" });
+  res.status(200).json({ message: "User logeed out" });
 });
 
 // @desc Get user profile/set token
@@ -70,9 +70,14 @@ const getUserProfile = asyncHandler(async (req, res) => {
     res.status(200).json(artist);
   } else {
     const buyer = await Buyer.findById(user.id)
-      .populate("orders", "-id")
+      .populate("orders", "-owner")
+      .populate("wishlist", "-owner")
+      .populate("cart", "-owner")
+      .populate(
+        "favouriteArtists",
+        "-paymentDetails -email -userType -contactNumber -__t"
+      )
       .exec();
-    console.log(buyer.orders);
 
     res.json(buyer);
   }
@@ -89,34 +94,32 @@ const updateUserProfile = asyncHandler(async (req, res) => {
     throw new Error("No user data to update");
   }
 
-  if (user) {
-    const { password } = req.body;
+  const userData = { ...req.body };
 
+  const { password } = req.body;
+
+  if (password) {
     const saltRounds = 10;
     const salt = await bcrypt.genSalt(saltRounds);
     const hashedPassword = await bcrypt.hash(password, salt);
 
-    const userData = { ...req.body };
     userData.password = hashedPassword;
+  }
 
-    if (user.userType === "artist") {
-      const updatedUser = await Artist.findOneAndUpdate(
-        { _id: user.id },
-        { $set: userData },
-        { new: true }
-      );
-      res.status(201).json(updatedUser);
-    } else {
-      const updatedUser = await Buyer.findOneAndUpdate(
-        { _id: user.id },
-        { $set: userData },
-        { new: true }
-      );
-      res.status(201).json(updatedUser);
-    }
+  if (user.userType === "artist") {
+    await Artist.findOneAndUpdate(
+      { _id: user.id },
+      { $set: userData },
+      { new: true }
+    );
+    res.status(201).json({ message: "Successfully updated" });
   } else {
-    res.status(404);
-    throw new Error("User not found");
+    await Buyer.findOneAndUpdate(
+      { _id: user.id },
+      { $set: userData },
+      { new: true }
+    );
+    res.status(201).json({ message: "Successfully updated" });
   }
 });
 
@@ -126,7 +129,7 @@ const updateUserProfile = asyncHandler(async (req, res) => {
 const deleteUser = asyncHandler(async (req, res) => {
   if (!req.user) {
     res.status(401);
-    throw new Error("Aunthorized user or user not in database");
+    throw new Error("Anuthorized user or user not in database");
   }
 
   const userId = req.user.id;
