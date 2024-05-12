@@ -1,11 +1,109 @@
+@import url("https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
+
+:root {
+  /* Typography */
+
+  --primary-font: "Josefin Sans", sans-serif;
+  --secondary-font: "Montserrat", sans-serif;
+
+  /* Colors */
+
+  /* Surface/background Key Color */
+  --surface: #fafafa;
+  --on-surface: #333333;
+  --surface-container: #ffffff;
+  --on-surface-container: #333333;
+
+  /* --surface: #f5f5f5;
+  --surface-container: #fafafa; */
+
+  /* Primary Key Color */
+  --primary: #333333;
+  --on-primary: #fafafa;
+  --primary-container: #e3e3e3;
+  --on-primary-container: #131313;
+  --primary-variant: #707070;
+
+  /* Secondary Key Color */
+  --secondary: #457ee0;
+  --on-secondary: #fafafa;
+  --secondary-container: #c1e1ff;
+  --on-secondary-container: #0c0d40;
+
+  /* Tertiary Key Color */
+  --tertiary: #005b61;
+  --on-tertiary: #fafafa;
+  --tertiary-container: #dff6fa;
+  --on-tertiary-container: #0e2130;
+
+  /* Warning Key Color */
+  --warning: #ff9800;
+  --on-warning: #663c00;
+  --warning-container: #fff4e5;
+  --on-warning-container: #663c00;
+
+  /* Error Key Color */
+  --error: #ba1a1a;
+  --on-error: #fafafa;
+  --error-container: #ffdad6;
+  --on-error-container: #410002;
+
+  /* Success Key Color */
+  --success: #2e7d32;
+  --on-success: #ffffff;
+  --success-container: #edf7ed;
+  --on-success-container: #1e4620;
+
+  /* Outline Key Color */
+  --outline: #acacac;
+  --outline-variant: #e3e3e3;
+
+  /* Shadow Effects */
+  --umbra: 0px 16px 24px 2px rgb(000, 14%);
+  --penumbra: 0px 6px 30px 5px rgb(000, 12%);
+  --ambient: 0px 8px 10px 0px rgb(000, 20%);
+
+  /* Margins */
+  --margin-desktop: 0px 100px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+
+  /* Creating animations for dark mode */
+  /* transition: background-color 0.3s, border 0.3s; */
+}
+
+html {
+  font-size: 62.5%;
+}
+
+body {
+  font-family: var(--primary-font), var(--secondary-font), "Helvetica Neue",
+    Helvetica, Arial, sans-serif;
+  transition: color 0.3s, background-color 0.3s;
+  min-height: 100vh;
+  font-size: 16px;
+  line-height: 1.5;
+  font-optical-sizing: auto;
+  font-weight: normal;
+  font-style: normal;
+  background-color: var(--surface);
+  color: var(--primary);
+}
+
 .spinner {
   margin: 4.8rem auto;
   width: 6.4rem;
   aspect-ratio: 1;
   border-radius: 50%;
-  background: radial-gradient(farthest-side, blue 94%, #0000) top/10px 10px
-      no-repeat,
-    conic-gradient(#0000 30%, blue);
+  background: radial-gradient(farthest-side, var(--secondary) 94%, #0000)
+      top/10px 10px no-repeat,
+    conic-gradient(#0000 30%, var(--secondary));
   -webkit-mask: radial-gradient(farthest-side, #0000 calc(100% - 10px), #000 0);
   animation: rotate 1.5s infinite linear;
 }
@@ -14,4 +112,15 @@
   to {
     transform: rotate(1turn);
   }
+}
+
+.logo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* margin-right: 8.5rem; */
+}
+
+.active {
+  color: var(--primary-variant);
 }

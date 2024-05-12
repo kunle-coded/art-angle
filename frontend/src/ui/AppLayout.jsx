@@ -1,11 +1,12 @@
 import { Outlet } from "react-router-dom";
-import Navbar from "./Navbar";
+import Navigation from "../components/header/Navigation";
+
 // import Spinner from "./Spinner";
 
 function AppLayout() {
   return (
     <div>
-      <Navbar />
+      <Navigation />
       {/* <Spinner /> */}
       <main>
         <Outlet />
