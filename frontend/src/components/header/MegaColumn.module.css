@@ -1,0 +1,41 @@
+.menu {
+  grid-column: span 3;
+  align-self: stretch;
+}
+.bottomColumn {
+  /* margin-top: 60px; */
+  align-self: end;
+  margin-left: -20px;
+}
+
+.footerSpacer {
+  font-size: 16px;
+  line-height: 26px;
+}
+
+.categoryContainer {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.categoryLink {
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+  padding: 10px 20px;
+  text-decoration: none;
+  color: inherit;
+}
+
+.categoryLink:hover {
+  padding: 10px 20px;
+  background-color: var(--primary-hover-container);
+}
+
+.menuTitle {
+  width: 100%;
+  padding: 0px 0px 10px 20px;
+  font-size: var(--desktop-body-md);
+  color: var(--primary-variant);
+}

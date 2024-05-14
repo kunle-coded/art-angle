@@ -1,24 +1,29 @@
+import { useState } from "react";
 import styles from "./MegaMenu.module.css";
 
-function MegaMenu({ isShow }) {
+function MegaMenu({ isShow, children }) {
+  const [isEnter, setIsEnter] = useState(false);
+
   return (
-    <div style={{ position: "relative", zIndex: 1 }}>
-      <div className={`${styles.megaMenu} ${isShow ? styles.showMega : ""}`}>
+    <div
+      style={{ position: "relative", zIndex: 1 }}
+      onMouseEnter={() => setIsEnter(true)}
+      onMouseLeave={() => setIsEnter(false)}
+    >
+      <div
+        className={`${styles.megaMenu} ${
+          isShow || isEnter ? styles.showMega : ""
+        }`}
+      >
         <div
-          className={`${styles.dropdown} ${isShow ? styles.showDropdown : ""}`}
+          className={`${styles.dropdown} ${
+            isShow || isEnter ? styles.showDropdown : ""
+          }`}
         >
           <div className={styles.dropdownOuter}>
             <div className={styles.dropdownInner}>
               <div className={styles.menuContainer}>
-                <div className={styles.menuInner}>
-                  <div className={styles.menuWrapper}>
-                    <div className={styles.menu}>Menu 1</div>
-                    <div className={styles.menu}>Menu 2</div>
-                    <div className={styles.menu}>Menu 3</div>
-                    <div className={styles.menu}>Menu 4</div>
-                  </div>
-                  <div className={styles.menuFooter}>Footer here</div>
-                </div>
+                <div className={styles.menuInner}>{children}</div>
               </div>
             </div>
           </div>

@@ -1,0 +1,24 @@
+.megaFooter {
+  grid-column: span 9;
+  align-self: stretch;
+}
+
+.footerTitle {
+  padding: 10px 20px;
+  font-size: var(--desktop-body-md);
+  line-height: 20px;
+  color: var(--primary-variant);
+}
+
+.footerContent {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.letter {
+  display: inline-block;
+  text-decoration: none;
+  padding: 10px;
+  color: inherit;
+  transition: color 0.25s ease 0s;
+}

@@ -39,26 +39,8 @@
 .menuContainer {
   width: 100%;
   max-width: 1920px;
-  /* background-color: aquamarine; */
 }
 
 .menuInner {
-  display: flex;
-  flex-direction: column;
   margin: var(--margin-desktop);
-  padding: 60px 0px;
-}
-
-.menuWrapper {
-  display: grid;
-  grid-template-columns: repeat(12, 1fr);
-  gap: 10px 0px;
-}
-
-.menu {
-  grid-column: span 3;
-}
-
-.menuFooter {
-  margin-top: 40px;
 }

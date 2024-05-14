@@ -15,7 +15,7 @@ function Header({ onEnter, onLeave }) {
       <div className={styles.container}>
         <Logo />
         <nav className={styles.navbar}>
-          <ul className={styles.mainMenu}>
+          <div className={styles.mainMenu}>
             <NavLink
               to="/artists"
               className={styles.navlink}
@@ -41,7 +41,7 @@ function Header({ onEnter, onLeave }) {
             <NavLink to="/photography" className={styles.navlink}>
               Photography
             </NavLink>
-          </ul>
+          </div>
         </nav>
         <nav className={styles.navbar}>
           <div className={styles.searchContainer}>
@@ -72,7 +72,7 @@ function Header({ onEnter, onLeave }) {
             </div>
           </div>
 
-          <ul className={styles.utilityMenu}>
+          <div className={styles.utilityMenu}>
             <NavLink to="/login" className={styles.navlink}>
               Login/Register
             </NavLink>
@@ -96,7 +96,7 @@ function Header({ onEnter, onLeave }) {
               </NavLink>
               <div className={styles.cartCounter}>2</div>
             </div>
-          </ul>
+          </div>
         </nav>
       </div>
     </header>

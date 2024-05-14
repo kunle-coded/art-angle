@@ -3,8 +3,18 @@
 :root {
   /* Typography */
 
+  /* Font family */
   --primary-font: "Josefin Sans", sans-serif;
   --secondary-font: "Montserrat", sans-serif;
+
+  /* Font size */
+  --desktop-display-sm: 64px; /* line-height: 71px */
+  --desktop-headline-lg: 57px; /* line-height: 64px */
+  --desktop-headline-md: 45px; /* line-height: 52px */
+  --desktop-headline-sm: 24px; /* line-height: 32px */
+  --desktop-body-lg: 16px; /* line-height: 24px */
+  --desktop-body-md: 14px; /* line-height: 20px */
+  --desktop-body-sm: 12px; /* line-height: 16px */
 
   /* Colors */
 
@@ -23,6 +33,7 @@
   --primary-container: #e3e3e3;
   --on-primary-container: #131313;
   --primary-variant: #707070;
+  --primary-hover-container: #f7f7f7;
 
   /* Secondary Key Color */
   --secondary: #457ee0;
@@ -79,18 +90,17 @@
 }
 
 html {
-  font-size: 62.5%;
+  font-size: 16px;
+  line-height: 1.5;
 }
 
 body {
-  font-family: var(--primary-font), var(--secondary-font), "Helvetica Neue",
+  font-family: var(--secondary-font), var(--primary-font), "Helvetica Neue",
     Helvetica, Arial, sans-serif;
   transition: color 0.3s, background-color 0.3s;
   min-height: 100vh;
-  font-size: 16px;
-  line-height: 1.5;
   font-optical-sizing: auto;
-  font-weight: normal;
+  font-weight: 400;
   font-style: normal;
   background-color: var(--surface);
   color: var(--primary);
