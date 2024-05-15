@@ -1,0 +1,12 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  margin: var(--margin-desktop);
+}
+
+.content {
+  display: block;
+  width: 100%;
+  margin: 0px;
+  padding: 20px 0px 0px 0px;
+}

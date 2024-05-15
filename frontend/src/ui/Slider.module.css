@@ -20,19 +20,21 @@
 }
 
 .slideContainer {
+  will-change: transform;
   display: flex;
   height: 100%;
-  transition: transform 650ms ease 0s;
+  transition: transform 0.5s ease 0s;
+  /* transition: transform 650ms ease 0s; */
 }
 
 .slide {
-  opacity: 0;
+  opacity: 0.2;
   min-width: 100%;
   /* height: 100%; */
   background-size: cover;
   background-position: center;
   position: relative;
-  transition: opacity 450ms ease 0.1s;
+  transition: opacity 250ms ease 0.1s;
 }
 
 .slide.active {
