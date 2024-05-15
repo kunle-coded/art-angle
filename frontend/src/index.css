@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
+/* @import url("https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"); */
 
 :root {
   /* Typography */
@@ -95,8 +95,7 @@ html {
 }
 
 body {
-  font-family: var(--secondary-font), var(--primary-font), "Helvetica Neue",
-    Helvetica, Arial, sans-serif;
+  font-family: "Montserrat", "Josefin Sans", sans-serif;
   transition: color 0.3s, background-color 0.3s;
   min-height: 100vh;
   font-optical-sizing: auto;
@@ -125,6 +124,8 @@ body {
 }
 
 .logo {
+  grid-column: span 1;
+  justify-self: start;
   display: flex;
   justify-content: center;
   align-items: center;

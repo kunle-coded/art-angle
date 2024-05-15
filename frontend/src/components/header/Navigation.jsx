@@ -7,7 +7,7 @@ import MegaFooter from "./MegaFooter";
 
 function Navigation() {
   const [isArtist, setIsArtist] = useState(false);
-  const [isArtwork, setIsArtwork] = useState(true);
+  const [isArtwork, setIsArtwork] = useState(false);
 
   const handleHover = (event) => {
     const target = event.target.textContent;

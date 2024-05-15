@@ -1,0 +1,89 @@
+.container {
+  display: block;
+  width: 100%;
+  height: 70vh;
+  overflow: hidden;
+}
+.wrapper {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.slider {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background-color: var(--primary);
+}
+
+.slideContainer {
+  display: flex;
+  height: 100%;
+  transition: transform 650ms ease 0s;
+}
+
+.slide {
+  opacity: 0;
+  min-width: 100%;
+  /* height: 100%; */
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  transition: opacity 450ms ease 0.1s;
+}
+
+.slide.active {
+  opacity: 1;
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  z-index: 1;
+}
+
+.sliderOverlay {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  width: 100%;
+  background: linear-gradient(to top, rgb(51, 51, 51, 0.9), 30%, transparent);
+  z-index: 2;
+}
+.metadata {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  padding: var(--margin-desktop);
+  z-index: 4;
+}
+
+.metaContent {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  color: var(--on-primary);
+  font-size: var(--desktop-body-sm);
+  width: 100%;
+  margin: 20px 0px 30px 0px;
+}
+
+.metaTitle {
+  text-transform: capitalize;
+}
+
+.metaRightCol {
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
+}

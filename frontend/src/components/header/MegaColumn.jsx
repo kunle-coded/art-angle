@@ -9,7 +9,12 @@ function MegaColumn({ menuItems, columnTitle, linkText }) {
           <div className={styles.menuTitle}>{columnTitle}</div>
         ) : null}
         {linkText ? (
-          <Link className={styles.categoryLink}>{linkText}</Link>
+          <Link
+            to={`/${linkText.includes("Artworks") ? "artworks" : "artists"}`}
+            className={styles.categoryLink}
+          >
+            {linkText}
+          </Link>
         ) : (
           menuItems.map((item) => (
             <Link key={item} className={styles.categoryLink}>

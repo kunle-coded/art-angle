@@ -8,6 +8,7 @@ function AppLayout() {
     <div>
       <Navigation />
       {/* <Spinner /> */}
+
       <main>
         <Outlet />
       </main>
