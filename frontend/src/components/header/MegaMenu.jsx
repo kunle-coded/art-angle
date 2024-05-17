@@ -6,7 +6,7 @@ function MegaMenu({ isShow, children }) {
 
   return (
     <div
-      style={{ position: "relative", zIndex: 1 }}
+      className={styles.megaMenuContainer}
       onMouseEnter={() => setIsEnter(true)}
       onMouseLeave={() => setIsEnter(false)}
     >

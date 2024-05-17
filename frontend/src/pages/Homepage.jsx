@@ -4,6 +4,7 @@ import Section from "../ui/Section";
 import Slider from "../ui/Slider";
 import styles from "./Homepage.module.css";
 import { artworks } from "../data";
+import ScrollBlock from "../ui/ScrollBlock";
 
 function Homepage() {
   return (
@@ -16,6 +17,8 @@ function Homepage() {
           ))}
         </PosterBlock>
       </Section>
+
+      <ScrollBlock></ScrollBlock>
     </div>
   );
 }

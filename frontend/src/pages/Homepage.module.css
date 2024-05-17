@@ -10,10 +10,3 @@
 .homepageContent {
   margin: var(--margin-desktop);
 }
-
-.test {
-  height: 400px;
-  width: 400px;
-  background: linear-gradient(to top, rgb(0, 0, 255, 0.8), 30%, transparent);
-  margin: 6.5rem auto;
-}

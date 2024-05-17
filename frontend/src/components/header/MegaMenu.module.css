@@ -1,8 +1,15 @@
+.megaMenuContainer {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+}
+
 .megaMenu {
   visibility: hidden;
   position: absolute;
   top: 0px;
   left: 0px;
+  right: 0px;
   display: block;
   transform: translate(0px, -2px);
   overflow: hidden;
@@ -33,12 +40,12 @@
 }
 
 .dropdownInner {
-  width: 100vw;
+  width: 100%;
 }
 
 .menuContainer {
-  width: 100%;
-  max-width: 1920px;
+  width: 100vw;
+  /* max-width: 1920px; */
 }
 
 .menuInner {
