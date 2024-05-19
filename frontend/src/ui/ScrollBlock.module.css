@@ -159,9 +159,7 @@
 }
 
 .scrollbarThumb {
-  transform: translateX(345.33px); /*NOTE To add dynamically*/
   backface-visibility: hidden;
-
   /* Main style */
   position: relative;
   background-color: var(--primary-variant);
@@ -204,6 +202,13 @@
   top: 50%;
   margin-top: -1.5px;
   height: 3px;
+}
+
+.noSelect {
+  user-select: none;
+  -webkit-user-select: none; /* Safari */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
 }
 
 /* Clickable-sc-10cr82y-0 */
