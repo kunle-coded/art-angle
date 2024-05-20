@@ -150,6 +150,7 @@
   height: 3px;
   width: 100%;
   background-color: #d8d8d8;
+  z-index: 1;
 }
 
 .trackArea {
@@ -186,6 +187,7 @@
   font: inherit;
   text-align: inherit;
   cursor: pointer;
+  z-index: 5;
 }
 
 .clickableScrollThumb:hover {
@@ -212,3 +214,16 @@
 }
 
 /* Clickable-sc-10cr82y-0 */
+
+/* const handleScrollbar = (e) => {
+  const containerWidth = contentRef.current.offsetWidth;
+  const scrollbarWidth = scrollbarRef.current.scrollWidth;
+
+  const clickPositionX =
+    e.clientX - scrollbarRef.current.getBoundingClientRect().left;
+
+  const newScrollLeft = (clickPositionX / containerWidth) * scrollbarWidth;
+  scrollContentRef.current.scrollLeft = newScrollLeft;
+
+  handleScroll();
+}; */

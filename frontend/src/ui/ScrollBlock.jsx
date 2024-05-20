@@ -15,34 +15,33 @@ function ScrollBlock({ children, title }) {
   const translateX = `translateX(${thumbPosition}px)`;
 
   useEffect(() => {
-    const handleMove = () => {
-      const deltaX = scrollContentRef.current.clientX - startX;
-      setStartX(scrollContentRef.current.clientX);
+    const handleMove = (e) => {
+      if (!isDragging) return;
 
-      console.log(
-        "scroll startX",
-        startX,
-        "clientX",
-        scrollContentRef.current.clientX
-      );
+      const deltaX = e.clientX - startX;
+      setStartX(e.clientX);
 
-      const containerWidth = contentRef.current.scrollWidth;
-      const scrollbarWidth = scrollbarRef.current.offsetWidth;
+      const containerWidth = contentRef.current.offsetWidth;
+      const scrollWidth = scrollContentRef.current.scrollWidth;
 
       const scrollStart =
-        leftScroll + (deltaX / containerWidth) * scrollbarWidth;
-      scrollbarRef.current.scrollLeft = scrollStart;
-      console.log("start x", scrollbarRef.current.scrollLeft);
+        scrollContentRef.current.scrollLeft +
+        (deltaX / containerWidth) * scrollWidth;
+      scrollContentRef.current.scrollLeft = scrollStart;
+
+      // handleScroll();
     };
 
-    if (isDragging) {
-      document.addEventListener("mousemove", handleMove);
-    }
+    const handleMouseUp = () => {
+      setIsDragging(false);
+    };
 
-    handleScroll();
+    document.addEventListener("mousemove", handleMove);
+    document.addEventListener("mouseup", handleMouseUp);
 
     return () => {
       document.removeEventListener("mousemove", handleMove);
+      document.removeEventListener("mouseup", handleMouseUp);
     };
   }, [isDragging, leftScroll, startX]);
 
@@ -69,13 +68,23 @@ function ScrollBlock({ children, title }) {
   };
 
   const handleDragable = (target) => {
+    target.stopPropagation();
     setIsDragging(true);
     setStartX(target.clientX);
   };
 
-  const handleClickable = (target) => {
-    // console.log("clickable", target);
-    // console.log("clickable", contentRef.current.clientWidth);
+  const handleScrollbarClick = (e) => {
+    console.log("is dragging in clickable");
+    const containerWidth = contentRef.current.offsetWidth;
+    const scrollbarWidth = scrollbarRef.current.scrollWidth;
+
+    const clickPositionX =
+      e.clientX - scrollbarRef.current.getBoundingClientRect().left;
+
+    const newScrollLeft = (clickPositionX / containerWidth) * scrollbarWidth;
+    scrollContentRef.current.scrollLeft = newScrollLeft;
+
+    // handleScroll();
   };
 
   return (
@@ -174,7 +183,7 @@ function ScrollBlock({ children, title }) {
             aria-valuemin="0"
             aria-valuenow={valueNow}
             className={styles.scrollbar}
-            onClick={(e) => handleClickable(e)}
+            onClick={(e) => handleScrollbarClick(e)}
           >
             <div className={styles.trackArea}></div>
             <div
