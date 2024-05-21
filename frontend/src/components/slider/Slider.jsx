@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import styles from "./Slider.module.css";
-import { slides as images } from "../data";
+import { slides as images } from "../../data";
 
 function Slider() {
   const [slides, setSlides] = useState(images);

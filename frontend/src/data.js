@@ -192,4 +192,143 @@ const categories = [
   },
 ];
 
-export { artworks, slides, categories };
+const artworksByPrice = [
+  {
+    id: 0,
+    title: "Benin Head",
+    artist: "Felix Idubor",
+    price: "177,750",
+    url: "./benin-head.png",
+  },
+  {
+    id: 1,
+    title: "Purple House",
+    artist: "Uzoma Samuel",
+    price: "230,760",
+    url: "./friends.png",
+  },
+  {
+    id: 2,
+    title: "Expression",
+    artist: "Steve Ekpenisi",
+    price: "222,000",
+    url: "./expression-card.png",
+  },
+  {
+    id: 3,
+    title: "Gaze of Hope",
+    artist: "Nelson Okoh",
+    price: "202,000",
+    url: "./gaze-of-hope-card.png",
+  },
+  {
+    id: 4,
+    title: "Colors",
+    artist: "Dan Mbo",
+    price: "242,400",
+    url: "./cat-contemporary.png",
+  },
+  {
+    id: 5,
+    title: "Authority",
+    artist: "Micheal Maseli",
+    price: "210,450",
+    url: "./authority.png",
+  },
+];
+
+const artists = [
+  {
+    id: 0,
+    name: "Durodola Yusuf",
+    nationality: "Nigerian",
+    category: "Painting",
+    imgUrl: "artist-yusuf.png",
+  },
+  {
+    id: 1,
+    name: "Cornelius Browne",
+    nationality: "Nigerian",
+    category: "Photography",
+    imgUrl: "artist-browne.png",
+  },
+  {
+    id: 2,
+    name: "Tolu Aliki",
+    nationality: "Nigerian",
+    category: "Painting",
+    imgUrl: "artist-aliki.png",
+  },
+  {
+    id: 3,
+    name: "Uzoma Samuel",
+    nationality: "Nigerian",
+    category: "Painting",
+    imgUrl: "artist-samuel.png",
+  },
+  {
+    id: 4,
+    name: "Nelson Okoh",
+    nationality: "Nigerian",
+    category: "Painting",
+    imgUrl: "artist-okoh.png",
+  },
+  {
+    id: 5,
+    name: "Felix Idubor",
+    nationality: "Nigerian",
+    category: "Sculpture",
+    imgUrl: "artist-idubor.png",
+  },
+  {
+    id: 6,
+    name: "Dan Mbo",
+    nationality: "Nigerian",
+    category: "Painting",
+    imgUrl: "artist-mbo.png",
+  },
+  {
+    id: 7,
+    name: "Steve Ekpenisi",
+    nationality: "Nigerian",
+    category: "Sculpture",
+    imgUrl: "artist-ekpenisi.png",
+  },
+  {
+    id: 8,
+    name: "Oladipupo Adesina",
+    nationality: "Nigerian",
+    category: "Painting",
+    imgUrl: "artist-adesina.png",
+  },
+  {
+    id: 9,
+    name: "Divine Effiong",
+    nationality: "Nigerian",
+    category: "Painting",
+    imgUrl: "artist-effiong.png",
+  },
+];
+
+const events = [
+  {
+    id: 0,
+    title: "Art x Lagos 2024",
+    date: "Oct 31 - Nov 3, 2024",
+    imgUrl: "art-x-fair.jpeg",
+  },
+  {
+    id: 1,
+    title: "New Directions 2024",
+    date: "Mar 30 - Apr 27, 2024",
+    imgUrl: "new-directions.jpeg",
+  },
+  {
+    id: 2,
+    title: "Peju Alatise: Perceptions",
+    date: "Jul 8 - Aug 11, 2024",
+    imgUrl: "perceptions.png",
+  },
+];
+
+export { artworks, slides, categories, artworksByPrice, artists, events };

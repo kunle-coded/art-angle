@@ -43,6 +43,7 @@
   justify-content: space-between;
   width: 100%;
 }
+
 .title {
   font-family: var(--secondary-font);
   font-size: var(--desktop-headline-xsm);

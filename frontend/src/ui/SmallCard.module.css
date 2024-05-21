@@ -1,0 +1,39 @@
+.card {
+  grid-column: span 2;
+  position: relative;
+  text-decoration: none;
+  color: inherit;
+}
+
+.imageWrapper {
+  display: block;
+  width: 100%;
+}
+
+.cardImage {
+  width: 100%;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  object-fit: cover;
+}
+
+.cardDetails {
+  padding-top: 10px;
+  width: 100%;
+}
+
+.artworkTitle {
+  font-size: var(--desktop-body-lg);
+  line-height: 24px;
+  text-transform: capitalize;
+}
+
+.artistName {
+  font-size: var(--desktop-body-md);
+  color: var(--primary-variant);
+}
+
+.artworkPrice {
+  font-size: var(--desktop-body-lg);
+}

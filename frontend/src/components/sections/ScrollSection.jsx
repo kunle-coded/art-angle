@@ -1,18 +1,51 @@
 import { useEffect, useRef, useState } from "react";
-import styles from "./ScrollBlock.module.css";
+import styles from "./ScrollSection.module.css";
 
 function ScrollBlock({ children, title, align = false }) {
   const [thumbPosition, setThumbPosition] = useState(0);
   const [valueNow, setValueNow] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
   const [startX, setStartX] = useState(null);
+  const [thumbWidth, setThumbWidth] = useState(200);
 
   const contentsRef = useRef(null);
   const scrollbarRef = useRef(null);
   const scrollContentRef = useRef(null);
   const thumbRef = useRef(null);
+  const observer = useRef(ResizeObserver);
 
-  const translateX = `translateX(${thumbPosition}px)`;
+  // const translateX = `translateX(${thumbPosition}px)`;
+
+  const handleThumbResize = () => {
+    if (scrollbarRef.current && scrollContentRef.current) {
+      const trackSize = scrollbarRef.current.clientWidth;
+      const contentVisible = scrollContentRef.current.clientWidth;
+      const scrollWidth = scrollContentRef.current.scrollWidth;
+
+      const newWidth = Math.max(
+        (contentVisible / scrollWidth) * trackSize,
+        200
+      );
+
+      setThumbWidth(newWidth);
+    }
+  };
+
+  useEffect(() => {
+    if (scrollContentRef.current) {
+      const content = scrollContentRef.current;
+
+      observer.current = new ResizeObserver(() => {
+        handleThumbResize();
+      });
+
+      observer.current.observe(content);
+
+      return () => {
+        observer.current?.unobserve(content);
+      };
+    }
+  }, []);
 
   useEffect(() => {
     const handleMove = (e) => {
@@ -44,36 +77,17 @@ function ScrollBlock({ children, title, align = false }) {
   }, [isDragging, startX]);
 
   const handleScroll = () => {
-    const scrollbarWidth = scrollbarRef.current.offsetWidth;
-    const contentWidth = scrollContentRef.current.offsetWidth;
-    const scrollWidth = scrollContentRef.current.scrollWidth;
-    const scrollLeft = scrollContentRef.current.scrollLeft;
+    const contentBaseWidth = scrollContentRef.current.clientWidth;
+    const contentWidth = scrollContentRef.current.scrollWidth;
+    const contentLeft = scrollContentRef.current.scrollLeft;
+    const trackWidth = scrollbarRef.current.clientWidth;
 
-    const parentStyle = getComputedStyle(contentsRef.current);
-    const parentMarginLeft = parseFloat(parentStyle.marginLeft) || 0;
-    const parentMarginRight = parseFloat(parentStyle.marginRight) || 0;
+    let newLeft = (contentLeft / contentWidth) * trackWidth;
+    newLeft = Math.min(newLeft, trackWidth - thumbWidth);
+    setThumbPosition(newLeft);
 
-    const effectiveWidth =
-      scrollbarWidth + parentMarginLeft - parentMarginRight;
-
-    // const thumbPos =
-    //   (scrollLeft / (scrollWidth - contentWidth)) * scrollbarWidth;
-    // const thumbPos = (scrollLeft / contentWidth) * scrollbarWidth;
-
-    const thumbPos =
-      (scrollLeft / (scrollWidth - scrollbarWidth)) * (scrollbarWidth - 350);
-    setThumbPosition(thumbPos);
-    // console.log("thumb position", contentWidth / children.length);
-    console.log("thumb position", thumbPos);
-    console.log(
-      "contents width",
-      scrollLeft,
-      contentWidth - scrollbarWidth - parentMarginLeft - parentMarginRight,
-      (scrollLeft / (scrollWidth - scrollbarWidth)) * (scrollbarWidth - 200)
-    );
-
-    const maxScrollTop = scrollWidth - contentWidth;
-    const scrollPercentage = (scrollLeft / maxScrollTop) * 100;
+    const maxScrollTop = contentWidth - contentBaseWidth;
+    const scrollPercentage = (contentLeft / maxScrollTop) * 100;
 
     if (scrollPercentage >= 100) {
       setValueNow(scrollPercentage.toFixed());
@@ -90,13 +104,14 @@ function ScrollBlock({ children, title, align = false }) {
   const handleScrollbarClick = (e) => {
     if (!e.target.className.includes("trackArea")) return;
 
-    const containerWidth = scrollContentRef.current.offsetWidth;
-    const scrollbarWidth = scrollbarRef.current.scrollWidth;
+    const scrollWidth = scrollContentRef.current.scrollWidth;
+    const scrollbarWidth = scrollbarRef.current.clientWidth;
 
     const clickPositionX =
       e.clientX - scrollbarRef.current.getBoundingClientRect().left;
 
-    const newScrollLeft = (clickPositionX / containerWidth) * scrollbarWidth;
+    const newScrollLeft = (clickPositionX / scrollbarWidth) * scrollWidth;
+
     scrollContentRef.current.scrollLeft = newScrollLeft;
   };
 
@@ -118,7 +133,7 @@ function ScrollBlock({ children, title, align = false }) {
 
   return (
     <div className="section_block">
-      <div className={styles.container}>
+      <section className={styles.container}>
         <div className={styles.titleWrapper}>
           <div
             className={`${styles.sectionTitle} ${
@@ -188,11 +203,12 @@ function ScrollBlock({ children, title, align = false }) {
               ref={scrollbarRef}
               className={styles.trackArea}
               onClick={(e) => handleScrollbarClick(e)}
+              style={{ cursor: "pointer" }}
             ></div>
             <div
               ref={thumbRef}
               className={styles.scrollbarThumb}
-              style={{ transform: translateX }}
+              style={{ width: `${thumbWidth}px`, left: `${thumbPosition}px` }}
             >
               <button
                 aria-label="Thumb"
@@ -200,12 +216,13 @@ function ScrollBlock({ children, title, align = false }) {
                 className={`${styles.clickableScrollThumb} ${
                   isDragging ? styles.noSelect : ""
                 }`}
+                style={{ cursor: isDragging ? "grabbing" : "grab" }}
                 onMouseDown={(target) => handleDragable(target)}
               ></button>
             </div>
           </div>
         </div>
-      </div>
+      </section>
     </div>
   );
 }

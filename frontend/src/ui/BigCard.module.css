@@ -1,0 +1,46 @@
+.cardContainer {
+  grid-column: span 4;
+  display: block;
+}
+
+.link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+.cardImage {
+  width: 100%;
+  height: 300px;
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  object-fit: cover;
+}
+
+.cardDetails {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  width: 100%;
+  padding-top: 16px;
+  /* background-color: aquamarine; */
+}
+
+.cardTitle {
+  font-size: var(--desktop-headline-sm);
+  line-height: 32px;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+.cardInfo {
+  font-size: var(--desktop-body-lg);
+  line-height: 24px;
+  color: var(--primary-variant);
+}

@@ -7,6 +7,7 @@
 .link {
   text-decoration: none;
   color: inherit;
+  z-index: 3;
 }
 
 .card {
@@ -17,6 +18,7 @@
 .image {
   width: 300px;
   height: 250px;
+  background-color: aquamarine;
 }
 
 .img {
@@ -28,8 +30,30 @@
   object-fit: cover;
 }
 
-.text {
+.artistDetails {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
   padding-top: 10px;
-  font-size: var(--desktop-headline-xsm);
-  line-height: 26px;
+}
+
+.follow {
+  display: block;
+}
+
+.artistInfo {
+  display: flex;
+  flex-direction: column;
+}
+
+.name {
+  font-size: var(--desktop-body-lg);
+  line-height: 24px;
+  color: var(--primary);
+}
+
+.meta {
+  font-size: var(--desktop-body-md);
+  line-height: 20px;
+  color: var(--primary-variant);
 }

@@ -1,5 +1,5 @@
 import styles from "./Section.module.css";
-import SectionTitle from "./SectionTitle";
+import SectionTitle from "../../ui/SectionTitle";
 
 function Section({ title, subtitle, link, children }) {
   return (

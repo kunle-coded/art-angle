@@ -108,8 +108,8 @@ body {
 }
 
 ::selection {
-  background-color: var(--secondary);
-  color: var(--on-secondary);
+  background-color: var(--tertiary);
+  color: var(--on-tertiary);
 }
 
 .spinner {
@@ -153,9 +153,8 @@ body {
 .section_block {
   display: block;
   width: 100%;
-  margin-top: 70px;
+  margin-top: 120px;
   position: relative;
-  margin-bottom: 70px; /*NOTE To be removed*/
 }
 
 .gridContainer {
