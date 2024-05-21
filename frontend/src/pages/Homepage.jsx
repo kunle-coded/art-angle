@@ -5,6 +5,8 @@ import Slider from "../ui/Slider";
 import styles from "./Homepage.module.css";
 import { artworks } from "../data";
 import ScrollBlock from "../ui/ScrollBlock";
+import CategoryCard from "../ui/CategoryCard";
+import { categories } from "../data";
 
 function Homepage() {
   return (
@@ -18,7 +20,11 @@ function Homepage() {
         </PosterBlock>
       </Section>
 
-      <ScrollBlock></ScrollBlock>
+      <ScrollBlock title="Shop by Category">
+        {categories.map((cat) => (
+          <CategoryCard key={cat.id} title={cat.title} imgUrl={cat.url} />
+        ))}
+      </ScrollBlock>
     </div>
   );
 }

@@ -8,5 +8,6 @@
 }
 
 .homepageContent {
-  margin: var(--margin-desktop);
+  padding-left: 40px;
+  padding-right: 40px;
 }

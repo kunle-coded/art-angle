@@ -149,4 +149,47 @@ const slides = [
   },
 ];
 
-export { artworks, slides };
+const categories = [
+  {
+    id: 0,
+    title: "Artworks",
+    url: "./cat-artworks.png",
+  },
+  {
+    id: 1,
+    title: "Contemporary Art",
+    url: "./cat-contemporary.png",
+  },
+  {
+    id: 2,
+    title: "Emerging Art",
+    url: "./cat-emerging.png",
+  },
+  {
+    id: 3,
+    title: "Abstract Art",
+    url: "./cat-abstract.png",
+  },
+  {
+    id: 4,
+    title: "Impressionist & Modern Art",
+    url: "./cat-modern.png",
+  },
+  {
+    id: 5,
+    title: "Minimalism",
+    url: "./cat-minimalism.png",
+  },
+  {
+    id: 6,
+    title: "Pop Art",
+    url: "./cat-pop.png",
+  },
+  {
+    id: 7,
+    title: "Street Art",
+    url: "./cat-street.png",
+  },
+];
+
+export { artworks, slides, categories };
