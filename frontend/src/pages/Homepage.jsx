@@ -79,8 +79,6 @@ function Homepage() {
           ))}
         </PosterBlock>
       </Section>
-
-      <div style={{ marginTop: "120px" }}></div>
     </div>
   );
 }

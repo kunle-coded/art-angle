@@ -21,7 +21,7 @@
 
 .dropdown {
   opacity: 0;
-  background-color: var(--surface-container);
+  background-color: var(--surface);
   border: 1px solid var(--outline-variant);
   box-shadow: var(--umbra);
   transform: translateY(-10px);
@@ -37,6 +37,7 @@
 .dropdownOuter {
   max-height: 100vh;
   overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .dropdownInner {

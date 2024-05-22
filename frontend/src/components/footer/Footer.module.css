@@ -1,0 +1,32 @@
+.footerSection {
+  display: block;
+  width: 100%;
+  margin-top: 80px;
+  position: relative;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  margin: 0px;
+  padding: 0px;
+  /* margin: var(--margin-desktop); */
+}
+
+.footerTop {
+  width: 100%;
+  border-top: 1px solid var(--outline-variant);
+}
+
+.topWrapper {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  margin: var(--margin-desktop);
+  padding-top: 40px;
+  padding-bottom: 60px;
+}
+
+.footerBottom {
+  margin: var(--margin-desktop);
+  border-top: 1px solid var(--outline-variant);
+}
