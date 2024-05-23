@@ -1,6 +1,6 @@
+import { NavLink } from "react-router-dom";
 import Logo from "../../ui/Logo";
 import styles from "./Header.module.css";
-import { NavLink } from "react-router-dom";
 
 function Header({ onEnter, onLeave }) {
   return (

@@ -11,7 +11,9 @@ function AppLayout() {
       {/* <Spinner /> */}
 
       <main>
-        <Outlet />
+        <div style={{ overflow: "hidden" }}>
+          <Outlet />
+        </div>
       </main>
 
       <Footer />

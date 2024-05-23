@@ -30,3 +30,79 @@
   margin: var(--margin-desktop);
   border-top: 1px solid var(--outline-variant);
 }
+
+.bottomWrapper {
+  display: flex;
+  -webkit-box-pack: justify;
+  justify-content: space-between;
+  -webkit-box-align: center;
+  align-items: center;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.companyContainer {
+  margin: 0px;
+  padding: 0px;
+}
+
+.columnContainer {
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+}
+
+.brand {
+  flex-shrink: 0;
+  display: flex;
+}
+
+.copyright {
+  padding-left: 16px;
+  font-size: var(--desktop-body-md);
+  line-height: 20px;
+  color: var(--primary-variant);
+}
+
+.terms {
+  text-decoration: none;
+  font-size: var(--desktop-body-md);
+  line-height: 20px;
+  color: var(--primary-variant);
+  margin-right: 20px;
+}
+
+.terms:last-child {
+  margin-right: 0px;
+}
+
+.terms:hover {
+  color: var(--on-primary-container);
+}
+
+.socialLink {
+  display: flex;
+  text-decoration: none;
+  white-space: nowrap;
+  margin-right: 20px;
+}
+
+.socialLink:last-child {
+  margin-right: 0px;
+}
+
+.socials {
+  width: 24px;
+  height: 24px;
+  position: relative;
+}
+
+.socialIcon {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}

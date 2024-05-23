@@ -5,7 +5,7 @@ import ArtistsMenu from "./ArtistsMenu";
 import MegaColumn from "./MegaColumn";
 import MegaFooter from "./MegaFooter";
 
-function Navigation() {
+function Navigation({ isIntersecting }) {
   const [isArtist, setIsArtist] = useState(false);
   const [isArtwork, setIsArtwork] = useState(false);
 

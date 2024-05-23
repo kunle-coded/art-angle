@@ -21,11 +21,9 @@
 }
 
 .listItem {
-  /* margin: 0px; */
   margin-bottom: 6px;
 }
 .listItem:last-child {
-  /* margin: 0px; */
   margin-bottom: 0px;
 }
 
@@ -36,5 +34,5 @@
   color: var(--primary-variant);
 }
 .itemLink:hover {
-  color: var(--primary);
+  color: var(--on-primary-container);
 }

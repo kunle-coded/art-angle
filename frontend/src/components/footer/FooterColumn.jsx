@@ -2,6 +2,11 @@ import { Link } from "react-router-dom";
 import styles from "./FooterColumn.module.css";
 
 function FooterColumn({ title, list = [] }) {
+  const formatText = (text) => {
+    const formatted = text.split(" ").join("-").toLowerCase();
+    return formatted;
+  };
+
   return (
     <div className={styles.footerColumn}>
       <div className={styles.columnContainer}>
@@ -9,7 +14,9 @@ function FooterColumn({ title, list = [] }) {
         <ul className={styles.columnList}>
           {list.map((item, index) => (
             <li className={styles.listItem} key={index}>
-              <Link className={styles.itemLink}>{item}</Link>
+              <Link to={`/${formatText(item)}`} className={styles.itemLink}>
+                {item}
+              </Link>
             </li>
           ))}
         </ul>
