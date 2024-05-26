@@ -2,7 +2,6 @@ import Poster from "../ui/Poster";
 import PosterBlock from "../ui/PosterBlock";
 import Section from "../components/sections/Section";
 import Slider from "../components/slider/Slider";
-import styles from "./Homepage.module.css";
 import ScrollSection from "../components/sections/ScrollSection";
 import CategoryCard from "../ui/CategoryCard";
 import {
@@ -20,7 +19,7 @@ import BigCard from "../ui/BigCard";
 
 function Homepage() {
   return (
-    <div className={styles.homepage}>
+    <div className="page">
       <Slider />
       <Section title="Featured artworks">
         <PosterBlock>

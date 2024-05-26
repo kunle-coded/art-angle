@@ -1,11 +1,13 @@
 import styles from "./Section.module.css";
 import SectionTitle from "../../ui/SectionTitle";
 
-function Section({ title, subtitle, link, children }) {
+function Section({ type, title, subtitle, link, children }) {
   return (
-    <div className="section_block">
+    <div className={type === "basic" ? "section_basic" : "section_block"}>
       <section className={styles.container}>
-        <SectionTitle title={title} subtitle={subtitle} link={link} />
+        {title ? (
+          <SectionTitle title={title} subtitle={subtitle} link={link} />
+        ) : null}
         <div className={styles.content}>{children}</div>
       </section>
     </div>

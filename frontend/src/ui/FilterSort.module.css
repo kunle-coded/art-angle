@@ -1,0 +1,23 @@
+.container {
+  display: block;
+  width: 100%;
+  margin: 0px;
+  padding: 0px;
+}
+
+.wrapper {
+  display: block;
+  margin: var(--margin-desktop);
+  padding: 40px 0px 0px;
+  /* position: relative; */
+}
+
+.content {
+  display: flex;
+  -webkit-box-pack: justify;
+  justify-content: space-between;
+  -webkit-box-align: center;
+  align-items: center;
+  gap: 20px;
+  padding: 10px 0px;
+}

@@ -152,43 +152,44 @@ const slides = [
 const categories = [
   {
     id: 0,
-    title: "Artworks",
-    url: "./cat-artworks.png",
+    title: "Contemporary Art",
+    url: "./cat-contemporary.png",
   },
   {
     id: 1,
-    title: "Contemporary Art",
-    url: "./cat-contemporary.png",
+    title: "Abstract Art",
+    url: "./cat-abstract.png",
   },
   {
     id: 2,
     title: "Emerging Art",
     url: "./cat-emerging.png",
   },
+
   {
     id: 3,
-    title: "Abstract Art",
-    url: "./cat-abstract.png",
-  },
-  {
-    id: 4,
-    title: "Impressionist & Modern Art",
-    url: "./cat-modern.png",
-  },
-  {
-    id: 5,
     title: "Minimalism",
     url: "./cat-minimalism.png",
   },
   {
-    id: 6,
+    id: 4,
     title: "Pop Art",
     url: "./cat-pop.png",
   },
   {
-    id: 7,
+    id: 5,
     title: "Street Art",
     url: "./cat-street.png",
+  },
+  {
+    id: 6,
+    title: "Impressionist & Modern Art",
+    url: "./cat-modern.png",
+  },
+  {
+    id: 7,
+    title: "20th-Century Art",
+    url: "./cat-artworks.png",
   },
 ];
 

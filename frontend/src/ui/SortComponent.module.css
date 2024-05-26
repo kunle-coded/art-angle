@@ -1,0 +1,40 @@
+.sortButton {
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+  gap: 5px;
+  white-space: nowrap;
+
+  appearance: none;
+  border: 0px;
+  margin: 0px;
+  padding: 5px 0px;
+  background-color: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: inherit;
+  cursor: pointer;
+  /* NOTE to remove  */
+  z-index: 4;
+}
+
+.icon {
+  width: 16px;
+  height: 16px;
+  position: relative;
+}
+
+.text {
+  font-size: var(--desktop-body-md);
+  line-height: 20px;
+}
+
+.popup {
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  background-color: antiquewhite;
+  z-index: 1;
+  margin: 50px 0px;
+  /* transform: translate(1158.88px, 50.9844px); */
+}

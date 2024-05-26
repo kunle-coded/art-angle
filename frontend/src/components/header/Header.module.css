@@ -1,9 +1,10 @@
 .header {
   display: block;
   width: 100%;
-  height: 70px;
+  height: 80px;
   background-color: var(--surface);
   z-index: 10;
+  border-bottom: 1px solid var(--outline-variant);
 }
 
 /* .sticky {
@@ -18,6 +19,7 @@
   grid-template-columns: repeat(12, 1fr);
   justify-items: stretch;
   margin: var(--margin-desktop);
+  /* padding: 20px 0px; */
   height: 100%;
 }
 
