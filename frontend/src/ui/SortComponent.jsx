@@ -1,15 +1,37 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import styles from "./SortComponent.module.css";
+
+const sortArray = [
+  "Recommended",
+  "Recently Updated",
+  "Recently Added",
+  "Artwork Year (Descending)",
+  "Artwork Year (Ascending)",
+];
 
 function SortComponent() {
   const [position, setPosition] = useState({ top: 0, left: 0 });
-  const [isPop, setIsPop] = useState(false);
+  const [isPopupVisible, setisPopupVisible] = useState(false);
+  const [padding, setPadding] = useState(false);
+  const [selected, setSelected] = useState(0);
 
   const popupRef = useRef(null);
 
-  const transformXY = `translate(${position.posX}px, ${position.posY - 400}px)`;
+  const transformXY = `translate(${position.left}px, ${position.top}px)`;
 
-  function handleSort(e) {
+  useEffect(() => {
+    if (isPopupVisible) {
+      document.body.classList.add("no-scroll");
+    } else {
+      document.body.classList.remove("no-scroll");
+    }
+
+    return () => {
+      document.body.classList.remove("no-scroll");
+    };
+  }, [isPopupVisible]);
+
+  function handleShowSort(e) {
     const labelRect = e.target.getBoundingClientRect();
     const popupRect = popupRef.current.getBoundingClientRect();
 
@@ -21,16 +43,19 @@ function SortComponent() {
     if (spaceBelow > popupRect.height || spaceBelow > spaceAbove) {
       posObj.top = labelRect.bottom;
       posObj.left = labelRect.left;
+      setPadding(false);
     } else {
       posObj.top = labelRect.top - popupRect.height;
       posObj.left = labelRect.left;
+      setPadding(true);
     }
 
     setPosition(posObj);
-    setIsPop((prevState) => !prevState);
-    console.log(labelRect);
-    console.log(labelRect.top, viewportHeight, labelRect.bottom);
-    console.log(spaceBelow, popupRect.height, spaceAbove, posObj);
+    setisPopupVisible((prevState) => !prevState);
+  }
+
+  function handleSort(index) {
+    setSelected((prevState) => (prevState !== index ? index : prevState));
   }
 
   return (
@@ -39,7 +64,7 @@ function SortComponent() {
         aria-expanded="false"
         aria-haspopup
         className={styles.sortButton}
-        onClick={handleSort}
+        onClick={handleShowSort}
       >
         <div className={styles.icon}>
           <svg
@@ -58,10 +83,52 @@ function SortComponent() {
         <div className={styles.text}>Sort: Recommended</div>
       </button>
       <div
+        aria-label="Press escape to close"
         ref={popupRef}
-        style={{ top: `${position.top}px`, left: `${position.left}px` }}
+        style={{
+          transform: transformXY,
+          paddingTop: !padding ? "20px" : undefined,
+          paddingBottom: padding ? "20px" : undefined,
+          display: "block",
+        }}
         className={styles.popup}
-      ></div>
+      >
+        <div
+          className={`${styles.sortOptions} ${
+            isPopupVisible ? styles.showDropdown : ""
+          }`}
+        >
+          <div className={styles.focusGuard}></div>
+          <div className={styles.dropdownContainer}>
+            <div className={styles.dropdown}>
+              {sortArray.map((item, i) => (
+                <label
+                  key={i}
+                  role="radio"
+                  aria-checked
+                  tabIndex={i}
+                  className={`${styles.dropdownLabel} ${
+                    selected === i ? styles.activeLabel : ""
+                  }`}
+                  onClick={() => handleSort(i)}
+                >
+                  <div className={styles.checkBox}>
+                    <div
+                      className={`${styles.check} ${
+                        selected === i ? styles.checked : ""
+                      }`}
+                    ></div>
+                  </div>
+                  <div className={styles.labelContainer}>
+                    <div className={styles.label}>{item}</div>
+                  </div>
+                </label>
+              ))}
+            </div>
+          </div>
+          <div className={styles.focusGuard}></div>
+        </div>
+      </div>
     </div>
   );
 }
