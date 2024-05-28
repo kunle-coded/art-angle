@@ -3,6 +3,7 @@
   width: 100%;
   margin: 0px;
   padding: 0px;
+  z-index: 2;
 }
 
 .wrapper {

@@ -150,6 +150,7 @@ body {
   min-height: 100vh;
   border: none;
   position: relative;
+  z-index: 1;
 }
 
 .container {
