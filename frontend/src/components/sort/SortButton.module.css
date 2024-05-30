@@ -27,4 +27,9 @@
 .text {
   font-size: var(--desktop-body-md);
   line-height: 20px;
+  color: inherit;
+}
+
+.sortButton:hover {
+  color: var(--secondary);
 }

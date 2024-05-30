@@ -1,0 +1,54 @@
+.filterButton {
+  display: flex;
+  flex-direction: row;
+  -webkit-box-align: center;
+  align-items: center;
+  gap: 5px;
+  white-space: nowrap;
+
+  appearance: none;
+  border: 1px solid var(--outline-variant);
+  margin: 0px;
+  padding: 5px 20px;
+  background-color: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: inherit;
+  cursor: pointer;
+  transition: color 0.25s ease 0s, border-color 0.25s ease 0s,
+    background-color 0.25s ease 0s, box-shadow 0.25s ease 0s;
+}
+
+.filterButton:hover {
+  color: var(--secondary);
+  border: 1px solid var(--primary-hover-container);
+  background-color: var(--primary-hover-container);
+  text-decoration: underline;
+}
+
+.filterButton:focus {
+  outline: 0px;
+  background-color: var(--primary-hover-container);
+  border-color: var(--primary-hover-container);
+  color: var(--secondary);
+  text-decoration: underline;
+}
+
+.filterButton:focus:not(.focus-visible) {
+  outline: none;
+}
+
+.icon {
+  width: 16px;
+  height: 16px;
+  position: relative;
+}
+
+.text {
+  font-size: var(--desktop-body-md);
+  line-height: 20px;
+  color: inherit;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}

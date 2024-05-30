@@ -1,7 +1,8 @@
-import { forwardRef } from "react";
+import { forwardRef, useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
 import styles from "./SortComponent.module.css";
-import { getGlobal } from "../reducers/globalSlice";
+import { getGlobal } from "../../reducers/globalSlice";
+import useDropdown from "../../hooks/useDropdown";
 
 const sortArray = [
   "Recommended",
@@ -17,20 +18,37 @@ function SortComponent(props, ref) {
 
   const transformXY = `translate(${sortPosition.left}px, ${sortPosition.top}px)`;
 
-  const handleSort = props.handleSort;
+  const sortRef = useRef(null);
+  const labelRef = ref;
+
   const selected = props.selected;
+  const handleSort = props.handleSort;
+
+  useEffect(() => {
+    if (showSortDropdown) {
+      document.body.classList.add("no-scroll");
+    } else {
+      document.body.classList.remove("no-scroll");
+    }
+
+    return () => {
+      document.body.classList.remove("no-scroll");
+    };
+  }, [showSortDropdown]);
+
+  useDropdown(labelRef, sortRef);
 
   return (
     <div
       aria-label="Press escape to close"
-      ref={ref}
+      ref={sortRef}
       style={{
         transform: transformXY,
         paddingTop: !sortDropdownPadding ? "20px" : undefined,
         paddingBottom: sortDropdownPadding ? "20px" : undefined,
         display: "block",
       }}
-      className={styles.popup}
+      className={styles.sort}
     >
       <div
         className={`${styles.sortOptions} ${

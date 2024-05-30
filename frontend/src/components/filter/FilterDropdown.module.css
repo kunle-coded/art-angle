@@ -1,4 +1,4 @@
-.popup {
+.sort {
   display: inline-block;
   position: fixed;
   top: 0px;
@@ -17,7 +17,6 @@
   border: 1px solid var(--outline-variant);
   transition: opacity 250ms ease 0s, transform 250ms ease 0s;
   box-shadow: var(--dropdown);
-  /* padding: 50px 50px; */
 }
 
 .sortOptions > div {
