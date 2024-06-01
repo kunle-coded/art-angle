@@ -56,7 +56,7 @@ function SortComponent(props, ref) {
         }`}
       >
         <div className={styles.focusGuard}></div>
-        <div className={styles.dropdownContainer}>
+        <div>
           <div className={styles.dropdown}>
             {sortArray.map((item, i) => (
               <label

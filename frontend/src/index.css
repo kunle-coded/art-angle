@@ -37,7 +37,8 @@
   --primary-hover-container: #f7f7f7;
 
   /* Secondary Key Color */
-  --secondary: #457ee0;
+  /* --secondary: #457ee0; */
+  --secondary: #004fef;
   --on-secondary: #fafafa;
   --secondary-container: #c1e1ff;
   --on-secondary-container: #0c0d40;

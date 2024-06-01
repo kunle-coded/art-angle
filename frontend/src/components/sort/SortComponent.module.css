@@ -1,11 +1,10 @@
 .sort {
-  display: inline-block;
+  display: block;
   position: fixed;
   top: 0px;
   left: 0px;
   text-align: left;
   outline: none;
-  /* background-color: antiquewhite; */
   padding-top: 0px;
   z-index: 200;
 }

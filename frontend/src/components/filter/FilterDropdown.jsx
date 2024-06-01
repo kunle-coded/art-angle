@@ -1,4 +1,4 @@
-import { forwardRef, useEffect, useRef } from "react";
+import { forwardRef, useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import styles from "./FilterDropdown.module.css";
 import { getGlobal } from "../../reducers/globalSlice";
@@ -13,6 +13,8 @@ const sortArray = [
 ];
 
 function FilterDropdown(props, ref) {
+  const [isChecked, setIsChecked] = useState(false);
+
   const { sortPosition, showSortDropdown, sortDropdownPadding } =
     useSelector(getGlobal);
 
@@ -38,6 +40,10 @@ function FilterDropdown(props, ref) {
 
   useDropdown(labelRef, sortRef);
 
+  function handleCheckbox() {
+    setIsChecked((prevState) => !prevState);
+  }
+
   return (
     <div
       aria-label="Press escape to close"
@@ -46,40 +52,55 @@ function FilterDropdown(props, ref) {
         transform: transformXY,
         paddingTop: !sortDropdownPadding ? "20px" : undefined,
         paddingBottom: sortDropdownPadding ? "20px" : undefined,
-        display: "block",
       }}
-      className={styles.sort}
+      className={styles.dropdownContainer}
     >
       <div
-        className={`${styles.sortOptions} ${
+        className={`${styles.dropdownWrapper} ${
           showSortDropdown ? styles.showDropdown : ""
         }`}
       >
         <div className={styles.focusGuard}></div>
-        <div className={styles.dropdownContainer}>
+        <div>
           <div className={styles.dropdown}>
-            {sortArray.map((item, i) => (
-              <label
-                key={i}
-                role="radio"
-                aria-checked
-                className={`${styles.dropdownLabel} ${
-                  selected === i ? styles.activeLabel : ""
-                }`}
-                onClick={() => handleSort(i, item)}
-              >
-                <div className={styles.checkBox}>
+            <div className={styles.dropdownInner}>
+              <div className={styles.contents}>
+                <div
+                  role="checkbox"
+                  aria-checked="false"
+                  className={`${styles.item} ${
+                    isChecked ? styles.activeItem : ""
+                  }`}
+                  onClick={handleCheckbox}
+                >
                   <div
-                    className={`${styles.check} ${
-                      selected === i ? styles.checked : ""
+                    className={`${styles.checkbox} ${
+                      isChecked ? styles.checked : ""
                     }`}
-                  ></div>
+                  >
+                    <div className={styles.checkboxInner}>
+                      <svg
+                        viewBox="0 0 18 18"
+                        fill="currentColor"
+                        style={{
+                          position: "absolute",
+                          inset: "0px",
+                          width: "100%",
+                          height: "100%",
+                        }}
+                      >
+                        <path d="M6.93608 12.206L14.5761 4.576L15.4241 5.425L6.93208 13.905L2.68408 9.623L3.53608 8.777L6.93608 12.206Z"></path>
+                      </svg>
+                    </div>
+                  </div>
+                  <div className={styles.labelContainer}>
+                    <div>Painting</div>
+                  </div>
                 </div>
-                <div className={styles.labelContainer}>
-                  <div className={styles.label}>{item}</div>
-                </div>
-              </label>
-            ))}
+              </div>
+            </div>
+
+            <div className={styles.buttons}></div>
           </div>
         </div>
         <div className={styles.focusGuard}></div>
