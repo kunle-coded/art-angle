@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   sortPosition: { top: 0, left: 0 },
   showSortDropdown: false,
+  filterDropdown: false,
   sortDropdownPadding: false,
   currentSort: "Recommended",
 };
@@ -17,8 +18,14 @@ const globalSlice = createSlice({
     showDropdown(state) {
       state.showSortDropdown = true;
     },
+    showFilterDropdown(state) {
+      state.filterDropdown = true;
+    },
     closeDropdown(state) {
       state.showSortDropdown = false;
+    },
+    closeFilterDropdown(state) {
+      state.filterDropdown = false;
     },
     setPadding(state) {
       state.sortDropdownPadding = true;
@@ -35,7 +42,9 @@ const globalSlice = createSlice({
 export const {
   setPosition,
   showDropdown,
+  showFilterDropdown,
   closeDropdown,
+  closeFilterDropdown,
   setPadding,
   removePadding,
   updateCurrentSort,

@@ -1,13 +1,29 @@
+import { useDispatch, useSelector } from "react-redux";
 import styles from "./FilterButton.module.css";
+import { getGlobal, showFilterDropdown } from "../../reducers/globalSlice";
+import { forwardRef } from "react";
 
-function FilterButton({ text, left = false, children }) {
+function FilterButton(props, ref) {
+  const { currentSort, showSortDropdown } = useSelector(getGlobal);
+
+  const text = props.text;
+  const left = props.left || false;
+
+  const dispatch = useDispatch();
+
+  function handleShowSort() {
+    dispatch(showFilterDropdown());
+  }
+
   return (
     <div>
       <button
+        ref={ref}
         aria-expanded="false"
         aria-haspopup
         className={styles.filterButton}
         style={{ flexDirection: left ? "row-reverse" : "unset" }}
+        onClick={handleShowSort}
       >
         <div className={styles.text}>{text}</div>
         <div className={styles.icon}>
@@ -58,4 +74,4 @@ function FilterButton({ text, left = false, children }) {
   );
 }
 
-export default FilterButton;
+export default forwardRef(FilterButton);

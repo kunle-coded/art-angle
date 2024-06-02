@@ -22,3 +22,61 @@
   gap: 20px;
   padding: 10px 0px;
 }
+
+.display {
+  display: block;
+  width: 100%;
+}
+
+.filters {
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  width: 100%;
+  padding: 10px 0px;
+}
+
+.clear {
+  display: inline-flex;
+  -webkit-box-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  align-items: center;
+  position: relative;
+  white-space: nowrap;
+  appearance: none;
+  height: 30px;
+  margin: 0px;
+  padding: 0px 25px;
+  background-color: transparent;
+  color: var(--primary);
+  border: 1px solid transparent;
+  border-radius: 4px;
+  font: inherit;
+  font-weight: normal;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  transition: color 0.25s ease 0s, border-color 0.25s ease 0s,
+    background-color 0.25s ease 0s, box-shadow 0.25s ease 0s;
+}
+
+.clear:hover {
+  background-color: var(--tertiary-container);
+  border-color: var(--tertiary-container);
+  color: var(--on-tertiary-container);
+  text-decoration: underline;
+}
+
+.clearText {
+  display: flex;
+  -webkit-box-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  align-items: center;
+  width: 100%;
+  font-size: var(--desktop-body-md);
+  line-height: 20px;
+}

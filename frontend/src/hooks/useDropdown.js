@@ -8,12 +8,12 @@ import {
 } from "../reducers/globalSlice";
 
 export default function useDropdown(labelRef, sortRef) {
-  const { showSortDropdown } = useSelector(getGlobal);
+  const { showSortDropdown, filterDropdown } = useSelector(getGlobal);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (showSortDropdown) {
+    if (showSortDropdown || filterDropdown) {
       const labelRect = labelRef.current.getBoundingClientRect();
       const sortRect = sortRef.current.getBoundingClientRect();
 
@@ -34,5 +34,5 @@ export default function useDropdown(labelRef, sortRef) {
 
       dispatch(setPosition(posObj));
     }
-  }, [dispatch, labelRef, showSortDropdown, sortRef]);
+  }, [dispatch, filterDropdown, labelRef, showSortDropdown, sortRef]);
 }

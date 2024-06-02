@@ -13,13 +13,30 @@ import SortButton from "../components/sort/SortButton";
 import FilterComponent from "../components/filter/FilterComponent";
 import FilterButton from "../components/filter/FilterButton";
 import FilterDropdown from "../components/filter/FilterDropdown";
+import SelectComponent from "../components/filter/SelectComponent";
+import { getFilters } from "../reducers/filterSlice";
+
+const mediumArray = [
+  "Painting",
+  "Photography",
+  "Sculpture",
+  "Prints",
+  "Work on Paper",
+  "Drawing",
+  "Design",
+  "Textile",
+];
 
 function Artworks() {
   const [selected, setSelected] = useState(0);
 
   const labelRef = useRef(null);
+  const rarityRef = useRef(null);
+  const mediumRef = useRef(null);
+  const priceRef = useRef(null);
 
-  const { showSortDropdown } = useSelector(getGlobal);
+  const { showSortDropdown, filterDropdown } = useSelector(getGlobal);
+  const { selectedMedium } = useSelector(getFilters);
 
   const dispatch = useDispatch();
 
@@ -43,12 +60,12 @@ function Artworks() {
         </PosterBlock>
       </Section>
 
-      <FilterSort>
+      <FilterSort filters={selectedMedium}>
         <FilterComponent>
           <FilterButton text="All Filters" left={true} />
-          <FilterButton text="Rarity" />
-          <FilterButton text="Medium" />
-          <FilterButton text="Price Range" />
+          <FilterButton ref={rarityRef} text="Rarity" />
+          <FilterButton ref={mediumRef} text="Medium" />
+          <FilterButton ref={priceRef} text="Price Range" />
         </FilterComponent>
         <SortButton ref={labelRef} />
       </FilterSort>
@@ -66,7 +83,13 @@ function Artworks() {
         )}
       </div>
       <div>
-        <FilterDropdown />
+        {filterDropdown && (
+          <FilterDropdown ref={mediumRef}>
+            {mediumArray.map((item, i) => (
+              <SelectComponent key={i} item={item} />
+            ))}
+          </FilterDropdown>
+        )}
       </div>
     </div>
   );

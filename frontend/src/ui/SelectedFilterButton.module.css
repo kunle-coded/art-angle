@@ -1,0 +1,50 @@
+.buttonWrapper {
+  display: inline-flex;
+  -webkit-box-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  align-items: center;
+  /* gap: 5px; */
+  white-space: nowrap;
+  appearance: none;
+  height: 30px;
+  margin: 0px;
+  padding: 0px 15px;
+  background-color: var(--primary-hover-container);
+  color: var(--primary);
+  border: 1px solid var(--primary-hover-container);
+  border-radius: 4px;
+  font: inherit;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  transition: color 0.25s ease 0s, border-color 0.25s ease 0s,
+    background-color 0.25s ease 0s, box-shadow 0.25s ease 0s;
+}
+
+.buttonWrapper:hover {
+  color: var(--secondary);
+  text-decoration: underline;
+}
+
+.buttonWrapper:focus {
+  outline: 0px;
+  color: var(--secondary);
+  text-decoration: underline;
+}
+
+.buttonText {
+  font-size: var(--desktop-body-md);
+  line-height: 20px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.close {
+  width: 15px;
+  height: 15px;
+  position: relative;
+  margin-left: 5px;
+  color: currentColor;
+}

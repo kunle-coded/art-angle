@@ -6,6 +6,7 @@ function Button({
   type = "primary",
   size,
   href,
+  disable = false,
   onClick,
   children,
   ...props
@@ -29,6 +30,7 @@ function Button({
 
   return (
     <button
+      disabled={disable}
       className={`${type === "secondary" ? styles.secondary : styles.primary} ${
         size === "small" ? styles.small : ""
       }`}
