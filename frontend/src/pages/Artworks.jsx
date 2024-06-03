@@ -1,12 +1,19 @@
 import { useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getGlobal, updateCurrentSort } from "../reducers/globalSlice";
+import {
+  getGlobal,
+  updateCurrentSort,
+  showSortDropdown,
+  showMediumDropdown,
+  showRarityDropdown,
+} from "../reducers/globalSlice";
+import { getFilters } from "../reducers/filterSlice";
+import { categories } from "../data";
 
 import Section from "../components/sections/Section";
 import CategoryCardSmall from "../ui/CategoryCardSmall";
 import PageHeader from "../ui/PageHeader";
 import PosterBlock from "../ui/PosterBlock";
-import { categories } from "../data";
 import FilterSort from "../ui/FilterSort";
 import SortComponent from "../components/sort/SortComponent";
 import SortButton from "../components/sort/SortButton";
@@ -14,7 +21,6 @@ import FilterComponent from "../components/filter/FilterComponent";
 import FilterButton from "../components/filter/FilterButton";
 import FilterDropdown from "../components/filter/FilterDropdown";
 import SelectComponent from "../components/filter/SelectComponent";
-import { getFilters } from "../reducers/filterSlice";
 
 const mediumArray = [
   "Painting",
@@ -26,6 +32,12 @@ const mediumArray = [
   "Design",
   "Textile",
 ];
+const rarityArray = [
+  "Unique",
+  "Limited Edition",
+  "Open Edition",
+  "Unknown Edition",
+];
 
 function Artworks() {
   const [selected, setSelected] = useState(0);
@@ -35,14 +47,25 @@ function Artworks() {
   const mediumRef = useRef(null);
   const priceRef = useRef(null);
 
-  const { showSortDropdown, filterDropdown } = useSelector(getGlobal);
-  const { selectedMedium } = useSelector(getFilters);
+  const { sortDropdown, mediumDropdown, rarityDropdown } =
+    useSelector(getGlobal);
+  const { selectedFilter } = useSelector(getFilters);
 
   const dispatch = useDispatch();
 
   function handleSort(index, sortItem) {
     setSelected((prevState) => (prevState !== index ? index : prevState));
     dispatch(updateCurrentSort(sortItem));
+  }
+
+  function openDropdown(target) {
+    if (target === "sort") {
+      dispatch(showSortDropdown());
+    } else if (target === "medium") {
+      dispatch(showMediumDropdown());
+    } else if (target === "rarity") {
+      dispatch(showRarityDropdown());
+    }
   }
 
   return (
@@ -60,21 +83,29 @@ function Artworks() {
         </PosterBlock>
       </Section>
 
-      <FilterSort filters={selectedMedium}>
+      <FilterSort filters={selectedFilter}>
         <FilterComponent>
           <FilterButton text="All Filters" left={true} />
-          <FilterButton ref={rarityRef} text="Rarity" />
-          <FilterButton ref={mediumRef} text="Medium" />
+          <FilterButton
+            ref={rarityRef}
+            text="Rarity"
+            onClick={() => openDropdown("rarity")}
+          />
+          <FilterButton
+            ref={mediumRef}
+            text="Medium"
+            onClick={() => openDropdown("medium")}
+          />
           <FilterButton ref={priceRef} text="Price Range" />
         </FilterComponent>
-        <SortButton ref={labelRef} />
+        <SortButton ref={labelRef} onClick={() => openDropdown("sort")} />
       </FilterSort>
 
       <Section>
         <h1>Sort compo</h1>
       </Section>
       <div>
-        {showSortDropdown && (
+        {sortDropdown && (
           <SortComponent
             ref={labelRef}
             selected={selected}
@@ -83,9 +114,18 @@ function Artworks() {
         )}
       </div>
       <div>
-        {filterDropdown && (
+        {mediumDropdown && (
           <FilterDropdown ref={mediumRef}>
             {mediumArray.map((item, i) => (
+              <SelectComponent key={i} item={item} />
+            ))}
+          </FilterDropdown>
+        )}
+      </div>
+      <div>
+        {rarityDropdown && (
+          <FilterDropdown ref={rarityRef}>
+            {rarityArray.map((item, i) => (
               <SelectComponent key={i} item={item} />
             ))}
           </FilterDropdown>

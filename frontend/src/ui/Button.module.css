@@ -15,6 +15,12 @@
   transition: background-color 250ms ease 0s, color 250ms ease 0s;
   z-index: 5;
 }
+
+.primary:hover {
+  background-color: var(--secondary);
+  border-color: var(--secondary);
+}
+
 .secondary {
   display: inline-block;
   font-size: var(--desktop-body-lg);
@@ -32,9 +38,28 @@
   z-index: 5;
 }
 
+.secondary:hover {
+  color: var(--secondary);
+  border-color: var(--secondary);
+  text-decoration: underline;
+}
+
 .small {
   font-size: var(--desktop-body-md);
   font-weight: 400;
   line-height: 20px;
   padding: 6px 14px;
+}
+
+.disablePrimary {
+  background-color: var(--outline);
+  border: 1px solid var(--outline);
+  cursor: default;
+}
+
+.disableSecondary {
+  /* background-color: var(--outline-variant); */
+  color: var(--outline);
+  border: 1px solid var(--outline);
+  cursor: default;
 }

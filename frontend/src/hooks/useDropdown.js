@@ -7,13 +7,14 @@ import {
   setPosition,
 } from "../reducers/globalSlice";
 
-export default function useDropdown(labelRef, sortRef) {
-  const { showSortDropdown, filterDropdown } = useSelector(getGlobal);
+export default function useDropdown(labelRef, sortRef, type) {
+  const { sortDropdown, mediumDropdown, rarityDropdown } =
+    useSelector(getGlobal);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (showSortDropdown || filterDropdown) {
+    if (sortDropdown || mediumDropdown || rarityDropdown) {
       const labelRect = labelRef.current.getBoundingClientRect();
       const sortRect = sortRef.current.getBoundingClientRect();
 
@@ -24,15 +25,33 @@ export default function useDropdown(labelRef, sortRef) {
       const posObj = { top: 0, left: 0 };
       if (spaceBelow > sortRect.height || spaceBelow > spaceAbove) {
         posObj.top = labelRect.bottom;
-        posObj.left = labelRect.right - sortRect.width;
+
+        if (type === "sort") {
+          posObj.left = labelRect.right - sortRect.width;
+        } else {
+          posObj.left = labelRect.left;
+        }
+
         dispatch(removePadding());
       } else {
         posObj.top = labelRect.top - sortRect.height;
-        posObj.left = labelRect.right - sortRect.width;
+        if (type === "sort") {
+          posObj.left = labelRect.right - sortRect.width;
+        } else {
+          posObj.left = labelRect.left;
+        }
         dispatch(setPadding());
       }
 
       dispatch(setPosition(posObj));
     }
-  }, [dispatch, filterDropdown, labelRef, showSortDropdown, sortRef]);
+  }, [
+    dispatch,
+    labelRef,
+    mediumDropdown,
+    rarityDropdown,
+    sortDropdown,
+    sortRef,
+    type,
+  ]);
 }

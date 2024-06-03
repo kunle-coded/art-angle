@@ -33,6 +33,12 @@ function Button({
       disabled={disable}
       className={`${type === "secondary" ? styles.secondary : styles.primary} ${
         size === "small" ? styles.small : ""
+      } ${
+        type === "secondary" && disable
+          ? styles.disableSecondary
+          : disable
+          ? styles.disablePrimary
+          : ""
       }`}
       onClick={onClick}
       {...props}

@@ -1,5 +1,5 @@
 import { useDispatch } from "react-redux";
-import { removeMediumItem } from "../reducers/filterSlice";
+import { removeFilterItem } from "../reducers/filterSlice";
 
 import styles from "./SelectedFilterButton.module.css";
 
@@ -7,7 +7,7 @@ function SelectedFilterButton({ text }) {
   const dispatch = useDispatch();
 
   function handleClose() {
-    dispatch(removeMediumItem(text));
+    dispatch(removeFilterItem(text));
   }
 
   return (

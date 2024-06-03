@@ -13,7 +13,7 @@ const sortArray = [
 ];
 
 function SortComponent(props, ref) {
-  const { sortPosition, showSortDropdown, sortDropdownPadding } =
+  const { sortPosition, sortDropdown, sortDropdownPadding } =
     useSelector(getGlobal);
 
   const transformXY = `translate(${sortPosition.left}px, ${sortPosition.top}px)`;
@@ -25,7 +25,7 @@ function SortComponent(props, ref) {
   const handleSort = props.handleSort;
 
   useEffect(() => {
-    if (showSortDropdown) {
+    if (sortDropdown) {
       document.body.classList.add("no-scroll");
     } else {
       document.body.classList.remove("no-scroll");
@@ -34,9 +34,9 @@ function SortComponent(props, ref) {
     return () => {
       document.body.classList.remove("no-scroll");
     };
-  }, [showSortDropdown]);
+  }, [sortDropdown]);
 
-  useDropdown(labelRef, sortRef);
+  useDropdown(labelRef, sortRef, "sort");
 
   return (
     <div
@@ -52,7 +52,7 @@ function SortComponent(props, ref) {
     >
       <div
         className={`${styles.sortOptions} ${
-          showSortDropdown ? styles.showDropdown : ""
+          sortDropdown ? styles.showDropdown : ""
         }`}
       >
         <div className={styles.focusGuard}></div>

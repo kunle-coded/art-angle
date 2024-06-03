@@ -1,31 +1,48 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getFilters, updateMedium } from "../../reducers/filterSlice";
+import {
+  getFilters,
+  updateFilter,
+  removeFilterItem,
+} from "../../reducers/filterSlice";
+import { disableButton, enableButton } from "../../reducers/globalSlice";
 
 import styles from "./SelectComponent.module.css";
 
-function SelectComponent({ selectItems, item }) {
+function SelectComponent({ item }) {
   const [isChecked, setIsChecked] = useState(false);
 
-  const { selectedMedium } = useSelector(getFilters);
+  const { selectedFilter } = useSelector(getFilters);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (selectedMedium.length >= 1) {
-      selectedMedium.forEach((medium) => {
+    if (selectedFilter.length >= 1) {
+      selectedFilter.forEach((medium) => {
         if (medium === item) {
           setIsChecked(true);
         }
       });
     }
-  }, [item, selectedMedium]);
+  }, [item, selectedFilter]);
+
+  useEffect(() => {
+    if (isChecked) {
+      dispatch(enableButton());
+    } else {
+      dispatch(disableButton());
+    }
+  }, [dispatch, isChecked]);
 
   function handleCheckbox(e) {
     e.stopPropagation();
-
-    dispatch(updateMedium(item));
-    setIsChecked((prevChecked) => !prevChecked);
+    if (isChecked) {
+      dispatch(removeFilterItem(item));
+      setIsChecked(false);
+    } else {
+      dispatch(updateFilter(item));
+      setIsChecked(true);
+    }
   }
 
   return (

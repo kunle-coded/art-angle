@@ -2,9 +2,11 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   sortPosition: { top: 0, left: 0 },
-  showSortDropdown: false,
-  filterDropdown: false,
-  sortDropdownPadding: false,
+  sortDropdown: false,
+  mediumDropdown: false,
+  rarityDropdown: false,
+  dropdownPadding: false,
+  isButtonDisabled: false,
   currentSort: "Recommended",
 };
 
@@ -15,23 +17,35 @@ const globalSlice = createSlice({
     setPosition(state, action) {
       state.sortPosition = action.payload;
     },
-    showDropdown(state) {
-      state.showSortDropdown = true;
+    showSortDropdown(state) {
+      state.sortDropdown = true;
     },
-    showFilterDropdown(state) {
-      state.filterDropdown = true;
+    showMediumDropdown(state) {
+      state.mediumDropdown = true;
     },
-    closeDropdown(state) {
-      state.showSortDropdown = false;
+    showRarityDropdown(state) {
+      state.rarityDropdown = true;
     },
-    closeFilterDropdown(state) {
-      state.filterDropdown = false;
+    closeSortDropdown(state) {
+      state.sortDropdown = false;
+    },
+    closeMediumDropdown(state) {
+      state.mediumDropdown = false;
+    },
+    closeRarityDropdown(state) {
+      state.rarityDropdown = false;
     },
     setPadding(state) {
-      state.sortDropdownPadding = true;
+      state.dropdownPadding = true;
     },
     removePadding(state) {
-      state.sortDropdownPadding = false;
+      state.dropdownPadding = false;
+    },
+    disableButton(state) {
+      state.isButtonDisabled = true;
+    },
+    enableButton(state) {
+      state.isButtonDisabled = false;
     },
     updateCurrentSort(state, action) {
       state.currentSort = action.payload;
@@ -41,12 +55,16 @@ const globalSlice = createSlice({
 
 export const {
   setPosition,
-  showDropdown,
-  showFilterDropdown,
-  closeDropdown,
-  closeFilterDropdown,
+  showSortDropdown,
+  showMediumDropdown,
+  showRarityDropdown,
+  closeSortDropdown,
+  closeMediumDropdown,
+  closeRarityDropdown,
   setPadding,
   removePadding,
+  disableButton,
+  enableButton,
   updateCurrentSort,
 } = globalSlice.actions;
 

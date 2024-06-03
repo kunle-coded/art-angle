@@ -1,25 +1,21 @@
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import styles from "./SortButton.module.css";
-import { getGlobal, showDropdown } from "../../reducers/globalSlice";
+import { getGlobal } from "../../reducers/globalSlice";
 import { forwardRef } from "react";
 
 function SortButton(props, ref) {
-  const { currentSort, showSortDropdown } = useSelector(getGlobal);
+  const { currentSort, sortDropdown } = useSelector(getGlobal);
 
-  const dispatch = useDispatch();
-
-  function handleShowSort() {
-    dispatch(showDropdown());
-  }
+  const handleClick = props.onClick;
 
   return (
     <div>
       <button
         ref={ref}
-        aria-expanded={showSortDropdown}
+        aria-expanded={sortDropdown}
         aria-haspopup
         className={styles.sortButton}
-        onClick={handleShowSort}
+        onClick={handleClick}
       >
         <div className={styles.icon}>
           <svg
