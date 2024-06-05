@@ -48,7 +48,7 @@
 }
 
 .dropdownInner {
-  padding: 10px;
+  padding: 20px;
   flex: 1 1 0%;
   min-height: 0px;
   overflow-y: scroll;

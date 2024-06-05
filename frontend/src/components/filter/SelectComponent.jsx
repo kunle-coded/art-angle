@@ -2,46 +2,84 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getFilters,
-  updateFilter,
-  removeFilterItem,
+  updateMedium,
+  removeMediumItem,
+  updateRarity,
+  removeRarityItem,
 } from "../../reducers/filterSlice";
-import { disableButton, enableButton } from "../../reducers/globalSlice";
+import {
+  disableMediumButton,
+  enableMediumButton,
+  disableRarityButton,
+  enableRarityButton,
+} from "../../reducers/globalSlice";
 
 import styles from "./SelectComponent.module.css";
 
-function SelectComponent({ item }) {
+function SelectComponent({ item, type }) {
   const [isChecked, setIsChecked] = useState(false);
 
-  const { selectedFilter } = useSelector(getFilters);
+  const { selectedMedium, selectedRarity } = useSelector(getFilters);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (selectedFilter.length >= 1) {
-      selectedFilter.forEach((medium) => {
-        if (medium === item) {
-          setIsChecked(true);
-        }
-      });
+    if (type === "medium") {
+      if (selectedMedium.length >= 1) {
+        selectedMedium.forEach((medium) => {
+          if (medium.value === item) {
+            setIsChecked(true);
+          }
+        });
+      }
     }
-  }, [item, selectedFilter]);
+
+    if (type === "rarity") {
+      if (selectedRarity.length >= 1) {
+        selectedRarity.forEach((rarity) => {
+          if (rarity.value === item) {
+            setIsChecked(true);
+          }
+        });
+      }
+    }
+  }, [dispatch, item, selectedMedium, selectedRarity, type]);
 
   useEffect(() => {
-    if (isChecked) {
-      dispatch(enableButton());
+    if (type === "rarity" && selectedRarity.length >= 1) {
+      dispatch(enableRarityButton());
     } else {
-      dispatch(disableButton());
+      dispatch(disableRarityButton());
     }
-  }, [dispatch, isChecked]);
+  }, [dispatch, selectedRarity.length, type]);
+
+  useEffect(() => {
+    if (type === "medium" && selectedMedium.length >= 1) {
+      dispatch(enableMediumButton());
+    } else {
+      dispatch(disableMediumButton());
+    }
+  }, [dispatch, selectedMedium.length, type]);
 
   function handleCheckbox(e) {
     e.stopPropagation();
-    if (isChecked) {
-      dispatch(removeFilterItem(item));
-      setIsChecked(false);
-    } else {
-      dispatch(updateFilter(item));
-      setIsChecked(true);
+
+    if (type === "medium") {
+      if (isChecked) {
+        dispatch(removeMediumItem(item));
+        setIsChecked(false);
+      } else {
+        dispatch(updateMedium(item));
+        setIsChecked(true);
+      }
+    } else if (type === "rarity") {
+      if (isChecked) {
+        dispatch(removeRarityItem(item));
+        setIsChecked(false);
+      } else {
+        dispatch(updateRarity(item));
+        setIsChecked(true);
+      }
     }
   }
 

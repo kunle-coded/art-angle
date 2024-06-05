@@ -5,7 +5,8 @@ function FilterButton(props, ref) {
   const text = props.text;
   const left = props.left || false;
   const type = props.type;
-  const value = props.type;
+  const count = props.count;
+  const isDropdown = props.isDropdown;
 
   const handleClick = props.onClick;
 
@@ -21,7 +22,9 @@ function FilterButton(props, ref) {
       >
         <div className={styles.text}>
           <span>{text}</span>
-          {type === "filter" ? <span>• {value} </span> : null}
+          {type === "filter" && count >= 1 ? (
+            <span className={styles.filterCount}> • {count} </span>
+          ) : null}
         </div>
         <div className={styles.icon}>
           {left ? (
@@ -46,6 +49,23 @@ function FilterButton(props, ref) {
                 strokeLinecap="round"
                 strokeLinejoin="round"
               />
+            </svg>
+          ) : isDropdown ? (
+            <svg
+              viewBox="0 0 18 18"
+              fill="currentColor"
+              style={{
+                position: "absolute",
+                inset: "0px",
+                width: "100%",
+                height: "100%",
+              }}
+            >
+              <path
+                fillRule="evenodd"
+                clipRule="evenodd"
+                d="M3 11.3787L9 5.5L15 11.3787L13.8555 12.5L9 7.74264L4.14446 12.5L3 11.3787Z"
+              ></path>
             </svg>
           ) : (
             <svg

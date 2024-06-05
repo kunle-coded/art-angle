@@ -63,3 +63,16 @@
   border: 1px solid var(--outline);
   cursor: default;
 }
+
+.disablePrimary:hover {
+  background-color: var(--outline);
+  border: 1px solid var(--outline);
+  cursor: not-allowed;
+}
+
+.disableSecondary:hover {
+  color: var(--outline);
+  border: 1px solid var(--outline);
+  text-decoration: none;
+  cursor: not-allowed;
+}

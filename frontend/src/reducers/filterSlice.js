@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  selectedFilter: [],
+  selectedMedium: [],
   selectedRarity: [],
 };
 
@@ -9,22 +9,28 @@ const filterSlice = createSlice({
   name: "filter",
   initialState,
   reducers: {
-    updateFilter(state, action) {
-      state.selectedFilter = [...state.selectedFilter, action.payload];
+    updateMedium(state, action) {
+      state.selectedMedium = [
+        ...state.selectedMedium,
+        { value: action.payload, timestamp: Date.now() },
+      ];
     },
 
-    removeFilterItem(state, action) {
-      state.selectedFilter = state.selectedFilter.filter(
-        (filter) => filter !== action.payload
+    removeMediumItem(state, action) {
+      state.selectedMedium = state.selectedMedium.filter(
+        (filter) => filter.value !== action.payload
       );
     },
     updateRarity(state, action) {
-      state.selectedRarity = [...state.selectedRarity, action.payload];
+      state.selectedRarity = [
+        ...state.selectedRarity,
+        { value: action.payload, timestamp: Date.now() },
+      ];
     },
 
     removeRarityItem(state, action) {
       state.selectedRarity = state.selectedRarity.filter(
-        (rarity) => rarity !== action.payload
+        (rarity) => rarity.value !== action.payload
       );
     },
 
@@ -35,8 +41,8 @@ const filterSlice = createSlice({
 });
 
 export const {
-  updateFilter,
-  removeFilterItem,
+  updateMedium,
+  removeMediumItem,
   updateRarity,
   removeRarityItem,
   resetFilter,

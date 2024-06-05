@@ -8,13 +8,13 @@ import {
 } from "../reducers/globalSlice";
 
 export default function useDropdown(labelRef, sortRef, type) {
-  const { sortDropdown, mediumDropdown, rarityDropdown } =
+  const { sortDropdown, mediumDropdown, rarityDropdown, priceDropdown } =
     useSelector(getGlobal);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (sortDropdown || mediumDropdown || rarityDropdown) {
+    if (sortDropdown || mediumDropdown || rarityDropdown || priceDropdown) {
       const labelRect = labelRef.current.getBoundingClientRect();
       const sortRect = sortRef.current.getBoundingClientRect();
 
@@ -49,6 +49,7 @@ export default function useDropdown(labelRef, sortRef, type) {
     dispatch,
     labelRef,
     mediumDropdown,
+    priceDropdown,
     rarityDropdown,
     sortDropdown,
     sortRef,

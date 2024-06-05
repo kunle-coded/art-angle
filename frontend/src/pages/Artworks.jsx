@@ -6,6 +6,7 @@ import {
   showSortDropdown,
   showMediumDropdown,
   showRarityDropdown,
+  showPriceDropdown,
 } from "../reducers/globalSlice";
 import { getFilters } from "../reducers/filterSlice";
 import { categories } from "../data";
@@ -21,6 +22,7 @@ import FilterComponent from "../components/filter/FilterComponent";
 import FilterButton from "../components/filter/FilterButton";
 import FilterDropdown from "../components/filter/FilterDropdown";
 import SelectComponent from "../components/filter/SelectComponent";
+import PriceComponent from "../components/filter/PriceComponent";
 
 const mediumArray = [
   "Painting",
@@ -47,9 +49,13 @@ function Artworks() {
   const mediumRef = useRef(null);
   const priceRef = useRef(null);
 
-  const { sortDropdown, mediumDropdown, rarityDropdown } =
+  const { sortDropdown, mediumDropdown, rarityDropdown, priceDropdown } =
     useSelector(getGlobal);
-  const { selectedFilter } = useSelector(getFilters);
+  const { selectedMedium, selectedRarity } = useSelector(getFilters);
+
+  const selectedFilter = [...selectedMedium, ...selectedRarity].sort(
+    (a, b) => a.timestamp - b.timestamp
+  );
 
   const dispatch = useDispatch();
 
@@ -65,6 +71,8 @@ function Artworks() {
       dispatch(showMediumDropdown());
     } else if (target === "rarity") {
       dispatch(showRarityDropdown());
+    } else if (target === "price") {
+      dispatch(showPriceDropdown());
     }
   }
 
@@ -89,14 +97,25 @@ function Artworks() {
           <FilterButton
             ref={rarityRef}
             text="Rarity"
+            type="filter"
+            isDropdown={rarityDropdown}
+            count={selectedRarity.length}
             onClick={() => openDropdown("rarity")}
           />
           <FilterButton
             ref={mediumRef}
             text="Medium"
+            type="filter"
+            isDropdown={mediumDropdown}
+            count={selectedMedium.length}
             onClick={() => openDropdown("medium")}
           />
-          <FilterButton ref={priceRef} text="Price Range" />
+          <FilterButton
+            ref={priceRef}
+            text="Price Range"
+            isDropdown={priceDropdown}
+            onClick={() => openDropdown("price")}
+          />
         </FilterComponent>
         <SortButton ref={labelRef} onClick={() => openDropdown("sort")} />
       </FilterSort>
@@ -115,19 +134,26 @@ function Artworks() {
       </div>
       <div>
         {mediumDropdown && (
-          <FilterDropdown ref={mediumRef}>
+          <FilterDropdown ref={mediumRef} type="medium">
             {mediumArray.map((item, i) => (
-              <SelectComponent key={i} item={item} />
+              <SelectComponent key={i} item={item} type="medium" />
             ))}
           </FilterDropdown>
         )}
       </div>
       <div>
         {rarityDropdown && (
-          <FilterDropdown ref={rarityRef}>
+          <FilterDropdown ref={rarityRef} type="rarity">
             {rarityArray.map((item, i) => (
-              <SelectComponent key={i} item={item} />
+              <SelectComponent key={i} item={item} type="rarity" />
             ))}
+          </FilterDropdown>
+        )}
+      </div>
+      <div>
+        {priceDropdown && (
+          <FilterDropdown ref={priceRef} type="price">
+            <PriceComponent />
           </FilterDropdown>
         )}
       </div>

@@ -5,15 +5,16 @@ import useDropdown from "../../hooks/useDropdown";
 import styles from "./FilterDropdown.module.css";
 
 import Button from "../../ui/Button";
-import { getFilters } from "../../reducers/filterSlice";
 
 function FilterDropdown(props, ref) {
   const {
     sortPosition,
     mediumDropdown,
     rarityDropdown,
+    priceDropdown,
     sortDropdownPadding,
-    isButtonDisabled,
+    isRarityDisabled,
+    isMediumDisabled,
   } = useSelector(getGlobal);
 
   const transformXY = `translate(${sortPosition.left}px, ${sortPosition.top}px)`;
@@ -22,9 +23,10 @@ function FilterDropdown(props, ref) {
   const labelRef = ref;
 
   const children = props.children;
+  const type = props.type;
 
   useEffect(() => {
-    if (mediumDropdown || rarityDropdown) {
+    if (mediumDropdown || rarityDropdown || priceDropdown) {
       document.body.classList.add("no-scroll");
     } else {
       document.body.classList.remove("no-scroll");
@@ -33,7 +35,7 @@ function FilterDropdown(props, ref) {
     return () => {
       document.body.classList.remove("no-scroll");
     };
-  }, [mediumDropdown, rarityDropdown]);
+  }, [mediumDropdown, priceDropdown, rarityDropdown]);
 
   useDropdown(labelRef, filterRef);
 
@@ -51,7 +53,7 @@ function FilterDropdown(props, ref) {
     >
       <div
         className={`${styles.dropdownWrapper} ${
-          mediumDropdown || rarityDropdown ? styles.show : ""
+          mediumDropdown || rarityDropdown || priceDropdown ? styles.show : ""
         }`}
       >
         <div className={styles.focusGuard}></div>
@@ -61,10 +63,29 @@ function FilterDropdown(props, ref) {
               <div className={styles.contents}>{children}</div>
             </div>
             <div className={styles.buttons}>
-              <Button disable={isButtonDisabled} type="secondary" size="small">
+              <Button
+                disable={
+                  type === "medium"
+                    ? isMediumDisabled
+                    : type === "rarity"
+                    ? isRarityDisabled
+                    : undefined
+                }
+                type="secondary"
+                size="small"
+              >
                 Clear
               </Button>
-              <Button disable={isButtonDisabled} size="small">
+              <Button
+                disable={
+                  type === "medium"
+                    ? isMediumDisabled
+                    : type === "rarity"
+                    ? isRarityDisabled
+                    : undefined
+                }
+                size="small"
+              >
                 Confirm
               </Button>
             </div>

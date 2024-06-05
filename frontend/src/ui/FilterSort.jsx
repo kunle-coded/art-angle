@@ -18,7 +18,7 @@ function FilterSort({ children, filters = [] }) {
           <div className={styles.display}>
             <div className={styles.filters}>
               {filters.map((filter, index) => (
-                <SelectedFilterButton key={index} text={filter} />
+                <SelectedFilterButton key={index} text={filter.value} />
               ))}
               <button className={styles.clear} onClick={handleClearFilters}>
                 <div className={styles.clearText}>Clear all</div>

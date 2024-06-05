@@ -1,13 +1,28 @@
-import { useDispatch } from "react-redux";
-import { removeFilterItem } from "../reducers/filterSlice";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  getFilters,
+  removeMediumItem,
+  removeRarityItem,
+} from "../reducers/filterSlice";
 
 import styles from "./SelectedFilterButton.module.css";
 
 function SelectedFilterButton({ text }) {
+  const { selectedMedium, selectedRarity } = useSelector(getFilters);
+
   const dispatch = useDispatch();
 
   function handleClose() {
-    dispatch(removeFilterItem(text));
+    const isInMedium = selectedMedium.find((medium) => medium.value === text);
+    const isInRarity = selectedRarity.find((rarity) => rarity.value === text);
+
+    if (isInMedium) {
+      dispatch(removeMediumItem(text));
+    } else if (isInRarity) {
+      dispatch(removeRarityItem(text));
+    } else {
+      return;
+    }
   }
 
   return (

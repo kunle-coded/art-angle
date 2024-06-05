@@ -52,3 +52,7 @@
   white-space: nowrap;
   text-overflow: ellipsis;
 }
+
+.filterCount {
+  color: var(--secondary);
+}

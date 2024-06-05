@@ -5,6 +5,7 @@ import {
   closeMediumDropdown,
   closeRarityDropdown,
   getGlobal,
+  closePriceDropdown,
 } from "../reducers/globalSlice";
 
 import Navigation from "../components/header/Navigation";
@@ -13,7 +14,7 @@ import Footer from "../components/footer/Footer";
 // import Spinner from "./Spinner";
 
 function AppLayout() {
-  const { sortDropdown, mediumDropdown, rarityDropdown } =
+  const { sortDropdown, mediumDropdown, rarityDropdown, priceDropdown } =
     useSelector(getGlobal);
   const dispatch = useDispatch();
 
@@ -26,6 +27,8 @@ function AppLayout() {
       dispatch(closeMediumDropdown());
     } else if (rarityDropdown) {
       dispatch(closeRarityDropdown());
+    } else if (priceDropdown) {
+      dispatch(closePriceDropdown());
     } else {
       return;
     }
