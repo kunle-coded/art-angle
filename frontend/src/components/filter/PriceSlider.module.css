@@ -1,0 +1,198 @@
+/* .wrapper */
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  -webkit-box-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  align-items: center;
+}
+/* .price-input */
+.priceInput {
+  display: flex;
+}
+
+/* .separator */
+.separator {
+  margin-left: 20px;
+}
+
+.fieldWrapper {
+  flex: 1 1 0%;
+}
+
+.fieldInnerWrapper {
+  position: relative;
+}
+
+.inputWrapper {
+  width: 100%;
+}
+
+/* .field */
+.inputField {
+  position: relative;
+  margin-top: 10px;
+}
+
+.styledInput {
+  width: 100%;
+  height: 50px;
+  padding: 0px 10px;
+  appearance: none;
+  line-height: 1;
+  border: 1px solid var(--outline-variant);
+  border-radius: 3px;
+  background-color: var(--surface);
+  color: var(--on-tertiary-container);
+  font-size: var(--desktop-body-lg);
+  font-family: var(--secondary-font);
+  transition: border-color 0.25s ease 0s, color 0.25s ease 0s;
+}
+
+.styledInput::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+.styledInput::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+}
+
+.inputLabel {
+  position: absolute;
+  top: 50%;
+  left: 5px;
+  background-color: transparent;
+  transform: translateY(-50%);
+  padding: 0px 5px;
+  pointer-events: none;
+  transition: color 0.25s cubic-bezier(0.64, 0.05, 0.36, 1),
+    transform 0.25s cubic-bezier(0.64, 0.05, 0.36, 1),
+    padding 0.25s cubic-bezier(0.64, 0.05, 0.36, 1),
+    font-size 0.25s cubic-bezier(0.64, 0.05, 0.36, 1);
+}
+
+.inputLabel > span {
+  background-color: var(--surface);
+  height: 100%;
+  width: 100%;
+  display: block;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  z-index: -1;
+  transition: height 0.25s cubic-bezier(0.64, 0.05, 0.36, 1) 0.1s,
+    top 0.25s cubic-bezier(0.64, 0.05, 0.36, 1) 0.1s;
+}
+
+.styledInput:hover {
+  color: var(--primary);
+  border-color: var(--outline);
+}
+
+.styledInput:focus {
+  outline: none;
+  color: var(--primary);
+  border-color: var(--tertiary);
+  /* background-color: var(--tertiary-container); */
+}
+.styledInput:focus-visible {
+  outline: 0px;
+}
+
+.styledInput + label {
+  color: var(--primary-variant);
+  font-size: var(--desktop-body-lg);
+}
+
+.styledInput:hover + label {
+  color: var(--primary);
+}
+
+.styledInput:focus + label {
+  color: var(--tertiary);
+  transform: translateY(-180%);
+  font-size: 13px;
+  padding: 0px 5px;
+}
+
+.currencyWrapper {
+  pointer-events: none;
+  position: absolute;
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+  top: 0px;
+  bottom: 0px;
+  right: 10px;
+}
+
+.currency {
+  font-size: var(--desktop-body-lg);
+  line-height: 24px;
+  color: var(--primary-variant);
+}
+
+/* Slider */
+.slider {
+  background-color: var(--outline-variant);
+  width: 100%;
+  height: 5px;
+  border-radius: 5px;
+  position: relative;
+}
+
+.spacer {
+  margin-top: 20px;
+  width: 100%;
+}
+
+.progress {
+  background-color: var(--tertiary);
+  position: absolute;
+  left: 0%;
+  right: 0%;
+  height: 100%;
+  border-radius: 5px;
+}
+
+.rangeInput {
+  position: relative;
+  width: 100%;
+  display: flex;
+}
+.rangeInput input {
+  position: absolute;
+  top: -4px;
+  height: 5px;
+  width: 100%;
+  background: transparent;
+  appearance: none;
+  pointer-events: none;
+}
+
+.rangeInput input::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  height: 24px;
+  width: 24px;
+  border-radius: 50%;
+  background-color: var(--tertiary-container);
+  border-width: 1px;
+  border-style: solid;
+  border-color: var(--tertiary);
+  pointer-events: all;
+  cursor: grab;
+}
+
+.labels {
+  display: flex;
+  -webkit-box-pack: justify;
+  justify-content: space-between;
+  margin-top: 20px;
+  width: 100%;
+}
+
+.labelText {
+  font-size: var(--desktop-body-md);
+  line-height: 20px;
+  color: var(--primary-variant);
+}

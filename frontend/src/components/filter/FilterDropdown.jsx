@@ -1,4 +1,4 @@
-import { forwardRef, useEffect, useRef, useState } from "react";
+import { forwardRef, useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
 import { getGlobal } from "../../reducers/globalSlice";
 import useDropdown from "../../hooks/useDropdown";

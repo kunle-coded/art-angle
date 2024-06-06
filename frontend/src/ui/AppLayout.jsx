@@ -10,6 +10,7 @@ import {
 
 import Navigation from "../components/header/Navigation";
 import Footer from "../components/footer/Footer";
+import Modal from "../components/modal/Modal";
 
 // import Spinner from "./Spinner";
 

@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   selectedMedium: [],
   selectedRarity: [],
+  selectedPrice: [],
 };
 
 const filterSlice = createSlice({
@@ -33,6 +34,13 @@ const filterSlice = createSlice({
         (rarity) => rarity.value !== action.payload
       );
     },
+    updatePrice(state, action) {
+      state.selectedPrice = [{ value: action.payload, timestamp: Date.now() }];
+    },
+
+    removePriceItem(state) {
+      state.selectedPrice = initialState.selectedPrice;
+    },
 
     resetFilter() {
       return initialState;
@@ -45,6 +53,8 @@ export const {
   removeMediumItem,
   updateRarity,
   removeRarityItem,
+  updatePrice,
+  removePriceItem,
   resetFilter,
 } = filterSlice.actions;
 

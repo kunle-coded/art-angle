@@ -22,7 +22,9 @@ import FilterComponent from "../components/filter/FilterComponent";
 import FilterButton from "../components/filter/FilterButton";
 import FilterDropdown from "../components/filter/FilterDropdown";
 import SelectComponent from "../components/filter/SelectComponent";
-import PriceComponent from "../components/filter/PriceComponent";
+import PriceSlider from "../components/filter/PriceSlider";
+import Modal from "../components/modal/Modal";
+import AllFilters from "../components/filter/AllFilters";
 
 const mediumArray = [
   "Painting",
@@ -43,6 +45,7 @@ const rarityArray = [
 
 function Artworks() {
   const [selected, setSelected] = useState(0);
+  const [openFilterModal, setOpenFilterModal] = useState("");
 
   const labelRef = useRef(null);
   const rarityRef = useRef(null);
@@ -51,11 +54,14 @@ function Artworks() {
 
   const { sortDropdown, mediumDropdown, rarityDropdown, priceDropdown } =
     useSelector(getGlobal);
-  const { selectedMedium, selectedRarity } = useSelector(getFilters);
+  const { selectedMedium, selectedRarity, selectedPrice } =
+    useSelector(getFilters);
 
-  const selectedFilter = [...selectedMedium, ...selectedRarity].sort(
-    (a, b) => a.timestamp - b.timestamp
-  );
+  const selectedFilter = [
+    ...selectedMedium,
+    ...selectedRarity,
+    ...selectedPrice,
+  ].sort((a, b) => a.timestamp - b.timestamp);
 
   const dispatch = useDispatch();
 
@@ -93,7 +99,14 @@ function Artworks() {
 
       <FilterSort filters={selectedFilter}>
         <FilterComponent>
-          <FilterButton text="All Filters" left={true} />
+          <Modal>
+            <Modal.Open opens="All filters">
+              <FilterButton text="All Filters" left={true} />
+            </Modal.Open>
+            <Modal.Window name="All filters">
+              <AllFilters />
+            </Modal.Window>
+          </Modal>
           <FilterButton
             ref={rarityRef}
             text="Rarity"
@@ -153,7 +166,7 @@ function Artworks() {
       <div>
         {priceDropdown && (
           <FilterDropdown ref={priceRef} type="price">
-            <PriceComponent />
+            <PriceSlider />
           </FilterDropdown>
         )}
       </div>

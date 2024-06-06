@@ -3,23 +3,28 @@ import {
   getFilters,
   removeMediumItem,
   removeRarityItem,
+  removePriceItem,
 } from "../reducers/filterSlice";
 
 import styles from "./SelectedFilterButton.module.css";
 
 function SelectedFilterButton({ text }) {
-  const { selectedMedium, selectedRarity } = useSelector(getFilters);
+  const { selectedMedium, selectedRarity, selectedPrice } =
+    useSelector(getFilters);
 
   const dispatch = useDispatch();
 
   function handleClose() {
     const isInMedium = selectedMedium.find((medium) => medium.value === text);
     const isInRarity = selectedRarity.find((rarity) => rarity.value === text);
+    const isInPrice = selectedPrice.find((price) => price.value === text);
 
     if (isInMedium) {
       dispatch(removeMediumItem(text));
     } else if (isInRarity) {
       dispatch(removeRarityItem(text));
+    } else if (isInPrice) {
+      dispatch(removePriceItem());
     } else {
       return;
     }

@@ -63,3 +63,7 @@
   align-items: center;
   flex: 1 1 0%;
 }
+
+.activeLabel {
+  color: var(--on-primary-container);
+}

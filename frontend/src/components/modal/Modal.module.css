@@ -1,0 +1,28 @@
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.6);
+  /* backdrop-filter: blur(3px); */
+  z-index: 1000;
+  transition: all 0.5s;
+}
+
+.modal {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  transform: translateX(0%);
+  background-color: var(--surface);
+  border-radius: 9px;
+  box-shadow: 0 2.4rem 3.2rem rgba(0, 0, 0, 0.12);
+  height: 100%;
+  transition: all 0.5s ease;
+}
+
+.contentContainer {
+  display: block;
+  position: relative;
+}

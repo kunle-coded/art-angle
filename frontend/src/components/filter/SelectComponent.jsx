@@ -106,7 +106,11 @@ function SelectComponent({ item, type }) {
           </svg>
         </div>
       </div>
-      <div className={styles.labelContainer}>
+      <div
+        className={`${styles.labelContainer} ${
+          isChecked ? styles.activeLabel : ""
+        }`}
+      >
         <div>{item}</div>
       </div>
     </div>
