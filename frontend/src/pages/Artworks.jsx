@@ -9,7 +9,7 @@ import {
   showPriceDropdown,
 } from "../reducers/globalSlice";
 import { getFilters } from "../reducers/filterSlice";
-import { categories } from "../data";
+import { categories, rarity, medium, materials, waysToBuy } from "../data";
 
 import Section from "../components/sections/Section";
 import CategoryCardSmall from "../ui/CategoryCardSmall";
@@ -25,27 +25,12 @@ import SelectComponent from "../components/filter/SelectComponent";
 import PriceSlider from "../components/filter/PriceSlider";
 import Modal from "../components/modal/Modal";
 import AllFilters from "../components/filter/AllFilters";
-
-const mediumArray = [
-  "Painting",
-  "Photography",
-  "Sculpture",
-  "Prints",
-  "Work on Paper",
-  "Drawing",
-  "Design",
-  "Textile",
-];
-const rarityArray = [
-  "Unique",
-  "Limited Edition",
-  "Open Edition",
-  "Unknown Edition",
-];
+import FilterModal from "../components/modal/FilterModal";
 
 function Artworks() {
   const [selected, setSelected] = useState(0);
   const [openFilterModal, setOpenFilterModal] = useState("");
+  const [showModal, setShowModal] = useState(false);
 
   const labelRef = useRef(null);
   const rarityRef = useRef(null);
@@ -82,6 +67,14 @@ function Artworks() {
     }
   }
 
+  function openModal() {
+    setShowModal(true);
+  }
+
+  function closeModal() {
+    setShowModal(false);
+  }
+
   return (
     <div className="page">
       <PageHeader title="Collect artworks" subtitle="Browse by Categories" />
@@ -99,14 +92,19 @@ function Artworks() {
 
       <FilterSort filters={selectedFilter}>
         <FilterComponent>
-          <Modal>
+          {/* <Modal>
             <Modal.Open opens="All filters">
               <FilterButton text="All Filters" left={true} />
             </Modal.Open>
             <Modal.Window name="All filters">
               <AllFilters />
             </Modal.Window>
-          </Modal>
+          </Modal> */}
+          <FilterButton
+            text="All Filters"
+            left={true}
+            onClick={() => openModal()}
+          />
           <FilterButton
             ref={rarityRef}
             text="Rarity"
@@ -148,7 +146,7 @@ function Artworks() {
       <div>
         {mediumDropdown && (
           <FilterDropdown ref={mediumRef} type="medium">
-            {mediumArray.map((item, i) => (
+            {medium.map((item, i) => (
               <SelectComponent key={i} item={item} type="medium" />
             ))}
           </FilterDropdown>
@@ -157,7 +155,7 @@ function Artworks() {
       <div>
         {rarityDropdown && (
           <FilterDropdown ref={rarityRef} type="rarity">
-            {rarityArray.map((item, i) => (
+            {rarity.map((item, i) => (
               <SelectComponent key={i} item={item} type="rarity" />
             ))}
           </FilterDropdown>
@@ -169,6 +167,18 @@ function Artworks() {
             <PriceSlider />
           </FilterDropdown>
         )}
+      </div>
+
+      <div>
+        <FilterModal isShowModal={showModal} onCloseModal={closeModal}>
+          <AllFilters
+            rarities={rarity}
+            medium={medium}
+            materials={materials}
+            buying={waysToBuy}
+            onCloseModal={closeModal}
+          />
+        </FilterModal>
       </div>
     </div>
   );

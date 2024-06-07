@@ -1,0 +1,65 @@
+.container {
+  margin-bottom: 10px;
+}
+
+.dropdownButton {
+  appearance: none;
+  padding: 20px 0px 10px;
+  border-width: 1px 0px 0px;
+  border-right-style: initial;
+  border-bottom-style: initial;
+  border-left-style: initial;
+  border-image: initial;
+  margin: 0px;
+  background-color: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: inherit;
+  width: 100%;
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+  -webkit-box-pack: justify;
+  justify-content: space-between;
+  border-top-style: solid;
+  border-color: var(--primary-variant);
+  cursor: pointer;
+}
+
+.titleWrapper {
+  display: flex;
+  flex: 1 1 0%;
+  -webkit-box-align: center;
+  align-items: center;
+}
+.title {
+  font-size: var(--desktop-body-lg);
+  line-height: 24px;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.icon {
+  width: 14px;
+  height: 14px;
+  position: relative;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.contents {
+  position: relative;
+  width: 100%;
+}
+
+.showMore {
+  appearance: none;
+  padding: 0px;
+  border: 0px;
+  margin: 10px 0px 0px;
+  background-color: transparent;
+  color: inherit;
+  font: inherit;
+  text-decoration: underline;
+  text-align: left;
+  cursor: pointer;
+}

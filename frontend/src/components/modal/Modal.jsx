@@ -54,7 +54,9 @@ function Window({ children, name }) {
   return createPortal(
     <div className={styles.overlay} onClick={close}>
       <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
-        <div className={styles.contentContainer}>{children}</div>
+        <div className={styles.contentContainer}>
+          {cloneElement(children, { onCloseModal: () => close })}
+        </div>
       </div>
     </div>,
     document.body

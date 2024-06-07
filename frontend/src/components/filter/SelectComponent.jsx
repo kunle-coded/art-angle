@@ -16,12 +16,23 @@ import {
 
 import styles from "./SelectComponent.module.css";
 
-function SelectComponent({ item, type }) {
+function SelectComponent({ item, type, customWidth, color }) {
   const [isChecked, setIsChecked] = useState(false);
+  const [isBlackWhite, setIsBlackWhite] = useState(false);
 
   const { selectedMedium, selectedRarity } = useSelector(getFilters);
 
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (color) {
+      if (item.includes("Black and White")) {
+        setIsBlackWhite(true);
+      } else {
+        setIsBlackWhite(false);
+      }
+    }
+  }, [color, item]);
 
   useEffect(() => {
     if (type === "medium") {
@@ -111,7 +122,17 @@ function SelectComponent({ item, type }) {
           isChecked ? styles.activeLabel : ""
         }`}
       >
-        <div>{item}</div>
+        <div className={`${customWidth ? styles.label65 : ""}`}>
+          {item}
+          {customWidth && (
+            <div
+              className={`${styles.colorFilter} ${
+                isBlackWhite ? styles.blackNWhite : ""
+              }`}
+              style={!isBlackWhite ? { backgroundColor: color } : undefined}
+            ></div>
+          )}
+        </div>
       </div>
     </div>
   );

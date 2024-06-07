@@ -1,6 +1,43 @@
 .slideIn {
-  padding: 40px;
-  background-color: var(--surface);
-  transform: translateX(0px);
-  transition: transform 1s cubic-bezier(0.075, 0.82, 0.165, 1) 0s;
+  position: relative;
+  padding: 20px;
+  min-width: 375px;
 }
+
+.modalHeader {
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+}
+
+.modalTitle {
+  flex: 1 1 0%;
+  font-size: var(--desktop-body-md);
+  line-height: 20px;
+}
+
+.modalClose {
+  appearance: none;
+  border: 0px;
+  margin: 0px 0px 0px auto;
+  background-color: transparent;
+  color: var(--primary);
+  font: inherit;
+  padding: 20px;
+  cursor: pointer;
+}
+
+.icon {
+  display: block;
+  position: relative;
+  width: 18px;
+  height: 18px;
+  color: currentColor;
+}
+
+/* .selectWrapper {
+  flex-direction: column;
+  gap: 20px;
+  margin-top: 10px;
+  display: flex;
+} */
