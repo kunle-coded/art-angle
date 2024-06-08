@@ -1,0 +1,71 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.info {
+  font-size: var(--desktop-body-md);
+  line-height: 20px;
+  color: var(--primary-variant);
+  margin-bottom: 10px;
+}
+
+.units {
+  display: flex;
+  flex-direction: row;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.unit {
+  display: flex;
+  flex-direction: column;
+}
+
+.customButton {
+  appearance: none;
+  padding: 0px;
+  border: 0px;
+  margin: 10px 0px 0px;
+  background-color: transparent;
+  color: inherit;
+  font: inherit;
+  text-decoration: underline;
+  text-align: left;
+  cursor: pointer;
+}
+
+.buttonText {
+  font-size: var(--desktop-body-md);
+  line-height: 20px;
+}
+
+.customFieldLabel {
+  font-size: var(--desktop-body-lg);
+  line-height: 26px;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  margin-top: 10px;
+}
+
+.customFieldInput {
+  align-items: flex-end;
+  display: flex;
+}
+
+.fieldWrapper {
+  position: relative;
+}
+
+.innerWrapper {
+  width: 100%;
+}
+
+.inputContainer {
+  position: relative;
+  margin-top: 0px;
+}
+
+.inputSpacer {
+  margin-left: 10px;
+}

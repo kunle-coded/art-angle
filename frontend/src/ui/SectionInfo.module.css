@@ -1,0 +1,6 @@
+.text {
+  font-size: var(--desktop-body-md);
+  line-height: 20px;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color: inherit;
+}

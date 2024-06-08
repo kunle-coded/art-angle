@@ -4,6 +4,7 @@ const initialState = {
   selectedMedium: [],
   selectedRarity: [],
   selectedPrice: [],
+  allSelectedFilters: [],
 };
 
 const filterSlice = createSlice({
@@ -34,6 +35,19 @@ const filterSlice = createSlice({
         (rarity) => rarity.value !== action.payload
       );
     },
+
+    updateAllFilters(state, action) {
+      state.allSelectedFilters = [
+        ...state.allSelectedFilters,
+        { value: action.payload, timestamp: Date.now() },
+      ];
+    },
+
+    removeAllFiltersItem(state, action) {
+      state.allSelectedFilters = state.allSelectedFilters.filter(
+        (filter) => filter.value !== action.payload
+      );
+    },
     updatePrice(state, action) {
       state.selectedPrice = [{ value: action.payload, timestamp: Date.now() }];
     },
@@ -56,6 +70,8 @@ export const {
   updatePrice,
   removePriceItem,
   resetFilter,
+  updateAllFilters,
+  removeAllFiltersItem,
 } = filterSlice.actions;
 
 export default filterSlice.reducer;

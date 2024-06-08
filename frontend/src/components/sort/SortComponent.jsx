@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import styles from "./SortComponent.module.css";
 import { getGlobal } from "../../reducers/globalSlice";
 import useDropdown from "../../hooks/useDropdown";
+import Checkbox from "../../ui/Checkbox";
 
 const sortArray = [
   "Recommended",
@@ -59,26 +60,13 @@ function SortComponent(props, ref) {
         <div>
           <div className={styles.dropdown}>
             {sortArray.map((item, i) => (
-              <label
+              <Checkbox
                 key={i}
-                role="radio"
-                aria-checked
-                className={`${styles.dropdownLabel} ${
-                  selected === i ? styles.activeLabel : ""
-                }`}
-                onClick={() => handleSort(i, item)}
-              >
-                <div className={styles.checkBox}>
-                  <div
-                    className={`${styles.check} ${
-                      selected === i ? styles.checked : ""
-                    }`}
-                  ></div>
-                </div>
-                <div className={styles.labelContainer}>
-                  <div className={styles.label}>{item}</div>
-                </div>
-              </label>
+                selected={selected}
+                index={i}
+                label={item}
+                onCheck={handleSort}
+              />
             ))}
           </div>
         </div>

@@ -1,6 +1,6 @@
 import styles from "./SearchField.module.css";
 
-function SearchField() {
+function SearchField({ placeholder, label }) {
   const style = {
     position: "absolute",
     inset: "0px",
@@ -13,7 +13,7 @@ function SearchField() {
       <div className={styles.wrapper}>
         <input
           type="text"
-          placeholder="Enter a search term"
+          placeholder={placeholder}
           className={styles.searchInput}
           style={{ paddingRight: "33px" }}
         />

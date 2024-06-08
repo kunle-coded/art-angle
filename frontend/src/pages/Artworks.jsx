@@ -9,7 +9,7 @@ import {
   showPriceDropdown,
 } from "../reducers/globalSlice";
 import { getFilters } from "../reducers/filterSlice";
-import { categories, rarity, medium, materials, waysToBuy } from "../data";
+import { categories, rarity, medium, artworks, artworksTwo } from "../data";
 
 import Section from "../components/sections/Section";
 import CategoryCardSmall from "../ui/CategoryCardSmall";
@@ -23,13 +23,17 @@ import FilterButton from "../components/filter/FilterButton";
 import FilterDropdown from "../components/filter/FilterDropdown";
 import SelectComponent from "../components/filter/SelectComponent";
 import PriceSlider from "../components/filter/PriceSlider";
-import Modal from "../components/modal/Modal";
 import AllFilters from "../components/filter/AllFilters";
 import FilterModal from "../components/modal/FilterModal";
+import Poster from "../ui/Poster";
+import Spacer from "../ui/Spacer";
+import SectionInfo from "../ui/SectionInfo";
+import ArtworkPoster from "../ui/ArtworkPoster";
+import ArtworkGrid from "../ui/ArtworkGrid";
+import ArtworkGridColumn from "../ui/ArtworkGridColumn";
 
 function Artworks() {
   const [selected, setSelected] = useState(0);
-  const [openFilterModal, setOpenFilterModal] = useState("");
   const [showModal, setShowModal] = useState(false);
 
   const labelRef = useRef(null);
@@ -75,9 +79,20 @@ function Artworks() {
     setShowModal(false);
   }
 
+  const style1 = {
+    flex: "1",
+    minWidth: "0",
+    marginRight: "20px",
+  };
+  const style2 = {
+    flex: "1",
+    minWidth: "0",
+    marginRight: "0px",
+  };
+
   return (
     <div className="page">
-      <PageHeader title="Collect artworks" subtitle="Browse by Categories" />
+      <PageHeader title="Collect art online" subtitle="Browse by Categories" />
 
       <Section type="basic">
         <PosterBlock>
@@ -131,9 +146,28 @@ function Artworks() {
         <SortButton ref={labelRef} onClick={() => openDropdown("sort")} />
       </FilterSort>
 
-      <Section>
-        <h1>Sort compo</h1>
+      <Section type="basic">
+        <SectionInfo info={`${artworks.length} Artworks:`} />
+        <Spacer small={true} />
+        <ArtworkGrid>
+          <ArtworkGridColumn style={style1}>
+            {artworks.map((artwork) => (
+              <ArtworkPoster key={artwork.id} poster={artwork} />
+            ))}
+          </ArtworkGridColumn>
+          <ArtworkGridColumn style={style1}>
+            {artworksTwo.map((artwork) => (
+              <ArtworkPoster key={artwork.id} poster={artwork} />
+            ))}
+          </ArtworkGridColumn>
+          <ArtworkGridColumn style={style2}>
+            {artworks.map((artwork) => (
+              <ArtworkPoster key={artwork.id} poster={artwork} />
+            ))}
+          </ArtworkGridColumn>
+        </ArtworkGrid>
       </Section>
+
       <div>
         {sortDropdown && (
           <SortComponent
@@ -171,13 +205,7 @@ function Artworks() {
 
       <div>
         <FilterModal isShowModal={showModal} onCloseModal={closeModal}>
-          <AllFilters
-            rarities={rarity}
-            medium={medium}
-            materials={materials}
-            buying={waysToBuy}
-            onCloseModal={closeModal}
-          />
+          <AllFilters onCloseModal={closeModal} />
         </FilterModal>
       </div>
     </div>

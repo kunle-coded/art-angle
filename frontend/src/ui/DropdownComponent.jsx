@@ -1,10 +1,12 @@
 import { useState } from "react";
 import styles from "./DropdownComponent.module.css";
+import { colorCodes } from "../data";
+
 import DropdownIcon from "./DropdownIcon";
 import SelectComponent from "../components/filter/SelectComponent";
 
 function DropdownComponent({ children, title, items, customWidth }) {
-  const [isDropdown, setIsDropdown] = useState(false);
+  const [isDropdown, setIsDropdown] = useState(true);
   const [showMore, setShowMore] = useState(false);
   const [visibleCount, setVisibleCount] = useState(6);
 
@@ -50,7 +52,7 @@ function DropdownComponent({ children, title, items, customWidth }) {
                 item={item}
                 type="rarity"
                 customWidth={customWidth}
-                color={item.toLowerCase()}
+                color={colorCodes[i]}
               />
             ))}
           </div>

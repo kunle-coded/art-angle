@@ -100,5 +100,6 @@
 }
 
 .activeLabel {
-  color: var(--on-primary-container);
+  /* color: var(--on-primary-container); */
+  color: rgb(0, 0, 0);
 }

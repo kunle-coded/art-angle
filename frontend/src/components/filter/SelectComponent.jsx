@@ -6,6 +6,8 @@ import {
   removeMediumItem,
   updateRarity,
   removeRarityItem,
+  updateAllFilters,
+  removeAllFiltersItem,
 } from "../../reducers/filterSlice";
 import {
   disableMediumButton,
@@ -89,6 +91,14 @@ function SelectComponent({ item, type, customWidth, color }) {
         setIsChecked(false);
       } else {
         dispatch(updateRarity(item));
+        setIsChecked(true);
+      }
+    } else {
+      if (isChecked) {
+        dispatch(removeAllFiltersItem(item));
+        setIsChecked(false);
+      } else {
+        dispatch(updateAllFilters(item));
         setIsChecked(true);
       }
     }

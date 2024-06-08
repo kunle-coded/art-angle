@@ -1,0 +1,113 @@
+.gridContainer {
+  opacity: 1; /* FIXME To change to 0 and dynamically change it to 1 */
+  transition: opacity 250ms;
+}
+
+.gridWrapper {
+  display: flex;
+  flex-flow: wrap;
+}
+
+.gridInnerEl {
+  display: flex;
+  width: 100%;
+}
+
+.gridInnerWrapper {
+  width: 100%;
+  display: flex;
+}
+
+@media not all and (min-width: 0px) and (max-width: 767.98px) {
+  .gridInnerEl {
+    display: none !important;
+  }
+}
+
+/* ---------------------- */
+
+/* .poster {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+  transition: color 0.25s ease 0s;
+  z-index: 1;
+}
+
+.posterWrapper {
+  margin: 0px;
+  padding: 0px;
+}
+
+.posterImage {
+  width: 100%;
+  height: 350px;
+  overflow: hidden;
+  border: none;
+  background-color: var(--primary-container);
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  object-fit: cover;
+
+}
+
+.posterContent {
+  padding-top: 10px;
+  width: 100%;
+}
+
+.posterTitle {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.title {
+  font-family: var(--secondary-font);
+  font-size: var(--desktop-headline-xsm);
+  line-height: 26px;
+  letter-spacing: -0.01em;
+  text-transform: capitalize;
+}
+
+.like {
+  margin: 0px;
+  padding: 0px;
+  cursor: pointer;
+  z-index: 2;
+  color: inherit;
+}
+
+.liked svg {
+  fill: var(--secondary);
+}
+.liked svg path {
+  stroke: var(--secondary);
+}
+
+.posterName {
+  font-size: var(--desktop-body-lg);
+  line-height: 24px;
+  text-transform: capitalize;
+  font-style: italic;
+}
+.posterName span {
+  font-style: normal;
+}
+
+.posterMedium {
+  font-size: var(--desktop-body-md);
+  color: var(--primary-variant);
+}
+
+.posterPrice {
+  font-size: var(--desktop-body-lg);
+  font-weight: 600;
+} */
