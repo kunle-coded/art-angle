@@ -119,7 +119,7 @@ const artworksTwo = [
     medium: "Painting",
     price: "3,318,000",
     year: "2019",
-    url: "https://d7hftxdivxxvm.cloudfront.net/?height=1308&quality=80&resize_to=fit&src=https%3A%2F%2Fd32dm0rphc51dk.cloudfront.net%2FvvekT8uwRbfVGQ1XUV-XEg%2Flarger.jpg&width=890",
+    url: "ad-image3.png",
   },
   {
     id: 2,

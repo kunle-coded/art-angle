@@ -1,9 +1,17 @@
 import { useEffect, useState } from "react";
 import styles from "./PriceSlider.module.css";
-import { useDispatch } from "react-redux";
-import { removePriceItem, updatePrice } from "../../reducers/filterSlice";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  getFilters,
+  removePriceItem,
+  updatePrice,
+} from "../../reducers/filterSlice";
 import filterPrice from "../../helpers/filterPrice";
 import { MAX_FILTER_PRICE } from "../../constants";
+import {
+  disablePriceButton,
+  enablePriceButton,
+} from "../../reducers/globalSlice";
 
 function PriceSlider() {
   const [minValue, setMinValue] = useState(0);
@@ -11,9 +19,17 @@ function PriceSlider() {
   const [inputMinValue, setInputMinValue] = useState("");
   const [inputMaxValue, setInputMaxValue] = useState("");
 
+  const { selectedPrice } = useSelector(getFilters);
+
   const dispatch = useDispatch();
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    if (selectedPrice.length >= 1) {
+      dispatch(enablePriceButton());
+    } else {
+      dispatch(disablePriceButton());
+    }
+  }, [dispatch, selectedPrice.length]);
 
   function handleMinChange(e) {
     e.stopPropagation();

@@ -31,6 +31,7 @@ import SectionInfo from "../ui/SectionInfo";
 import ArtworkPoster from "../ui/ArtworkPoster";
 import ArtworkGrid from "../ui/ArtworkGrid";
 import ArtworkGridColumn from "../ui/ArtworkGridColumn";
+import Pagination from "../components/pagination/Pagination";
 
 function Artworks() {
   const [selected, setSelected] = useState(0);
@@ -92,7 +93,10 @@ function Artworks() {
 
   return (
     <div className="page">
-      <PageHeader title="Collect art online" subtitle="Browse by Categories" />
+      <PageHeader
+        title="Discover and collect art online"
+        subtitle="Browse by Categories"
+      />
 
       <Section type="basic">
         <PosterBlock>
@@ -107,14 +111,6 @@ function Artworks() {
 
       <FilterSort filters={selectedFilter}>
         <FilterComponent>
-          {/* <Modal>
-            <Modal.Open opens="All filters">
-              <FilterButton text="All Filters" left={true} />
-            </Modal.Open>
-            <Modal.Window name="All filters">
-              <AllFilters />
-            </Modal.Window>
-          </Modal> */}
           <FilterButton
             text="All Filters"
             left={true}
@@ -139,6 +135,7 @@ function Artworks() {
           <FilterButton
             ref={priceRef}
             text="Price Range"
+            type="price"
             isDropdown={priceDropdown}
             onClick={() => openDropdown("price")}
           />
@@ -147,7 +144,9 @@ function Artworks() {
       </FilterSort>
 
       <Section type="basic">
-        <SectionInfo info={`${artworks.length} Artworks:`} />
+        <SectionInfo
+          info={`${artworks.length * 2 + artworksTwo.length} Artworks:`}
+        />
         <Spacer small={true} />
         <ArtworkGrid>
           <ArtworkGridColumn style={style1}>
@@ -167,6 +166,8 @@ function Artworks() {
           </ArtworkGridColumn>
         </ArtworkGrid>
       </Section>
+
+      <Pagination />
 
       <div>
         {sortDropdown && (

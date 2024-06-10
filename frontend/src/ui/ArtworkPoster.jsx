@@ -1,35 +1,85 @@
 import { Link } from "react-router-dom";
 import styles from "./ArtworkPoster.module.css";
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 function ArtworkPoster({ poster }) {
   const [isLike, setIsLike] = useState(false);
+  const [paddingBottom, setPaddingBottom] = useState("100%");
+  const [imageStyle, setImageStyle] = useState({
+    transformOrigin: "center center",
+    transition:
+      "transform 0.15s ease 0s, transform-origin 100ms ease 0s, opacity 0.25s ease 0s",
+    transform: "scale(1)",
+    opacity: 1,
+  });
+
+  const imageRef = useRef(null);
+
+  const handleImageLoad = () => {
+    const image = imageRef.current;
+    if (image) {
+      const aspectRatio = (image.naturalHeight / image.naturalWidth) * 100;
+      setPaddingBottom(`${aspectRatio}%`);
+    }
+  };
 
   const handleLike = () => {
     setIsLike((prevState) => !prevState);
   };
 
-  const imageStyle = {
-    transformOrigin: "202px 40.375px",
-    transition:
-      "transform 0.15s ease 0s, transform-origin 100ms ease 0s, opacity 0.25s ease 0s",
-    transform: "scale(1)",
-    opacity: 1,
+  function handleMouseEnter(e) {
+    const { offsetX, offsetY } = e.nativeEvent;
+    const transformOrigin = `${offsetX}px ${offsetY}px`;
+
+    setImageStyle((prevStyle) => ({
+      ...prevStyle,
+      transformOrigin,
+      transform: "scale(1.75",
+    }));
+  }
+
+  function handleMouseMove(e) {
+    const { offsetX, offsetY } = e.nativeEvent;
+    const transformOrigin = `${offsetX}px ${offsetY}px`;
+
+    setImageStyle((prevStyle) => ({
+      ...prevStyle,
+      transformOrigin,
+    }));
+  }
+
+  function handleMouseLeave(e) {
+    setImageStyle((prevStyle) => ({
+      ...prevStyle,
+      transformOrigin: "center center",
+      transform: "scale(1)",
+    }));
+  }
+
+  const handleContextMenu = (e) => {
+    e.preventDefault();
   };
 
   return (
     <div>
       <div
         className={styles.imageContainer}
-        style={{ paddingBottom: "62.2617%" }}
+        style={{ paddingBottom: paddingBottom }}
       >
         <Link aria-label={poster.title} className={styles.imageLink}>
           <div className={styles.imageWrapper}>
             <div className={styles.imageCompact}>
               <img
+                ref={imageRef}
                 src={poster.url}
                 alt={`${poster.title} by ${poster.artist}`}
                 className={styles.image}
+                style={imageStyle}
+                onLoad={handleImageLoad}
+                onMouseEnter={handleMouseEnter}
+                onMouseMove={handleMouseMove}
+                onMouseLeave={handleMouseLeave}
+                onContextMenu={handleContextMenu}
               />
             </div>
           </div>

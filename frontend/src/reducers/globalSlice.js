@@ -9,6 +9,7 @@ const initialState = {
   dropdownPadding: false,
   isMediumDisabled: true,
   isRarityDisabled: true,
+  isPriceDisabled: true,
   isDropdown: false,
   currentSort: "Recommended",
 };
@@ -62,6 +63,12 @@ const globalSlice = createSlice({
     enableRarityButton(state) {
       state.isRarityDisabled = false;
     },
+    disablePriceButton(state) {
+      state.isPriceDisabled = true;
+    },
+    enablePriceButton(state) {
+      state.isPriceDisabled = false;
+    },
     updateCurrentSort(state, action) {
       state.currentSort = action.payload;
     },
@@ -84,6 +91,8 @@ export const {
   enableMediumButton,
   disableRarityButton,
   enableRarityButton,
+  disablePriceButton,
+  enablePriceButton,
   updateCurrentSort,
 } = globalSlice.actions;
 

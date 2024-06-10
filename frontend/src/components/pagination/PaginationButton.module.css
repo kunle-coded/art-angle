@@ -1,0 +1,31 @@
+.btnContainer {
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+  color: var(--primary-variant);
+  padding: 5px 5px 5px 0px;
+}
+
+.btnLink {
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+  color: var(--primary);
+  padding: 5px 5px 5px 0px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.icon {
+  width: 12px;
+  height: 12px;
+  position: relative;
+}
+
+.prev {
+  margin-right: 5px;
+}
+.next {
+  margin-left: 5px;
+  order: 2;
+}

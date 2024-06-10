@@ -15,6 +15,7 @@ function FilterDropdown(props, ref) {
     sortDropdownPadding,
     isRarityDisabled,
     isMediumDisabled,
+    isPriceDisabled,
   } = useSelector(getGlobal);
 
   const transformXY = `translate(${sortPosition.left}px, ${sortPosition.top}px)`;
@@ -69,6 +70,8 @@ function FilterDropdown(props, ref) {
                     ? isMediumDisabled
                     : type === "rarity"
                     ? isRarityDisabled
+                    : type === "price"
+                    ? isPriceDisabled
                     : undefined
                 }
                 type="secondary"
@@ -82,6 +85,8 @@ function FilterDropdown(props, ref) {
                     ? isMediumDisabled
                     : type === "rarity"
                     ? isRarityDisabled
+                    : type === "price"
+                    ? isPriceDisabled
                     : undefined
                 }
                 size="small"

@@ -67,3 +67,15 @@ Modal.Open = Open;
 Modal.Window = Window;
 
 export default Modal;
+
+// eslint-disable-next-line no-lone-blocks
+{
+  /* <Modal>
+  <Modal.Open opens="All filters">
+    <FilterButton text="All Filters" left={true} />
+  </Modal.Open>
+  <Modal.Window name="All filters">
+    <AllFilters />
+  </Modal.Window>
+</Modal>; */
+}
