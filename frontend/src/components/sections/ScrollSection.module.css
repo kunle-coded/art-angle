@@ -71,7 +71,7 @@
     border-color 250ms ease 0s, box-shadow 0.25s ease 0s;
   color: var(--primary-variant);
   background-color: var(--surface);
-  border: 1px solid #f7f7f7;
+  border: 1px solid var(--primary-hover-container);
   border-radius: 50%;
   pointer-events: auto;
 }

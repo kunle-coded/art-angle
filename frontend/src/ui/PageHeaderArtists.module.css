@@ -1,0 +1,91 @@
+.container {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 20px 10px;
+  margin: 0px 100px;
+  padding: 40px 0px;
+}
+
+.titleWrapper {
+  grid-column: span 12;
+}
+
+.artistsLetters {
+  grid-column: span 12;
+}
+
+.breadcrumb {
+  display: flex;
+  list-style: none;
+  margin: 0px;
+  padding: 0px;
+}
+
+.breadcrumbItem {
+  font-size: var(--desktop-body-lg);
+  line-height: 24px;
+}
+.breadcrumbItem > a {
+  color: var(--on-primary-container);
+  text-decoration: none;
+  cursor: pointer;
+  transition: color 0.25s ease 0s;
+}
+
+.lettersContainer {
+  display: flex;
+  -webkit-box-pack: start;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+}
+
+.lettersWrapper {
+  font-size: var(--desktop-body-lg);
+  line-height: 24px;
+  color: var(--primary-variant);
+}
+
+.letterLink {
+  display: block;
+  text-align: center;
+  text-decoration: none;
+  color: var(--primary-variant);
+  transition: color 250ms ease 0s;
+  cursor: pointer;
+}
+
+.letterLink:hover {
+  text-decoration: underline;
+  color: var(--on-primary-container);
+}
+
+.letter {
+  padding: 5px;
+}
+
+.lettersContainer > .lettersWrapper:first-child .letter {
+  padding: 5px 5px 5px 0px;
+}
+
+.lettersContainer > .lettersWrapper:last-child .letter {
+  padding: 5px 0px 5px 5px;
+}
+
+@media screen and (min-width: 768px) {
+  .container {
+    gap: 0px 20px;
+  }
+
+  .titleWrapper {
+    grid-column: span 6;
+  }
+
+  .artistsLetters {
+    grid-column: span 6;
+  }
+
+  .lettersContainer {
+    -webkit-box-pack: end;
+    justify-content: flex-end;
+  }
+}

@@ -16,4 +16,5 @@
 .active {
   background-color: var(--primary);
   color: var(--on-primary);
+  cursor: default;
 }

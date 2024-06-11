@@ -3,7 +3,7 @@ import styles from "./ArtistCard.module.css";
 import Button from "./Button";
 import { useState } from "react";
 
-function ArtistCard({ artist }) {
+function ArtistCard({ artist, size = "small" }) {
   const [isFollow, setIsFollow] = useState(false);
 
   const handleFollow = (e) => {
@@ -11,10 +11,10 @@ function ArtistCard({ artist }) {
   };
 
   return (
-    <li className={styles.cardContainer}>
+    <li className={`card ${styles.cardContainer}`}>
       <Link className={styles.link}>
         <div className={styles.card}>
-          <div className={styles.image}>
+          <div className={`${size === "big" ? styles.imageBig : styles.image}`}>
             <img
               src={`../../assets/images/${artist.imgUrl}`}
               alt=""

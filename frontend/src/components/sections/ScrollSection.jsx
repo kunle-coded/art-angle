@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import styles from "./ScrollSection.module.css";
 
-function ScrollBlock({ children, title, align = false }) {
+function ScrollBlock({ children, title, align = false, margin = true }) {
   const [thumbPosition, setThumbPosition] = useState(0);
   const [valueNow, setValueNow] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
@@ -116,33 +116,39 @@ function ScrollBlock({ children, title, align = false }) {
   };
 
   const handleButtonClick = (direction) => {
-    const scrollStep = thumbRef.current.offsetWidth;
+    const cardWidth =
+      scrollContentRef.current.querySelector(".card").offsetWidth;
 
     let newScrollLeft;
 
     if (direction === 1) {
-      newScrollLeft = scrollContentRef.current.scrollLeft + scrollStep;
+      newScrollLeft = cardWidth;
     }
 
     if (direction === -1) {
-      newScrollLeft = scrollContentRef.current.scrollLeft - scrollStep;
+      newScrollLeft = -cardWidth;
     }
 
-    scrollContentRef.current.scrollLeft = newScrollLeft;
+    scrollContentRef.current.scrollBy({
+      left: newScrollLeft,
+      behavior: "smooth",
+    });
   };
 
   return (
-    <div className="section_block">
+    <div className={margin ? "section_block" : "section_basic"}>
       <section className={styles.container}>
-        <div className={styles.titleWrapper}>
-          <div
-            className={`${styles.sectionTitle} ${
-              align ? styles.titleAlign : ""
-            }`}
-          >
-            {title}
+        {title && (
+          <div className={styles.titleWrapper}>
+            <div
+              className={`${styles.sectionTitle} ${
+                align ? styles.titleAlign : ""
+              }`}
+            >
+              {title}
+            </div>
           </div>
-        </div>
+        )}
         <div className={styles.wrapper}>
           <nav className={styles.scrollNavigation}>
             <button

@@ -8,6 +8,7 @@
   text-decoration: none;
   color: inherit;
   z-index: 3;
+  user-select: none;
 }
 
 .card {
@@ -18,7 +19,13 @@
 .image {
   width: 300px;
   height: 250px;
-  background-color: aquamarine;
+  background-color: var(--image-background);
+}
+
+.imageBig {
+  width: 600px;
+  height: 450px;
+  background-color: var(--image-background);
 }
 
 .img {

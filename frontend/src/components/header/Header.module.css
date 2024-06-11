@@ -63,7 +63,7 @@
   padding: 0px 10px;
   height: 100%;
   cursor: pointer;
-  color: var(--primary);
+  color: var(--on-primary-container);
   white-space: nowrap;
 }
 

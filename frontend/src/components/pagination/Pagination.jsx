@@ -29,7 +29,10 @@ function Pagination({ isLink, linkHref }) {
   }
 
   function handleNumberClick(number) {
+    if (number === current) return;
+
     setCurrent(number);
+
     if (number > 4 && number < pages - 1) {
       setNextCurrent(number - 1);
     } else if (number <= 4) {
