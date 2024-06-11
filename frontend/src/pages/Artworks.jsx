@@ -9,7 +9,14 @@ import {
   showPriceDropdown,
 } from "../reducers/globalSlice";
 import { getFilters } from "../reducers/filterSlice";
-import { categories, rarity, medium, artworks, artworksTwo } from "../data";
+import {
+  categories,
+  rarity,
+  medium,
+  artworks,
+  artworksTwo,
+  artworksThree,
+} from "../data";
 
 import Section from "../components/sections/Section";
 import CategoryCardSmall from "../ui/CategoryCardSmall";
@@ -25,13 +32,13 @@ import SelectComponent from "../components/filter/SelectComponent";
 import PriceSlider from "../components/filter/PriceSlider";
 import AllFilters from "../components/filter/AllFilters";
 import FilterModal from "../components/modal/FilterModal";
-import Poster from "../ui/Poster";
 import Spacer from "../ui/Spacer";
 import SectionInfo from "../ui/SectionInfo";
 import ArtworkPoster from "../ui/ArtworkPoster";
 import ArtworkGrid from "../ui/ArtworkGrid";
 import ArtworkGridColumn from "../ui/ArtworkGridColumn";
 import Pagination from "../components/pagination/Pagination";
+import NewsLetter from "../components/cta/NewsLetter";
 
 function Artworks() {
   const [selected, setSelected] = useState(0);
@@ -99,6 +106,7 @@ function Artworks() {
       />
 
       <Section type="basic">
+        <Spacer small={true} />
         <PosterBlock>
           {categories.map(
             (category, i) =>
@@ -160,7 +168,7 @@ function Artworks() {
             ))}
           </ArtworkGridColumn>
           <ArtworkGridColumn style={style2}>
-            {artworks.map((artwork) => (
+            {artworksThree.map((artwork) => (
               <ArtworkPoster key={artwork.id} poster={artwork} />
             ))}
           </ArtworkGridColumn>
@@ -168,6 +176,10 @@ function Artworks() {
       </Section>
 
       <Pagination />
+
+      {/* <Spacer /> */}
+
+      <NewsLetter />
 
       <div>
         {sortDropdown && (

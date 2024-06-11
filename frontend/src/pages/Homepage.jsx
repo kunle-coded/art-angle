@@ -29,7 +29,7 @@ function Homepage() {
         </PosterBlock>
       </Section>
 
-      <ScrollSection title="Shop by Category">
+      <ScrollSection title="Shop by Category" align={true}>
         {categories.map((cat) => (
           <CategoryCard key={cat.id} title={cat.title} imgUrl={cat.url} />
         ))}
@@ -61,7 +61,7 @@ function Homepage() {
 
       <AdBanner />
 
-      <ScrollSection title="Trending Artists" align={true}>
+      <ScrollSection title="Trending Artists">
         {artists.map((artist) => (
           <ArtistCard key={artist.id} artist={artist} />
         ))}

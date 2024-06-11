@@ -6,6 +6,7 @@ import Category from "./pages/Category";
 import Artists from "./pages/Artists";
 import AppLayout from "./ui/AppLayout";
 import Error from "./ui/Error";
+import Sell from "./pages/Sell";
 
 const router = createBrowserRouter([
   {
@@ -27,6 +28,10 @@ const router = createBrowserRouter([
       {
         path: "/artists",
         element: <Artists />,
+      },
+      {
+        path: "/selling",
+        element: <Sell />,
       },
     ],
   },

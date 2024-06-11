@@ -18,7 +18,11 @@ function Button({
       <Link
         to={href}
         className={`${
-          type === "secondary" ? styles.secondary : styles.primary
+          type === "secondary"
+            ? styles.secondary
+            : type === "tertiary"
+            ? styles.tertiary
+            : styles.primary
         } ${size === "small" ? styles.small : ""}`}
         onClick={onClick}
         {...props}
@@ -31,11 +35,15 @@ function Button({
   return (
     <button
       disabled={disable}
-      className={`${type === "secondary" ? styles.secondary : styles.primary} ${
-        size === "small" ? styles.small : ""
-      } ${type === "secondary" && disable ? styles.disableSecondary : ""} ${
-        type === "primary" && disable ? styles.disablePrimary : ""
-      }`}
+      className={`${
+        type === "secondary"
+          ? styles.secondary
+          : type === "tertiary"
+          ? styles.tertiary
+          : styles.primary
+      } ${size === "small" ? styles.small : ""} ${
+        type === "secondary" && disable ? styles.disableSecondary : ""
+      } ${type === "primary" && disable ? styles.disablePrimary : ""}`}
       onClick={onClick}
       {...props}
     >

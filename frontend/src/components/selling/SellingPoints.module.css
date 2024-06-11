@@ -1,0 +1,12 @@
+.container {
+  display: block;
+  margin: var(--margin-desktop);
+  padding: 0px;
+}
+
+.gridContainer {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 20px;
+  width: 100%;
+}

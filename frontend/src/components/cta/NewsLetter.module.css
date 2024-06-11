@@ -1,0 +1,122 @@
+.container {
+  padding: 80px 60px;
+  margin: var(--margin-desktop);
+  background-color: var(--on-primary-container);
+  color: var(--surface);
+}
+
+.gridContainer {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 40px;
+}
+
+.gridItem {
+  grid-column: span 12;
+  align-self: center;
+}
+
+.textContainer {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  -webkit-box-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  align-items: center;
+}
+
+.heading {
+  font-size: var(--desktop-headline-sm);
+  line-height: 32px;
+  font-weight: 500;
+}
+.subheading {
+  font-size: var(--desktop-body-lg);
+  line-height: 24px;
+  color: var(--primary-container);
+}
+
+.inputContainer {
+  width: 100%;
+  display: flex;
+  -webkit-box-pack: end;
+  justify-content: flex-end;
+  -webkit-box-align: center;
+  align-items: center;
+  gap: 0px;
+}
+
+.ctaInput {
+  flex: 1 1 0%;
+  background-color: transparent;
+  color: var(--surface);
+  border-width: 1px 0px 1px 1px;
+  border-color: var(--surface-container);
+  border-style: solid;
+  border-radius: 0px;
+  padding: 10px 0px;
+  text-align: center;
+  font-size: var(--desktop-body-lg);
+  line-height: 24px;
+  transition: border-color 0.25s ease 0s, color 0.25s ease 0s;
+}
+
+.ctaInput:hover {
+  border-color: var(--outline);
+}
+
+.ctaInput:focus {
+  outline: none;
+  border-color: var(--outline);
+}
+
+.ctaInput:focus-visible {
+  outline: none;
+}
+
+.ctaButton {
+  background-color: var(--surface-container);
+}
+
+.button {
+  appearance: none;
+  text-decoration: none;
+  border-width: 1px 1px 1px 0px;
+  border-color: var(--surface-container);
+  border-style: solid;
+  border-radius: 0px;
+  padding: 10px 25px;
+  font-size: var(--desktop-body-lg);
+  line-height: 24px;
+  font-weight: 500;
+  background-color: var(--surface-container);
+  color: var(--on-primary-container);
+  cursor: pointer;
+  transition: border-color 0.25s ease 0s, color 0.25s ease 0s,
+    background-color 0.25s ease 0s;
+}
+
+.button:hover {
+  background-color: var(--secondary-container);
+  border-color: var(--secondary-container);
+}
+
+@media screen and (min-width: 768px) {
+  .gridContainer {
+    gap: 0px;
+  }
+
+  .gridItem {
+    grid-column: span 6;
+  }
+
+  .textContainer {
+    flex-direction: column;
+    -webkit-box-pack: center;
+    justify-content: center;
+    -webkit-box-align: start;
+    align-items: flex-start;
+  }
+}

@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import styles from "./ScrollSection.module.css";
+import SectionTitle from "../../ui/SectionTitle";
 
 function ScrollBlock({ children, title, align = false, margin = true }) {
   const [thumbPosition, setThumbPosition] = useState(0);
@@ -138,17 +139,7 @@ function ScrollBlock({ children, title, align = false, margin = true }) {
   return (
     <div className={margin ? "section_block" : "section_basic"}>
       <section className={styles.container}>
-        {title && (
-          <div className={styles.titleWrapper}>
-            <div
-              className={`${styles.sectionTitle} ${
-                align ? styles.titleAlign : ""
-              }`}
-            >
-              {title}
-            </div>
-          </div>
-        )}
+        {title && <SectionTitle title={title} align={align} />}
         <div className={styles.wrapper}>
           <nav className={styles.scrollNavigation}>
             <button

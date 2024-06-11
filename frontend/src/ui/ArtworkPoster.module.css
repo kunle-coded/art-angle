@@ -58,21 +58,6 @@
   text-transform: capitalize;
 }
 
-.like {
-  margin: 0px;
-  padding: 0px;
-  cursor: pointer;
-  z-index: 2;
-  color: inherit;
-}
-
-.liked svg {
-  fill: var(--secondary);
-}
-.liked svg path {
-  stroke: var(--secondary);
-}
-
 .posterName {
   font-size: var(--desktop-body-lg);
   line-height: 24px;

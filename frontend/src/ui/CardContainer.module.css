@@ -1,0 +1,16 @@
+.cardContainer {
+  display: block;
+  margin: 0;
+  padding: 0;
+}
+
+.cardList {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 20px;
+  /* width: 100%; */
+  list-style: none;
+  /* overflow: hidden; */
+  margin: 0;
+  padding: 0;
+}

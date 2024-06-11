@@ -1,0 +1,28 @@
+.like {
+  margin: 0px;
+  padding: 0px;
+  cursor: pointer;
+  z-index: 2;
+  color: inherit;
+  transition: color 0.25s ease 0s;
+}
+
+.like svg {
+  transition: fill 0.25s ease 0s;
+}
+
+.like:hover {
+  color: var(--secondary);
+}
+
+.like:hover svg {
+  fill: var(--secondary);
+}
+
+.liked {
+  color: var(--secondary);
+}
+
+.liked svg {
+  fill: var(--secondary);
+}

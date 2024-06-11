@@ -3,7 +3,7 @@ import styles from "./ArtistCard.module.css";
 import Button from "./Button";
 import { useState } from "react";
 
-function ArtistCard({ artist, size = "small" }) {
+function ArtistCard({ artist, size = "small", grid = false }) {
   const [isFollow, setIsFollow] = useState(false);
 
   const handleFollow = (e) => {
@@ -11,15 +11,17 @@ function ArtistCard({ artist, size = "small" }) {
   };
 
   return (
-    <li className={`card ${styles.cardContainer}`}>
+    <li
+      className={`card ${styles.cardContainer} ${grid ? styles.gridCard : ""}`}
+    >
       <Link className={styles.link}>
         <div className={styles.card}>
-          <div className={`${size === "big" ? styles.imageBig : styles.image}`}>
-            <img
-              src={`../../assets/images/${artist.imgUrl}`}
-              alt=""
-              className={styles.img}
-            />
+          <div
+            className={`${size === "big" ? styles.imageBig : styles.image} ${
+              grid ? styles.gridImage : ""
+            }`}
+          >
+            <img src={`${artist.imgUrl}`} alt="" className={styles.img} />
           </div>
           <div className={styles.artistDetails}>
             <div className={styles.artistInfo}>
@@ -30,7 +32,7 @@ function ArtistCard({ artist, size = "small" }) {
             </div>
             <div className={styles.follow}>
               <Button
-                type={isFollow ? "primary" : "secondary"}
+                type={isFollow ? "primary" : "tertiary"}
                 size="small"
                 onClick={handleFollow}
               >

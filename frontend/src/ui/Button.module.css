@@ -44,6 +44,29 @@
   text-decoration: underline;
 }
 
+.tertiary {
+  display: inline-block;
+  font-size: var(--desktop-body-lg);
+  font-weight: 500;
+  line-height: 24px;
+  padding: 11px 24px;
+  text-decoration: none;
+  background-color: transparent;
+  color: var(--primary);
+  border: 1px solid var(--primary);
+  border-radius: 4px;
+  text-align: center;
+  cursor: pointer;
+  transition: background-color 250ms ease 0s, color 250ms ease 0s;
+  z-index: 5;
+}
+
+.tertiary:hover {
+  background-color: var(--primary);
+  color: var(--on-primary);
+  border-color: var(--primary);
+}
+
 .small {
   font-size: var(--desktop-body-md);
   font-weight: 400;
