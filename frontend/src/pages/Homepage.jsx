@@ -29,7 +29,7 @@ function Homepage() {
         </PosterBlock>
       </Section>
 
-      <ScrollSection title="Shop by Category" align={true}>
+      <ScrollSection title="Shop by Category" align={true} titleSize="big">
         {categories.map((cat) => (
           <CategoryCard key={cat.id} title={cat.title} imgUrl={cat.url} />
         ))}

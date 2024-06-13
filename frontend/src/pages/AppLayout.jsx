@@ -38,14 +38,12 @@ function AppLayout() {
   return (
     <div onClick={handleCloseDropdown}>
       <Navigation />
-      {/* <Spinsner /> */}
-
+      {/* <Spinner /> */}
       <main>
         <div style={{ overflow: "hidden" }}>
           <Outlet />
         </div>
       </main>
-
       <Footer />
     </div>
   );

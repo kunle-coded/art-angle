@@ -1,0 +1,93 @@
+.contentContainer {
+  display: flex;
+  flex-direction: column;
+  -webkit-box-pack: center;
+  justify-content: center;
+  -webkit-box-align: start;
+  align-items: flex-start;
+}
+
+.introText {
+  font-size: var(--desktop-headline-xsm);
+  line-height: 26px;
+  letter-spacing: -0.01em;
+  color: var(--on-primary-container);
+  overflow-wrap: break-word;
+  word-break: break-word;
+  hyphens: auto;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 6;
+  overflow: hidden;
+}
+
+.buttons {
+  display: flex;
+  flex-direction: column;
+  -webkit-box-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  margin-top: 40px;
+}
+
+.option {
+  display: flex;
+  -webkit-box-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  align-items: center;
+  width: 100%;
+  margin: 5px 0;
+}
+
+.loginOption {
+  font-size: var(--desktop-body-md);
+  line-height: 20px;
+  text-align: center;
+  color: var(--primary-variant);
+  width: 100%;
+  margin-top: 10px;
+}
+
+.loginOption .optionButton {
+  padding-left: 1px;
+}
+
+.passwordOption {
+  font-size: var(--desktop-body-md);
+  line-height: 20px;
+  text-align: right;
+  color: var(--primary-variant);
+}
+
+.optionButton {
+  appearance: none;
+  padding: 0px;
+  border: 0px;
+  margin: 0px;
+  background-color: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: inherit;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.iconWrapper {
+  width: 24px;
+  height: 24px;
+  position: relative;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  -webkit-box-pack: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  margin-top: 40px;
+}

@@ -29,7 +29,7 @@ function StrategyComponent() {
             />
             <StrategyCard
               title="Online marketplace"
-              body="When your work is listed directly on Artsy.net—the world’s largest online art marketplace—it reaches over 3 million art lovers."
+              body="When your work is listed directly on Art Angle. Nigeria’s largest online art marketplace—it reaches over 1 million art lovers."
               imgUrl="/assets/artists/ayo-adeleye.webp"
             />
           </div>

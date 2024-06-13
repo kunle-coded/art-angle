@@ -2,16 +2,19 @@ import AdBanner from "../components/ads/AdBanner";
 import PointItem from "../components/selling/PointItem";
 import SellingPoints from "../components/selling/SellingPoints";
 import EarnIcon from "../components/icons/EarnIcon";
-import Spacer from "../ui/Spacer";
 import ExpertIcon from "../components/icons/ExpertIcon";
 import GlobalIcon from "../components/icons/GlobalIcon";
 import StrategyComponent from "../components/selling/StrategyComponent";
+import SellingSteps from "../components/selling/SellingSteps";
+import ScrollSection from "../components/sections/ScrollSection";
+import { artworksThree } from "../data";
+import ArtworkScrollCard from "../ui/ArtworkScrollCard";
+import Banner from "../components/ads/Banner";
+import SellCTA from "../components/selling/SellCTA";
 
 function Sell() {
   return (
     <div className="page">
-      {/* <Spacer /> */}
-
       <AdBanner background={false} />
 
       <SellingPoints>
@@ -35,7 +38,23 @@ function Sell() {
         </PointItem>
       </SellingPoints>
 
-      <StrategyComponent></StrategyComponent>
+      <StrategyComponent />
+
+      <SellingSteps />
+
+      <ScrollSection
+        title="Previously sold on Art Angle"
+        alignItems
+        titleSize="big"
+      >
+        {artworksThree.map((artist) => (
+          <ArtworkScrollCard key={artist.id} poster={artist} />
+        ))}
+      </ScrollSection>
+
+      <Banner />
+
+      <SellCTA />
     </div>
   );
 }

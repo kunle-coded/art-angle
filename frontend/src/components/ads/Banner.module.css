@@ -1,18 +1,17 @@
 .container {
   display: block;
-  margin: var(--margin-desktop);
+  background-color: var(--on-primary-container);
+  color: var(--surface);
 }
 
 .content {
   display: grid;
   grid-template-columns: repeat(12, 1fr);
-  -webkit-box-align: end;
-  align-items: end;
+  -webkit-box-align: center;
+  align-items: center;
   gap: 40px 20px;
-  width: 100%;
-  margin: 0px;
-  padding: 0px;
-  background-color: var(--primary-hover-container);
+  margin: var(--margin-desktop);
+  padding: 40px 0px;
   overflow: hidden;
 }
 
@@ -22,20 +21,16 @@
 }
 
 .textContainer {
-  grid-column: span 4;
+  grid-column: span 6;
 }
 
 .textContainer {
   width: 100%;
-  padding: 40px 40px 30px 30px;
-}
-
-.fullWidth {
-  padding: 40px 20px 30px 0px;
+  padding: 0px;
 }
 
 .imageContainer {
-  grid-column: span 8;
+  grid-column: span 6;
   height: 100%;
   /* aspect-ratio: 1104 / 833; */
 }
@@ -106,36 +101,51 @@
 }
 
 .heading {
-  /* font-family: Arial, Helvetica, sans-serif; */
-  font-size: var(--desktop-headline-lg);
-  font-weight: 500;
-  line-height: 64px;
+  font-size: var(--desktop-headline-md);
+  line-height: 48px;
   letter-spacing: -0.01em;
-}
-
-.bigHeading {
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: var(--desktop-display-sm);
-  font-size: 72px;
-  font-weight: 500;
-  line-height: 80px;
-  letter-spacing: -0.01em;
+  margin-bottom: 20px;
 }
 
 .subHeading {
-  font-size: var(--desktop-headline-sm);
-  line-height: 32px;
-  letter-spacing: -0.01em;
-  padding-top: 20px;
+  font-size: var(--desktop-body-lg);
+  line-height: 24px;
+  margin-bottom: 40px;
 }
 
 .buttons {
-  display: flex;
-  gap: 16px;
-  width: 100%;
-  padding-top: 28px;
+  display: block;
 }
 
-.buttonsNoBg {
-  padding-top: 40px;
+.button {
+  position: relative;
+  white-space: nowrap;
+  font-weight: normal;
+  text-align: center;
+  display: inline-flex;
+  -webkit-box-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  justify-content: center;
+  font-size: var(--desktop-body-lg);
+  line-height: 24px;
+  height: 50px;
+  width: 300px;
+  padding-left: 25px;
+  padding-right: 25px;
+  text-decoration: none;
+  background-color: transparent;
+  color: var(--surface);
+  border: 1px solid var(--surface);
+  border-radius: 25px;
+  cursor: pointer;
+  transition: background-color 250ms ease 0s, color 250ms ease 0s;
+  z-index: 5;
+}
+
+.button:hover {
+  background-color: var(--surface);
+  color: var(--on-primary-container);
+  border-color: var(--surface);
+  text-decoration: underline;
 }

@@ -1,0 +1,50 @@
+.contentContainer {
+  display: flex;
+  flex-direction: column;
+  -webkit-box-pack: center;
+  justify-content: center;
+  -webkit-box-align: start;
+  align-items: flex-start;
+}
+
+.introText {
+  font-size: var(--desktop-headline-xsm);
+  line-height: 26px;
+  letter-spacing: -0.01em;
+  color: var(--on-primary-container);
+  overflow-wrap: break-word;
+  word-break: break-word;
+  hyphens: auto;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 6;
+  overflow: hidden;
+}
+
+.buttons {
+  display: flex;
+  flex-direction: column;
+  -webkit-box-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  margin-top: 60px;
+}
+
+.loginOption {
+  display: flex;
+  -webkit-box-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  align-items: center;
+  width: 100%;
+  margin-top: 20px;
+}
+
+.loginOption > span {
+  margin-left: 5px;
+  text-decoration: underline;
+  cursor: pointer;
+}

@@ -17,6 +17,7 @@
 .container {
   display: grid;
   grid-template-columns: repeat(12, 1fr);
+  gap: 0px 40px;
   justify-items: stretch;
   margin: var(--margin-desktop);
   /* padding: 20px 0px; */
@@ -24,7 +25,7 @@
 }
 
 .navbar {
-  grid-column: span 7;
+  grid-column: span 6;
   display: flex;
   justify-content: center;
   -webkit-box-align: center;
@@ -32,7 +33,7 @@
   height: 100%;
 }
 .utilityNavbar {
-  grid-column: span 4;
+  grid-column: span 5;
   display: flex;
   justify-content: flex-end;
   -webkit-box-align: center;
@@ -73,15 +74,6 @@
 
 .navlink:hover {
   color: var(--secondary);
-}
-
-.utilityMenu {
-  display: flex;
-  justify-content: space-between;
-  -webkit-box-align: center;
-  align-items: center;
-  list-style: none;
-  gap: 12px;
 }
 
 .searchContainer {
@@ -139,18 +131,30 @@
   position: absolute;
   top: 0;
   bottom: 0;
-  right: 5px;
+  right: 10px;
+}
+
+.searchIconInner {
+  width: 24px;
+  height: 24px;
+  position: relative;
+  cursor: pointer;
+  color: var(--primary);
   transition: transform 250ms ease;
 }
 
-.searchIcon:hover {
+.searchIconInner:hover {
   transform: rotate3d(1, 2, 3, 10deg);
 }
 
-.searchIcon svg[data-type="search-icon"] {
-  width: 25px;
-  height: 25px;
-  margin-right: 5px;
+.utilityMenu {
+  display: flex;
+  justify-content: space-between;
+  -webkit-box-align: center;
+  align-items: center;
+  list-style: none;
+  gap: 10px;
+  margin-left: 10px;
 }
 
 .cartContainer {
@@ -161,13 +165,11 @@
 }
 
 .cartLink {
-  display: flex;
-  -webkit-box-align: center;
-  align-items: center;
-  padding: 0px;
+  width: 35px;
+  height: 35px;
+  position: relative;
   cursor: pointer;
   color: var(--primary);
-  white-space: nowrap;
 }
 
 .cartCounter {

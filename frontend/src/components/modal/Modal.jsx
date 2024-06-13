@@ -9,6 +9,7 @@ import {
 import { createPortal } from "react-dom";
 
 import styles from "./Modal.module.css";
+import CloseIcon from "../icons/CloseIcon";
 
 const ModalContext = createContext();
 
@@ -55,7 +56,12 @@ function Window({ children, name }) {
     <div className={styles.overlay} onClick={close}>
       <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
         <div className={styles.contentContainer}>
-          {cloneElement(children, { onCloseModal: () => close })}
+          <div className={styles.closeContainer}>
+            <div className={styles.close} onClick={close}>
+              <CloseIcon />
+            </div>
+          </div>
+          {children}
         </div>
       </div>
     </div>,
@@ -67,15 +73,3 @@ Modal.Open = Open;
 Modal.Window = Window;
 
 export default Modal;
-
-// eslint-disable-next-line no-lone-blocks
-{
-  /* <Modal>
-  <Modal.Open opens="All filters">
-    <FilterButton text="All Filters" left={true} />
-  </Modal.Open>
-  <Modal.Window name="All filters">
-    <AllFilters />
-  </Modal.Window>
-</Modal>; */
-}

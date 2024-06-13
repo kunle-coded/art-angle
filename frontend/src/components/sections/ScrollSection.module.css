@@ -29,7 +29,7 @@
 .wrapper {
   position: relative;
   width: 100%;
-  padding: 30px 0px 0px 0px;
+  padding: 40px 0px 0px 0px;
 }
 
 .wrapper > nav {
@@ -151,6 +151,11 @@
   list-style: none;
   white-space: nowrap;
   margin-bottom: 60px;
+}
+
+.alignEnd {
+  -webkit-box-align: end;
+  align-items: flex-end;
 }
 
 .contentList li:first-child {

@@ -1,12 +1,20 @@
 import styles from "./SectionTitle.module.css";
 import { Link } from "react-router-dom";
 
-function SectionTitle({ title = "", subtitle = "", link = "", align = false }) {
+function SectionTitle({
+  title = "",
+  subtitle = "",
+  link = "",
+  align = false,
+  size = "",
+}) {
   return (
     <div className="container">
       <div className={styles.titleWrapper}>
         <div
-          className={`${styles.sectionTitle} ${align ? styles.titleAlign : ""}`}
+          className={`${
+            size === "big" ? styles.bigTitle : styles.sectionTitle
+          } ${align ? styles.titleAlign : ""}`}
         >
           {title}
         </div>

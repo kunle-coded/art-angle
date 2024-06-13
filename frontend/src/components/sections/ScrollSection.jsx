@@ -1,8 +1,16 @@
 import { useEffect, useRef, useState } from "react";
 import styles from "./ScrollSection.module.css";
 import SectionTitle from "../../ui/SectionTitle";
+import Spacer from "../../ui/Spacer";
 
-function ScrollBlock({ children, title, align = false, margin = true }) {
+function ScrollBlock({
+  children,
+  title,
+  align = false,
+  alignItems = false,
+  margin = true,
+  titleSize,
+}) {
   const [thumbPosition, setThumbPosition] = useState(0);
   const [valueNow, setValueNow] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
@@ -139,7 +147,8 @@ function ScrollBlock({ children, title, align = false, margin = true }) {
   return (
     <div className={margin ? "section_block" : "section_basic"}>
       <section className={styles.container}>
-        {title && <SectionTitle title={title} align={align} />}
+        {title && <SectionTitle title={title} align={align} size={titleSize} />}
+        {title && titleSize === "big" && !align && <Spacer small />}
         <div className={styles.wrapper}>
           <nav className={styles.scrollNavigation}>
             <button
@@ -184,7 +193,13 @@ function ScrollBlock({ children, title, align = false, margin = true }) {
               className={styles.contentsWrapper}
               onScroll={handleScroll}
             >
-              <ul className={styles.contentList}>{children}</ul>
+              <ul
+                className={`${styles.contentList} ${
+                  alignItems ? styles.alignEnd : ""
+                }`}
+              >
+                {children}
+              </ul>
             </div>
           </div>
           <div

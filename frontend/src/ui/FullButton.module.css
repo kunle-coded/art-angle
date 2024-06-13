@@ -1,9 +1,13 @@
 .primary {
-  display: inline-block;
+  display: flex;
+  -webkit-box-pack: center;
+  justify-content: center;
+  gap: 10px;
   font-size: var(--desktop-body-lg);
   font-weight: 500;
   line-height: 24px;
-  padding: 11px 24px;
+  width: 100%;
+  padding: 16px 0px;
   text-decoration: none;
   background-color: var(--primary);
   color: var(--on-primary);
@@ -21,11 +25,15 @@
 }
 
 .secondary {
-  display: inline-block;
+  display: flex;
+  -webkit-box-pack: center;
+  justify-content: center;
+  gap: 10px;
   font-size: var(--desktop-body-lg);
   font-weight: 500;
   line-height: 24px;
-  padding: 11px 24px;
+  width: 100%;
+  padding: 16px 0px;
   text-decoration: none;
   background-color: transparent;
   color: var(--primary);
@@ -43,58 +51,31 @@
   text-decoration: underline;
 }
 
-.tertiary {
-  display: inline-block;
-  font-size: var(--desktop-body-lg);
-  font-weight: 500;
-  line-height: 24px;
-  padding: 11px 24px;
-  text-decoration: none;
-  background-color: transparent;
-  color: var(--primary);
-  border: 1px solid var(--primary);
-  border-radius: 4px;
-  text-align: center;
-  cursor: pointer;
-  transition: background-color 250ms ease 0s, color 250ms ease 0s;
-  z-index: 5;
-}
-
-.tertiary:hover {
-  background-color: var(--primary);
-  color: var(--on-primary);
-  border-color: var(--primary);
-}
-
-.small {
-  font-size: var(--desktop-body-md);
-  font-weight: 400;
-  line-height: 20px;
-  padding: 6px 16px;
-}
-
 .disablePrimary {
   background-color: var(--outline);
   border-color: var(--outline);
+  color: var(--surface);
   cursor: default;
 }
 
 .disableSecondary {
-  /* background-color: var(--outline-variant); */
-  color: var(--outline);
-  border-color: var(--outline);
+  background-color: var(--outline-variant);
+  border-color: var(--outline-variant);
+  color: var(--on-primary-container);
   cursor: default;
 }
 
 .disablePrimary:hover {
   background-color: var(--outline);
   border-color: var(--outline);
+  color: var(--surface);
   cursor: not-allowed;
 }
 
 .disableSecondary:hover {
-  color: var(--outline);
-  border-color: var(--outline);
+  background-color: var(--outline-variant);
+  border-color: var(--outline-variant);
+  color: var(--on-primary-container);
   text-decoration: none;
   cursor: not-allowed;
 }

@@ -16,11 +16,11 @@ function AdBanner({ background = true }) {
             }`}
           >
             <div className={styles.textWrapper}>
-              <div
+              <h1
                 className={`${background ? styles.heading : styles.bigHeading}`}
               >
                 Sell art from your collection
-              </div>
+              </h1>
               <div className={styles.subHeading}>
                 Start selling on Art Angle to find the right buyer for your
                 work.

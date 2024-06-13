@@ -16,6 +16,13 @@
   letter-spacing: -0.01em;
   text-transform: capitalize;
   text-align: left;
+  color: var(--on-primary-container);
+}
+
+.bigTitle {
+  font-size: var(--desktop-headline-md);
+  line-height: 48px;
+  letter-spacing: -0.01em;
 }
 
 .titleAlign {

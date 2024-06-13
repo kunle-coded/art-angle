@@ -4,7 +4,7 @@ import Homepage from "./pages/Homepage";
 import Artworks from "./pages/Artworks";
 import Category from "./pages/Category";
 import Artists from "./pages/Artists";
-import AppLayout from "./ui/AppLayout";
+import AppLayout from "./pages/AppLayout";
 import Error from "./ui/Error";
 import Sell from "./pages/Sell";
 
