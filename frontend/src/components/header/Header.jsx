@@ -76,12 +76,12 @@ function Header({ onEnter, onLeave }) {
                 <Login />
               </Modal.Window>
 
-              <Modal.Open opens="Signup">
+              <Modal.Open opens="intro">
                 <Button size="small">Signup</Button>
               </Modal.Open>
 
-              <Modal.Window name="Signup">
-                <Intro />
+              <Modal.Window name="intro">
+                <Signup />
               </Modal.Window>
             </Modal>
 

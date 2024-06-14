@@ -1,16 +1,8 @@
 import FullButton from "../../ui/FullButton";
 import LogoIcon from "../icons/LogoIcon";
-import Modal from "../modal/Modal";
 import styles from "./Intro.module.css";
-import Signup from "./Signup";
 
-function Intro({ onCloseModal }) {
-  function handleClick() {
-    console.log(onCloseModal); // Check if onCloseModal is defined
-    if (onCloseModal) {
-      onCloseModal(); // Close the first modal
-    }
-  }
+function Intro({ onSignup, onArtistSignup }) {
   return (
     <div className="container">
       <div className={styles.wrapper}>
@@ -26,18 +18,11 @@ function Intro({ onCloseModal }) {
               Do you want to sign up as a collector or an artists?
             </div>
             <div className={styles.buttons}>
-              <Modal>
-                <Modal.Open opens="Signup">
-                  <FullButton onClick={handleClick}>
-                    Sign up as a collector
-                  </FullButton>
-                </Modal.Open>
-                <Modal.Window name="Signup">
-                  <Signup />
-                </Modal.Window>
-              </Modal>
+              <FullButton onClick={onSignup}>Sign up as a collector</FullButton>
 
-              <FullButton type="secondary">Sign up as an artist</FullButton>
+              <FullButton type="secondary" onClick={onArtistSignup}>
+                Sign up as an artist
+              </FullButton>
             </div>
 
             <div className={styles.loginOption}>

@@ -1,3 +1,42 @@
+.wrapper {
+  display: block;
+  width: 100%;
+  margin: 0px;
+  padding: 0px;
+  position: relative;
+}
+
+.logoContainer {
+  position: absolute;
+  top: -10px;
+  left: 0px;
+  color: var(--on-primary-container);
+  margin: 0px;
+  padding: 0px;
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+}
+
+.logoInner {
+  width: 25px;
+  height: 25px;
+  position: relative;
+}
+
+.logoText {
+  font-size: var(--desktop-headline-xsm);
+  line-height: 26px;
+  font-weight: 600;
+  margin-left: 10px;
+}
+
+.contents {
+  display: block;
+  padding-top: 40px;
+  width: 100%;
+}
+
 .contentContainer {
   display: flex;
   flex-direction: column;
