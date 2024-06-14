@@ -7,6 +7,11 @@
   margin-top: 0px;
 }
 
+.inputField {
+  position: relative;
+  margin-top: 10px;
+}
+
 .searchInput {
   width: 100%;
   padding: 0px 10px;
@@ -16,9 +21,16 @@
   border-radius: 3px;
   transition: border-color 0.25s ease 0s, color 0.25s ease 0s;
   height: 50px;
-  background-color: transparent;
+  background-color: var(--surface);
   font-size: var(--desktop-body-lg);
   color: var(--primary-variant);
+}
+
+.searchInput::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+.searchInput::-webkit-outer-spin-button {
+  -webkit-appearance: none;
 }
 
 .searchInput:hover {
@@ -32,11 +44,64 @@
   border-color: var(--secondary);
 }
 
-.searchInput:hover::placeholder {
-  color: var(--primary);
+.searchInput:focus-visible {
+  outline: 0px;
+}
+
+.searchInput + label {
+  color: var(--primary-variant);
+  font-size: var(--desktop-body-lg);
+}
+
+.searchInput:hover + label {
+  color: var(--on-primary-container);
+}
+
+.searchInput:focus + label {
+  color: var(--tertiary);
+  transform: translateY(-150%);
+  font-size: 13px;
+  padding: 0px 5px;
+}
+
+.searchInput::placeholder {
+  /* color: var(--primary); */
+  appearance: none;
+  visibility: hidden;
+}
+.searchInput:focus::placeholder {
+  /* color: var(--primary); */
+  visibility: visible;
 }
 
 .inputLabel {
+  position: absolute;
+  top: 50%;
+  left: 5px;
+  background-color: transparent;
+  transform: translateY(-50%);
+  padding: 0px 5px;
+  pointer-events: none;
+  transition: color 0.25s cubic-bezier(0.64, 0.05, 0.36, 1),
+    transform 0.25s cubic-bezier(0.64, 0.05, 0.36, 1),
+    padding 0.25s cubic-bezier(0.64, 0.05, 0.36, 1),
+    font-size 0.25s cubic-bezier(0.64, 0.05, 0.36, 1);
+}
+
+.inputLabel > span {
+  background-color: var(--surface);
+  height: 100%;
+  width: 100%;
+  display: block;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  z-index: -1;
+  transition: height 0.25s cubic-bezier(0.64, 0.05, 0.36, 1) 0.1s,
+    top 0.25s cubic-bezier(0.64, 0.05, 0.36, 1) 0.1s;
+}
+
+.labelContainer {
   position: absolute;
   display: flex;
   -webkit-box-align: center;

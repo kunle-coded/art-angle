@@ -11,6 +11,7 @@ const initialState = {
   isRarityDisabled: true,
   isPriceDisabled: true,
   isDropdown: false,
+  isModalOpen: false,
   currentSort: "Recommended",
 };
 
@@ -72,6 +73,12 @@ const globalSlice = createSlice({
     updateCurrentSort(state, action) {
       state.currentSort = action.payload;
     },
+    openModal(state) {
+      state.isModalOpen = true;
+    },
+    closeModal(state) {
+      state.isModalOpen = false;
+    },
   },
 });
 
@@ -94,6 +101,8 @@ export const {
   disablePriceButton,
   enablePriceButton,
   updateCurrentSort,
+  openModal,
+  closeModal,
 } = globalSlice.actions;
 
 export default globalSlice.reducer;

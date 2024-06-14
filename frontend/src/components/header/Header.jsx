@@ -8,8 +8,12 @@ import SearchIcon from "../icons/SearchIcon";
 import Onboarding from "../auth/Onboarding";
 import Intro from "../auth/Intro";
 import Login from "../auth/Login";
+import { useState } from "react";
+import Signup from "../auth/Signup";
 
 function Header({ onEnter, onLeave }) {
+  const [isSignup, setIsSignup] = useState(false);
+
   return (
     <header className={styles.header}>
       <div className={styles.container}>
@@ -68,18 +72,16 @@ function Header({ onEnter, onLeave }) {
                   Login
                 </Button>
               </Modal.Open>
+              <Modal.Window name="Login">
+                <Login />
+              </Modal.Window>
+
               <Modal.Open opens="Signup">
                 <Button size="small">Signup</Button>
               </Modal.Open>
-              <Modal.Window name="Login">
-                <Onboarding>
-                  <Login />
-                </Onboarding>
-              </Modal.Window>
+
               <Modal.Window name="Signup">
-                <Onboarding>
-                  <Intro />
-                </Onboarding>
+                <Intro />
               </Modal.Window>
             </Modal>
 

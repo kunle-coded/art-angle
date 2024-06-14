@@ -1,18 +1,19 @@
 import { useState } from "react";
-import { useDispatch } from "react-redux";
 import { useField, useShowPassword } from "../../hooks";
-import { login } from "../../reducers/userSlice";
+import { useDispatch } from "react-redux";
+import { register } from "../../reducers/userSlice";
 
-import styles from "./Login.module.css";
-
+import styles from "./Signup.module.css";
 import EyeIcon from "../icons/EyeIcon";
 import FormInput from "../../ui/FormInput";
 import FormComponent from "../forms/FormComponent";
 import LogoIcon from "../icons/LogoIcon";
 
-function Login({ onCloseModal }) {
+function Signup({ onCloseModal }) {
   const { passwordType, toggleShowPassword } = useShowPassword();
 
+  const name = useField("text");
+  const { onReset: resetName, ...nameProps } = name;
   const email = useField("text");
   const { onReset: resetEmail, ...emailProps } = email;
   const password = useField(passwordType);
@@ -20,18 +21,18 @@ function Login({ onCloseModal }) {
 
   const dispatch = useDispatch();
 
-  console.log("login props:", { onCloseModal });
-
-  function handleLogin(e) {
-    const user = {
+  function handleSignUp(e) {
+    const newUser = {
+      name: name.value,
       email: email.value,
       password: password.value,
     };
 
-    dispatch(login(user));
+    dispatch(register(newUser));
+    resetName(e);
     resetEmail(e);
     resetPassword(e);
-    onCloseModal?.();
+    onCloseModal();
   }
 
   return (
@@ -45,11 +46,17 @@ function Login({ onCloseModal }) {
         </div>
         <div className={styles.contents}>
           <FormComponent
-            heading="Log in to start collecting art by Nigeria’s leading artists"
-            onConfirm={handleLogin}
+            type="signup"
+            heading="Sign up to start collecting art by Nigeria’s leading artists"
+            onConfirm={handleSignUp}
           >
             <FormInput
-              placeholder="Enter your email address"
+              placeholder="Enter your full name"
+              label="Name"
+              {...nameProps}
+            />
+            <FormInput
+              placeholder="Enter your email"
               label="Email"
               {...emailProps}
             />
@@ -68,4 +75,4 @@ function Login({ onCloseModal }) {
   );
 }
 
-export default Login;
+export default Signup;

@@ -10,6 +10,8 @@ import { createPortal } from "react-dom";
 
 import styles from "./Modal.module.css";
 import CloseIcon from "../icons/CloseIcon";
+import { useSelector } from "react-redux";
+import { getGlobal } from "../../reducers/globalSlice";
 
 const ModalContext = createContext();
 
@@ -61,7 +63,7 @@ function Window({ children, name }) {
               <CloseIcon />
             </div>
           </div>
-          {children}
+          {cloneElement(children, { onCloseModal: close })}
         </div>
       </div>
     </div>,

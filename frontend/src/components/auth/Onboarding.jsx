@@ -11,8 +11,7 @@ function Onboarding({ children }) {
           </div>
           <div className={styles.logoText}>Art Angle</div>
         </div>
-        <div className={styles.contents}></div>
-        {children}
+        <div className={styles.contents}>{children}</div>
       </div>
     </div>
   );

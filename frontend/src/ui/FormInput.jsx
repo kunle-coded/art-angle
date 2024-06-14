@@ -1,23 +1,47 @@
+import { useState } from "react";
 import styles from "./FormInput.module.css";
 
 function Input({
   placeholder = "",
-  type = "text",
-  isPassword,
+  label = "",
   onHidePassword,
   children,
+  ...props
 }) {
+  const translateY = `translateY(${-150}%)`;
+
   return (
     <div className={styles.container}>
       <div className={styles.wrapper}>
-        <input
-          type={isPassword && type === "password" ? "password" : "text"}
-          placeholder={placeholder}
-          className={styles.searchInput}
-          style={{ paddingRight: "33px" }}
-        />
+        <div className={styles.inputField}>
+          <input
+            name={label}
+            placeholder={placeholder}
+            autoComplete={props.type === "password" ? "new-password" : ""}
+            className={styles.searchInput}
+            style={{ paddingRight: "33px" }}
+            {...props}
+          />
+          <label
+            htmlFor={label}
+            className={styles.inputLabel}
+            style={
+              props.value
+                ? {
+                    transform: translateY,
+                    undefined,
+                    fontSize: "13px",
+                    padding: "0px 5px",
+                  }
+                : undefined
+            }
+          >
+            {label}
+            <span></span>
+          </label>
+        </div>
         {children && (
-          <div className={styles.inputLabel}>
+          <div className={styles.labelContainer}>
             <button className={styles.labelButton} onClick={onHidePassword}>
               <div className={styles.label}>{children}</div>
             </button>
