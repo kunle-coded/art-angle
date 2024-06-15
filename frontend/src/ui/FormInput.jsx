@@ -15,15 +15,22 @@ function Input({
       <div className={styles.wrapper}>
         <div className={styles.inputField}>
           <input
-            name={label}
+            name={props.type}
+            title={props.type}
             placeholder={placeholder}
-            autoComplete={props.type === "password" ? "new-password" : ""}
+            autoComplete={
+              props.type === "password"
+                ? "new-password"
+                : props.type === "text"
+                ? ""
+                : props.type
+            }
             className={styles.searchInput}
             style={{ paddingRight: "33px" }}
             {...props}
           />
           <label
-            htmlFor={label}
+            htmlFor={props.type}
             className={styles.inputLabel}
             style={
               props.value
@@ -48,6 +55,12 @@ function Input({
           </div>
         )}
       </div>
+      {props.type === "password" && (
+        <div className={styles.passwordOption}>
+          Password must be at least 8 characters and include a lowercase
+          letter,uppercase letter, and digit.
+        </div>
+      )}
     </div>
   );
 }

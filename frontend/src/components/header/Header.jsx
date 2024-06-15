@@ -5,15 +5,10 @@ import Modal from "../modal/Modal";
 import Button from "../../ui/Button";
 import CartIcon from "../icons/CartIcon";
 import SearchIcon from "../icons/SearchIcon";
-import Onboarding from "../auth/Onboarding";
-import Intro from "../auth/Intro";
 import Login from "../auth/Login";
-import { useState } from "react";
 import Signup from "../auth/Signup";
 
 function Header({ onEnter, onLeave }) {
-  const [isSignup, setIsSignup] = useState(false);
-
   return (
     <header className={styles.header}>
       <div className={styles.container}>

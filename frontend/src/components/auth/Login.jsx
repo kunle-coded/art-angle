@@ -20,8 +20,6 @@ function Login({ onCloseModal }) {
 
   const dispatch = useDispatch();
 
-  console.log("login props:", { onCloseModal });
-
   function handleLogin(e) {
     const user = {
       email: email.value,
@@ -33,6 +31,8 @@ function Login({ onCloseModal }) {
     resetPassword(e);
     onCloseModal?.();
   }
+
+  console.log(email.value !== "");
 
   return (
     <div className="container">
@@ -46,6 +46,7 @@ function Login({ onCloseModal }) {
         <div className={styles.contents}>
           <FormComponent
             heading="Log in to start collecting art by Nigeria’s leading artists"
+            disable={email.value === "" || password.value === ""}
             onConfirm={handleLogin}
           >
             <FormInput

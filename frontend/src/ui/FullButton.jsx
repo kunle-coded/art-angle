@@ -3,6 +3,7 @@ import styles from "./FullButton.module.css";
 function FullButton({ type = "", disable, onClick, children, ...props }) {
   return (
     <button
+      aria-disabled={disable}
       disabled={disable}
       className={`${
         type === "secondary" ? styles.secondary : styles.primary

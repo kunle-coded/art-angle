@@ -14,16 +14,17 @@
 
 .searchInput {
   width: 100%;
-  padding: 0px 10px;
+  padding: 10px;
   appearance: none;
   line-height: 1;
   border: 1px solid var(--outline);
   border-radius: 3px;
   transition: border-color 0.25s ease 0s, color 0.25s ease 0s;
-  height: 50px;
+  height: 150px;
   background-color: var(--surface);
   font-size: var(--desktop-body-lg);
   color: var(--primary-variant);
+  resize: none;
 }
 
 .searchInput::-webkit-inner-spin-button {
@@ -65,18 +66,16 @@
 }
 
 .searchInput::placeholder {
-  /* color: var(--primary); */
   appearance: none;
   visibility: hidden;
 }
 .searchInput:focus::placeholder {
-  /* color: var(--primary); */
   visibility: visible;
 }
 
 .inputLabel {
   position: absolute;
-  top: 50%;
+  top: 20px;
   left: 5px;
   background-color: transparent;
   transform: translateY(-50%);
@@ -99,41 +98,4 @@
   z-index: -1;
   transition: height 0.25s cubic-bezier(0.64, 0.05, 0.36, 1) 0.1s,
     top 0.25s cubic-bezier(0.64, 0.05, 0.36, 1) 0.1s;
-}
-
-.labelContainer {
-  position: absolute;
-  display: flex;
-  -webkit-box-align: center;
-  align-items: center;
-  top: 0px;
-  bottom: 0px;
-  right: 10px;
-}
-
-.labelButton {
-  appearance: none;
-  padding: 0px;
-  border: 0px;
-  margin: 0px;
-  background-color: transparent;
-  color: inherit;
-  font: inherit;
-  text-align: inherit;
-  height: 100%;
-  cursor: pointer;
-}
-
-.label {
-  width: 18px;
-  height: 18px;
-  position: relative;
-}
-
-.passwordOption {
-  font-size: var(--desktop-body-md);
-  line-height: 20px;
-  text-align: left;
-  color: var(--primary-variant);
-  margin-top: 5px;
 }

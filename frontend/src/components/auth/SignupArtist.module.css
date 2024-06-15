@@ -134,3 +134,27 @@
   width: 100%;
   margin-top: 40px;
 }
+
+.formSectionHeader {
+  font-size: var(--desktop-body-lg);
+  line-height: 24px;
+  color: var(--on-primary-container);
+  width: 100%;
+  margin-bottom: 0px;
+  padding-bottom: 5px;
+  border-width: 0px 0px 1px 0px;
+  border-style: solid;
+  border-color: var(--outline-variant);
+}
+.formSectionHeaderTwo {
+  font-size: var(--desktop-body-lg);
+  line-height: 24px;
+  color: var(--on-primary-container);
+  width: 100%;
+  margin-bottom: 0px;
+  margin-top: 20px;
+  padding-bottom: 5px;
+  border-width: 0px 0px 1px 0px;
+  border-style: solid;
+  border-color: var(--outline-variant);
+}

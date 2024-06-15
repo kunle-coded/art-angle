@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useField, useShowPassword } from "../../hooks";
 import { useDispatch } from "react-redux";
 import { register } from "../../reducers/userSlice";
@@ -14,6 +14,7 @@ import SignupArtist from "./SignupArtist";
 function Signup({ onCloseModal }) {
   const [isSignup, setIsSignup] = useState(false);
   const [isArtistSignup, setIsArtistSignup] = useState(false);
+  const [isDisabled, setIsDisabled] = useState(false);
   const { passwordType, toggleShowPassword } = useShowPassword();
 
   const name = useField("text");
@@ -24,6 +25,14 @@ function Signup({ onCloseModal }) {
   const { onReset: resetPassword, ...passwordProps } = password;
 
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (name.value === "" || email.value === "" || password.value === "") {
+      setIsDisabled(true);
+    } else {
+      setIsDisabled(false);
+    }
+  }, [email.value, name.value, password.value]);
 
   function handleSignUp(e) {
     const newUser = {
@@ -52,7 +61,7 @@ function Signup({ onCloseModal }) {
   }
 
   if (isArtistSignup) {
-    return <SignupArtist />;
+    return <SignupArtist onSignup={onCloseModal} />;
   }
 
   return (
@@ -68,6 +77,7 @@ function Signup({ onCloseModal }) {
           <FormComponent
             type="signup"
             heading="Sign up to start collecting art by Nigeria’s leading artists"
+            disable={isDisabled}
             onConfirm={handleSignUp}
           >
             <FormInput

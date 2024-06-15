@@ -6,6 +6,7 @@ function FormComponent({
   type = "",
   heading = "",
   children,
+  disable,
   onConfirm,
   onGoogle,
 }) {
@@ -20,16 +21,14 @@ function FormComponent({
             type === "signup" ? styles.signupOption : ""
           }`}
         >
-          {type === "signup" ? (
-            "Password must be at least 8 characters and include a lowercase letter,uppercase letter, and digit."
-          ) : (
+          {type !== "signup" && (
             <button className={styles.optionButton}>Forgot password?</button>
           )}
         </div>
       </div>
 
       <div className={styles.buttons}>
-        <FullButton onClick={onConfirm}>
+        <FullButton disable={disable} onClick={onConfirm}>
           {type === "signup" ? "Sign up" : "Login"}
         </FullButton>
         {type === "signup" && <div className={styles.option}>or</div>}
