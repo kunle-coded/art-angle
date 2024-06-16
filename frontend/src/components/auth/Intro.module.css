@@ -36,17 +36,27 @@
 }
 
 .loginOption {
-  display: flex;
-  -webkit-box-pack: center;
-  justify-content: center;
-  -webkit-box-align: center;
-  align-items: center;
+  font-size: var(--desktop-body-md);
+  line-height: 20px;
+  text-align: center;
+  color: var(--primary-variant);
   width: 100%;
-  margin-top: 20px;
+  margin-top: 10px;
 }
 
-.loginOption > span {
-  margin-left: 5px;
+.loginOption .optionButton {
+  padding-left: 1px;
+}
+
+.optionButton {
+  appearance: none;
+  padding: 0px;
+  border: 0px;
+  margin: 0px;
+  background-color: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: inherit;
   text-decoration: underline;
   cursor: pointer;
 }

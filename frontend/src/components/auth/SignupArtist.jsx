@@ -3,15 +3,14 @@ import EyeIcon from "../icons/EyeIcon";
 import FormInput from "../../ui/FormInput";
 import FormComponent from "../forms/FormComponent";
 import styles from "./SignupArtist.module.css";
-import LogoIcon from "../icons/LogoIcon";
 import { useField, useIntersection, useShowPassword } from "../../hooks";
 import StyledTextArea from "../../ui/StyledTextArea";
-import CloseIcon from "../icons/CloseIcon";
 import Onboarding from "./Onboarding";
 import Spacer from "../../ui/Spacer";
 
-function SignupArtist({ onSignup }) {
+function SignupArtist({ onSignup, onOpenModal }) {
   const [isDisabled, setIsDisabled] = useState(false);
+  // const [isIntersecting, setIsIntersecting] = useState(false);
   const { passwordType, toggleShowPassword } = useShowPassword();
 
   const name = useField("text");
@@ -35,12 +34,6 @@ function SignupArtist({ onSignup }) {
   const { onReset: resetAccountNumber, ...accountNumberProps } = accountNumber;
   const bankName = useField("text");
   const { onReset: resetBankName, ...bankNameProps } = bankName;
-
-  const headerRef = useRef(null);
-  const bodyRef = useRef(null);
-
-  const isIntersecting = useIntersection(headerRef, bodyRef);
-  // console.log("intersection >>> ", headerRef.current.getBoundingClientRect());
 
   useEffect(() => {
     if (
@@ -102,16 +95,17 @@ function SignupArtist({ onSignup }) {
   return (
     <div className={styles.wrapper}>
       <Onboarding
-        ref={headerRef}
-        isIntersecting={isIntersecting}
+        closeModal={onSignup}
         introText="Sign up as artist to start selling art on Nigeria’s leading online
               art store"
       />
-      <div ref={bodyRef} className={styles.contents}>
+
+      <div className={styles.contents}>
         <FormComponent
           type="signup"
           disable={isDisabled}
           onConfirm={handleSignup}
+          onOpenModal={onOpenModal}
         >
           <div className={styles.formSectionHeader}>Personal Information</div>
 

@@ -1,9 +1,5 @@
 .overlay {
   position: fixed;
-  /* top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh; */
   inset: 0px;
   display: flex;
   -webkit-box-align: center;
@@ -41,19 +37,9 @@
 
 .modal {
   display: flex;
-  /* position: fixed; */
-  /* top: 50%;
-  left: 50%; */
-  /* transform: translate(-50%, -50%); */
-  /* background-color: var(--surface); */
-  /* box-shadow: 0 2.4rem 3.2rem rgba(0, 0, 0, 0.12); */
-  /* padding: 2rem 2rem; */
   overflow-y: auto;
   max-height: 463px;
-  /* max-height: 85%;
-  width: 90%; */
-  width: 450px;
-  /* max-width: 500px; */
+  width: 500px;
   transition: all 0.5s;
 }
 

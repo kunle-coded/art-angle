@@ -9,7 +9,17 @@ function FormComponent({
   disable,
   onConfirm,
   onGoogle,
+  onOpenModal,
 }) {
+  function handleOption(e) {
+    const name = e.target.textContent;
+
+    if (name === "Sign up.") {
+      onOpenModal?.("intro");
+    } else if (name === "Log in.") {
+      onOpenModal?.("Login");
+    }
+  }
   return (
     <div className={styles.contentContainer}>
       <div className={styles.form}>
@@ -40,8 +50,8 @@ function FormComponent({
 
       <div className={styles.loginOption}>
         {`${type === "signup" ? "Already" : "Don’t"} have an account?`}
-        <button className={styles.optionButton}>
-          {type === "signup" ? "Sign up." : "Log in."}
+        <button className={styles.optionButton} onClick={handleOption}>
+          {type === "signup" ? "Log in." : "Sign up."}
         </button>
       </div>
     </div>

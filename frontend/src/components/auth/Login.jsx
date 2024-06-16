@@ -8,10 +8,9 @@ import styles from "./Login.module.css";
 import EyeIcon from "../icons/EyeIcon";
 import FormInput from "../../ui/FormInput";
 import FormComponent from "../forms/FormComponent";
-import LogoIcon from "../icons/LogoIcon";
 import Onboarding from "./Onboarding";
 
-function Login({ onCloseModal }) {
+function Login({ onCloseModal, onOpenModal }) {
   const { passwordType, toggleShowPassword } = useShowPassword();
 
   const email = useField("text");
@@ -35,11 +34,15 @@ function Login({ onCloseModal }) {
 
   return (
     <div className={styles.wrapper}>
-      <Onboarding introText="Log in to start collecting art by Nigeria’s leading artists" />
+      <Onboarding
+        introText="Log in to start collecting art by Nigeria’s leading artists"
+        closeModal={onCloseModal}
+      />
       <div className={styles.contents}>
         <FormComponent
           disable={email.value === "" || password.value === ""}
           onConfirm={handleLogin}
+          onOpenModal={onOpenModal}
         >
           <FormInput
             placeholder="Enter your email address"

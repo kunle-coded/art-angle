@@ -7,10 +7,9 @@
 }
 
 .contents {
-  margin-top: 5px;
-  padding-left: 20px;
-  padding-right: 20px;
-  padding-bottom: 20px;
+  padding-left: 25px;
+  padding-right: 25px;
+  padding-bottom: 25px;
   flex: 1 1 0%;
   overflow: auto;
 }

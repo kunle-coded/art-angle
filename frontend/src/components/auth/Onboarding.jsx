@@ -6,8 +6,8 @@ import CloseIcon from "../icons/CloseIcon";
 
 function Onboarding(props, ref) {
   const isIntersecting = props.isIntersecting;
-  const style =
-    "transition: box-shadow 250ms ease 0s; box-shadow: rgba(0, 0, 0, 0.1) 0px 2px 10px 0px;";
+  const closeModal = props.closeModal;
+
   return (
     <div
       ref={ref}
@@ -32,7 +32,7 @@ function Onboarding(props, ref) {
           <div className={styles.introText}>{props.introText}</div>
         </div>
 
-        <button className={styles.closeBtn}>
+        <button className={styles.closeBtn} onClick={() => closeModal?.()}>
           <div className={styles.close}>
             <CloseIcon />
           </div>

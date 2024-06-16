@@ -9,9 +9,6 @@ import {
 import { createPortal } from "react-dom";
 
 import styles from "./Modal.module.css";
-import CloseIcon from "../icons/CloseIcon";
-import { useSelector } from "react-redux";
-import { getGlobal } from "../../reducers/globalSlice";
 import FocusComponent from "../../ui/FocusComponent";
 
 const ModalContext = createContext();
@@ -51,7 +48,7 @@ function Open({ children, opens: openWindowName }) {
 }
 
 function Window({ children, name }) {
-  const { openName, close } = useContext(ModalContext);
+  const { openName, close, open } = useContext(ModalContext);
 
   if (name !== openName) return null;
 
@@ -64,7 +61,10 @@ function Window({ children, name }) {
             <div
               className={`${styles.contentContainer} ${styles.contentContnr}`}
             >
-              {cloneElement(children, { onCloseModal: close })}
+              {cloneElement(children, {
+                onCloseModal: close,
+                onOpenModal: open,
+              })}
             </div>
           </div>
         </div>
