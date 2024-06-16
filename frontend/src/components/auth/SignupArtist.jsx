@@ -1,11 +1,14 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import EyeIcon from "../icons/EyeIcon";
 import FormInput from "../../ui/FormInput";
 import FormComponent from "../forms/FormComponent";
 import styles from "./SignupArtist.module.css";
 import LogoIcon from "../icons/LogoIcon";
-import { useField, useShowPassword } from "../../hooks";
+import { useField, useIntersection, useShowPassword } from "../../hooks";
 import StyledTextArea from "../../ui/StyledTextArea";
+import CloseIcon from "../icons/CloseIcon";
+import Onboarding from "./Onboarding";
+import Spacer from "../../ui/Spacer";
 
 function SignupArtist({ onSignup }) {
   const [isDisabled, setIsDisabled] = useState(false);
@@ -29,9 +32,15 @@ function SignupArtist({ onSignup }) {
   const accountName = useField("text");
   const { onReset: resetAccountName, ...accountNameProps } = accountName;
   const accountNumber = useField("number");
-  const { onReset: resetaccountNumber, ...accountNumberProps } = accountNumber;
+  const { onReset: resetAccountNumber, ...accountNumberProps } = accountNumber;
   const bankName = useField("text");
-  const { onReset: resetbankName, ...bankNameProps } = bankName;
+  const { onReset: resetBankName, ...bankNameProps } = bankName;
+
+  const headerRef = useRef(null);
+  const bodyRef = useRef(null);
+
+  const isIntersecting = useIntersection(headerRef, bodyRef);
+  // console.log("intersection >>> ", headerRef.current.getBoundingClientRect());
 
   useEffect(() => {
     if (
@@ -76,90 +85,110 @@ function SignupArtist({ onSignup }) {
       bankName: bankName.value,
     };
 
+    resetName();
+    resetEmail();
+    resetNumber();
+    resetPassword();
+    resetBiography();
+    resetSpecialisation();
+    resetPortfolio();
+    resetAccountName();
+    resetAccountNumber();
+    resetBankName();
+
     onSignup?.();
   }
 
   return (
-    <div className="container">
-      <div className={styles.wrapper}>
-        <div className={styles.logoContainer}>
-          <div className={styles.logoInner}>
-            <LogoIcon />
-          </div>
-          <div className={styles.logoText}>Art Angle</div>
-        </div>
-        <div className={styles.contents}>
-          <FormComponent
-            type="signup"
-            heading="Sign up as artist to start selling art on Nigeria’s leading online art store"
-            disable={isDisabled}
-            onConfirm={handleSignup}
+    <div className={styles.wrapper}>
+      <Onboarding
+        ref={headerRef}
+        isIntersecting={isIntersecting}
+        introText="Sign up as artist to start selling art on Nigeria’s leading online
+              art store"
+      />
+      <div ref={bodyRef} className={styles.contents}>
+        <FormComponent
+          type="signup"
+          disable={isDisabled}
+          onConfirm={handleSignup}
+        >
+          <div className={styles.formSectionHeader}>Personal Information</div>
+
+          <FormInput
+            placeholder="Enter your full name"
+            label="Name"
+            {...nameProps}
+          />
+          <FormInput
+            placeholder="Enter your email"
+            label="Email"
+            {...emailProps}
+          />
+          <FormInput
+            placeholder="Enter your contact number"
+            label="Contact number"
+            {...numberProps}
+          />
+          <FormInput
+            placeholder="Enter your password"
+            label="Password"
+            onHidePassword={toggleShowPassword}
+            {...passwordProps}
           >
-            <div className={styles.formSectionHeader}>Personal Information</div>
+            <EyeIcon isPassword={passwordType === "password"} />
+          </FormInput>
 
-            <FormInput
-              placeholder="Enter your full name"
-              label="Name"
-              {...nameProps}
-            />
-            <FormInput
-              placeholder="Enter your email"
-              label="Email"
-              {...emailProps}
-            />
-            <FormInput
-              placeholder="Enter your contact number"
-              label="Contact number"
-              {...numberProps}
-            />
-            <FormInput
-              placeholder="Enter your password"
-              label="Password"
-              onHidePassword={toggleShowPassword}
-              {...passwordProps}
-            >
-              <EyeIcon isPassword={passwordType === "password"} />
-            </FormInput>
-            <div className={styles.formSectionHeaderTwo}>
-              Artistic Information
-            </div>
-            <StyledTextArea
-              placeholder="Enter your biography"
-              label="Biography"
-              {...biographyProps}
-            />
-            <FormInput
-              placeholder="Enter your specialisation"
-              label="Specialisation"
-              {...specialisationProps}
-            />
-            <FormInput
-              placeholder="Enter your portfolio link"
-              label="Portfolio link"
-              {...portfolioProps}
-            />
+          <Spacer small />
 
-            <div className={styles.formSectionHeaderTwo}>Payment Details</div>
-            <FormInput
-              placeholder="Enter your account name"
-              label="Account name"
-              {...accountNameProps}
-            />
-            <FormInput
-              placeholder="Enter your account number"
-              label="Account number"
-              {...accountNumberProps}
-            />
-            <FormInput
-              placeholder="Enter your bank name"
-              label="Bank name"
-              {...bankNameProps}
-            />
-          </FormComponent>
-        </div>
+          <div className={styles.formSectionHeader}>Artistic Information</div>
+          <StyledTextArea
+            placeholder="Enter your biography"
+            label="Biography"
+            {...biographyProps}
+          />
+          <FormInput
+            placeholder="Enter your specialisation"
+            label="Specialisation"
+            {...specialisationProps}
+          />
+          <FormInput
+            placeholder="Enter your portfolio link"
+            label="Portfolio link"
+            {...portfolioProps}
+          />
+
+          <Spacer small />
+
+          <div className={styles.formSectionHeader}>Payment Details</div>
+          <FormInput
+            placeholder="Enter your account name"
+            label="Account name"
+            {...accountNameProps}
+          />
+          <FormInput
+            placeholder="Enter your account number"
+            label="Account number"
+            {...accountNumberProps}
+          />
+          <FormInput
+            placeholder="Enter your bank name"
+            label="Bank name"
+            {...bankNameProps}
+          />
+        </FormComponent>
       </div>
     </div>
   );
 }
 
 export default SignupArtist;
+
+// eslint-disable-next-line no-lone-blocks
+{
+  /* <div className={styles.closeContainer}>
+  <div className={styles.close}>
+    <CloseIcon />
+  </div>
+</div>; */
+}

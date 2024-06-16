@@ -12,6 +12,7 @@ import styles from "./Modal.module.css";
 import CloseIcon from "../icons/CloseIcon";
 import { useSelector } from "react-redux";
 import { getGlobal } from "../../reducers/globalSlice";
+import FocusComponent from "../../ui/FocusComponent";
 
 const ModalContext = createContext();
 
@@ -56,14 +57,16 @@ function Window({ children, name }) {
 
   return createPortal(
     <div className={styles.overlay} onClick={close}>
-      <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
-        <div className={styles.contentContainer}>
-          <div className={styles.closeContainer}>
-            <div className={styles.close} onClick={close}>
-              <CloseIcon />
+      <FocusComponent isFocus={name === openName} />
+      <div className={styles.modalBase}>
+        <div className={styles.modalBaseBackdrop}>
+          <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
+            <div
+              className={`${styles.contentContainer} ${styles.contentContnr}`}
+            >
+              {cloneElement(children, { onCloseModal: close })}
             </div>
           </div>
-          {cloneElement(children, { onCloseModal: close })}
         </div>
       </div>
     </div>,

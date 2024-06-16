@@ -12,8 +12,6 @@ function FormComponent({
 }) {
   return (
     <div className={styles.contentContainer}>
-      <div className={styles.introText}>{heading}</div>
-
       <div className={styles.form}>
         {children}
         <div

@@ -1,40 +1,17 @@
 .wrapper {
-  display: block;
-  width: 100%;
-  margin: 0px;
-  padding: 0px;
-  position: relative;
-}
-
-.logoContainer {
-  position: absolute;
-  top: -10px;
-  left: 0px;
-  color: var(--on-primary-container);
-  margin: 0px;
-  padding: 0px;
   display: flex;
-  -webkit-box-align: center;
-  align-items: center;
-}
-
-.logoInner {
-  width: 25px;
-  height: 25px;
-  position: relative;
-}
-
-.logoText {
-  font-size: var(--desktop-headline-xsm);
-  line-height: 26px;
-  font-weight: 600;
-  margin-left: 10px;
+  flex-direction: column;
+  overflow: hidden;
+  width: 100%;
+  background-color: var(--surface);
 }
 
 .contents {
-  display: block;
-  padding-top: 40px;
-  width: 100%;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-bottom: 20px;
+  flex: 1 1 0%;
+  overflow: auto;
 }
 
 .contentContainer {
@@ -46,20 +23,6 @@
   align-items: flex-start;
 }
 
-.introText {
-  font-size: var(--desktop-headline-xsm);
-  line-height: 26px;
-  letter-spacing: -0.01em;
-  color: var(--on-primary-container);
-  overflow-wrap: break-word;
-  word-break: break-word;
-  hyphens: auto;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 6;
-  overflow: hidden;
-}
-
 .buttons {
   display: flex;
   flex-direction: column;
@@ -69,7 +32,7 @@
   align-items: center;
   gap: 10px;
   width: 100%;
-  margin-top: 60px;
+  margin-top: 40px;
 }
 
 .loginOption {
