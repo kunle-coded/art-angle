@@ -23,7 +23,7 @@ function Input({
                 ? "new-password"
                 : props.type === "text"
                 ? ""
-                : props.type
+                : undefined
             }
             className={styles.searchInput}
             style={{ paddingRight: "33px" }}
@@ -55,7 +55,7 @@ function Input({
           </div>
         )}
       </div>
-      {props.type === "password" && (
+      {label === "Password" && (
         <div className={styles.passwordOption}>
           Password must be at least 8 characters and include a lowercase
           letter,uppercase letter, and digit.

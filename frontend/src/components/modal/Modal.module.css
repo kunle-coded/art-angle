@@ -38,7 +38,8 @@
 .modal {
   display: flex;
   overflow-y: auto;
-  max-height: 463px;
+  /* max-height: 463px; */
+  max-height: 763px;
   width: 500px;
   transition: all 0.5s;
 }

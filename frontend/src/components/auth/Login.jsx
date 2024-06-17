@@ -13,7 +13,7 @@ import Onboarding from "./Onboarding";
 function Login({ onCloseModal, onOpenModal }) {
   const { passwordType, toggleShowPassword } = useShowPassword();
 
-  const email = useField("text");
+  const email = useField("email");
   const { onReset: resetEmail, ...emailProps } = email;
   const password = useField(passwordType);
   const { onReset: resetPassword, ...passwordProps } = password;

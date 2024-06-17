@@ -4,7 +4,6 @@ import PageTitle from "./PageTitle";
 const alphabets = [..."ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("")];
 
 function PageHeaderArtists({ sectionId }) {
-  console.log(alphabets);
   return (
     <div className="container">
       <div className={styles.container}>
@@ -23,7 +22,7 @@ function PageHeaderArtists({ sectionId }) {
         <div className={styles.artistsLetters}>
           <div className={styles.lettersContainer}>
             {alphabets.map((letter) => (
-              <div className={styles.lettersWrapper}>
+              <div key={letter} className={styles.lettersWrapper}>
                 <a
                   key={letter}
                   href={`/artists/artists-starting-with-${letter.toLocaleLowerCase()}`}

@@ -1,14 +1,33 @@
+import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { getUser } from "../../reducers/userSlice";
+
 import Logo from "../../ui/Logo";
 import styles from "./Header.module.css";
 import Modal from "../modal/Modal";
 import Button from "../../ui/Button";
 import CartIcon from "../icons/CartIcon";
 import SearchIcon from "../icons/SearchIcon";
+import UserIcon from "../icons/UserIcon";
 import Login from "../auth/Login";
 import Signup from "../auth/Signup";
+import UserDropdown from "./UserDropdown";
 
 function Header({ onEnter, onLeave }) {
+  const [isLogin, setIsLogin] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
+
+  const { user } = useSelector(getUser);
+
+  useEffect(() => {
+    if (user.email && user.password) {
+      setIsLogin(true);
+    } else {
+      setIsLogin(false);
+    }
+  }, [user]);
+
   return (
     <header className={styles.header}>
       <div className={styles.container}>
@@ -32,13 +51,13 @@ function Header({ onEnter, onLeave }) {
               Artworks
             </NavLink>
             <NavLink to="/paintings" className={styles.navlink}>
-              Paintings
+              Galleries
             </NavLink>
             <NavLink to="/sculptures" className={styles.navlink}>
-              Sculptures
+              Fairs & Events
             </NavLink>
             <NavLink to="/photography" className={styles.navlink}>
-              Photography
+              Sell
             </NavLink>
           </div>
         </nav>
@@ -61,24 +80,43 @@ function Header({ onEnter, onLeave }) {
           </div>
 
           <div className={styles.utilityMenu}>
-            <Modal>
-              <Modal.Open opens="Login">
-                <Button type="secondary" size="small">
-                  Login
-                </Button>
-              </Modal.Open>
-              <Modal.Window name="Login">
-                <Login />
-              </Modal.Window>
+            {isLogin && (
+              <div className={styles.userContainer}>
+                <div className={styles.userWrapper}>
+                  <button
+                    className={styles.profileName}
+                    onMouseEnter={() => setIsHovered(true)}
+                    onMouseLeave={() => setIsHovered(false)}
+                  >
+                    <span datatype="fullname">John Doe</span>
+                    <span datatype="initials">JD</span>
+                  </button>
 
-              <Modal.Open opens="intro">
-                <Button size="small">Signup</Button>
-              </Modal.Open>
+                  <UserDropdown showDropdown={isHovered} />
+                </div>
+              </div>
+            )}
 
-              <Modal.Window name="intro">
-                <Signup />
-              </Modal.Window>
-            </Modal>
+            {!isLogin && (
+              <Modal>
+                <Modal.Open opens="Login">
+                  <Button type="secondary" size="small">
+                    Login
+                  </Button>
+                </Modal.Open>
+                <Modal.Window name="Login">
+                  <Login />
+                </Modal.Window>
+
+                <Modal.Open opens="intro">
+                  <Button size="small">Signup</Button>
+                </Modal.Open>
+
+                <Modal.Window name="intro">
+                  <Signup />
+                </Modal.Window>
+              </Modal>
+            )}
 
             <a href="/cart" className={styles.cartLink}>
               <CartIcon />
