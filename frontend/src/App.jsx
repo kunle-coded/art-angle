@@ -7,6 +7,7 @@ import Artists from "./pages/Artists";
 import AppLayout from "./pages/AppLayout";
 import Error from "./ui/Error";
 import Sell from "./pages/Sell";
+import UserProfile from "./pages/UserProfile";
 
 const router = createBrowserRouter([
   {
@@ -32,6 +33,10 @@ const router = createBrowserRouter([
       {
         path: "/selling",
         element: <Sell />,
+      },
+      {
+        path: "/user/:id",
+        element: <UserProfile />,
       },
     ],
   },

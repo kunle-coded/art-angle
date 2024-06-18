@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import styles from "./PageHeader.module.css";
 import PageTitle from "./PageTitle";
 
-function PageHeader({ title, subtitle, link }) {
+function PageHeader({ title = "", subtitle = "", link = "" }) {
   return (
     <div className="container">
       <div className={styles.titleWrapper}>
