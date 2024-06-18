@@ -12,6 +12,7 @@ const initialState = {
   isPriceDisabled: true,
   isDropdown: false,
   isModalOpen: false,
+  isProfileDropdown: false,
   currentSort: "Recommended",
 };
 
@@ -79,6 +80,12 @@ const globalSlice = createSlice({
     closeModal(state) {
       state.isModalOpen = false;
     },
+    updateProfileDropdown(state) {
+      state.isProfileDropdown = true;
+    },
+    disableProfileDropdown(state) {
+      state.isProfileDropdown = false;
+    },
   },
 });
 
@@ -103,6 +110,8 @@ export const {
   updateCurrentSort,
   openModal,
   closeModal,
+  updateProfileDropdown,
+  disableProfileDropdown,
 } = globalSlice.actions;
 
 export default globalSlice.reducer;

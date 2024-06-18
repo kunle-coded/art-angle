@@ -13,12 +13,14 @@ import UserIcon from "../icons/UserIcon";
 import Login from "../auth/Login";
 import Signup from "../auth/Signup";
 import UserDropdown from "./UserDropdown";
+import { getGlobal } from "../../reducers/globalSlice";
 
 function Header({ onEnter, onLeave }) {
   const [isLogin, setIsLogin] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
 
   const { user } = useSelector(getUser);
+  const { isProfileDropdown } = useSelector(getGlobal);
 
   useEffect(() => {
     if (user.email && user.password) {
@@ -27,6 +29,14 @@ function Header({ onEnter, onLeave }) {
       setIsLogin(false);
     }
   }, [user]);
+
+  function handleLeave(e) {
+    setTimeout(() => {
+      if (!isProfileDropdown) {
+        setIsHovered(false);
+      }
+    }, 100);
+  }
 
   return (
     <header className={styles.header}>
@@ -82,11 +92,11 @@ function Header({ onEnter, onLeave }) {
           <div className={styles.utilityMenu}>
             {isLogin && (
               <div className={styles.userContainer}>
-                <div className={styles.userWrapper}>
+                <div>
                   <button
                     className={styles.profileName}
                     onMouseEnter={() => setIsHovered(true)}
-                    onMouseLeave={() => setIsHovered(false)}
+                    onMouseLeave={handleLeave}
                   >
                     <span datatype="fullname">John Doe</span>
                     <span datatype="initials">JD</span>
