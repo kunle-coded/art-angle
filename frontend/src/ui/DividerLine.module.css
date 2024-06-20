@@ -1,0 +1,7 @@
+.dividerLine {
+  border-right: none;
+  border-bottom: none;
+  border-left: none;
+  border-top: 1px solid var(--outline-variant);
+  margin-top: 24px;
+}

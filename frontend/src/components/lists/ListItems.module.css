@@ -1,0 +1,12 @@
+.listContainer {
+  display: block;
+  width: 100%;
+}
+
+.lists {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  gap: 20px;
+  width: 100%;
+  list-style: none;
+}

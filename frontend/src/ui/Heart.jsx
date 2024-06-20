@@ -4,7 +4,8 @@ import styles from "./Heart.module.css";
 function Heart() {
   const [isLike, setIsLike] = useState(false);
 
-  const handleLike = () => {
+  const handleLike = (e) => {
+    e.preventDefault();
     setIsLike((prevState) => !prevState);
   };
 

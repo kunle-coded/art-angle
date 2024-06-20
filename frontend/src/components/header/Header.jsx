@@ -9,7 +9,6 @@ import Modal from "../modal/Modal";
 import Button from "../../ui/Button";
 import CartIcon from "../icons/CartIcon";
 import SearchIcon from "../icons/SearchIcon";
-import UserIcon from "../icons/UserIcon";
 import Login from "../auth/Login";
 import Signup from "../auth/Signup";
 import UserDropdown from "./UserDropdown";

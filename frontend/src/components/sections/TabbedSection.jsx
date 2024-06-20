@@ -13,7 +13,6 @@ function TabbedSection({ children }) {
   };
 
   const handleKeyDown = (e) => {
-    // const tabIndex = e.target.tabIndex;
     if (e.key === "ArrowRight") {
       setIsSelected((prevSelected) => (prevSelected + 1) % 5);
     } else if (e.key === "ArrowLeft") {

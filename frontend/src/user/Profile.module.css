@@ -17,7 +17,6 @@
 
 .contentColumn {
   grid-column: span 9;
-  background-color: aquamarine;
 }
 
 .profileWrapper {
@@ -53,17 +52,25 @@
   background-color: var(--primary-container);
 }
 
+.userImage {
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
 .imageUpload {
   opacity: 0;
-  height: 200px;
-  width: 200px;
+  height: 180px;
+  width: 180px;
   z-index: 10;
   cursor: pointer;
   position: absolute;
 }
 
 .editAvatar {
-  display: flex;
   -webkit-box-pack: center;
   justify-content: center;
   -webkit-box-align: center;
@@ -78,6 +85,10 @@
   left: 50%;
   transform: translate(-50%, -50%);
   display: none;
+}
+
+.showEdit {
+  display: flex;
 }
 
 .editIcon {
@@ -110,14 +121,6 @@
   overflow-wrap: break-word;
   margin-top: 40px;
   margin-bottom: 0px;
-}
-
-.dividerLine {
-  border-right: none;
-  border-bottom: none;
-  border-left: none;
-  border-top: 1px solid var(--outline-variant);
-  margin-top: 24px;
 }
 
 .utilityContainer {
@@ -179,4 +182,14 @@
   margin: 0px;
   letter-spacing: 0.1em;
   color: inherit;
+}
+
+.contentContainer {
+  display: flex;
+  flex-direction: column;
+  -webkit-box-pack: start;
+  justify-content: flex-start;
+  gap: 40px;
+  margin: 0px;
+  padding: 0px;
 }

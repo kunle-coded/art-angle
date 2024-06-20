@@ -3,9 +3,27 @@ import EditIcon from "../components/icons/EditIcon";
 import ProfileIcon from "../components/icons/ProfileIcon";
 import ShareIcon from "../components/icons/ShareIcon";
 import styles from "./Profile.module.css";
+import { artworksThree, artworks } from "../data";
+import ListItems from "../components/lists/ListItems";
+import SmallCard from "../ui/SmallCard";
+import PageTitle from "../ui/PageTitle";
+import Spacer from "../ui/Spacer";
+import DividerLine from "../ui/DividerLine";
+import SmallPoster from "../ui/SmallPoster";
+import PosterList from "../components/lists/PosterList";
+import CardList from "../components/lists/CardList";
 
 function Profile() {
-  const [isShareHover, setIsShareHover] = useState(false);
+  const [isEditHover, setIsEditHover] = useState(false);
+
+  function handleClick(e) {
+    console.log("clicked", e);
+  }
+  function handleAvatarUpload(e) {
+    if (e.target) {
+      console.log("upload", e.target.files[0]);
+    }
+  }
 
   return (
     <div className="container">
@@ -19,8 +37,29 @@ function Profile() {
                     <div className={styles.avatarIcon}>
                       <ProfileIcon />
                     </div>
-                    <input type="file" className={styles.imageUpload} />
-                    <div className={styles.editAvatar}>
+
+                    {/* <img
+                      src="../boss-lady.png"
+                      alt=""
+                      className={styles.userImage}
+                    /> */}
+
+                    <input
+                      type="file"
+                      id="avatar"
+                      name="avatar"
+                      accept="image/png, image/jpeg, image/jpg"
+                      className={styles.imageUpload}
+                      onMouseEnter={() => setIsEditHover(true)}
+                      onMouseLeave={() => setIsEditHover(false)}
+                      onChange={handleAvatarUpload}
+                    />
+
+                    <div
+                      className={`${styles.editAvatar} ${
+                        isEditHover ? styles.showEdit : ""
+                      }`}
+                    >
                       <div className={styles.editIcon}>
                         <EditIcon />
                       </div>
@@ -28,7 +67,7 @@ function Profile() {
                   </div>
                 </div>
                 <h3 className={styles.userName}>Kunle Ronald</h3>
-                <hr className={styles.dividerLine}></hr>
+                <DividerLine />
                 <div className={styles.utilityContainer}>
                   <a href="/follow" className={styles.followingLink}>
                     <span>0</span> Following
@@ -42,13 +81,18 @@ function Profile() {
                     </button>
                   </div>
                 </div>
-                <hr className={styles.dividerLine}></hr>
+                <DividerLine />
               </div>
             </div>
             <div className={styles.contentColumn}>
-              <h1>Contents</h1>
+              <div className={styles.contentContainer}>
+                <PosterList title="Wishlist" list={artworksThree} />
+
+                <DividerLine />
+
+                <CardList title="Collections" list={artworksThree} />
+              </div>
             </div>
-            <h1>Profile</h1>
           </div>
         </div>
       </section>

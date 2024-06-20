@@ -20,7 +20,7 @@ function AppLayout() {
   const dispatch = useDispatch();
 
   function handleCloseDropdown(e) {
-    e.preventDefault();
+    // e.preventDefault();
     e.stopPropagation();
     if (sortDropdown) {
       dispatch(closeSortDropdown());

@@ -2,7 +2,7 @@
   margin: 0px;
   padding: 0px;
   cursor: pointer;
-  z-index: 2;
+  z-index: 4;
   color: inherit;
   transition: color 0.25s ease 0s;
 }
