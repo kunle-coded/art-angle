@@ -8,6 +8,7 @@ import AppLayout from "./pages/AppLayout";
 import Error from "./ui/Error";
 import Sell from "./pages/Sell";
 import UserProfile from "./pages/UserProfile";
+import UserAccount from "./pages/UserAccount";
 
 const router = createBrowserRouter([
   {
@@ -37,6 +38,10 @@ const router = createBrowserRouter([
       {
         path: "/user/:id",
         element: <UserProfile />,
+      },
+      {
+        path: "/accounts/:feature",
+        element: <UserAccount />,
       },
     ],
   },

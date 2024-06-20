@@ -1,0 +1,211 @@
+.wrapper {
+  display: block;
+  margin: var(--margin-desktop);
+  padding: 0px;
+}
+
+.innerContainer {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  justify-content: stretch;
+  gap: 20px 40px;
+}
+
+.sidebarColumn {
+  grid-column: span 3;
+}
+
+.contentColumn {
+  grid-column: span 9;
+}
+
+.sidebarWrapper {
+  display: flex;
+  flex-direction: column;
+  -webkit-box-pack: start;
+  justify-content: flex-start;
+  width: 100%;
+  /* max-width: 300px; */
+  margin: 0px;
+  padding: 0px;
+}
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  -webkit-box-pack: start;
+  justify-content: flex-start;
+  list-style: none;
+}
+
+.sidebar li:last-child {
+  margin-bottom: 0px;
+}
+
+.sidebarItem {
+  position: relative;
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+  margin-bottom: 10px;
+  background-color: var(--primary-container);
+  color: var(--on-primary-container);
+  transition: background-color 0.25s ease 0s, color 0.25s ease 0s;
+}
+
+.active {
+  background-color: var(--on-primary-container);
+  color: var(--surface);
+}
+
+.sidebarLink {
+  text-decoration: none;
+  color: inherit;
+  font-size: 18px;
+  line-height: 24px;
+  font-weight: bold;
+  width: 100%;
+  padding: 16px 20px;
+}
+
+.userImage {
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.imageUpload {
+  opacity: 0;
+  height: 180px;
+  width: 180px;
+  z-index: 10;
+  cursor: pointer;
+  position: absolute;
+}
+
+.editAvatar {
+  -webkit-box-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  align-items: center;
+  background-color: var(--surface);
+  border-radius: 50%;
+  height: 60px;
+  padding: 15px 20px;
+  width: 60px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: none;
+}
+
+.showEdit {
+  display: flex;
+}
+
+.editIcon {
+  width: 19px;
+  height: 19px;
+  position: relative;
+  color: var(--primary-variant);
+}
+
+.avatarIcon {
+  width: 100px;
+  height: 98px;
+  position: relative;
+  color: var(--primary-variant);
+}
+
+.profileImage {
+  display: flex;
+  -webkit-box-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  align-items: center;
+}
+
+.userName {
+  font-size: 36px;
+  line-height: 42px;
+  font-weight: bold;
+  color: var(--on-primary-container);
+  overflow-wrap: break-word;
+  margin-top: 40px;
+  margin-bottom: 0px;
+}
+
+.utilityContainer {
+  display: flex;
+  -webkit-box-pack: justify;
+  justify-content: space-between;
+  -webkit-box-align: center;
+  align-items: center;
+}
+
+.followingLink {
+  letter-spacing: -0.02em;
+  color: var(--primary-variant);
+  display: inline-block;
+  margin-top: 24px;
+  text-decoration: none;
+}
+
+.followingLink > span {
+  color: var(--on-primary-container);
+  font-weight: bold;
+}
+
+.shareBtn {
+  display: flex;
+  flex-direction: column;
+  -webkit-box-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  justify-content: center;
+  gap: 5px;
+  background: none;
+  color: var(--on-primary-container);
+  border: 1px solid var(--outline-variant);
+  width: 45px;
+  height: 45px;
+  cursor: pointer;
+  margin-top: 24px;
+  margin-bottom: 4px;
+  padding: 0px;
+  transition: background-color 0.25s ease 0s, color 0.25s ease 0s;
+}
+
+.shareBtn:hover {
+  background-color: var(--on-primary-container);
+  color: var(--surface);
+}
+
+.shareIcon {
+  color: inherit;
+  width: 12px;
+  height: 16px;
+  position: relative;
+}
+
+.shareText {
+  text-transform: uppercase;
+  font-size: 9px;
+  margin: 0px;
+  letter-spacing: 0.1em;
+  color: inherit;
+}
+
+.contentContainer {
+  display: flex;
+  flex-direction: column;
+  -webkit-box-pack: start;
+  justify-content: flex-start;
+  gap: 40px;
+  margin: 0px;
+  padding: 0px;
+}
