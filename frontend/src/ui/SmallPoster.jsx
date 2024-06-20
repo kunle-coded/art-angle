@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
 import styles from "./SmallPoster.module.css";
 import Heart from "./Heart";
 

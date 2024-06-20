@@ -73,6 +73,12 @@
   padding: 6px 16px;
 }
 
+.smallest {
+  font-size: var(--desktop-body-sm);
+  line-height: 16px;
+  padding: 4px 12px;
+}
+
 .disablePrimary {
   background-color: var(--outline);
   border-color: var(--outline);

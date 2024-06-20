@@ -3,15 +3,11 @@ import EditIcon from "../components/icons/EditIcon";
 import ProfileIcon from "../components/icons/ProfileIcon";
 import ShareIcon from "../components/icons/ShareIcon";
 import styles from "./Profile.module.css";
-import { artworksThree, artworks } from "../data";
-import ListItems from "../components/lists/ListItems";
-import SmallCard from "../ui/SmallCard";
-import PageTitle from "../ui/PageTitle";
-import Spacer from "../ui/Spacer";
+import { artworksThree, artists } from "../data";
 import DividerLine from "../ui/DividerLine";
-import SmallPoster from "../ui/SmallPoster";
 import PosterList from "../components/lists/PosterList";
 import CardList from "../components/lists/CardList";
+import ArtistCardList from "../components/lists/ArtistCardList";
 
 function Profile() {
   const [isEditHover, setIsEditHover] = useState(false);
@@ -91,6 +87,13 @@ function Profile() {
                 <DividerLine />
 
                 <CardList title="Collections" list={artworksThree} />
+
+                <DividerLine />
+
+                <ArtistCardList
+                  title="Favorite Artists"
+                  list={artists.splice(0, 6)}
+                />
               </div>
             </div>
           </div>

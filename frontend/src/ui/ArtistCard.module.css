@@ -9,6 +9,11 @@
   padding-right: 0px;
 }
 
+.smallGrid {
+  grid-column: span 2;
+  padding-right: 0px;
+}
+
 .link {
   text-decoration: none;
   color: inherit;
@@ -55,6 +60,7 @@
 
 .follow {
   display: block;
+  margin-left: 5px;
 }
 
 .artistInfo {
@@ -65,12 +71,24 @@
 .name {
   font-size: var(--desktop-body-lg);
   line-height: 24px;
-  color: var(--primary);
+  color: var(--on-primary-container);
+}
+
+.smallName {
+  font-size: var(--desktop-body-md);
+  line-height: 20px;
+  color: var(--on-primary-container);
 }
 
 .meta {
   font-size: var(--desktop-body-md);
   line-height: 20px;
+  color: var(--primary-variant);
+}
+
+.smallMeta {
+  font-size: var(--desktop-body-sm);
+  line-height: 16px;
   color: var(--primary-variant);
 }
 

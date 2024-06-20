@@ -1,18 +1,18 @@
-import styles from "./PosterList.module.css";
+import styles from "./ArtistCardList.module.css";
+import LinkButton from "../../ui/LinkButton";
 import PageTitle from "../../ui/PageTitle";
-import SmallPoster from "../../ui/SmallPoster";
 import Spacer from "../../ui/Spacer";
 import ListItems from "./ListItems";
-import LinkButton from "../../ui/LinkButton";
+import ArtistCard from "../../ui/ArtistCard";
 
-function PosterList({ list = [], title = "" }) {
+function ArtistCardList({ list = [], title = "" }) {
   return (
     <section className="section_basic">
       <PageTitle title={title} />
       <Spacer small />
       <ListItems>
-        {list.map((artwork) => (
-          <SmallPoster key={artwork.id} artwork={artwork} />
+        {list.map((artist) => (
+          <ArtistCard key={artist.id} artist={artist} grid span />
         ))}
       </ListItems>
 
@@ -25,4 +25,4 @@ function PosterList({ list = [], title = "" }) {
   );
 }
 
-export default PosterList;
+export default ArtistCardList;

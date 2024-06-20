@@ -1,3 +1,5 @@
+import styles from "./CardList.module.css";
+import LinkButton from "../../ui/LinkButton";
 import PageTitle from "../../ui/PageTitle";
 import SmallCard from "../../ui/SmallCard";
 import Spacer from "../../ui/Spacer";
@@ -19,6 +21,12 @@ function CardList({ list = [], title = "" }) {
           />
         ))}
       </ListItems>
+
+      <div className={styles.showMore}>
+        <div className={styles.btnContainer}>
+          <LinkButton>View All {title}</LinkButton>
+        </div>
+      </div>
     </section>
   );
 }

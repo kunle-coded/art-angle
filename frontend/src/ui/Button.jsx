@@ -41,9 +41,15 @@ function Button({
           : type === "tertiary"
           ? styles.tertiary
           : styles.primary
-      } ${size === "small" ? styles.small : ""} ${
-        type === "secondary" && disable ? styles.disableSecondary : ""
-      } ${type === "primary" && disable ? styles.disablePrimary : ""}`}
+      } ${
+        size === "small"
+          ? styles.small
+          : size === "smallest"
+          ? styles.smallest
+          : ""
+      } ${type === "secondary" && disable ? styles.disableSecondary : ""} ${
+        type === "primary" && disable ? styles.disablePrimary : ""
+      }`}
       onClick={onClick}
       {...props}
     >
