@@ -1,0 +1,51 @@
+.container {
+  width: 100%;
+}
+
+.wrapper {
+  position: relative;
+  margin-top: 0px;
+}
+
+.inputField {
+  display: grid;
+  grid-template-columns: repeat(9, 1fr);
+  -webkit-box-align: center;
+  align-items: center;
+  margin-top: 15px;
+}
+
+.input {
+  grid-column: span 4;
+  padding: 0px 10px;
+  appearance: none;
+  border: none;
+  height: 45px;
+  background-color: var(--primary-container);
+  font-size: var(--desktop-body-lg);
+  line-height: 24px;
+  color: var(--on-primary-container);
+}
+
+.input:focus {
+  outline: none;
+}
+
+.input:focus-visible {
+  outline: 0px;
+}
+
+.inputLabel {
+  grid-column: span 2;
+  font-size: var(--desktop-body-md);
+  line-height: 20px;
+  font-weight: bold;
+}
+
+.displayText {
+  grid-column: span 4;
+  font-size: var(--desktop-body-lg);
+  line-height: 24px;
+  font-weight: 500;
+  color: var(--on-primary-container);
+}

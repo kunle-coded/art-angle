@@ -1,7 +1,7 @@
 import { useState } from "react";
 import styles from "./FormInput.module.css";
 
-function Input({
+function FormInput({
   placeholder = "",
   label = "",
   onHidePassword,
@@ -65,4 +65,4 @@ function Input({
   );
 }
 
-export default Input;
+export default FormInput;

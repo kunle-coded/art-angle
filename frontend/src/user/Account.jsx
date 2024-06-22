@@ -1,25 +1,23 @@
 import { useState } from "react";
-import EditIcon from "../components/icons/EditIcon";
-import ProfileIcon from "../components/icons/ProfileIcon";
-import ShareIcon from "../components/icons/ShareIcon";
+import { Link, useParams } from "react-router-dom";
+import EditIconFilled from "../components/icons/EditIconFilled";
 import styles from "./Account.module.css";
 import { artworksThree, artists } from "../data";
 import DividerLine from "../ui/DividerLine";
-import PosterList from "../components/lists/PosterList";
-import CardList from "../components/lists/CardList";
-import ArtistCardList from "../components/lists/ArtistCardList";
-import { Link } from "react-router-dom";
+import ButtonWithIcon from "../ui/ButtonWithIcon";
+import UserDetailsTab from "../ui/UserDetailsTab";
 
 function Account() {
-  const [isEditHover, setIsEditHover] = useState(false);
+  const [isEdit, setIsEdit] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
   const [currentItem, setCurrentItem] = useState(0);
+  const { feature } = useParams();
 
-  function handleClick(e) {
-    console.log("clicked", e);
+  function handleEdit(e) {
+    setIsEdit((prevState) => !prevState);
   }
   function handleTabClick(e) {
     const index = e.target.tabIndex;
-
     setCurrentItem(index);
   }
 
@@ -88,7 +86,38 @@ function Account() {
             </div>
             <div className={styles.contentColumn}>
               <div className={styles.contentContainer}>
-                <h3>Content area</h3>
+                {feature === "settings" && (
+                  <div className={styles.contentHeader}>
+                    <div className={styles.header}>
+                      {!isEdit && !isEditing && (
+                        <ButtonWithIcon
+                          text="Edit"
+                          type="secondary"
+                          onClick={handleEdit}
+                        >
+                          <EditIconFilled />
+                        </ButtonWithIcon>
+                      )}
+
+                      {(isEdit || isEditing) && (
+                        <ButtonWithIcon text="Save" onClick={handleEdit} />
+                      )}
+                    </div>
+                  </div>
+                )}
+
+                {feature === "settings" && <DividerLine />}
+
+                <div className={styles.contentArea}>
+                  {feature === "settings" && (
+                    <UserDetailsTab display={!isEdit} onEdit={setIsEditing} />
+                  )}
+                </div>
+                <div className={styles.footerContainer}>
+                  <button className={styles.footerBtn}>
+                    Deactivate Account
+                  </button>
+                </div>
               </div>
             </div>
           </div>
