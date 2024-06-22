@@ -1,15 +1,15 @@
 import { useState } from "react";
-import EditIcon from "../components/icons/EditIcon";
-import ProfileIcon from "../components/icons/ProfileIcon";
-import ShareIcon from "../components/icons/ShareIcon";
-import styles from "./Profile.module.css";
-import { artworksThree, artists } from "../data";
-import DividerLine from "../ui/DividerLine";
-import PosterList from "../components/lists/PosterList";
-import CardList from "../components/lists/CardList";
-import ArtistCardList from "../components/lists/ArtistCardList";
+import EditIcon from "../icons/EditIcon";
+import ProfileIcon from "../icons/ProfileIcon";
+import ShareIcon from "../icons/ShareIcon";
+import styles from "./UserProfile.module.css";
+import { artworksThree, artists } from "../../data";
+import DividerLine from "../../ui/DividerLine";
+import PosterList from "../lists/PosterList";
+import CardList from "../lists/CardList";
+import ArtistCardList from "../lists/ArtistCardList";
 
-function Profile() {
+function UserProfile() {
   const [isEditHover, setIsEditHover] = useState(false);
 
   function handleClick(e) {
@@ -103,4 +103,4 @@ function Profile() {
   );
 }
 
-export default Profile;
+export default UserProfile;

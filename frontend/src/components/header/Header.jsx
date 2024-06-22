@@ -75,6 +75,8 @@ function Header({ onEnter, onLeave }) {
             <div className={styles.search}>
               <div className={styles.searchField}>
                 <input
+                  id="search_artwork"
+                  name="search_artwork"
                   type="text"
                   placeholder="Search by artist, style, theme, etc."
                   className={styles.input}

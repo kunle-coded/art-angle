@@ -1,25 +1,33 @@
-import { useState } from "react";
-import { Link, useParams } from "react-router-dom";
-import EditIconFilled from "../components/icons/EditIconFilled";
-import styles from "./Account.module.css";
-import { artworksThree, artists } from "../data";
-import DividerLine from "../ui/DividerLine";
-import ButtonWithIcon from "../ui/ButtonWithIcon";
-import UserDetailsTab from "../ui/UserDetailsTab";
+import { useEffect, useState } from "react";
+import { Link, useNavigation, useParams } from "react-router-dom";
+import styles from "./UserAccount.module.css";
+// import { artworksThree, artists } from "../data";
+import UserDetailsTab from "./UserDetailsTab";
+import OffersDashboard from "./OffersDashboard";
+import Spinner from "../../ui/Spinner";
 
-function Account() {
-  const [isEdit, setIsEdit] = useState(false);
-  const [isEditing, setIsEditing] = useState(false);
-  const [currentItem, setCurrentItem] = useState(0);
+function UserAccount() {
+  const [currentItem, setCurrentItem] = useState(null);
   const { feature } = useParams();
 
-  function handleEdit(e) {
-    setIsEdit((prevState) => !prevState);
-  }
+  const { state } = useNavigation();
+
   function handleTabClick(e) {
     const index = e.target.tabIndex;
     setCurrentItem(index);
   }
+
+  useEffect(() => {
+    if (feature === "settings") {
+      setCurrentItem(0);
+    } else if (feature === "offers") {
+      setCurrentItem(1);
+    } else if (feature === "orders") {
+      setCurrentItem(2);
+    } else if (feature === "logout") {
+      setCurrentItem(3);
+    }
+  }, [feature]);
 
   return (
     <div className="container">
@@ -35,6 +43,7 @@ function Account() {
                     }`}
                   >
                     <Link
+                      aria-label="account-settings"
                       tabIndex="0"
                       to="/accounts/settings"
                       className={styles.sidebarLink}
@@ -48,6 +57,7 @@ function Account() {
                     }`}
                   >
                     <Link
+                      aria-label="user-offers"
                       tabIndex="1"
                       to="/accounts/offers"
                       className={styles.sidebarLink}
@@ -61,6 +71,7 @@ function Account() {
                     }`}
                   >
                     <Link
+                      aria-label="user-orders"
                       tabIndex="2"
                       to="/accounts/orders"
                       className={styles.sidebarLink}
@@ -86,32 +97,11 @@ function Account() {
             </div>
             <div className={styles.contentColumn}>
               <div className={styles.contentContainer}>
-                {feature === "settings" && (
-                  <div className={styles.contentHeader}>
-                    <div className={styles.header}>
-                      {!isEdit && !isEditing && (
-                        <ButtonWithIcon
-                          text="Edit"
-                          type="secondary"
-                          onClick={handleEdit}
-                        >
-                          <EditIconFilled />
-                        </ButtonWithIcon>
-                      )}
-
-                      {(isEdit || isEditing) && (
-                        <ButtonWithIcon text="Save" onClick={handleEdit} />
-                      )}
-                    </div>
-                  </div>
-                )}
-
-                {feature === "settings" && <DividerLine />}
-
                 <div className={styles.contentArea}>
-                  {feature === "settings" && (
-                    <UserDetailsTab display={!isEdit} onEdit={setIsEditing} />
-                  )}
+                  {state === "loading" && <Spinner />}
+                  {feature === "settings" && <UserDetailsTab />}
+                  {feature === "offers" && <OffersDashboard tabFor="Offers" />}
+                  {feature === "orders" && <OffersDashboard tabFor="Orders" />}
                 </div>
                 <div className={styles.footerContainer}>
                   <button className={styles.footerBtn}>
@@ -127,4 +117,4 @@ function Account() {
   );
 }
 
-export default Account;
+export default UserAccount;

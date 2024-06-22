@@ -1,0 +1,78 @@
+.container {
+  display: block;
+  width: 100%;
+}
+
+.innerWrapper {
+  display: flex;
+  flex-direction: column;
+  -webkit-box-pack: start;
+  justify-content: flex-start;
+}
+
+.tabsContainer {
+  display: flex;
+  -webkit-box-pack: start;
+  justify-content: flex-start;
+  -webkit-box-align: center;
+  align-items: center;
+  width: 50%;
+}
+
+.tabBtn {
+  appearance: none;
+  display: flex;
+  width: 50%;
+  -webkit-box-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  align-items: center;
+  font-size: var(--desktop-body-lg);
+  font-weight: 500;
+  line-height: 24px;
+  padding: 10px;
+  text-decoration: none;
+  background-color: transparent;
+  color: var(--primary-variant);
+  border: none;
+  border-bottom: 1px solid var(--outline);
+  text-align: center;
+  cursor: pointer;
+  transition: background-color 250ms ease 0s, color 250ms ease 0s,
+    border-color 250ms ease 0s;
+}
+
+.activeTab {
+  font-weight: bold;
+  color: var(--on-primary-container);
+  border-bottom: 2px solid var(--on-primary-container);
+}
+
+.tabsContent {
+  display: flex;
+  flex-direction: column;
+  -webkit-box-pack: start;
+  justify-content: flex-start;
+  width: 100%;
+  padding-top: 15px;
+}
+
+.defaultContent {
+  width: 50%;
+}
+
+.noOffers {
+  display: flex;
+  flex-direction: column;
+  -webkit-box-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  align-items: center;
+  margin: 20px 10px;
+  width: 100%;
+  min-height: 100px;
+}
+
+.noOffers p {
+  margin: 60px 0px 40px;
+}

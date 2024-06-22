@@ -27,7 +27,7 @@ function LabeledInput({
             <p className={styles.displayText}>{displayText}</p>
           ) : displayText ? (
             <input
-              name={label}
+              id={label}
               title={label}
               placeholder={placeholder}
               className={styles.input}
@@ -36,7 +36,7 @@ function LabeledInput({
             />
           ) : (
             <input
-              name={label}
+              id={label}
               title={label}
               placeholder={placeholder}
               className={styles.input}

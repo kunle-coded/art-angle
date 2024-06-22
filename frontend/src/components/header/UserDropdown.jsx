@@ -7,6 +7,7 @@ import {
   updateProfileDropdown,
 } from "../../reducers/globalSlice";
 import ImageIcon from "../icons/ImageIcon";
+import { Link } from "react-router-dom";
 
 function UserDropdown({ showDropdown, setHover }) {
   const { isProfileDropdown } = useSelector(getGlobal);
@@ -30,13 +31,17 @@ function UserDropdown({ showDropdown, setHover }) {
       onMouseLeave={handleHoverLeave}
     >
       <h3 datatype="fullname">John Doe</h3>
-      <div className={styles.linkItem}>View Profile</div>
+      <Link to="/user/454675" className={styles.linkItem}>
+        View Profile
+      </Link>
       <div className={styles.linkItem}>Wishlist</div>
       <div className={styles.linkItem}>Favorite Artists</div>
       <div className={styles.linkItem}>Collections</div>
       <div className={styles.linkItem}>Orders</div>
       <div className={styles.linkItem}>Offers</div>
-      <div className={styles.linkItem}>Account</div>
+      <Link to="accounts/settings" className={styles.linkItem}>
+        Account
+      </Link>
       <span className={styles.line}></span>
       <div className={styles.artistSignup}>
         <div className={styles.iconWrapper}>
