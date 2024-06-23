@@ -1,0 +1,54 @@
+.container {
+  width: 100%;
+}
+
+.wrapper {
+  position: relative;
+  margin-top: 0px;
+}
+
+.inputField {
+  display: grid;
+  grid-template-columns: repeat(9, 1fr);
+  -webkit-box-align: start;
+  align-items: flex-start;
+  margin-top: 15px;
+}
+
+.textArea {
+  grid-column: span 4;
+  padding: 10px;
+  appearance: none;
+  border: none;
+  min-height: 150px;
+  background-color: var(--primary-container);
+  font-size: var(--desktop-body-lg);
+  line-height: 24px;
+  color: var(--on-primary-container);
+  resize: none;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.textArea:focus {
+  outline: none;
+}
+
+.textArea:focus-visible {
+  outline: 0px;
+}
+
+.inputLabel {
+  grid-column: span 2;
+  font-size: var(--desktop-body-md);
+  line-height: 20px;
+  font-weight: bold;
+}
+
+.displayText {
+  grid-column: span 4;
+  font-size: var(--desktop-body-lg);
+  line-height: 24px;
+  font-weight: 500;
+  color: var(--on-primary-container);
+}

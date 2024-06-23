@@ -1,0 +1,133 @@
+.wrapper {
+  display: block;
+  margin: var(--margin-desktop);
+  padding: 0px;
+}
+
+.innerContainer {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  justify-content: stretch;
+  column-gap: 60px;
+}
+
+.sidebarColumn {
+  grid-column: span 3;
+}
+
+.contentColumn {
+  grid-column: span 9;
+}
+
+.sidebarWrapper {
+  display: flex;
+  flex-direction: column;
+  -webkit-box-pack: start;
+  justify-content: flex-start;
+  width: 100%;
+  /* max-width: 300px; */
+  margin: 0px;
+  padding: 0px;
+}
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  -webkit-box-pack: start;
+  justify-content: flex-start;
+  list-style: none;
+}
+
+.sidebar li:last-child {
+  margin-bottom: 0px;
+}
+
+.sidebarItem {
+  position: relative;
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+  margin-bottom: 10px;
+  background-color: var(--primary-container);
+  color: var(--on-primary-container);
+  transition: background-color 0.25s ease 0s, color 0.25s ease 0s;
+}
+
+.active {
+  background-color: var(--on-primary-container);
+  color: var(--surface);
+}
+
+.sidebarLink {
+  text-decoration: none;
+  color: inherit;
+  font-size: 18px;
+  line-height: 24px;
+  font-weight: bold;
+  width: 100%;
+  padding: 16px 20px;
+}
+
+.contentContainer {
+  display: block;
+  margin: 0px;
+  padding: 0px;
+}
+
+.contentHeader {
+  display: block;
+  width: 100%;
+}
+
+.header {
+  display: flex;
+  -webkit-box-pack: start;
+  justify-content: flex-start;
+  -webkit-box-align: center;
+  align-items: center;
+}
+
+.contentArea {
+  display: flex;
+  flex-direction: column;
+  -webkit-box-pack: start;
+  justify-content: flex-start;
+}
+
+.errorContainer {
+  display: grid;
+  grid-template-columns: repeat(9, 1fr);
+  margin-top: 5px;
+  display: none;
+}
+
+.errorSidebar {
+  grid-column: span 2;
+}
+.errorMessage {
+  grid-column: span 4;
+  font-size: var(--desktop-body-md);
+  line-height: 20px;
+  color: var(--error);
+}
+
+.footerContainer {
+  display: flex;
+  margin-top: 200px;
+}
+
+.footerBtn {
+  appearance: none;
+  display: inline-block;
+  border: none;
+  background-color: transparent;
+  font-size: var(--desktop-body-lg);
+  line-height: 24px;
+  color: var(--primary-variant);
+  cursor: pointer;
+  transition: text-decoration 250ms ease 0s;
+}
+
+.footerBtn:hover {
+  text-decoration: underline;
+}

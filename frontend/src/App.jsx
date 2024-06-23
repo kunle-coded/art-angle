@@ -9,6 +9,7 @@ import Error from "./ui/Error";
 import Sell from "./pages/Sell";
 import Profile from "./pages/Profile";
 import Account from "./pages/Account";
+import AccountArtists from "./pages/AccountArtists";
 
 const router = createBrowserRouter([
   {
@@ -42,6 +43,10 @@ const router = createBrowserRouter([
       {
         path: "/accounts/:feature",
         element: <Account />,
+      },
+      {
+        path: "/artists/accounts/:feature",
+        element: <AccountArtists />,
       },
     ],
   },
