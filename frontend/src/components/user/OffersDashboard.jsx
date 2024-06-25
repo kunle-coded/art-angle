@@ -2,7 +2,7 @@ import { useState } from "react";
 import styles from "./OffersDashboard.module.css";
 import Button from "../../ui/Button";
 
-function OffersDashboard({ tabFor = "" }) {
+function OffersDashboard({ tabFor = "", children }) {
   const [activeTab, setActiveTab] = useState(0);
 
   function handleTabClick(e) {
@@ -13,7 +13,11 @@ function OffersDashboard({ tabFor = "" }) {
   return (
     <div className={styles.container}>
       <div className={styles.innerWrapper}>
-        <div className={styles.tabsContainer}>
+        <div
+          className={`${styles.tabsContainer} ${
+            children ? styles.fullwidth : ""
+          }`}
+        >
           <button
             tabIndex="0"
             className={`${styles.tabBtn} ${
@@ -30,18 +34,22 @@ function OffersDashboard({ tabFor = "" }) {
             }`}
             onClick={handleTabClick}
           >
-            Past {tabFor}
+            {`${tabFor === "Artworks" ? "Sold" : "Past"}`} {tabFor}
           </button>
         </div>
         <div className={styles.tabsContent}>
-          <div className={styles.defaultContent}>
-            <div className={styles.noOffers}>
-              <p>You haven't placed an {tabFor.toLocaleLowerCase()} yet.</p>
-              <Button as="a" href="/artworks">
-                Browse Art
-              </Button>
+          {children ? (
+            children
+          ) : (
+            <div className={styles.defaultContent}>
+              <div className={styles.noOffers}>
+                <p>You haven't placed an {tabFor.toLocaleLowerCase()} yet.</p>
+                <Button as="a" href="/artworks" size="small">
+                  Browse Art
+                </Button>
+              </div>
             </div>
-          </div>
+          )}
         </div>
       </div>
     </div>

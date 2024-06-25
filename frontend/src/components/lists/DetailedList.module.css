@@ -79,9 +79,6 @@
 }
 
 .itemDetailsButtons {
-  /* position: absolute;
-  right: 20px;
-  bottom: 15px; */
   display: flex;
   -webkit-box-pack: start;
   justify-content: flex-start;

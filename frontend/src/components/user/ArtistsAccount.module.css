@@ -53,7 +53,16 @@
   transition: background-color 0.25s ease 0s, color 0.25s ease 0s;
 }
 
+.sidebarItem:hover {
+  background-color: var(--primary-container-variant);
+}
+
 .active {
+  background-color: var(--on-primary-container);
+  color: var(--surface);
+}
+
+.active:hover {
   background-color: var(--on-primary-container);
   color: var(--surface);
 }

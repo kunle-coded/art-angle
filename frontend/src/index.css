@@ -31,10 +31,12 @@
   /* Primary Key Color */
   --primary: #333333;
   --on-primary: #fafafa;
-  --primary-container: #e3e3e3;
+  --primary-container: #f3f3f3;
   --on-primary-container: #131313;
   --primary-variant: #707070;
   --primary-hover-container: #f7f7f7;
+  --primary-container-variant: #dadada;
+  /* --primary-container: #e3e3e3; */
 
   /* Secondary Key Color */
   /* --secondary: #457ee0; */

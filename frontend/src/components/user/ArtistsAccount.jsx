@@ -20,6 +20,7 @@ function ArtistsAccount() {
   const [editAccountInfo, setEditAccountInfo] = useState(false);
   const [editArtisticInfo, setEditArtisticInfo] = useState(false);
   const [editPaymentInfo, setEditPaymentInfo] = useState(false);
+  const [isAllChecked, setIsAllChecked] = useState(false);
 
   const { feature } = useParams();
   const { state } = useNavigation();
@@ -41,7 +42,7 @@ function ArtistsAccount() {
   useEffect(() => {
     if (feature === "settings") {
       setCurrentItem(0);
-    } else if (feature === "offers") {
+    } else if (feature === "artworks") {
       setCurrentItem(1);
     } else if (feature === "orders") {
       setCurrentItem(2);
@@ -67,13 +68,21 @@ function ArtistsAccount() {
     }
   }
 
+  function handleCheck() {
+    setIsAllChecked((prevState) => !prevState);
+  }
+
+  function handleCancel() {
+    setIsAllChecked(false);
+  }
+
   return (
     <div className="container">
       <section className="section_block">
         <div className={styles.wrapper}>
           <div className={styles.innerContainer}>
             <div className={styles.sidebarColumn}>
-              <div className={styles.sidebarWrapper}>
+              <nav className={styles.sidebarWrapper}>
                 <ul className={styles.sidebar} onClick={handleTabClick}>
                   <li
                     className={`${styles.sidebarItem} ${
@@ -124,14 +133,14 @@ function ArtistsAccount() {
                   >
                     <Link
                       tabIndex="3"
-                      to="/accounts/logout"
+                      to="/artists/accounts/logout"
                       className={styles.sidebarLink}
                     >
                       Log Out
                     </Link>
                   </li>
                 </ul>
-              </div>
+              </nav>
             </div>
             <div className={styles.contentColumn}>
               <div className={styles.contentContainer}>
@@ -232,12 +241,29 @@ function ArtistsAccount() {
                     </>
                   )}
                   {feature === "artworks" && (
-                    <DetailedListComponent>
-                      <DetailedList />
-                      <DetailedList />
-                    </DetailedListComponent>
+                    <OffersDashboard tabFor="Artworks">
+                      <DetailedListComponent
+                        isChecked={isAllChecked}
+                        onCheck={handleCheck}
+                        onCancel={handleCancel}
+                      >
+                        <DetailedList isAllChecked={isAllChecked} />
+                        <DetailedList isAllChecked={isAllChecked} />
+                      </DetailedListComponent>
+                    </OffersDashboard>
                   )}
-                  {feature === "orders" && <OffersDashboard tabFor="Orders" />}
+                  {feature === "orders" && (
+                    <OffersDashboard tabFor="Orders">
+                      <DetailedListComponent
+                        isChecked={isAllChecked}
+                        onCheck={handleCheck}
+                        onCancel={handleCancel}
+                      >
+                        <DetailedList isAllChecked={isAllChecked} />
+                        <DetailedList isAllChecked={isAllChecked} />
+                      </DetailedListComponent>
+                    </OffersDashboard>
+                  )}
                 </div>
                 <div className={styles.footerContainer}>
                   <button className={styles.footerBtn}>

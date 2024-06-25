@@ -3,21 +3,29 @@ import Button from "../../ui/Button";
 import CheckboxComponent from "../../ui/CheckboxComponent";
 import styles from "./DetailedList.module.css";
 
-function DetailedList() {
+function DetailedList({ isAllChecked = false }) {
   const [isChecked, setIsChecked] = useState(false);
 
   function handleCheck() {
     setIsChecked((prevState) => !prevState);
   }
+
+  function handleCancel() {
+    setIsChecked(false);
+  }
+
   return (
     <li className="container">
       <div
         className={`${styles.itemWrapper} ${
-          isChecked ? styles.activeItem : ""
+          isChecked || isAllChecked ? styles.activeItem : ""
         }`}
       >
         <div className={styles.checkboxContainer}>
-          <CheckboxComponent isChecked={isChecked} onCheck={handleCheck} />
+          <CheckboxComponent
+            isChecked={isChecked || isAllChecked}
+            onCheck={handleCheck}
+          />
         </div>
         <div className={styles.itemDetailsContainer}>
           <div className={styles.itemImageContainer}>
@@ -33,7 +41,7 @@ function DetailedList() {
             <div className={styles.itemSize}>18 W x 10 H x 1 D in</div>
             {isChecked && (
               <div className={styles.itemDetailsButtons}>
-                <Button size="smallest" type="secondary">
+                <Button size="smallest" type="secondary" onClick={handleCancel}>
                   Cancel
                 </Button>
                 <Button size="smallest" type="error">

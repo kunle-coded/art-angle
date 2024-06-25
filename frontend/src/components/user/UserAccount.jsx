@@ -5,17 +5,15 @@ import styles from "./UserAccount.module.css";
 import UserDetailsTab from "./UserDetailsTab";
 import OffersDashboard from "./OffersDashboard";
 import Spinner from "../../ui/Spinner";
+import DetailedListComponent from "../lists/DetailedListComponent";
+import DetailedList from "../lists/DetailedList";
 
 function UserAccount() {
   const [currentItem, setCurrentItem] = useState(null);
+  const [isAllChecked, setIsAllChecked] = useState(false);
+
   const { feature } = useParams();
-
   const { state } = useNavigation();
-
-  function handleTabClick(e) {
-    const index = e.target.tabIndex;
-    setCurrentItem(index);
-  }
 
   useEffect(() => {
     if (feature === "settings") {
@@ -29,13 +27,26 @@ function UserAccount() {
     }
   }, [feature]);
 
+  function handleTabClick(e) {
+    const index = e.target.tabIndex;
+    setCurrentItem(index);
+  }
+
+  function handleCheck() {
+    setIsAllChecked((prevState) => !prevState);
+  }
+
+  function handleCancel() {
+    setIsAllChecked(false);
+  }
+
   return (
     <div className="container">
       <section className="section_block">
         <div className={styles.wrapper}>
           <div className={styles.innerContainer}>
             <div className={styles.sidebarColumn}>
-              <div className={styles.sidebarWrapper}>
+              <nav className={styles.sidebarWrapper}>
                 <ul className={styles.sidebar} onClick={handleTabClick}>
                   <li
                     className={`${styles.sidebarItem} ${
@@ -93,15 +104,37 @@ function UserAccount() {
                     </Link>
                   </li>
                 </ul>
-              </div>
+              </nav>
             </div>
             <div className={styles.contentColumn}>
               <div className={styles.contentContainer}>
                 <div className={styles.contentArea}>
                   {state === "loading" && <Spinner />}
                   {feature === "settings" && <UserDetailsTab />}
-                  {feature === "offers" && <OffersDashboard tabFor="Offers" />}
-                  {feature === "orders" && <OffersDashboard tabFor="Orders" />}
+                  {feature === "offers" && (
+                    <OffersDashboard tabFor="Offers">
+                      <DetailedListComponent
+                        isChecked={isAllChecked}
+                        onCheck={handleCheck}
+                        onCancel={handleCancel}
+                      >
+                        <DetailedList isAllChecked={isAllChecked} />
+                        <DetailedList isAllChecked={isAllChecked} />
+                      </DetailedListComponent>
+                    </OffersDashboard>
+                  )}
+                  {feature === "orders" && (
+                    <OffersDashboard tabFor="Orders">
+                      <DetailedListComponent
+                        isChecked={isAllChecked}
+                        onCheck={handleCheck}
+                        onCancel={handleCancel}
+                      >
+                        <DetailedList isAllChecked={isAllChecked} />
+                        <DetailedList isAllChecked={isAllChecked} />
+                      </DetailedListComponent>
+                    </OffersDashboard>
+                  )}
                 </div>
                 <div className={styles.footerContainer}>
                   <button className={styles.footerBtn}>
