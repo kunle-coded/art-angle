@@ -1,0 +1,40 @@
+.listContainer {
+  display: block;
+  width: 100%;
+}
+
+.listWrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.listHeader {
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+  gap: 0px;
+  padding: 10px 0px 10px 10px;
+  text-align: left;
+  font-size: var(--desktop-body-lg);
+  line-height: 24px;
+  font-weight: 600;
+  color: var(--primary);
+  border-width: 0px 0px 1px 0px;
+  border-style: solid;
+  border-color: var(--primary-container);
+}
+
+.itemTitle {
+  flex-grow: 1;
+}
+
+.itemDetail {
+  width: calc((100% - 10px - 0px * 6) / 7);
+}
+
+.lists {
+  display: flex;
+  flex-direction: column;
+  list-style: none;
+  /* background-color: aquamarine; */
+}

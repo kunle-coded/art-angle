@@ -40,6 +40,8 @@ function Button({
           ? styles.secondary
           : type === "tertiary"
           ? styles.tertiary
+          : type === "error"
+          ? styles.error
           : styles.primary
       } ${
         size === "small"

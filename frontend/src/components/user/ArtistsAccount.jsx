@@ -10,6 +10,8 @@ import { useField } from "../../hooks";
 import LabeledInput from "../../ui/LabeledInput";
 import Spacer from "../../ui/Spacer";
 import LabeledTextArea from "../../ui/LabeledTextArea";
+import DetailedListComponent from "../lists/DetailedListComponent";
+import DetailedList from "../lists/DetailedList";
 
 function ArtistsAccount() {
   const [currentItem, setCurrentItem] = useState(null);
@@ -230,7 +232,10 @@ function ArtistsAccount() {
                     </>
                   )}
                   {feature === "artworks" && (
-                    <OffersDashboard tabFor="Artworks" />
+                    <DetailedListComponent>
+                      <DetailedList />
+                      <DetailedList />
+                    </DetailedListComponent>
                   )}
                   {feature === "orders" && <OffersDashboard tabFor="Orders" />}
                 </div>
