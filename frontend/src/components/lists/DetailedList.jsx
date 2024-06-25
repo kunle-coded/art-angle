@@ -2,6 +2,8 @@ import { useState } from "react";
 import Button from "../../ui/Button";
 import CheckboxComponent from "../../ui/CheckboxComponent";
 import styles from "./DetailedList.module.css";
+import Modal from "../modal/Modal";
+import ConfirmDelete from "../messages/ConfirmDelete";
 
 function DetailedList({ isAllChecked = false }) {
   const [isChecked, setIsChecked] = useState(false);
@@ -44,9 +46,16 @@ function DetailedList({ isAllChecked = false }) {
                 <Button size="smallest" type="secondary" onClick={handleCancel}>
                   Cancel
                 </Button>
-                <Button size="smallest" type="error">
-                  Delete
-                </Button>
+                <Modal>
+                  <Modal.Open opens="confirm_delete">
+                    <Button size="smallest" type="error">
+                      Delete
+                    </Button>
+                  </Modal.Open>
+                  <Modal.Window name="confirm_delete">
+                    <ConfirmDelete />
+                  </Modal.Window>
+                </Modal>
               </div>
             )}
           </div>

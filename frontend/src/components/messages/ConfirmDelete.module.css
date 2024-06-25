@@ -1,0 +1,33 @@
+.container {
+  display: block;
+  width: 100%;
+  margin: 0px;
+  padding: 0px;
+  background-color: var(--warning-container);
+}
+
+.msgWrapper {
+  display: flex;
+  flex-direction: column;
+  -webkit-box-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.msg {
+  font-size: var(--desktop-body-lg);
+  line-height: 24px;
+  color: var(--on-warning-container);
+}
+
+.btnWrapper {
+  display: flex;
+  -webkit-box-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  align-items: center;
+  gap: 20px;
+  padding-top: 40px;
+}

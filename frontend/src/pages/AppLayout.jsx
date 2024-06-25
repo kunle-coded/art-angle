@@ -11,6 +11,7 @@ import {
 import Navigation from "../components/header/Navigation";
 import Footer from "../components/footer/Footer";
 import Modal from "../components/modal/Modal";
+import SuccessMessage from "../components/messages/SuccessMessage";
 
 // import Spinner from "./Spinner";
 
@@ -40,7 +41,8 @@ function AppLayout() {
       <Navigation />
       {/* <Spinner /> */}
       <main>
-        <div style={{ overflow: "hidden" }}>
+        <div style={{ overflow: "hidden", position: "relative" }}>
+          <SuccessMessage />
           <Outlet />
         </div>
       </main>
