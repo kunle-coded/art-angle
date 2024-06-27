@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, useNavigation, useParams } from "react-router-dom";
 import styles from "./ArtistsAccount.module.css";
 // import { artworksThree, artists } from "../data";
-import OffersDashboard from "./OffersDashboard";
+import OffersDashboard from "../user/OffersDashboard";
 import Spinner from "../../ui/Spinner";
 import ArtistDetailsTab from "./ArtistDetailsTab";
 import { useField } from "../../hooks";

@@ -1,4 +1,4 @@
-import ArtistsAccount from "../components/user/ArtistsAccount";
+import ArtistsAccount from "../components/artist/ArtistsAccount";
 
 function AccountArtists() {
   return (

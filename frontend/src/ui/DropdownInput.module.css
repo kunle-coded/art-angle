@@ -1,0 +1,32 @@
+.inputContainer {
+  display: block;
+  width: 100%;
+  margin: 0px;
+  padding: 0px;
+}
+
+.innerWrapper {
+  display: flex;
+  flex-direction: column;
+  -webkit-box-pack: start;
+  justify-content: flex-start;
+  -webkit-box-align: center;
+  align-items: center;
+}
+
+.inputDropdown {
+  display: flex;
+  -webkit-box-align: start;
+  align-items: start;
+  padding: 10px 0px;
+  border-width: 0px 0px 1px 0px;
+  border-style: solid;
+  border-color: var(--outline-variant);
+}
+
+.dropdownIcon {
+  position: relative;
+  width: 18px;
+  height: 18px;
+  color: var(--primary);
+}

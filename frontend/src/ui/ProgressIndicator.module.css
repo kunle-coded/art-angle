@@ -1,0 +1,67 @@
+.container {
+  display: block;
+  width: 100%;
+}
+
+.innerWrapper {
+  display: flex;
+  flex-direction: column;
+  -webkit-box-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  align-items: center;
+}
+
+.stepNumber {
+  display: flex;
+  -webkit-box-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: var(--outline-variant);
+  color: var(--surface);
+  font-size: var(--desktop-body-lg);
+  line-height: 24px;
+  font-weight: bold;
+  position: relative;
+  z-index: 2;
+}
+
+.currentStep {
+  background-color: var(--on-primary-container);
+  color: var(--surface);
+}
+
+.stepNumber::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 40px;
+  width: 190px;
+  height: 2px;
+  background-color: var(--outline-variant);
+  z-index: 1;
+}
+
+.lastItem::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 40px;
+  width: 0px;
+  height: 0px;
+}
+
+.stepText {
+  font-weight: 500;
+  color: var(--outline-variant);
+  padding-top: 10px;
+  white-space: nowrap;
+}
+
+.currentStepText {
+  color: var(--primary);
+}

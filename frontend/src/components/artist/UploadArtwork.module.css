@@ -1,0 +1,138 @@
+.container {
+  display: block;
+  width: 100%;
+  margin: 0px;
+  padding: 0px;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  -webkit-box-align: center;
+  align-items: center;
+  margin: var(--margin-desktop);
+}
+
+.progress {
+  display: flex;
+  -webkit-box-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  align-items: center;
+  gap: 120px;
+  margin-top: 80px;
+}
+
+.progress:last-child::after {
+  width: 0px;
+  height: 0px;
+}
+
+.uploadArea {
+  display: block;
+  width: 100%;
+  margin-top: 80px;
+}
+
+.uploadAreaInner {
+  width: 100%;
+  height: 300px;
+  padding: 20px 80px;
+}
+
+.uploadAreaGrid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  justify-content: stretch;
+  gap: 20px 40px;
+}
+
+.sidebarColumn {
+  grid-column: span 3;
+}
+
+.contentColumn {
+  grid-column: span 9;
+}
+
+.sidebarContainer {
+  display: flex;
+  flex-direction: column;
+  -webkit-box-pack: start;
+  justify-content: flex-start;
+}
+
+.imagePlaceholder {
+  align-self: center;
+  width: 150px;
+  height: 170px;
+  background-color: var(--outline-variant);
+  position: relative;
+}
+
+.imagePlaceholder::before {
+  content: "";
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 150%;
+  height: 1px;
+  background-color: var(--outline);
+  transform: rotate(-311.5deg);
+  transform-origin: left;
+  z-index: 3;
+}
+
+.imagePlaceholder::after {
+  content: "";
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+  width: 150%;
+  height: 1px;
+  background-color: var(--outline);
+  transform: rotate(311.5deg);
+  transform-origin: left;
+  z-index: 3;
+}
+
+.inputDisplay {
+  margin-top: 20px;
+}
+
+.sidebarContent {
+  display: flex;
+  flex-direction: column;
+  -webkit-box-pack: start;
+  justify-content: flex-start;
+  text-align: left;
+  width: 100%;
+  height: auto;
+  background-color: var(--primary-hover-container);
+  margin-top: 10px;
+  padding: 20px;
+}
+
+.contentContainer {
+  display: flex;
+  flex-direction: column;
+  -webkit-box-pack: start;
+  justify-content: flex-start;
+}
+
+.contentHeader {
+  padding-bottom: 20px;
+  border-width: 0px 0px 1px 0px;
+  border-style: solid;
+  border-color: var(--outline-variant);
+  font-size: var(--desktop-headline-sm);
+  line-height: 32px;
+  font-weight: 500;
+}
+
+.inputItems {
+  display: flex;
+  flex-direction: column;
+  -webkit-box-pack: start;
+  justify-content: flex-start;
+}

@@ -11,6 +11,7 @@ import Profile from "./pages/Profile";
 import Account from "./pages/Account";
 import AccountArtists from "./pages/AccountArtists";
 import UserCollections from "./pages/UserCollections";
+import ArtworkUpload from "./pages/ArtworkUpload";
 
 const router = createBrowserRouter([
   {
@@ -52,6 +53,10 @@ const router = createBrowserRouter([
       {
         path: "/user/:id/:list",
         element: <UserCollections />,
+      },
+      {
+        path: "/artworks/upload",
+        element: <ArtworkUpload />,
       },
     ],
   },
