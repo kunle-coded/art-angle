@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { Link, useNavigation, useParams } from "react-router-dom";
 import styles from "./ArtistsAccount.module.css";
 // import { artworksThree, artists } from "../data";
-import UserDetailsTab from "./UserDetailsTab";
 import OffersDashboard from "./OffersDashboard";
 import Spinner from "../../ui/Spinner";
 import ArtistDetailsTab from "./ArtistDetailsTab";

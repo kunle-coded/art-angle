@@ -10,6 +10,7 @@ import Sell from "./pages/Sell";
 import Profile from "./pages/Profile";
 import Account from "./pages/Account";
 import AccountArtists from "./pages/AccountArtists";
+import UserCollections from "./pages/UserCollections";
 
 const router = createBrowserRouter([
   {
@@ -47,6 +48,10 @@ const router = createBrowserRouter([
       {
         path: "/artists/accounts/:feature",
         element: <AccountArtists />,
+      },
+      {
+        path: "/user/:id/:list",
+        element: <UserCollections />,
       },
     ],
   },

@@ -13,7 +13,6 @@ function ConfirmDelete({ onCloseModal }) {
   }
 
   function handleCancel() {
-    console.log("You chose to cancel");
     onCloseModal?.();
   }
 
