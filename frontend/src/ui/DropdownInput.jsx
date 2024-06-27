@@ -1,19 +1,35 @@
+import { useState } from "react";
 import DropdownIcon from "../components/icons/DropdownIcon";
 import styles from "./DropdownInput.module.css";
 
-function DropdownInput({ title = "" }) {
+function DropdownInput({ title = "", children }) {
+  const [isDropdown, setIsDropdown] = useState(false);
+
+  function handleDropdown() {
+    setIsDropdown((prevState) => !prevState);
+  }
+
   return (
     <div className={styles.inputContainer}>
       <div className={styles.innerWrapper}>
-        <div className={styles.inputDropdown}>
-          <div className={styles.dropdownIcon}>
+        <button className={styles.dropdownBtn} onClick={handleDropdown}>
+          <div
+            className={`${styles.dropdownIcon} ${
+              isDropdown ? styles.showDropdownIcon : ""
+            }`}
+          >
             <DropdownIcon />
           </div>
           <div className={styles.dropdownTitle}>{title}</div>
+        </button>
+        <div
+          className={`${styles.dropdown} ${
+            isDropdown ? styles.showDropdown : ""
+          }`}
+        >
+          <div className={styles.dropdownContainer}>{children}</div>
         </div>
       </div>
-      <div className={styles.innerWrap}></div>
-      <div className={styles.innerWrap}></div>
     </div>
   );
 }

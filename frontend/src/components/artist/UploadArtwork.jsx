@@ -1,6 +1,8 @@
 import DropdownInput from "../../ui/DropdownInput";
 import ProgressIndicator from "../../ui/ProgressIndicator";
 import styles from "./UploadArtwork.module.css";
+import Input from "../../ui/Input";
+import ImageUpload from "../../ui/ImageUpload";
 
 function UploadArtwork() {
   return (
@@ -29,17 +31,27 @@ function UploadArtwork() {
                 <div className={styles.contentContainer}>
                   <div className={styles.contentHeader}>Artworks</div>
                   <div className={styles.inputItems}>
-                    <DropdownInput />
-                    <p>Input</p>
-                    <p>Input</p>
+                    <DropdownInput title="Title">
+                      <Input placeholder="Enter title" size="small" />
+                    </DropdownInput>
+                    <DropdownInput title="Image">
+                      <ImageUpload />
+                    </DropdownInput>
                   </div>
                 </div>
               </div>
             </div>
+            {/* buttons */}
+            <div className={styles.progressBtnWrapper}>
+              <div className={styles.progressBtns}>
+                <p>Save & Exit</p>
+                <p>Continue</p>
+              </div>
+            </div>
+            <div className={styles.wrap}></div>
           </div>
         </div>
       </div>
-      <div className={styles.wrap}></div>
     </div>
   );
 }

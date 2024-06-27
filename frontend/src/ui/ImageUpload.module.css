@@ -1,0 +1,48 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  -webkit-box-pack: center;
+  justify-content: center;
+  width: 100%;
+  padding: 20px 20px;
+  background-color: var(--primary-hover-container);
+}
+
+.uploadArea {
+  display: flex;
+  -webkit-box-pack: justify;
+  justify-content: space-between;
+}
+
+.imagePlaceholder {
+  display: flex;
+  -webkit-box-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  align-items: center;
+  width: 100px;
+  height: 100px;
+  background-color: var(--outline-variant);
+  /* cursor: pointer; */
+}
+
+.imageUpload {
+  opacity: 0;
+  height: 100px;
+  width: 100px;
+  z-index: 10;
+  cursor: pointer;
+  position: absolute;
+}
+
+.uploadIcon {
+  position: relative;
+  width: 24px;
+  height: 24px;
+  color: var(--primary-variant);
+}
+
+.uploadInfo {
+  margin-top: 40px;
+  text-align: center;
+}

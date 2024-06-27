@@ -21,6 +21,10 @@
   color: var(--primary-variant);
 }
 
+.small {
+  height: 40px;
+}
+
 .searchInput:hover {
   color: var(--primary);
   border-color: var(--outline);

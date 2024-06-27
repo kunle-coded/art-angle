@@ -1,4 +1,4 @@
-function DropdownIcon() {
+function AddIcon() {
   const iconStyle = {
     position: "absolute",
     inset: "0px",
@@ -8,13 +8,13 @@ function DropdownIcon() {
 
   return (
     <svg
-      viewBox="0 0 9 16"
+      viewBox="0 0 18 18"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       style={iconStyle}
     >
       <path
-        d="M1 1L8 8L1 15"
+        d="M9 1V17M17 9H1"
         stroke="currentColor"
         strokeWidth="2"
         strokeLinecap="round"
@@ -24,4 +24,4 @@ function DropdownIcon() {
   );
 }
 
-export default DropdownIcon;
+export default AddIcon;
