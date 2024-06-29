@@ -96,6 +96,13 @@
 }
 
 .inputDisplay {
+  display: flex;
+  flex-direction: column;
+  -webkit-box-pack: start;
+  justify-content: flex-start;
+  -webkit-box-align: start;
+  align-items: flex-start;
+  text-align: left;
   margin-top: 20px;
 }
 
@@ -110,6 +117,12 @@
   background-color: var(--primary-hover-container);
   margin-top: 10px;
   padding: 20px;
+}
+
+.inputData {
+  font-size: var(--desktop-body-md);
+  line-height: 20px;
+  padding-top: 10px;
 }
 
 .contentContainer {
@@ -137,10 +150,11 @@
 }
 
 .progressBtnWrapper {
-  display: flex;
-  -webkit-box-align: end;
-  align-items: flex-end;
+  display: block;
+  /* -webkit-box-align: end;
+  align-items: flex-end; */
   min-height: 200px;
+  width: 100%;
 }
 
 .progressBtns {
@@ -150,8 +164,4 @@
   align-self: flex-end;
   margin-top: 80px;
   width: 100%;
-  /* position: absolute;
-  bottom: 0px;
-  left: 0px;
-  width: 100%; */
 }
