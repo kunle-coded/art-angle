@@ -1,0 +1,121 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  -webkit-box-flex: 1;
+  flex-grow: 1;
+  width: auto;
+  padding: 0px 20px;
+}
+
+.displayLabel {
+  text-align: left;
+  margin-bottom: 5px;
+  margin-top: 10px;
+  flex-shrink: 0;
+}
+
+.label {
+  border: 0px;
+  clip: rect(0px, 0px, 0px, 0px);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0px;
+  position: absolute;
+  width: 1px;
+}
+
+.selectContainer {
+  display: flex;
+  -webkit-box-align: start;
+  align-items: flex-start;
+  -webkit-box-flex: 1;
+  flex-grow: 1;
+  position: relative;
+}
+
+.select {
+  appearance: none;
+  display: flex;
+  -webkit-box-align: start;
+  align-items: flex-start;
+  cursor: pointer;
+  width: 100%;
+  padding: 10px 36px 10px 10px;
+  border: 1px solid var(--outline-variant);
+  border-radius: 2px;
+  font-size: var(--desktop-body-lg);
+  line-height: 24px;
+  background-color: var(--surface);
+  color: var(--primary-variant);
+  position: relative;
+}
+
+.select:hover {
+  color: var(--primary);
+  border-color: var(--outline);
+}
+
+.select:focus {
+  outline: none;
+  color: var(--primary);
+  border-color: var(--secondary);
+}
+
+.selectArrow {
+  -webkit-box-align: center;
+  align-items: center;
+  display: flex;
+  height: 100%;
+  -webkit-box-pack: center;
+  justify-content: center;
+  pointer-events: none;
+  position: absolute;
+  right: 2px;
+  top: 0px;
+  width: 40px;
+}
+
+.selectIcon {
+  display: flex;
+  width: 18px;
+  height: 18px;
+  /* font-size: 10px; */
+  color: var(--primary);
+  position: relative;
+}
+
+.dropdownMenu {
+  display: flex;
+  flex-direction: column;
+  -webkit-box-flex: 1;
+  flex-grow: 1;
+  background-color: var(--surface);
+  border: 1px solid var(--outline-variant);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  list-style: none;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  z-index: 5;
+}
+
+.menuOption {
+  font-size: var(--desktop-body-lg);
+  line-height: 24px;
+  color: var(--primary);
+  padding: 10px;
+  cursor: pointer;
+  width: 100%;
+}
+
+.selected {
+  background-color: var(--primary-hover-container);
+}
+
+.menuOption:hover {
+  background-color: var(--primary-hover-container);
+}
+.menuOption:focus {
+  background-color: var(--primary-hover-container);
+}

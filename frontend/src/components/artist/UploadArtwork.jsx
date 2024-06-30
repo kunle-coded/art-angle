@@ -7,6 +7,8 @@ import Input from "../../ui/Input";
 import ImageUpload from "../../ui/ImageUpload";
 import Button from "../../ui/Button";
 import { useEffect, useState } from "react";
+import StyledSelect from "../../ui/StyledSelect";
+import FilterButton from "../filter/FilterButton";
 
 const inputArray = [
   {
@@ -51,8 +53,29 @@ const inputArray = [
   },
 ];
 
+const options = [
+  "Contemporary Art",
+  "Abstract Art",
+  "Emerging Art",
+  "Street Art",
+  "Pop Art",
+  "Impressionist & Modern Art",
+];
+const subjects = [
+  "Portraiture",
+  "Landscape",
+  "Still life",
+  "Animal",
+  "Non-objective",
+  "Botanic",
+];
+const years = ["2019", "2020", "2021", "2022", "2023", "2024"];
+
 function UploadArtwork() {
   const [artworkDetails, setArtworkDetails] = useState([]);
+  const [currentStep, setCurrentStep] = useState(1);
+  const [isContinue, setisContinue] = useState(false);
+  const [currentTitle, setCurrentTitle] = useState("Artworks");
 
   const title = useField("text");
   const { onReset: resetTitle, ...titleProps } = title;
@@ -66,18 +89,45 @@ function UploadArtwork() {
       };
 
       setArtworkDetails((details) => [...details, titleObj]);
+      setCurrentStep((prevStep) => prevStep + 1);
+      setisContinue(true);
+    } else {
+      setisContinue(false);
     }
     resetTitle(e);
   }
+
+  useEffect(() => {
+    if (currentStep === 2) {
+      setCurrentTitle("Description");
+    }
+  }, [currentStep]);
 
   return (
     <div className={styles.container}>
       <div className={styles.wrapper}>
         <div className={styles.progress}>
-          <ProgressIndicator text="Image" number="1" current />
-          <ProgressIndicator text="Description" number="2" />
-          <ProgressIndicator text="Price & Details" number="3" />
-          <ProgressIndicator text="Publish" number="4" last />
+          <ProgressIndicator
+            text="Image"
+            number="1"
+            current={currentStep >= 1}
+          />
+          <ProgressIndicator
+            text="Description"
+            number="2"
+            current={currentStep >= 2}
+          />
+          <ProgressIndicator
+            text="Price & Details"
+            number="3"
+            current={currentStep >= 3}
+          />
+          <ProgressIndicator
+            text="Publish"
+            number="4"
+            last
+            current={currentStep >= 4}
+          />
         </div>
 
         <div className={styles.uploadArea}>
@@ -101,18 +151,72 @@ function UploadArtwork() {
               </div>
               <div className={styles.contentColumn}>
                 <div className={styles.contentContainer}>
-                  <div className={styles.contentHeader}>Artworks</div>
+                  <div className={styles.contentHeader}>{currentTitle}</div>
                   <div className={styles.inputItems}>
-                    <DropdownInput title="Title">
-                      <Input
-                        placeholder="Enter title"
-                        size="small"
-                        {...titleProps}
-                      />
-                    </DropdownInput>
-                    <DropdownInput title="Image">
-                      <ImageUpload />
-                    </DropdownInput>
+                    {currentStep === 1 && (
+                      <>
+                        <DropdownInput
+                          title="Title"
+                          inputValue={title.value}
+                          isContinue={isContinue}
+                        >
+                          <Input
+                            placeholder="Enter title"
+                            size="small"
+                            {...titleProps}
+                          />
+                        </DropdownInput>
+                        <DropdownInput title="Image">
+                          <ImageUpload />
+                        </DropdownInput>
+                      </>
+                    )}
+                    {currentStep === 2 && (
+                      <>
+                        <DropdownInput
+                          title="Category, Subject, Year"
+                          inputValue={title.value}
+                          isContinue={isContinue}
+                        >
+                          <StyledSelect
+                            label="Category"
+                            placeholder="Select a category"
+                            options={options}
+                          />
+                          <StyledSelect
+                            label="Subject"
+                            placeholder="Select a subject"
+                            options={subjects}
+                          />
+                          <StyledSelect
+                            label="Year"
+                            placeholder="Select year produced"
+                            options={years}
+                          />
+                        </DropdownInput>
+                        <DropdownInput title="Mediums, Materials & Styles">
+                          <Input
+                            placeholder="Enter title"
+                            size="small"
+                            {...titleProps}
+                          />
+                        </DropdownInput>
+                        <DropdownInput title="Dimensions">
+                          <Input
+                            placeholder="Enter title"
+                            size="small"
+                            {...titleProps}
+                          />
+                        </DropdownInput>
+                        <DropdownInput title="Keywords & Description">
+                          <Input
+                            placeholder="Enter title"
+                            size="small"
+                            {...titleProps}
+                          />
+                        </DropdownInput>
+                      </>
+                    )}
                   </div>
                 </div>
               </div>

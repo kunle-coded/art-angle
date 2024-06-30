@@ -19,8 +19,8 @@
 
 .dropdownBtn {
   display: flex;
-  -webkit-box-pack: start;
-  justify-content: flex-start;
+  -webkit-box-pack: justify;
+  justify-content: space-between;
   -webkit-box-align: center;
   align-items: center;
   padding: 10px 0px;
@@ -31,6 +31,15 @@
   background-color: var(--surface);
   cursor: pointer;
   z-index: 2;
+}
+
+.titleWrapper {
+  display: flex;
+  -webkit-box-pack: start;
+  justify-content: flex-start;
+  -webkit-box-align: center;
+  align-items: center;
+  flex: 1 1 0%;
 }
 
 .dropdownIcon {
@@ -51,6 +60,13 @@
   line-height: 24px;
   font-family: inherit;
   color: var(--primary);
+}
+
+.check {
+  width: 14px;
+  height: 10px;
+  position: relative;
+  color: var(--success);
 }
 
 .dropdown {
