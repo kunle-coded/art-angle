@@ -1,16 +1,34 @@
 import { useState } from "react";
 import styles from "./StyledSelect.module.css";
+import CloseIcon from "../components/icons/CloseIcon";
 
-function StyledSelect({ label = "", placeholder = "", options = [] }) {
+function StyledSelect({
+  label = "",
+  placeholder = "",
+  options = [],
+  isMultiple = false,
+}) {
   const [isOpen, setIsOpen] = useState(false);
   const [selected, setSelected] = useState(placeholder);
+  const [selectedMultiple, setSelectedMultiple] = useState([placeholder]);
 
   function toggleOpen() {
     setIsOpen((prevState) => !prevState);
   }
 
   function handleSelection(option) {
-    setSelected(option);
+    const isSelected = selectedMultiple.find((item) => item === option);
+    console.log(isSelected);
+    if (isMultiple) {
+      if (isSelected) {
+        setIsOpen(false);
+        return;
+      }
+
+      setSelectedMultiple((prevSelected) => [...prevSelected, option]);
+    } else {
+      setSelected(option);
+    }
     setIsOpen(false);
   }
 
@@ -56,7 +74,9 @@ function StyledSelect({ label = "", placeholder = "", options = [] }) {
             <li
               key={i}
               className={`${styles.menuOption} ${
-                selected === option ? styles.selected : ""
+                selected === option || selectedMultiple[i + 1] === option
+                  ? styles.selected
+                  : ""
               }`}
               onClick={() => handleSelection(option)}
             >
@@ -65,7 +85,21 @@ function StyledSelect({ label = "", placeholder = "", options = [] }) {
           ))}
         </ul>
       )}
-      <div className={styles.selectArro}></div>
+      {isMultiple && selectedMultiple.length > 1 && (
+        <ul className={styles.selectedItems}>
+          {selectedMultiple.map(
+            (selectedItem, i) =>
+              i >= 1 && (
+                <li key={i} className={styles.selectedItem}>
+                  <span>{selectedItem}</span>
+                  <div className={styles.closeSelected}>
+                    <CloseIcon />
+                  </div>
+                </li>
+              )
+          )}
+        </ul>
+      )}
     </div>
   );
 }

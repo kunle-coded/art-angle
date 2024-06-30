@@ -9,6 +9,13 @@ import Button from "../../ui/Button";
 import { useEffect, useState } from "react";
 import StyledSelect from "../../ui/StyledSelect";
 import FilterButton from "../filter/FilterButton";
+import {
+  categoriesList,
+  subjects,
+  materials,
+  medium,
+  styles as artStyles,
+} from "../../data";
 
 const inputArray = [
   {
@@ -53,22 +60,6 @@ const inputArray = [
   },
 ];
 
-const options = [
-  "Contemporary Art",
-  "Abstract Art",
-  "Emerging Art",
-  "Street Art",
-  "Pop Art",
-  "Impressionist & Modern Art",
-];
-const subjects = [
-  "Portraiture",
-  "Landscape",
-  "Still life",
-  "Animal",
-  "Non-objective",
-  "Botanic",
-];
 const years = ["2019", "2020", "2021", "2022", "2023", "2024"];
 
 function UploadArtwork() {
@@ -181,7 +172,7 @@ function UploadArtwork() {
                           <StyledSelect
                             label="Category"
                             placeholder="Select a category"
-                            options={options}
+                            options={categoriesList}
                           />
                           <StyledSelect
                             label="Subject"
@@ -194,11 +185,24 @@ function UploadArtwork() {
                             options={years}
                           />
                         </DropdownInput>
-                        <DropdownInput title="Mediums, Materials & Styles">
-                          <Input
-                            placeholder="Enter title"
-                            size="small"
-                            {...titleProps}
+                        <DropdownInput title="Medium, Materials & Styles">
+                          <StyledSelect
+                            label="Medium"
+                            placeholder="Select or add a new medium"
+                            options={medium}
+                            isMultiple
+                          />
+                          <StyledSelect
+                            label="Materials"
+                            placeholder="Select or add a new material"
+                            options={materials}
+                            isMultiple
+                          />
+                          <StyledSelect
+                            label="Styles"
+                            placeholder="Select or add a new style"
+                            options={artStyles}
+                            isMultiple
                           />
                         </DropdownInput>
                         <DropdownInput title="Dimensions">

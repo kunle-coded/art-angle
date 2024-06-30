@@ -650,6 +650,17 @@ const events = [
   },
 ];
 
+const categoriesList = [
+  "Contemporary Art",
+  "Abstract Art",
+  "Emerging Art",
+  "Minimalism",
+  "Pop Art",
+  "Street Art",
+  "Impressionist & Modern Art",
+  "20th-Century Art",
+];
+
 const materials = [
   "Acrylic",
   "Aluminium",
@@ -757,6 +768,25 @@ const medium = [
   "Design",
   "Textile",
 ];
+
+const styles = [
+  "Modern",
+  "Documentary",
+  "Conceptual",
+  "Renaissance",
+  "Minimalism",
+  "Classism",
+];
+
+const subjects = [
+  "Portraiture",
+  "Landscape",
+  "Still life",
+  "Animal",
+  "Non-objective",
+  "Botanic",
+];
+
 const rarity = ["Unique", "Limited Edition", "Open Edition", "Unknown Edition"];
 
 const waysToBuy = ["Purchase", "Make Offer", "Bid", "Contact Gallery"];
@@ -850,8 +880,11 @@ export {
   artworksByPrice,
   artists,
   events,
+  categoriesList,
   materials,
   medium,
+  styles,
+  subjects,
   rarity,
   waysToBuy,
   timePeriod,
