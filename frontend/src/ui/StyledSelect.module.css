@@ -127,6 +127,7 @@
   justify-content: flex-start;
   -webkit-box-align: center;
   align-items: center;
+  flex-wrap: wrap;
   list-style: none;
   margin: 4px 0px;
 }
@@ -146,5 +147,47 @@
   width: 14px;
   height: 14px;
   position: relative;
+  color: var(--primary);
+}
+
+.displayNote {
+  font-size: var(--desktop-body-md);
+  line-height: 20px;
+  margin-bottom: 10px;
+}
+
+.displayInfo {
+  font-size: var(--desktop-body-md);
+  line-height: 20px;
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+.customInput {
+  width: 100%;
+  padding: 0px 10px;
+  appearance: none;
+  line-height: 1;
+  border: 1px solid var(--outline-variant);
+  border-radius: 3px;
+  transition: border-color 0.25s ease 0s, color 0.25s ease 0s;
+  height: 40px;
+  background-color: var(--surface);
+  font-size: var(--desktop-body-lg);
+  color: var(--primary-variant);
+}
+
+.customInput:hover {
+  color: var(--primary);
+  border-color: var(--outline);
+}
+
+.customInput:focus {
+  outline: none;
+  color: var(--primary);
+  border-color: var(--secondary);
+}
+
+.customInput:hover::placeholder {
   color: var(--primary);
 }

@@ -37,6 +37,24 @@ export const useShowPassword = () => {
   return { passwordType, toggleShowPassword };
 };
 
+export const useKeyPress = (key, callback) => {
+  const handleKeyDown = (event) => {
+    if (event.key === key) {
+      callback();
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  });
+
+  return handleKeyDown;
+};
+
 export function useIntersect(root, target) {
   const [isIntersecting, setIsIntersecting] = useState(false);
 

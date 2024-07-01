@@ -16,6 +16,7 @@ import {
   medium,
   styles as artStyles,
 } from "../../data";
+import DimensionsInput from "../../ui/DimensionsInput";
 
 const inputArray = [
   {
@@ -206,17 +207,16 @@ function UploadArtwork() {
                           />
                         </DropdownInput>
                         <DropdownInput title="Dimensions">
-                          <Input
-                            placeholder="Enter title"
-                            size="small"
-                            {...titleProps}
-                          />
+                          <DimensionsInput />
                         </DropdownInput>
                         <DropdownInput title="Keywords & Description">
-                          <Input
-                            placeholder="Enter title"
-                            size="small"
-                            {...titleProps}
+                          <StyledSelect
+                            label="Keyword"
+                            placeholder="Enter 5-12 keywords"
+                            note="Please provide from 5 to 12 keywords. Tagging your artwork with keywords allows collectors to find your artwork more easily. It's best to enter simple, descriptive words that describe the key visual elements of the work, such as color, subject matter, and artistic style. You may enter or paste keywords that are distinct and at least 2-character long. We recommend providing keywords in English."
+                            info="Press 'Enter' to save a keyword"
+                            isInput
+                            isMultiple
                           />
                         </DropdownInput>
                       </>

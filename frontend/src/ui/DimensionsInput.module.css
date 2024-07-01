@@ -1,0 +1,65 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  -webkit-box-flex: 1;
+  flex-grow: 1;
+  width: auto;
+  padding: 0px 20px;
+}
+
+.inputsWrapper {
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+  gap: 10px;
+  padding: 0px;
+  width: 100%;
+}
+
+.inputContainer {
+  display: flex;
+  flex-direction: column;
+  -webkit-box-pack: center;
+  justify-content: center;
+  padding: 0px;
+  width: 100%;
+}
+
+.dimensionWrapper {
+  display: flex;
+  -webkit-box-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  align-items: center;
+  padding-top: 60px;
+  padding-bottom: 20px;
+  margin: 0px;
+}
+
+.dimensionInner {
+  display: flex;
+  -webkit-box-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  align-items: center;
+  position: relative;
+}
+
+.dimensionDiagram {
+  background-color: var(--primary-hover-container);
+  border: 1px solid var(--outline);
+}
+
+.dimensionWidth {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  font-size: var(--desktop-body-md);
+  line-height: 20px;
+}
+
+.dimensionHeight {
+  padding-right: 5px;
+  font-size: var(--desktop-body-md);
+  line-height: 20px;
+}
