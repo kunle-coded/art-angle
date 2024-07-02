@@ -5,6 +5,7 @@ function FormInput({
   placeholder = "",
   label = "",
   onHidePassword,
+  size = "",
   children,
   ...props
 }) {
@@ -25,7 +26,9 @@ function FormInput({
                 ? ""
                 : undefined
             }
-            className={styles.searchInput}
+            className={`${styles.searchInput} ${
+              size === "small" ? styles.small : ""
+            }`}
             style={{ paddingRight: "33px" }}
             {...props}
           />

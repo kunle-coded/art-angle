@@ -40,6 +40,10 @@
   color: var(--primary);
 }
 
+.searchInput:disabled {
+  background-color: var(--outline-variant);
+}
+
 .inputLabel {
   position: absolute;
   display: flex;

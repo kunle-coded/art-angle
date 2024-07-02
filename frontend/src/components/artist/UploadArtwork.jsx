@@ -11,6 +11,9 @@ import {
   updateMaterials,
   updateMedium,
   updateStyles,
+  updateDimensions,
+  updateDescription,
+  updateKeywords,
 } from "../../reducers/artworkSllice";
 
 import DropdownInput from "../../ui/DropdownInput";
@@ -19,7 +22,7 @@ import styles from "./UploadArtwork.module.css";
 import Input from "../../ui/Input";
 import ImageUpload from "../../ui/ImageUpload";
 import Button from "../../ui/Button";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import StyledSelect from "../../ui/StyledSelect";
 import DimensionsInput from "../../ui/DimensionsInput";
 import {
@@ -29,6 +32,10 @@ import {
   medium,
   styles as artStyles,
 } from "../../data";
+import InputSidebarDisplay from "../../ui/InputSidebarDisplay";
+import ArtworkAvailability from "../price/ArtworkAvailability";
+import LimitedEdition from "../price/LimitedEdition";
+import DividerLine from "../../ui/DividerLine";
 
 const years = ["2019", "2020", "2021", "2022", "2023", "2024"];
 
@@ -39,17 +46,30 @@ const descriptionTips = [
 ];
 
 function UploadArtwork() {
-  const [artworkDetails, setArtworkDetails] = useState([]);
+  const [isShowMore, setIsShowMore] = useState(false);
   const [currentStep, setCurrentStep] = useState(1);
-  const [isContinue, setisContinue] = useState(false);
+  const [isLimitedEdition, setIsLimitedEdition] = useState(true);
   const [currentTitle, setCurrentTitle] = useState("Artworks");
 
-  const { title: artworkTitle } = useSelector(getArtwork);
+  const {
+    title: artworkTitle,
+    category,
+    subject,
+    year,
+    medium: artworkMedium,
+    materials: artworkMaterials,
+    styles: artworkStyles,
+    dimensions,
+    keywords,
+    description,
+  } = useSelector(getArtwork);
 
   const dispatch = useDispatch();
 
   const title = useField("text");
   const { onReset: resetTitle, ...titleProps } = title;
+
+  const displayDimensions = `${dimensions.width} W x ${dimensions.height} H x ${dimensions.depth} D in`;
 
   function handleSaveContinue(e) {
     if (title.value) {
@@ -61,41 +81,56 @@ function UploadArtwork() {
 
       // update artwork title
       dispatch(updateTitle(title.value));
-
-      setArtworkDetails((details) => [...details, titleObj]);
       setCurrentStep((prevStep) => prevStep + 1);
     }
     resetTitle(e);
-  }
 
-  function handleSelect(label, selection) {
-    const titleObj = {
-      id: artworkDetails.length,
-      label: label,
-      value: selection,
-    };
-
-    if (label === "Category") {
-      dispatch(updateCategory(selection));
-      setArtworkDetails((details) => [...details, titleObj]);
-    } else if (label === "Subject") {
-      dispatch(updateSubject(selection));
-      setArtworkDetails((details) => [...details, titleObj]);
-    } else if (label === "Year") {
-      dispatch(updateYear(selection));
-      setArtworkDetails((details) => [...details, titleObj]);
-    } else if (label === "Medium") {
-      dispatch(updateMedium(selection));
-      const medium = selection.join(", ");
-      titleObj.value = medium;
-      setArtworkDetails((details) => [...details, titleObj]);
+    if (
+      category &&
+      subject &&
+      year &&
+      artworkMedium.length >= 1 &&
+      artworkMaterials.length >= 1 &&
+      artworkStyles.length >= 1 &&
+      dimensions.width &&
+      dimensions.height &&
+      description &&
+      keywords.length >= 1
+    ) {
+      setCurrentStep((prevStep) => prevStep + 1);
     }
-    console.log(label, selection);
   }
+
+  const handleSelect = useCallback(
+    (label, selection) => {
+      if (label === "Category") {
+        dispatch(updateCategory(selection));
+      } else if (label === "Subject") {
+        dispatch(updateSubject(selection));
+      } else if (label === "Year") {
+        dispatch(updateYear(selection));
+      } else if (label === "Medium") {
+        dispatch(updateMedium(selection));
+      } else if (label === "Materials") {
+        dispatch(updateMaterials(selection));
+      } else if (label === "Styles") {
+        dispatch(updateStyles(selection));
+      } else if (label === "Dimensions") {
+        dispatch(updateDimensions(selection));
+      } else if (label === "Keywords") {
+        dispatch(updateKeywords(selection));
+      } else if (label === "Description") {
+        dispatch(updateDescription(selection));
+      }
+    },
+    [dispatch]
+  );
 
   useEffect(() => {
     if (currentStep === 2) {
       setCurrentTitle("Description");
+    } else if (currentStep === 3) {
+      setCurrentTitle("Price & Details");
     }
   }, [currentStep]);
 
@@ -135,12 +170,66 @@ function UploadArtwork() {
                   <div className={styles.sidebarContent}>
                     <div className={styles.imagePlaceholder}></div>
                     <div className={styles.inputDisplay}>
-                      {artworkDetails.map((input) => (
-                        <div key={input.id} className={styles.inputData}>
-                          <h5>{input.label}</h5>
-                          <p>{input.value}</p>
-                        </div>
-                      ))}
+                      {artworkTitle && (
+                        <InputSidebarDisplay
+                          label="Title"
+                          item={artworkTitle}
+                        />
+                      )}
+                      {category && (
+                        <InputSidebarDisplay label="Category" item={category} />
+                      )}
+                      {subject && (
+                        <InputSidebarDisplay label="Subject" item={subject} />
+                      )}
+                      {year && <InputSidebarDisplay label="Year" item={year} />}
+                      {artworkMedium.length >= 1 && (
+                        <InputSidebarDisplay
+                          label="Medium"
+                          item={artworkMedium.join(", ")}
+                        />
+                      )}
+                      {artworkMaterials.length >= 1 && (
+                        <InputSidebarDisplay
+                          label="Materials"
+                          item={artworkMaterials.join(", ")}
+                        />
+                      )}
+                      {artworkStyles.length >= 1 && (
+                        <InputSidebarDisplay
+                          label="Styles"
+                          item={artworkStyles.join(", ")}
+                        />
+                      )}
+                      {dimensions.width && dimensions.height && (
+                        <InputSidebarDisplay
+                          label="Dimensions"
+                          item={displayDimensions}
+                        />
+                      )}
+                      {isShowMore && keywords.length >= 1 && (
+                        <InputSidebarDisplay
+                          label="Keywords"
+                          item={keywords.join(", ")}
+                        />
+                      )}
+                      {isShowMore && description && (
+                        <InputSidebarDisplay
+                          label="Description"
+                          item={description}
+                        />
+                      )}
+
+                      <div className={styles.btnContainer}>
+                        <button
+                          className={styles.showMoreBtn}
+                          onClick={() =>
+                            setIsShowMore((prevState) => !prevState)
+                          }
+                        >
+                          Show {isShowMore ? "Less" : "More"}
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -212,16 +301,17 @@ function UploadArtwork() {
                           />
                         </DropdownInput>
                         <DropdownInput title="Dimensions">
-                          <DimensionsInput />
+                          <DimensionsInput onInput={handleSelect} />
                         </DropdownInput>
                         <DropdownInput title="Keywords & Description">
                           <StyledSelect
-                            label="Keyword"
+                            label="Keywords"
                             placeholder="Enter 5-12 keywords"
                             note="Please provide from 5 to 12 keywords. Tagging your artwork with keywords allows collectors to find your artwork more easily. It's best to enter simple, descriptive words that describe the key visual elements of the work, such as color, subject matter, and artistic style. You may enter or paste keywords that are distinct and at least 2-character long. We recommend providing keywords in English."
                             info="Press 'Enter' to save a keyword"
                             isInput
                             isMultiple
+                            onSelect={handleSelect}
                           />
                           <StyledSelect
                             label="Description"
@@ -229,7 +319,28 @@ function UploadArtwork() {
                             note="Collectors tend to appreciate works more if they know the 'story' behind them, so be sure to write informative artwork descriptions Great descriptions not only provide useful information (e.g. physical texture, whether hanging hardware is included, quality of materials), but they also answer questions like:"
                             tips={descriptionTips}
                             isTextArea
+                            onSelect={handleSelect}
                           />
+                        </DropdownInput>
+                      </>
+                    )}
+                    {currentStep === 3 && (
+                      <>
+                        <ArtworkAvailability title="Available For Sale" />
+                        <div style={{ marginTop: "10px" }}></div>
+                        <ArtworkAvailability
+                          title="Editions"
+                          type="editions"
+                          setEditions={setIsLimitedEdition}
+                        />
+                        <DividerLine />
+                        {isLimitedEdition && (
+                          <DropdownInput title="Limited Edition">
+                            <LimitedEdition artworkTitle={artworkTitle} />
+                          </DropdownInput>
+                        )}
+                        <DropdownInput title="Dimensions">
+                          <DimensionsInput onInput={handleSelect} />
                         </DropdownInput>
                       </>
                     )}

@@ -15,7 +15,6 @@ const initialState = {
   availability: "",
   editions: "",
   totalRun: "",
-  availableForSale: "",
   aditionalDetails: "",
   shippingAddress: "",
   price: 0,
@@ -38,22 +37,23 @@ const artworkSlice = createSlice({
       state.year = action.payload;
     },
     updateMedium(state, action) {
-      state.medium = action.payload;
+      state.medium = [...state.medium, action.payload];
     },
     updateMaterials(state, action) {
-      state.materials = action.payload;
+      state.materials = [...state.materials, action.payload];
     },
     updateStyles(state, action) {
-      state.styles = action.payload;
+      state.styles = [...state.styles, action.payload];
     },
 
     updateDimensions(state, action) {
       state.dimensions = action.payload;
     },
-    updateKeywDesc(state, action) {
-      const { keywords, description } = action.payload;
-      state.keywords = keywords;
-      state.description = description;
+    updateKeywords(state, action) {
+      state.keywords = [...state.keywords, action.payload];
+    },
+    updateDescription(state, action) {
+      state.description = [...state.description, action.payload];
     },
   },
 });
@@ -67,7 +67,8 @@ export const {
   updateMedium,
   updateStyles,
   updateDimensions,
-  updateKeywDesc,
+  updateDescription,
+  updateKeywords,
 } = artworkSlice.actions;
 
 export default artworkSlice.reducer;

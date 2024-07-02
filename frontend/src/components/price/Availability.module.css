@@ -1,0 +1,78 @@
+.container {
+  display: block;
+  width: 100%;
+  margin: 0px;
+  padding: 0px;
+}
+
+.innerWrapper {
+  display: flex;
+  flex-direction: column;
+  -webkit-box-pack: start;
+  justify-content: flex-start;
+  -webkit-box-align: start;
+  align-items: flex-start;
+  /* border-width: 0px 0px 1px 0px;
+  border-style: solid;
+  border-color: var(--outline-variant); */
+  margin-top: 10px;
+}
+
+.radioInputList {
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+  padding: 10px 0px;
+  border: none;
+  width: 100%;
+  list-style: none;
+}
+
+.titleWrapper {
+  display: flex;
+  -webkit-box-pack: start;
+  justify-content: flex-start;
+  -webkit-box-align: center;
+  align-items: center;
+  flex: 1 1 0%;
+}
+
+.title {
+  font-size: var(--desktop-body-lg);
+  line-height: 24px;
+  font-family: Arial, Helvetica, sans-serif;
+  color: var(--primary);
+}
+
+.radioInputList {
+  display: flex;
+  -webkit-box-pack: start;
+  justify-content: flex-start;
+  -webkit-box-align: center;
+  align-items: center;
+  gap: 30px;
+  margin-top: 10px;
+}
+
+.inputItem {
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+}
+
+.inputItem label {
+  margin-left: 5px;
+}
+
+.input {
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 2px solid var(--outline);
+  transition: 0.2s all linear;
+}
+
+.input:checked {
+  border: 6px solid var(--on-primary-container);
+}

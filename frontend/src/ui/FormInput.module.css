@@ -26,6 +26,10 @@
   color: var(--primary-variant);
 }
 
+.small {
+  height: 40px;
+}
+
 .searchInput::-webkit-inner-spin-button {
   -webkit-appearance: none;
 }

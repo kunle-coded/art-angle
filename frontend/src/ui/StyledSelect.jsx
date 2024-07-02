@@ -23,6 +23,8 @@ function StyledSelect({
 
   const inputValue = useField("text");
   const { onReset, ...inputProps } = inputValue;
+  const textAreaValue = useField("text");
+  const { onReset: resetTextArea, ...textAreaProps } = textAreaValue;
 
   function toggleOpen() {
     setIsOpen((prevState) => !prevState);
@@ -38,7 +40,7 @@ function StyledSelect({
       }
 
       setSelectedMultiple((prevSelected) => [...prevSelected, option]);
-      onSelect(label, selectedMultiple.slice(1));
+      onSelect(label, option);
     } else {
       setSelected(option);
       onSelect(label, option);
@@ -58,8 +60,14 @@ function StyledSelect({
         ...prevSelected,
         inputValue.value,
       ]);
+      onSelect(label, inputValue.value);
       onReset(event);
     }
+  }
+
+  function handleTextArea(e) {
+    onSelect(label, textAreaValue.value);
+    resetTextArea(e);
   }
 
   return (
@@ -127,10 +135,14 @@ function StyledSelect({
         </div>
       )}
 
-      {isTextArea && <StyledTextArea placeholder={placeholder} />}
+      {isTextArea && (
+        <StyledTextArea placeholder={placeholder} {...textAreaProps} />
+      )}
       {isTextArea && (
         <div className={styles.descBtn}>
-          <Button size="small">Submit</Button>
+          <Button size="small" onClick={handleTextArea}>
+            Submit
+          </Button>
         </div>
       )}
 
