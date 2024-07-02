@@ -8,7 +8,10 @@
 }
 
 .displayLabel {
+  font-size: var(--desktop-body-lg);
+  line-height: 24px;
   text-align: left;
+  color: var(--on-primary-container);
   margin-bottom: 5px;
   margin-top: 10px;
   flex-shrink: 0;
@@ -148,6 +151,7 @@
   height: 14px;
   position: relative;
   color: var(--primary);
+  cursor: pointer;
 }
 
 .displayNote {
@@ -161,6 +165,30 @@
   line-height: 20px;
   margin-top: 20px;
   margin-bottom: 10px;
+}
+
+.displayInfoList {
+  font-size: var(--desktop-body-md);
+  line-height: 20px;
+  font-weight: 500;
+  text-align: left;
+  color: var(--on-primary-container);
+  margin-bottom: 5px;
+}
+
+.displayCount {
+  font-size: var(--desktop-body-md);
+  line-height: 20px;
+  text-align: right;
+  margin-top: 5px;
+  /* margin-bottom: 10px; */
+}
+.descBtn {
+  display: flex;
+  -webkit-box-pack: end;
+  justify-content: flex-end;
+  margin-top: 5px;
+  /* margin-bottom: 10px; */
 }
 
 .customInput {

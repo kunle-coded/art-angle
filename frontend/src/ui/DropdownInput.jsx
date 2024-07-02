@@ -3,19 +3,11 @@ import DropdownIcon from "../components/icons/DropdownIcon";
 import styles from "./DropdownInput.module.css";
 import CheckIcon from "../components/icons/CheckIcon";
 
-function DropdownInput({ title = "", inputValue, isContinue, children }) {
+function DropdownInput({ title = "", isCheck, children }) {
   const [isDropdown, setIsDropdown] = useState(false);
-  const [isCheck, setIsCheck] = useState(false);
 
   function handleDropdown() {
     setIsDropdown((prevState) => !prevState);
-
-    if (isDropdown && inputValue) {
-      console.log("check");
-      setIsCheck(true);
-    } else {
-      setIsCheck(false);
-    }
   }
 
   return (
@@ -32,7 +24,7 @@ function DropdownInput({ title = "", inputValue, isContinue, children }) {
             </div>
             <div className={styles.dropdownTitle}>{title}</div>
           </div>
-          {(isCheck || isContinue) && (
+          {isCheck && (
             <div className={styles.check}>
               <CheckIcon />
             </div>

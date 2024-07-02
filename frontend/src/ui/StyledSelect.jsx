@@ -1,17 +1,21 @@
 import { useState } from "react";
 import styles from "./StyledSelect.module.css";
 import CloseIcon from "../components/icons/CloseIcon";
-import Input from "./Input";
+import StyledTextArea from "./StyledTextArea";
 import { useField, useKeyPress } from "../hooks";
+import Button from "./Button";
 
 function StyledSelect({
   label = "",
   placeholder = "",
   note = "",
   info = "",
+  tips = [],
   options = [],
   isMultiple = false,
   isInput = false,
+  isTextArea = false,
+  onSelect,
 }) {
   const [isOpen, setIsOpen] = useState(false);
   const [selected, setSelected] = useState(placeholder);
@@ -34,16 +38,22 @@ function StyledSelect({
       }
 
       setSelectedMultiple((prevSelected) => [...prevSelected, option]);
+      onSelect(label, selectedMultiple.slice(1));
     } else {
       setSelected(option);
+      onSelect(label, option);
     }
     setIsOpen(false);
   }
 
+  function deleteSelection(item) {
+    setSelectedMultiple((prevItems) =>
+      prevItems.filter((itemToDel) => itemToDel !== item)
+    );
+  }
+
   function handleKeyDown(event) {
     if (event.key === "Enter") {
-      console.log("Enter key pressed");
-
       setSelectedMultiple((prevSelected) => [
         ...prevSelected,
         inputValue.value,
@@ -56,13 +66,21 @@ function StyledSelect({
     <div className={styles.container}>
       <div className={styles.displayLabel}>{label}</div>
       {note && <div className={styles.displayNote}>{note}</div>}
-      {note && isMultiple && <div className={styles.displayInfo}>{info}</div>}
-      {!isInput && (
+      {info && <div className={styles.displayInfo}>{info}</div>}
+      {note &&
+        isTextArea &&
+        tips &&
+        tips.map((tip, i) => (
+          <div key={i} className={styles.displayInfoList}>
+            {tip}
+          </div>
+        ))}
+      {!isInput && !isTextArea && (
         <label htmlFor="select button" className={styles.label}>
           {label}
         </label>
       )}
-      {!isInput && (
+      {!isInput && !isTextArea && (
         <div className={styles.selectContainer}>
           <button
             name="select button"
@@ -103,8 +121,20 @@ function StyledSelect({
           {...inputProps}
         />
       )}
+      {note && isMultiple && (
+        <div className={styles.displayCount}>
+          {selectedMultiple.length - 1}/12
+        </div>
+      )}
 
-      {isOpen && !isInput && (
+      {isTextArea && <StyledTextArea placeholder={placeholder} />}
+      {isTextArea && (
+        <div className={styles.descBtn}>
+          <Button size="small">Submit</Button>
+        </div>
+      )}
+
+      {isOpen && !isInput && !isTextArea && (
         <ul className={styles.dropdownMenu}>
           {options.map((option, i) => (
             <li
@@ -128,7 +158,10 @@ function StyledSelect({
               i >= 1 && (
                 <li key={i} className={styles.selectedItem}>
                   <span>{selectedItem}</span>
-                  <div className={styles.closeSelected}>
+                  <div
+                    className={styles.closeSelected}
+                    onClick={() => deleteSelection(selectedItem)}
+                  >
                     <CloseIcon />
                   </div>
                 </li>
