@@ -1,8 +1,29 @@
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { useField } from "../../hooks";
 import FormInput from "../../ui/FormInput";
 import Input from "../../ui/Input";
 import styles from "./LimitedEdition.module.css";
+import {
+  updateAvailableForSale,
+  updateRuns,
+} from "../../reducers/artworkSllice";
 
 function LimitedEdition({ artworkTitle }) {
+  const runs = useField("text");
+  const { onReset: resetRuns, ...runsProps } = runs;
+  const available = useField("text");
+  const { onReset: resetAvailable, ...availableProps } = available;
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (runs.value && available.value) {
+      dispatch(updateRuns(runs.value));
+      dispatch(updateAvailableForSale(available.value));
+    }
+  }, [available.value, dispatch, runs.value]);
+
   return (
     <div className={styles.container}>
       <div className={styles.innerWrapper}>
@@ -17,6 +38,7 @@ function LimitedEdition({ artworkTitle }) {
               placeholder="Enter total run"
               label="Total Run"
               size="small"
+              {...runsProps}
             />
           </div>
           <div className={styles.availability}>
@@ -25,6 +47,7 @@ function LimitedEdition({ artworkTitle }) {
               placeholder="Enter availability"
               label="Availability"
               size="small"
+              {...availableProps}
             />
           </div>
         </div>

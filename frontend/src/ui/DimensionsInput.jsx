@@ -21,10 +21,12 @@ function DimensionsInput({ onInput, showDiagram = true }) {
   };
 
   useEffect(() => {
-    if (widthInput.value && heightInput.value && depthInput.value) {
+    if (widthInput.value && heightInput.value) {
       setWidth(widthInput.value);
       setHeight(heightInput.value);
-      setDepth(depthInput.value);
+      if (depthInput.value) {
+        setDepth(depthInput.value);
+      }
 
       const dimension = {
         width: widthInput.value,

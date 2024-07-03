@@ -1,11 +1,18 @@
 import styles from "./ArtworkAvailability.module.css";
 import { Availability, Editions } from "../../constants/enums";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import {
+  updateAvailability,
+  updateEditions,
+} from "../../reducers/artworkSllice";
 
 function ArtworkAvailability({ title = "", type = "", setEditions }) {
   const [inputValue, setInputValue] = useState(
     type === "editions" ? Editions.LIMITED : Availability.FOR_SALE
   );
+
+  const dispatch = useDispatch();
 
   function handleChange(e) {
     const value = e.target.value;
@@ -17,6 +24,9 @@ function ArtworkAvailability({ title = "", type = "", setEditions }) {
       } else {
         setEditions(false);
       }
+      dispatch(updateEditions(value));
+    } else {
+      dispatch(updateAvailability(value));
     }
   }
 

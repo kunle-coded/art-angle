@@ -1,12 +1,25 @@
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import { SHIPPING_COST } from "../../constants/constants";
 import formatCurrency from "../../helpers/formatCurrency";
 import { useField } from "../../hooks";
 import FormInput from "../../ui/FormInput";
 import styles from "./PriceInputs.module.css";
+import { updatePrice, updateTotalPrice } from "../../reducers/artworkSllice";
 
 function PriceInputs() {
   const price = useField("number");
   const { onReset: resetPrice, ...priceProps } = price;
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (price.value) {
+      dispatch(updatePrice(price.value));
+    }
+    // dispatch(update(SHIPPING_COST));
+    dispatch(updateTotalPrice(Number(price.value) + SHIPPING_COST));
+  }, [dispatch, price.value]);
 
   return (
     <div className={styles.container}>

@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { Availability, Editions } from "../constants/enums";
 
 const initialState = {
   title: "",
@@ -12,12 +13,21 @@ const initialState = {
   dimensions: { width: "", height: "", depth: "" },
   keywords: [],
   description: "",
-  availability: "",
-  editions: "",
+  availability: Availability.FOR_SALE,
+  editions: Editions.LIMITED,
   totalRun: "",
-  aditionalDetails: "",
-  shippingAddress: "",
+  availableForSale: "",
+  weight: "",
+  framed: false,
+  frameDimensions: { width: "", height: "", depth: "" },
+  packagingType: "",
+  packagingInstructions: "",
+  packagingWeight: 0,
+  totalWeight: 0,
+  shippingAddress: { city: "", state: "", country: "" },
+  shippingCost: 0,
   price: 0,
+  totalPrice: 0,
 };
 
 const artworkSlice = createSlice({
@@ -53,7 +63,49 @@ const artworkSlice = createSlice({
       state.keywords = [...state.keywords, action.payload];
     },
     updateDescription(state, action) {
-      state.description = [...state.description, action.payload];
+      state.description = action.payload;
+    },
+    updateAvailability(state, action) {
+      state.availability = action.payload;
+    },
+    updateEditions(state, action) {
+      state.editions = action.payload;
+    },
+    updateRuns(state, action) {
+      state.totalRun = action.payload;
+    },
+    updateAvailableForSale(state, action) {
+      state.availableForSale = action.payload;
+    },
+    updateWeight(state, action) {
+      state.weight = action.payload;
+    },
+    updateFramed(state, action) {
+      state.framed = action.payload;
+    },
+    updateFrameDimension(state, action) {
+      state.frameDimensions = action.payload;
+    },
+    updatePackagingType(state, action) {
+      state.packagingType = action.payload;
+    },
+    updatePackagingInstructions(state, action) {
+      state.packagingInstructions = action.payload;
+    },
+    updatePackagingWeight(state, action) {
+      state.packagingWeight = action.payload;
+    },
+    updateTotalWeight(state, action) {
+      state.totalWeight = action.payload;
+    },
+    updateAddress(state, action) {
+      state.shippingAddress = action.payload;
+    },
+    updatePrice(state, action) {
+      state.price = action.payload;
+    },
+    updateTotalPrice(state, action) {
+      state.totalPrice = action.payload;
     },
   },
 });
@@ -69,6 +121,20 @@ export const {
   updateDimensions,
   updateDescription,
   updateKeywords,
+  updateAvailability,
+  updateAvailableForSale,
+  updateAddress,
+  updateEditions,
+  updateFramed,
+  updateFrameDimension,
+  updateWeight,
+  updatePackagingWeight,
+  updatePackagingInstructions,
+  updatePackagingType,
+  updatePrice,
+  updateRuns,
+  updateTotalPrice,
+  updateTotalWeight,
 } = artworkSlice.actions;
 
 export default artworkSlice.reducer;

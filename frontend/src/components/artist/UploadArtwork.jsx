@@ -49,6 +49,7 @@ const descriptionTips = [
 ];
 
 function UploadArtwork() {
+  const [isImage, setIsImage] = useState(false);
   const [isShowMore, setIsShowMore] = useState(false);
   const [currentStep, setCurrentStep] = useState(1);
   const [isLimitedEdition, setIsLimitedEdition] = useState(true);
@@ -65,6 +66,16 @@ function UploadArtwork() {
     dimensions,
     keywords,
     description,
+    editions,
+    totalRun,
+    availableForSale,
+    weight,
+    framed,
+    frameDimensions,
+    packagingType,
+    packagingWeight,
+    shippingAddress,
+    price,
   } = useSelector(getArtwork);
 
   const dispatch = useDispatch();
@@ -75,32 +86,47 @@ function UploadArtwork() {
   const displayDimensions = `${dimensions.width} W x ${dimensions.height} H x ${dimensions.depth} D in`;
 
   function handleSaveContinue(e) {
-    if (title.value) {
-      const titleObj = {
-        id: 0,
-        label: "Title",
-        value: title.value,
-      };
-
+    if (currentStep === 1) {
       // update artwork title
       dispatch(updateTitle(title.value));
       setCurrentStep((prevStep) => prevStep + 1);
+      setIsImage(true);
     }
-    resetTitle(e);
+    // resetTitle(e);
 
-    if (
-      category &&
-      subject &&
-      year &&
-      artworkMedium.length >= 1 &&
-      artworkMaterials.length >= 1 &&
-      artworkStyles.length >= 1 &&
-      dimensions.width &&
-      dimensions.height &&
-      description &&
-      keywords.length >= 1
-    ) {
-      setCurrentStep((prevStep) => prevStep + 1);
+    if (currentStep === 2) {
+      if (
+        category &&
+        subject &&
+        year &&
+        artworkMedium.length >= 1 &&
+        artworkMaterials.length >= 1 &&
+        artworkStyles.length >= 1 &&
+        dimensions.width &&
+        dimensions.height &&
+        description &&
+        keywords.length >= 1
+      ) {
+        setCurrentStep((prevStep) => prevStep + 1);
+      }
+    }
+
+    if (currentStep === 3) {
+      if (
+        ((editions === "Limited Edition" && totalRun && availableForSale) ||
+          editions === "One-of-a-kind") &&
+        weight &&
+        packagingWeight &&
+        ((framed && frameDimensions.width && frameDimensions.height) ||
+          !framed) &&
+        shippingAddress.city &&
+        shippingAddress.state &&
+        shippingAddress.country &&
+        packagingType &&
+        price
+      ) {
+        setCurrentStep((prevStep) => prevStep + 1);
+      }
     }
   }
 
@@ -134,6 +160,8 @@ function UploadArtwork() {
       setCurrentTitle("Description");
     } else if (currentStep === 3) {
       setCurrentTitle("Price & Details");
+    } else if (currentStep === 4) {
+      setCurrentTitle("Publish");
     }
   }, [currentStep]);
 
@@ -171,7 +199,18 @@ function UploadArtwork() {
                 <div className={styles.sidebarContainer}>
                   <div className={styles.backBtn}>Back to Artworks</div>
                   <div className={styles.sidebarContent}>
-                    <div className={styles.imagePlaceholder}></div>
+                    {isImage && (
+                      <div className={styles.artworkImage}>
+                        <img
+                          className={styles.image}
+                          src="/assets/artists/temi-wynston.webp"
+                          alt=""
+                        />
+                      </div>
+                    )}
+                    {!isImage && (
+                      <div className={styles.imagePlaceholder}></div>
+                    )}
                     <div className={styles.inputDisplay}>
                       {artworkTitle && (
                         <InputSidebarDisplay
@@ -259,7 +298,7 @@ function UploadArtwork() {
                       <>
                         <DropdownInput
                           title="Category, Subject, Year"
-                          isCheck={false}
+                          isCheck={category && subject && year}
                         >
                           <StyledSelect
                             label="Category"
@@ -280,7 +319,14 @@ function UploadArtwork() {
                             onSelect={handleSelect}
                           />
                         </DropdownInput>
-                        <DropdownInput title="Medium, Materials & Styles">
+                        <DropdownInput
+                          title="Medium, Materials & Styles"
+                          isCheck={
+                            artworkMaterials.length >= 1 &&
+                            artworkMedium.length >= 1 &&
+                            artworkStyles.length >= 1
+                          }
+                        >
                           <StyledSelect
                             label="Medium"
                             placeholder="Select or add a new medium"
@@ -303,10 +349,16 @@ function UploadArtwork() {
                             onSelect={handleSelect}
                           />
                         </DropdownInput>
-                        <DropdownInput title="Dimensions">
+                        <DropdownInput
+                          title="Dimensions"
+                          isCheck={dimensions.width && dimensions.height}
+                        >
                           <DimensionsInput onInput={handleSelect} />
                         </DropdownInput>
-                        <DropdownInput title="Keywords & Description">
+                        <DropdownInput
+                          title="Keywords & Description"
+                          isCheck={keywords.length >= 1 && description}
+                        >
                           <StyledSelect
                             label="Keywords"
                             placeholder="Enter 5-12 keywords"
@@ -327,7 +379,7 @@ function UploadArtwork() {
                         </DropdownInput>
                       </>
                     )}
-                    {currentStep === 3 && (
+                    {currentStep >= 3 && (
                       <>
                         <ArtworkAvailability title="Available For Sale" />
                         <div style={{ marginTop: "10px" }}></div>
@@ -338,17 +390,38 @@ function UploadArtwork() {
                         />
                         <DividerLine />
                         {isLimitedEdition && (
-                          <DropdownInput title="Limited Edition">
+                          <DropdownInput
+                            title="Limited Edition"
+                            isCheck={totalRun && availableForSale}
+                          >
                             <LimitedEdition artworkTitle={artworkTitle} />
                           </DropdownInput>
                         )}
-                        <DropdownInput title="Weight and Packaging">
+                        <DropdownInput
+                          title="Weight and Packaging"
+                          isCheck={
+                            weight &&
+                            packagingType &&
+                            packagingWeight &&
+                            ((framed &&
+                              frameDimensions.width &&
+                              frameDimensions.height) ||
+                              !framed)
+                          }
+                        >
                           <WeightPackaging />
                         </DropdownInput>
-                        <DropdownInput title="Shipping Address">
+                        <DropdownInput
+                          title="Shipping Address"
+                          isCheck={
+                            shippingAddress.city &&
+                            shippingAddress.state &&
+                            shippingAddress.country
+                          }
+                        >
                           <ShippingAddress />
                         </DropdownInput>
-                        <DropdownInput title="Price">
+                        <DropdownInput title="Price" isCheck={price}>
                           <PriceInputs />
                         </DropdownInput>
                       </>
@@ -367,7 +440,7 @@ function UploadArtwork() {
                       Save & Exit
                     </Button>
                     <Button size="small" onClick={handleSaveContinue}>
-                      Save & Continue
+                      {currentStep >= 3 ? "Publish" : "Save & Continue"}
                     </Button>
                   </div>
                 </div>

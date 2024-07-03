@@ -2,7 +2,7 @@ import { useState } from "react";
 import styles from "./StyledSelect.module.css";
 import CloseIcon from "../components/icons/CloseIcon";
 import StyledTextArea from "./StyledTextArea";
-import { useField, useKeyPress } from "../hooks";
+import { useField } from "../hooks";
 import Button from "./Button";
 
 function StyledSelect({
@@ -10,6 +10,7 @@ function StyledSelect({
   placeholder = "",
   note = "",
   info = "",
+  size = "",
   tips = [],
   options = [],
   isMultiple = false,
@@ -72,7 +73,7 @@ function StyledSelect({
 
   return (
     <div className={`${styles.container} ${!label ? styles.fullWidth : ""}`}>
-      <div className={styles.displayLabel}>{label}</div>
+      {label && <div className={styles.displayLabel}>{label}</div>}
       {note && <div className={styles.displayNote}>{note}</div>}
       {info && <div className={styles.displayInfo}>{info}</div>}
       {note &&
@@ -92,7 +93,9 @@ function StyledSelect({
         <div className={styles.selectContainer}>
           <button
             name="select button"
-            className={styles.select}
+            className={`${styles.select} ${
+              size === "small" ? styles.small : ""
+            }`}
             onClick={toggleOpen}
           >
             {selected}

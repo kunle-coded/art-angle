@@ -1,13 +1,25 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CheckboxComponent from "../../ui/CheckboxComponent";
 import Input from "../../ui/Input";
 import styles from "./WeightPackaging.module.css";
 import StyledSelect from "../../ui/StyledSelect";
 import StyledTextArea from "../../ui/StyledTextArea";
 import { useField } from "../../hooks";
+import { useDispatch } from "react-redux";
+import {
+  updateFrameDimension,
+  updateFramed,
+  updatePackagingInstructions,
+  updatePackagingType,
+  updatePackagingWeight,
+  updateTotalWeight,
+  updateWeight,
+} from "../../reducers/artworkSllice";
 
 function WeightPackaging() {
   const [isFramed, setIsFramed] = useState(false);
+
+  const dispatch = useDispatch();
 
   const weight = useField("text");
   const { onReset: resetWeight, ...weightProps } = weight;
@@ -23,12 +35,47 @@ function WeightPackaging() {
   const estWeight = useField("text");
   const { onReset: resetEstWeight, ...estWeightProps } = estWeight;
 
+  useEffect(() => {
+    if (weight.value && estWeight.value) {
+      dispatch(updateWeight(weight.value));
+
+      const totalWeight = Number(weight.value) + Number(estWeight.value);
+
+      dispatch(updatePackagingWeight(estWeight.value));
+      dispatch(updateTotalWeight(totalWeight));
+    }
+
+    if (isFramed && width.value && height.value) {
+      const framedDms = {
+        width: width.value,
+        height: height.value,
+        depth: depth.value,
+      };
+
+      dispatch(updateFramed(isFramed));
+      dispatch(updateFrameDimension(framedDms));
+    }
+
+    if (pkgInstructions.value) {
+      dispatch(updatePackagingInstructions(pkgInstructions.value));
+    }
+  }, [
+    depth.value,
+    dispatch,
+    estWeight.value,
+    height.value,
+    isFramed,
+    pkgInstructions.value,
+    weight.value,
+    width.value,
+  ]);
+
   function handleFramed() {
     setIsFramed((prevState) => !prevState);
   }
 
-  function handlePackageType() {
-    console.log("selected a type");
+  function handlePackageType(_, option) {
+    dispatch(updatePackagingType(option));
   }
 
   return (
@@ -122,11 +169,6 @@ function WeightPackaging() {
             : "0"
         }kg`}</div>
       </div>
-
-      <div className={styles.sectionWrappe}></div>
-      <div className={styles.sectionWrappe}></div>
-      <div className={styles.sectionWrappe}></div>
-      <div className={styles.sectionWrappe}></div>
     </div>
   );
 }
