@@ -3,7 +3,7 @@ import styles from "./DimensionsInput.module.css";
 import Input from "./Input";
 import { useField } from "../hooks";
 
-function DimensionsInput({ onInput }) {
+function DimensionsInput({ onInput, showDiagram = true }) {
   const [width, setWidth] = useState("18");
   const [height, setHeight] = useState("10");
   const [depth, setDepth] = useState("0.1");
@@ -40,26 +40,28 @@ function DimensionsInput({ onInput }) {
     <div className={styles.container}>
       <div className={styles.inputsWrapper}>
         <div className={styles.inputContainer}>
-          <p className={styles.inputLabel}>Width</p>
+          <p>Width</p>
           <Input placeholder={width} size="small" {...widthProps} />
         </div>
         <div className={styles.inputContainer}>
-          <p className={styles.inputLabel}>Height</p>
+          <p>Height</p>
           <Input placeholder={height} size="small" {...heightProps} />
         </div>
         <div className={styles.inputContainer}>
-          <p className={styles.inputLabel}>Depth</p>
+          <p>Depth</p>
           <Input placeholder={depth} size="small" {...depthProps} />
         </div>
         <div>in</div>
       </div>
-      <div className={styles.dimensionWrapper}>
-        <div className={styles.dimensionInner}>
-          <span className={styles.dimensionWidth}>{width} in</span>
-          <span className={styles.dimensionHeight}>{height} in</span>
-          <div className={styles.dimensionDiagram} style={diagramStyle}></div>
+      {showDiagram && (
+        <div className={styles.dimensionWrapper}>
+          <div className={styles.dimensionInner}>
+            <span className={styles.dimensionWidth}>{width} in</span>
+            <span className={styles.dimensionHeight}>{height} in</span>
+            <div className={styles.dimensionDiagram} style={diagramStyle}></div>
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }

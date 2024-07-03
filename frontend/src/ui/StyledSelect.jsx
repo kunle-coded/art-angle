@@ -71,7 +71,7 @@ function StyledSelect({
   }
 
   return (
-    <div className={styles.container}>
+    <div className={`${styles.container} ${!label ? styles.fullWidth : ""}`}>
       <div className={styles.displayLabel}>{label}</div>
       {note && <div className={styles.displayNote}>{note}</div>}
       {info && <div className={styles.displayInfo}>{info}</div>}

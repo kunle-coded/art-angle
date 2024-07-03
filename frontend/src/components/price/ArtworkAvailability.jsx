@@ -1,4 +1,4 @@
-import styles from "./Availability.module.css";
+import styles from "./ArtworkAvailability.module.css";
 import { Availability, Editions } from "../../constants/enums";
 import { useState } from "react";
 
@@ -11,10 +11,12 @@ function ArtworkAvailability({ title = "", type = "", setEditions }) {
     const value = e.target.value;
     setInputValue(value);
 
-    if (type === "editions" && value === "Limited Edition") {
-      setEditions(true);
-    } else {
-      setEditions(false);
+    if (type === "editions") {
+      if (value === "Limited Edition") {
+        setEditions(true);
+      } else {
+        setEditions(false);
+      }
     }
   }
 

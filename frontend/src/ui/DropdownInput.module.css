@@ -30,6 +30,7 @@
   text-decoration: none;
   background-color: var(--surface);
   cursor: pointer;
+  overflow: hidden;
   z-index: 2;
 }
 
@@ -78,6 +79,7 @@
   height: 0px;
   opacity: 0;
   pointer-events: none;
+
   transform: translateY(-10px);
   transition: opacity 0.25s ease 0s, transform 0.25s ease 0s,
     height 0.25s ease 0s;
@@ -85,7 +87,6 @@
 }
 
 .showDropdown {
-  padding-bottom: 10px;
   height: auto;
   opacity: 1;
   pointer-events: auto;
@@ -97,4 +98,6 @@
   flex-direction: column;
   -webkit-box-pack: center;
   justify-content: center;
+  padding-bottom: 10px;
+  overflow: hidden;
 }

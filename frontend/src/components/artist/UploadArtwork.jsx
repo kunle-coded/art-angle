@@ -36,6 +36,7 @@ import InputSidebarDisplay from "../../ui/InputSidebarDisplay";
 import ArtworkAvailability from "../price/ArtworkAvailability";
 import LimitedEdition from "../price/LimitedEdition";
 import DividerLine from "../../ui/DividerLine";
+import WeightPackaging from "./WeightPackaging";
 
 const years = ["2019", "2020", "2021", "2022", "2023", "2024"];
 
@@ -339,8 +340,8 @@ function UploadArtwork() {
                             <LimitedEdition artworkTitle={artworkTitle} />
                           </DropdownInput>
                         )}
-                        <DropdownInput title="Dimensions">
-                          <DimensionsInput onInput={handleSelect} />
+                        <DropdownInput title="Weight and Packaging">
+                          <WeightPackaging />
                         </DropdownInput>
                       </>
                     )}

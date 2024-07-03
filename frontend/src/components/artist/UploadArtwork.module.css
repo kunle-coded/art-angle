@@ -140,6 +140,7 @@
   font-size: var(--desktop-headline-sm);
   line-height: 32px;
   font-weight: 500;
+  overflow: hidden;
 }
 
 .inputItems {
