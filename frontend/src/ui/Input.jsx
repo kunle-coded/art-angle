@@ -10,7 +10,7 @@ function Input({ placeholder = "", label = "", size = "", ...props }) {
           className={`${styles.searchInput} ${
             size === "small" ? styles.small : ""
           }`}
-          style={{ paddingRight: "33px" }}
+          style={label ? { paddingRight: "33px" } : {}}
           {...props}
         />
         {label && (

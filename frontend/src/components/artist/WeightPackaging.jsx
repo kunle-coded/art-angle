@@ -22,10 +22,6 @@ function WeightPackaging() {
     pkgInstructions;
   const estWeight = useField("text");
   const { onReset: resetEstWeight, ...estWeightProps } = estWeight;
-  //   const weight = useField("text");
-  //   const { onReset: resetWeight, ...weightProps } = weight;
-  //   const weight = useField("text");
-  //   const { onReset: resetWeight, ...weightProps } = weight;
 
   function handleFramed() {
     setIsFramed((prevState) => !prevState);

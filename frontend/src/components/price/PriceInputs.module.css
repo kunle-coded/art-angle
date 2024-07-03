@@ -1,0 +1,90 @@
+.container {
+  display: block;
+  width: 100%;
+  padding: 0px;
+  margin: 0px;
+}
+
+.innerWrapper {
+  display: flex;
+  flex-direction: column;
+  -webkit-box-flex: 1;
+  flex-grow: 1;
+  width: auto;
+}
+
+.info {
+  font-size: var(--desktop-body-md);
+  line-height: 20px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.info span {
+  font-size: var(--desktop-body-md);
+  line-height: 20px;
+  text-decoration: underline;
+  text-underline-offset: 1.5px;
+  margin-left: 5px;
+  cursor: pointer;
+  transition: text-underline-offset 0.2s ease 0s;
+}
+
+.info span:hover {
+  text-underline-offset: 3px;
+}
+
+.info span a {
+  color: inherit;
+}
+
+.gridContainer {
+  display: block;
+  width: 100%;
+  margin-top: 10px;
+}
+
+.gridWrapper {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 0px 20px;
+  margin-top: 20px;
+}
+
+.gridRowLabel {
+  grid-column: span 4;
+  display: flex;
+  flex-direction: column;
+  -webkit-box-pack: start;
+  justify-content: flex-start;
+}
+.gridRowValue {
+  grid-column: span 6;
+  display: flex;
+  flex-direction: column;
+  -webkit-box-pack: start;
+  justify-content: flex-start;
+}
+
+.label {
+  font-size: var(--desktop-body-lg);
+  line-height: 24px;
+}
+
+.labelInfo {
+  font-size: var(--desktop-body-sm);
+  line-height: 16px;
+  font-weight: 500;
+  color: var(--primary-variant);
+}
+
+.valueDisplay {
+  font-size: var(--desktop-body-lg);
+  line-height: 24px;
+  font-weight: 600;
+  color: var(--primary);
+}
+
+.first {
+  padding-top: 15px;
+}

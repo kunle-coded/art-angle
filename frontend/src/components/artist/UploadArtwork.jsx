@@ -37,6 +37,8 @@ import ArtworkAvailability from "../price/ArtworkAvailability";
 import LimitedEdition from "../price/LimitedEdition";
 import DividerLine from "../../ui/DividerLine";
 import WeightPackaging from "./WeightPackaging";
+import ShippingAddress from "./ShippingAddress";
+import PriceInputs from "../price/PriceInputs";
 
 const years = ["2019", "2020", "2021", "2022", "2023", "2024"];
 
@@ -342,6 +344,12 @@ function UploadArtwork() {
                         )}
                         <DropdownInput title="Weight and Packaging">
                           <WeightPackaging />
+                        </DropdownInput>
+                        <DropdownInput title="Shipping Address">
+                          <ShippingAddress />
+                        </DropdownInput>
+                        <DropdownInput title="Price">
+                          <PriceInputs />
                         </DropdownInput>
                       </>
                     )}
