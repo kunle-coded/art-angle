@@ -5,14 +5,6 @@ import { getGlobal } from "../../reducers/globalSlice";
 import useDropdown from "../../hooks/useDropdown";
 import Checkbox from "../../ui/Checkbox";
 
-const sortArray = [
-  "Recommended",
-  "Recently Updated",
-  "Recently Added",
-  "Artwork Year (Descending)",
-  "Artwork Year (Ascending)",
-];
-
 function SortComponent(props, ref) {
   const { sortPosition, sortDropdown, sortDropdownPadding } =
     useSelector(getGlobal);
@@ -22,6 +14,7 @@ function SortComponent(props, ref) {
   const sortRef = useRef(null);
   const labelRef = ref;
 
+  const sortItems = props.items;
   const selected = props.selected;
   const handleSort = props.handleSort;
 
@@ -59,7 +52,7 @@ function SortComponent(props, ref) {
         <div className={styles.focusGuard}></div>
         <div>
           <div className={styles.dropdown}>
-            {sortArray.map((item, i) => (
+            {sortItems.map((item, i) => (
               <Checkbox
                 key={i}
                 selected={selected}

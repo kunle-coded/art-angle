@@ -14,7 +14,7 @@ const initialState = {
   isModalOpen: false,
   isProfileDropdown: false,
   isSuccess: false,
-  currentSort: "Recommended",
+  currentSort: "",
 };
 
 const globalSlice = createSlice({

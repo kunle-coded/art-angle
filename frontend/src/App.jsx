@@ -12,6 +12,7 @@ import Account from "./pages/Account";
 import AccountArtists from "./pages/AccountArtists";
 import UserCollections from "./pages/UserCollections";
 import ArtworkUpload from "./pages/ArtworkUpload";
+import ArtworksArtists from "./pages/ArtworksArtists";
 
 const router = createBrowserRouter([
   {
@@ -43,6 +44,10 @@ const router = createBrowserRouter([
         element: <Profile />,
       },
       {
+        path: "/user/:id/:list",
+        element: <UserCollections />,
+      },
+      {
         path: "/accounts/:feature",
         element: <Account />,
       },
@@ -51,8 +56,8 @@ const router = createBrowserRouter([
         element: <AccountArtists />,
       },
       {
-        path: "/user/:id/:list",
-        element: <UserCollections />,
+        path: "/user/artist/:artistId/artworks",
+        element: <ArtworksArtists />,
       },
       {
         path: "/artworks/upload",

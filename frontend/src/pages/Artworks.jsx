@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getGlobal,
@@ -40,6 +40,14 @@ import ArtworkGridColumn from "../ui/ArtworkGridColumn";
 import Pagination from "../components/pagination/Pagination";
 import NewsLetter from "../components/cta/NewsLetter";
 
+const sortArray = [
+  "Recommended",
+  "Recently Updated",
+  "Recently Added",
+  "Artwork Year (Descending)",
+  "Artwork Year (Ascending)",
+];
+
 function Artworks() {
   const [selected, setSelected] = useState(0);
   const [showModal, setShowModal] = useState(false);
@@ -61,6 +69,10 @@ function Artworks() {
   ].sort((a, b) => a.timestamp - b.timestamp);
 
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(updateCurrentSort(sortArray[0]));
+  });
 
   function handleSort(index, sortItem) {
     setSelected((prevState) => (prevState !== index ? index : prevState));
@@ -185,6 +197,7 @@ function Artworks() {
         {sortDropdown && (
           <SortComponent
             ref={labelRef}
+            items={sortArray}
             selected={selected}
             handleSort={handleSort}
           />
