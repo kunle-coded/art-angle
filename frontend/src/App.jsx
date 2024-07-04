@@ -7,12 +7,13 @@ import Artists from "./pages/Artists";
 import AppLayout from "./pages/AppLayout";
 import Error from "./ui/Error";
 import Sell from "./pages/Sell";
-import Profile from "./pages/Profile";
-import Account from "./pages/Account";
-import AccountArtists from "./pages/AccountArtists";
-import UserCollections from "./pages/UserCollections";
-import ArtworkUpload from "./pages/ArtworkUpload";
-import ArtworksArtists from "./pages/ArtworksArtists";
+import ArtworkOverview from "./pages/ArtworkOverview";
+import ArtistsArtworks from "./pages/ArtistsArtworks";
+import UploadArtwork from "./pages/UploadArtwork";
+import ArtistsAccount from "./pages/ArtistsAccount";
+import UserArtworks from "./pages/UserArtworks";
+import UserProfile from "./pages/UserProfile";
+import UserAccount from "./pages/UserAccount";
 
 const router = createBrowserRouter([
   {
@@ -41,27 +42,31 @@ const router = createBrowserRouter([
       },
       {
         path: "/user/:id",
-        element: <Profile />,
+        element: <UserProfile />,
       },
       {
         path: "/user/:id/:list",
-        element: <UserCollections />,
+        element: <UserArtworks />,
       },
       {
         path: "/accounts/:feature",
-        element: <Account />,
+        element: <UserAccount />,
       },
       {
         path: "/artists/accounts/:feature",
-        element: <AccountArtists />,
+        element: <ArtistsAccount />,
       },
       {
-        path: "/user/artist/:artistId/artworks",
-        element: <ArtworksArtists />,
+        path: "/artist/:artistId/artworks",
+        element: <ArtistsArtworks />,
       },
       {
         path: "/artworks/upload",
-        element: <ArtworkUpload />,
+        element: <UploadArtwork />,
+      },
+      {
+        path: "/artist/:artistId/artworks/:artworkId",
+        element: <ArtworkOverview />,
       },
     ],
   },
