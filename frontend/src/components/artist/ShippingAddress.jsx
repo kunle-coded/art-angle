@@ -1,15 +1,13 @@
 import { useMemo } from "react";
 import { useDispatch } from "react-redux";
-import countryList from "react-select-country-list";
 import { useField } from "../../hooks";
 import Input from "../../ui/Input";
 import styles from "./ShippingAddress.module.css";
 import { updateAddress } from "../../reducers/artworkSllice";
 import StyledSelect from "../../ui/StyledSelect";
+import { countries } from "../../data";
 
 function ShippingAddress() {
-  const options = useMemo(() => countryList().getLabels(), []);
-
   const city = useField("text");
   const { onReset: resetCity, ...cityProps } = city;
   const state = useField("text");
@@ -48,7 +46,7 @@ function ShippingAddress() {
             <StyledSelect
               placeholder="Enter your country"
               size="small"
-              options={options}
+              options={countries}
               onSelect={handleCountrySelect}
             />
           </div>

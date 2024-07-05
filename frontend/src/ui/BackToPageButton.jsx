@@ -1,13 +1,14 @@
+import BackIcon from "../components/icons/BackIcon";
 import styles from "./BackToPageButton.module.css";
 
 function BackToPageButton({ label = "" }) {
   return (
-    <button className={styles.btnContainer}>
+    <a href="/artist/3747487/artworks" className={styles.btnContainer}>
       <div className={styles.icon}>
-        <BackToPageButton />
+        <BackIcon />
       </div>
       <div className={styles.label}>{label}</div>
-    </button>
+    </a>
   );
 }
 

@@ -16,7 +16,7 @@ function BackIcon() {
       <path
         d="M6.5 12.25L1.25 7M1.25 7L6.5 1.75M1.25 7H14.75"
         stroke="currentColor"
-        strokeWidth="2"
+        strokeWidth="1.5"
         strokeLinecap="round"
         strokeLinejoin="round"
       />

@@ -7,13 +7,13 @@ import Artists from "./pages/Artists";
 import AppLayout from "./pages/AppLayout";
 import Error from "./ui/Error";
 import Sell from "./pages/Sell";
-import ArtworkOverview from "./pages/ArtworkOverview";
 import ArtistsArtworks from "./pages/ArtistsArtworks";
 import UploadArtwork from "./pages/UploadArtwork";
 import ArtistsAccount from "./pages/ArtistsAccount";
 import UserArtworks from "./pages/UserArtworks";
 import UserProfile from "./pages/UserProfile";
 import UserAccount from "./pages/UserAccount";
+import ArtworkOverview from "./pages/ArtworkOverview";
 
 const router = createBrowserRouter([
   {
@@ -65,7 +65,7 @@ const router = createBrowserRouter([
         element: <UploadArtwork />,
       },
       {
-        path: "/artist/:artistId/artworks/:artworkId",
+        path: "/artist/:artistId/artwork/:id",
         element: <ArtworkOverview />,
       },
     ],

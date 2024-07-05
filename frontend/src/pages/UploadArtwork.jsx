@@ -31,6 +31,7 @@ import {
   materials,
   medium,
   styles as artStyles,
+  countries,
 } from "../data";
 import InputSidebarDisplay from "../ui/InputSidebarDisplay";
 import ArtworkAvailability from "../components/price/ArtworkAvailability";
@@ -39,6 +40,7 @@ import DividerLine from "../ui/DividerLine";
 import WeightPackaging from "../components/artist/WeightPackaging";
 import ShippingAddress from "../components/artist/ShippingAddress";
 import PriceInputs from "../components/price/PriceInputs";
+import BackToPageButton from "../ui/BackToPageButton";
 
 const years = ["2019", "2020", "2021", "2022", "2023", "2024"];
 
@@ -198,7 +200,7 @@ function UploadArtwork() {
               <div className={styles.uploadAreaGrid}>
                 <div className={styles.sidebarColumn}>
                   <div className={styles.sidebarContainer}>
-                    <div className={styles.backBtn}>Back to Artworks</div>
+                    <BackToPageButton label="Back to Artworks" />
                     <div className={styles.sidebarContent}>
                       {isImage && (
                         <div className={styles.artworkImage}>
