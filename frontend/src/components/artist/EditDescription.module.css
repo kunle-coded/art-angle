@@ -1,0 +1,85 @@
+.container {
+  display: block;
+  width: 100%;
+}
+
+.contentWrapper {
+  display: flex;
+  flex-direction: column;
+  -webkit-box-pack: start;
+  justify-content: flex-start;
+  padding: 10px;
+  border: 1px solid var(--outline-variant);
+}
+
+.contentContainer {
+  display: flex;
+  flex-direction: column;
+  -webkit-box-pack: start;
+  justify-content: flex-start;
+  width: 100%;
+}
+
+.showDelete {
+  display: flex;
+  flex-direction: column;
+  -webkit-box-pack: start;
+  justify-content: flex-start;
+}
+
+.deleteIcon {
+  width: 24px;
+  height: 26px;
+  color: var(--on-primary-container);
+  position: relative;
+}
+
+.newImageWrapper {
+  display: flex;
+  flex-direction: column;
+  -webkit-box-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  align-items: center;
+  width: 200px;
+  height: 200px;
+  border: 1px solid var(--primary);
+  position: relative;
+}
+
+.newImageIconWrapper {
+  display: flex;
+  -webkit-box-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  align-items: center;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: 1px solid var(--primary);
+}
+
+.newImageIcon {
+  width: 20px;
+  height: 20px;
+  color: var(--primary);
+  position: relative;
+}
+
+.imageUpload {
+  opacity: 0;
+  height: 200px;
+  width: 200px;
+  z-index: 10;
+  cursor: pointer;
+  position: absolute;
+  top: 0;
+}
+
+.newImageText {
+  font-size: var(--desktop-body-md);
+  line-height: 20px;
+  text-transform: uppercase;
+  text-decoration: underline;
+  padding-top: 20px;
+}

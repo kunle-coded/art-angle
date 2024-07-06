@@ -2,6 +2,9 @@ import styles from "./ArtworkOverview.module.css";
 import BackToPageButton from "../ui/BackToPageButton";
 import ButtonWithIcon from "../ui/ButtonWithIcon";
 import ShareIcon from "../components/icons/ShareIcon";
+import EditImage from "../components/artist/EditImage";
+import Spacer from "../ui/Spacer";
+import EditDescripion from "../components/artist/EditDescripion";
 
 function ArtworkOverview() {
   return (
@@ -10,7 +13,7 @@ function ArtworkOverview() {
         <div className={styles.wrapper}>
           <div className={styles.innerContainer}>
             <div className={styles.gridArea}>
-              <div className={styles.sidebarColumn}>
+              <aside className={styles.sidebarColumn}>
                 <div className={styles.sidebarContainer}>
                   <BackToPageButton label="Back to Artworks" />
 
@@ -48,10 +51,14 @@ function ArtworkOverview() {
                     </div>
                   </div>
                 </div>
-              </div>
+              </aside>
               <div className={styles.contentColumn}>
                 <div className={styles.contentContainer}>
-                  <div className={styles.inputItems}>Artwork Overview</div>
+                  <div className={styles.inputItems}>
+                    <EditImage />
+                    <Spacer />
+                    <EditDescripion />
+                  </div>
                 </div>
               </div>
             </div>

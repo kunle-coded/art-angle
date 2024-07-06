@@ -1,0 +1,27 @@
+.contentHeader {
+  display: block;
+  width: 100%;
+}
+
+.wrapper {
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--outline-variant);
+}
+
+.header {
+  display: flex;
+  -webkit-box-pack: start;
+  justify-content: flex-start;
+  -webkit-box-align: center;
+  align-items: center;
+}
+
+.headerText {
+  flex: 1 1 0%;
+  font-size: var(--desktop-headline-xsm);
+  line-height: 26px;
+  font-family: Arial, Helvetica, sans-serif;
+}

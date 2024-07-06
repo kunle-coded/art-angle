@@ -163,11 +163,9 @@
 }
 
 .contentContainer {
-  display: flex;
-  flex-direction: column;
-  -webkit-box-pack: start;
-  justify-content: flex-start;
+  display: block;
   padding-top: 25px;
+  width: 100%;
 }
 
 .contentHeader {
