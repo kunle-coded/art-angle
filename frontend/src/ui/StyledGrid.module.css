@@ -1,7 +1,8 @@
 .contentGrid {
   display: grid;
   grid-template-columns: repeat(12, 1fr);
-  padding: 0px 0px 10px;
+  /* padding: 0px 0px 10px; */
+  padding: 0px;
 }
 
 .gridItemLeft {
@@ -11,6 +12,21 @@
 .gridItemRight {
   grid-column: span 9;
   margin-left: 20px;
+  border-bottom: 1px solid var(--outline-variant);
+}
+
+.singleRow {
+  display: block;
+  width: 100%;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  /* border-bottom: 1px solid var(--outline-variant); */
+}
+
+.childrenContainer {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: var(--desktop-body-md);
+  line-height: 20px;
 }
 
 .gridInnerContainer {
@@ -18,7 +34,7 @@
   grid-template-columns: repeat(12, 1fr);
   padding-top: 10px;
   padding-bottom: 10px;
-  border-bottom: 1px solid var(--outline-variant);
+  /* border-bottom: 1px solid var(--outline-variant); */
   width: 100%;
 }
 

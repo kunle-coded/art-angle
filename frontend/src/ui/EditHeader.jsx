@@ -1,8 +1,6 @@
-import { useState } from "react";
 import EditIconFilled from "../components/icons/EditIconFilled";
 import ButtonWithIcon from "./ButtonWithIcon";
 import styles from "./EditHeader.module.css";
-import DividerLine from "./DividerLine";
 
 function EditHeader({ heading = "", isEdit, onClick }) {
   return (

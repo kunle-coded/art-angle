@@ -1,0 +1,68 @@
+.container {
+  display: block;
+  width: 100%;
+  min-height: 100vh;
+  padding: 100px 0px;
+  background-color: var(--surface-container);
+  position: relative;
+}
+
+.innerContainer {
+  display: block;
+  margin: var(--margin-desktop);
+}
+
+.contentWrapper {
+  display: flex;
+  -webkit-box-pack: center;
+  justify-content: center;
+  gap: 30px;
+  min-height: 400px;
+}
+
+/* NOTE To delere */
+.contentGrid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 0px 40px;
+}
+
+.mainContainer {
+  min-width: 589px;
+  background-color: var(--surface);
+  padding: 20px;
+}
+
+.sidebarContainer {
+  min-width: 383px;
+  background-color: var(--surface);
+  padding: 20px;
+}
+
+.headerWrapper {
+  display: flex;
+  -webkit-box-pack: justify;
+  justify-content: space-between;
+  padding-bottom: 20px;
+}
+
+.mainHeader {
+  font-size: var(--desktop-headline-xsm);
+  line-height: 26px;
+  font-weight: 600;
+  flex: 1 1 0%;
+}
+
+.cartPrice {
+  font-size: var(--desktop-headline-xsm);
+  line-height: 26px;
+  font-weight: 600;
+}
+
+.mainContents {
+  display: flex;
+  flex-direction: column;
+  -webkit-box-pack: start;
+  justify-content: flex-start;
+  list-style: none;
+}

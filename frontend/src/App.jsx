@@ -14,6 +14,7 @@ import UserArtworks from "./pages/UserArtworks";
 import UserProfile from "./pages/UserProfile";
 import UserAccount from "./pages/UserAccount";
 import ArtworkOverview from "./pages/ArtworkOverview";
+import UserCart from "./pages/UserCart";
 
 const router = createBrowserRouter([
   {
@@ -51,6 +52,10 @@ const router = createBrowserRouter([
       {
         path: "/accounts/:feature",
         element: <UserAccount />,
+      },
+      {
+        path: "/user/:userId/cart",
+        element: <UserCart />,
       },
       {
         path: "/artists/accounts/:feature",

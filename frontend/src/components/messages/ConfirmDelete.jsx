@@ -4,7 +4,7 @@ import { enableSuccess } from "../../reducers/globalSlice";
 import Button from "../../ui/Button";
 import styles from "./ConfirmDelete.module.css";
 
-function ConfirmDelete({ onCloseModal }) {
+function ConfirmDelete({ onCloseModal, message = "" }) {
   const dispatch = useDispatch();
 
   function handleConfirm() {
@@ -20,8 +20,7 @@ function ConfirmDelete({ onCloseModal }) {
     <div className={styles.container}>
       <div className={styles.msgWrapper}>
         <div className={styles.msg}>
-          Are you sure you want to delete this artwork? If you choose DELETE,
-          this action can not be reversed.
+          {message} If you choose DELETE, this action can not be reversed.
         </div>
         <div className={styles.btnWrapper}>
           <Button type="secondary" size="small" onClick={handleCancel}>

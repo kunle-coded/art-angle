@@ -53,7 +53,7 @@ function DetailedList({ isAllChecked = false }) {
                     </Button>
                   </Modal.Open>
                   <Modal.Window name="confirm_delete">
-                    <ConfirmDelete />
+                    <ConfirmDelete message="Are you sure you want to delete this artwork?" />
                   </Modal.Window>
                 </Modal>
               </div>

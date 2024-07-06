@@ -1,18 +1,31 @@
 import { useState } from "react";
 import Input from "./Input";
 import styles from "./StyledGrid.module.css";
+import StyledTextArea from "./StyledTextArea";
 
 function StyledGrid({
   title = "",
   isSingle = false,
   gridList = [],
+  singleValue = "",
   isEdit,
+  isTextArea = false,
   children,
 }) {
-  const [inputValue, setInputValue] = useState("");
+  const [inputValues, setInputValues] = useState(
+    gridList.map((item) => item.value)
+  );
 
-  function handleInput(e) {
-    setInputValue(e.target.value);
+  const [singleInput, setSingleInput] = useState(singleValue);
+
+  const handleInputChange = (index, event) => {
+    const newValues = [...inputValues];
+    newValues[index] = event.target.value;
+    setInputValues(newValues);
+  };
+
+  function handleSingleInput(e) {
+    setSingleInput(e.target.value);
   }
 
   return (
@@ -23,14 +36,25 @@ function StyledGrid({
       <div className={styles.gridItemRight}>
         {isSingle ? (
           <div className={styles.singleRow}>
-            {children ? (
-              <div className={styles.childrenContainer}>{children}</div>
+            {isEdit ? (
+              isTextArea ? (
+                <StyledTextArea
+                  value={singleInput}
+                  onChange={handleSingleInput}
+                />
+              ) : (
+                <Input
+                  size="small"
+                  value={singleInput}
+                  onChange={handleSingleInput}
+                />
+              )
             ) : (
-              <div className={styles.singleContent}>Single item</div>
+              <div className={styles.childrenContainer}>{children}</div>
             )}
           </div>
         ) : (
-          gridList.map((gridItem) => (
+          gridList.map((gridItem, index) => (
             <div key={gridItem.id} className={styles.gridInnerContainer}>
               <div className={styles.gridItemLeft}>
                 <div className={styles.gridLabel}>{gridItem.label}</div>
@@ -39,8 +63,8 @@ function StyledGrid({
                 {isEdit ? (
                   <Input
                     size="small"
-                    value={inputValue ? inputValue : gridItem.value}
-                    onChange={handleInput}
+                    value={inputValues[index]}
+                    onChange={(e) => handleInputChange(index, e)}
                   />
                 ) : (
                   <div className={styles.gridLabel}>{gridItem.value}</div>
