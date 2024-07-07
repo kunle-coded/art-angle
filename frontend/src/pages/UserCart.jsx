@@ -1,5 +1,11 @@
-import CartList from "../components/lists/CartList";
 import styles from "./UserCart.module.css";
+import CartList from "../components/lists/CartList";
+import FullButton from "../ui/FullButton";
+import StarIcon from "../components/icons/StarIcon";
+import ShieldIcon from "../components/icons/ShieldIcon";
+import LockIcon from "../components/icons/LockIcon";
+import DollarIcon from "../components/icons/DollarIcon";
+import Button from "../ui/Button";
 
 function UserCart() {
   return (
@@ -21,11 +27,94 @@ function UserCart() {
                 <div className={styles.mainHeader}>Estimated Total</div>
                 <div className={styles.cartPrice}>₦216,000</div>
               </div>
-              <div className={styles.contentGri}></div>
+              <div className={styles.cartInfo}>
+                All charges and refunds will be made in NGN (₦216,000) and may
+                be subject to exchange rate fluctuations.
+              </div>
+              <div className={styles.checkoutBtn}>
+                <FullButton type="success">Checkout</FullButton>
+              </div>
+              <div className={styles.extraContainer}>
+                {/* Positive reviews */}
+                <div className={styles.extraItem}>
+                  <div className={styles.extraIcon}>
+                    <div className={styles.reviewStars}>
+                      {[...Array(5)].map((_, i) => (
+                        <div key={i} className={styles.starIcon}>
+                          <StarIcon />
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                  <div className={styles.extraText}>
+                    <span>Thousands of Positive Reviews</span>
+                    <p>
+                      We deliver world-class customer service to all of our art
+                      buyers.
+                    </p>
+                  </div>
+                </div>
+                {/* Satisfaction guaranteed */}
+                <div className={styles.extraItem}>
+                  <div className={styles.extraIcon}>
+                    <div className={styles.reviewStars}>
+                      <div className={styles.shieldIcon}>
+                        <ShieldIcon />
+                      </div>
+                    </div>
+                  </div>
+                  <div className={styles.extraText}>
+                    <span>Satisfaction Guaranteed</span>
+                    <p>
+                      Our 14-day satisfaction guarantee allows you to buy with
+                      confidence.
+                    </p>
+                  </div>
+                </div>
+
+                {/* Safe & secure */}
+                <div className={styles.extraItem}>
+                  <div className={styles.extraIcon}>
+                    <div className={styles.reviewStars}>
+                      <div className={styles.lockIcon}>
+                        <LockIcon />
+                      </div>
+                    </div>
+                  </div>
+                  <div className={styles.extraText}>
+                    <span>Safe & Secure Shopping</span>
+                    <p>
+                      All payments and transactions are secure and encrypted.
+                    </p>
+                  </div>
+                </div>
+
+                {/* Support */}
+                <div className={styles.extraItem}>
+                  <div className={styles.extraIcon}>
+                    <div className={styles.reviewStars}>
+                      <div className={styles.dollarIcon}>
+                        <DollarIcon />
+                      </div>
+                    </div>
+                  </div>
+                  <div className={styles.extraText}>
+                    <span>Support An Artist On Purchase</span>
+                    <p>
+                      We pay our artists more on every sale than other
+                      galleries.
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div className={styles.contactContainer}>
+                <div className={styles.support}>Need More Help?</div>
+                <Button as="a" href="/support" type="secondary" size="small">
+                  Contact Customer Support
+                </Button>
+              </div>
             </aside>
           </div>
-          <div className={styles.contentGri}></div>
-          <div className={styles.contentGri}></div>
         </div>
       </section>
     </div>

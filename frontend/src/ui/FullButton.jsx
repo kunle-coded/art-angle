@@ -6,7 +6,11 @@ function FullButton({ type = "", disable, onClick, children, ...props }) {
       aria-disabled={disable}
       disabled={disable}
       className={`${
-        type === "secondary" ? styles.secondary : styles.primary
+        type === "secondary"
+          ? styles.secondary
+          : type === "success"
+          ? styles.success
+          : styles.primary
       }  ${type === "secondary" && disable ? styles.disableSecondary : ""} ${
         disable && type === "" ? styles.disablePrimary : ""
       }`}

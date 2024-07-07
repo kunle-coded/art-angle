@@ -5,16 +5,6 @@ import ConfirmDelete from "../messages/ConfirmDelete";
 import TrashIcon from "../icons/TrashIcon";
 
 function CartList() {
-  const [isChecked, setIsChecked] = useState(false);
-
-  function handleCheck() {
-    setIsChecked((prevState) => !prevState);
-  }
-
-  function handleCancel() {
-    setIsChecked(false);
-  }
-
   return (
     <li className="container">
       <div className={styles.itemWrapper}>

@@ -51,6 +51,32 @@
   text-decoration: underline;
 }
 
+.success {
+  display: flex;
+  -webkit-box-pack: center;
+  justify-content: center;
+  gap: 10px;
+  font-size: var(--desktop-body-lg);
+  font-weight: 500;
+  line-height: 24px;
+  width: 100%;
+  padding: 10px 0px;
+  text-decoration: none;
+  background-color: var(--success);
+  color: var(--on-success);
+  border: 1px solid var(--success);
+  border-radius: 4px;
+  text-align: center;
+  cursor: pointer;
+  transition: background-color 250ms ease 0s, color 250ms ease 0s;
+  z-index: 5;
+}
+
+.success:hover {
+  background-color: var(--on-success-container);
+  border-color: var(--on-success-container);
+}
+
 .disablePrimary {
   background-color: var(--outline);
   border-color: var(--outline);
