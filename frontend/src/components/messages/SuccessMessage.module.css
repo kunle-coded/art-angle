@@ -5,6 +5,7 @@
   left: 0px;
   right: 0px;
   height: 0px;
+  z-index: 105;
 }
 
 .show {
@@ -12,7 +13,7 @@
 }
 
 .msgWrapper {
-  width: 14%;
+  width: 20%;
   margin: auto;
   opacity: 0;
   background-color: var(--success-container);
@@ -38,4 +39,5 @@
   font-size: var(--desktop-body-md);
   line-height: 20px;
   color: var(--on-success-container);
+  text-align: center;
 }

@@ -4,14 +4,16 @@ import styles from "./SuccessMessage.module.css";
 import { useEffect } from "react";
 
 function SuccessMessage() {
-  const { isSuccess } = useSelector(getGlobal);
+  const { isSuccess, successMessage } = useSelector(getGlobal);
   const dispatch = useDispatch();
+
+  console.log(isSuccess);
 
   useEffect(() => {
     if (isSuccess) {
       const timeoutId = setTimeout(() => {
         dispatch(disableSuccess());
-      }, 1500);
+      }, 5000);
 
       return () => {
         clearTimeout(timeoutId);
@@ -25,8 +27,8 @@ function SuccessMessage() {
         className={`${styles.msgWrapper} ${isSuccess ? styles.showMsg : ""}`}
       >
         <div className={styles.msg}>
-          <p>Nostalgic Beauty</p>
-          <p>Successfully deleted</p>
+          <p>{successMessage}</p>
+          {/* <p>Successfully deleted</p> */}
         </div>
       </div>
     </div>

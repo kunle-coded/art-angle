@@ -1,4 +1,3 @@
-import { useState } from "react";
 import styles from "./CartList.module.css";
 import Modal from "../modal/Modal";
 import ConfirmDelete from "../messages/ConfirmDelete";
@@ -37,7 +36,10 @@ function CartList() {
                 </div>
               </Modal.Open>
               <Modal.Window name="confirm_delete">
-                <ConfirmDelete message="Are you sure you want to delete this item from cart?" />
+                <ConfirmDelete
+                  message="Are you sure you want to delete this item from cart?"
+                  successMsg="Nostalgic Beauty successfully deleted from cart"
+                />
               </Modal.Window>
             </Modal>
           </div>
