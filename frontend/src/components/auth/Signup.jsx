@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
-import { useField, useShowPassword } from "../../hooks";
 import { useDispatch } from "react-redux";
+import { useSignup } from "./useSignup";
+import { useField, useShowPassword } from "../../hooks";
 import { register } from "../../reducers/userSlice";
 
 import styles from "./Signup.module.css";
@@ -34,18 +35,35 @@ function Signup({ onCloseModal, onOpenModal }) {
     }
   }, [email.value, name.value, password.value]);
 
+  const { signup, isSigningUp } = useSignup();
+
   function handleSignUp(e) {
+    const names = name.value.split(" ");
     const newUser = {
-      name: name.value,
+      firstname: names[0],
+      lastname: names[1],
       email: email.value,
       password: password.value,
+      userType: "buyer",
     };
 
-    dispatch(register(newUser));
-    resetName(e);
-    resetEmail(e);
-    resetPassword(e);
-    onCloseModal();
+    signup(newUser, {
+      onSuccess: (data) => {
+        console.log("success", data);
+      },
+
+      onError: (error) => {
+        console.log(error.message);
+      },
+    });
+
+    console.log(newUser);
+
+    // dispatch(register(newUser));
+    // resetName(e);
+    // resetEmail(e);
+    // resetPassword(e);
+    // onOpenModal("Login");
   }
 
   function openSignup() {

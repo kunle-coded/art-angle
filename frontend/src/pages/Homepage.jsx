@@ -1,3 +1,5 @@
+import { useQuery } from "@tanstack/react-query";
+
 import Poster from "../ui/Poster";
 import PosterBlock from "../ui/PosterBlock";
 import Section from "../components/sections/Section";
@@ -16,8 +18,17 @@ import SmallCard from "../ui/SmallCard";
 import AdBanner from "../components/ads/AdBanner";
 import ArtistCard from "../ui/ArtistCard";
 import BigCard from "../ui/BigCard";
+import { getArtworks } from "../services/apiArtworks";
 
 function Homepage() {
+  const { data, error, isLoading } = useQuery({
+    queryKey: ["artworks"],
+    queryFn: getArtworks,
+  });
+
+  console.log(data);
+  console.log(isLoading ? "Loading" : "Loaded");
+
   return (
     <div className="page">
       <Slider />

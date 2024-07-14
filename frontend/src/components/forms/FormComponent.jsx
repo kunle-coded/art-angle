@@ -20,6 +20,7 @@ function FormComponent({
       onOpenModal?.("Login");
     }
   }
+
   return (
     <div className={styles.contentContainer}>
       <div className={styles.form}>
