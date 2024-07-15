@@ -15,6 +15,8 @@ import UserProfile from "./pages/UserProfile";
 import UserAccount from "./pages/UserAccount";
 import ArtworkOverview from "./pages/ArtworkOverview";
 import UserCart from "./pages/UserCart";
+import Private from "./pages/Private";
+import PrivateArtist from "./pages/PrivateArtist";
 
 const router = createBrowserRouter([
   {
@@ -23,6 +25,10 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/",
+        element: <Homepage />,
+      },
+      {
+        path: "/login",
         element: <Homepage />,
       },
       {
@@ -43,11 +49,19 @@ const router = createBrowserRouter([
       },
       {
         path: "/user/:id",
-        element: <UserProfile />,
+        element: (
+          <Private>
+            <UserProfile />
+          </Private>
+        ),
       },
       {
         path: "/user/:id/:list",
-        element: <UserArtworks />,
+        element: (
+          <Private>
+            <UserArtworks />
+          </Private>
+        ),
       },
       {
         path: "/accounts/:feature",
@@ -59,19 +73,35 @@ const router = createBrowserRouter([
       },
       {
         path: "/artists/accounts/:feature",
-        element: <ArtistsAccount />,
+        element: (
+          <PrivateArtist>
+            <ArtistsAccount />
+          </PrivateArtist>
+        ),
       },
       {
         path: "/artist/:artistId/artworks",
-        element: <ArtistsArtworks />,
+        element: (
+          <PrivateArtist>
+            <ArtistsArtworks />
+          </PrivateArtist>
+        ),
       },
       {
-        path: "/artworks/upload",
-        element: <UploadArtwork />,
+        path: "/artist/:artistId/artwork/upload",
+        element: (
+          <PrivateArtist>
+            <UploadArtwork />
+          </PrivateArtist>
+        ),
       },
       {
         path: "/artist/:artistId/artwork/:id",
-        element: <ArtworkOverview />,
+        element: (
+          <PrivateArtist>
+            <ArtworkOverview />
+          </PrivateArtist>
+        ),
       },
     ],
   },

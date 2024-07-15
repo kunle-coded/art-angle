@@ -3,10 +3,18 @@ import { forwardRef } from "react";
 import styles from "./Onboarding.module.css";
 import LogoIcon from "../icons/LogoIcon";
 import CloseIcon from "../icons/CloseIcon";
+import { useNavigate } from "react-router-dom";
 
 function Onboarding(props, ref) {
   const isIntersecting = props.isIntersecting;
   const closeModal = props.closeModal;
+
+  const navigate = useNavigate();
+
+  function exitOnboarding() {
+    closeModal?.();
+    navigate("/");
+  }
 
   return (
     <div
@@ -32,7 +40,7 @@ function Onboarding(props, ref) {
           <div className={styles.introText}>{props.introText}</div>
         </div>
 
-        <button className={styles.closeBtn} onClick={() => closeModal?.()}>
+        <button className={styles.closeBtn} onClick={exitOnboarding}>
           <div className={styles.close}>
             <CloseIcon />
           </div>

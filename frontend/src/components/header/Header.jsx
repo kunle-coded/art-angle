@@ -16,20 +16,10 @@ import { getGlobal } from "../../slices/globalSlice";
 import { getAuth } from "../../slices/authSlice";
 
 function Header({ onEnter, onLeave }) {
-  const [isLogin, setIsLogin] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
 
-  const { user } = useSelector(getUser);
   const { isProfileDropdown } = useSelector(getGlobal);
   const { userInfo } = useSelector(getAuth);
-
-  useEffect(() => {
-    if (user.email && user.password) {
-      setIsLogin(true);
-    } else {
-      setIsLogin(false);
-    }
-  }, [user]);
 
   function handleLeave(e) {
     setTimeout(() => {

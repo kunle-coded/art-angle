@@ -10,6 +10,8 @@ import { createPortal } from "react-dom";
 
 import styles from "./Modal.module.css";
 import FocusComponent from "../../ui/FocusComponent";
+import { useSelector } from "react-redux";
+import { getGlobal } from "../../slices/globalSlice";
 
 const ModalContext = createContext();
 
@@ -50,10 +52,26 @@ function Open({ children, opens: openWindowName }) {
 function Window({ children, name }) {
   const { openName, close, open } = useContext(ModalContext);
 
+  const { loginWindow } = useSelector(getGlobal);
+
+  useEffect(() => {
+    if (loginWindow === name) {
+      open(loginWindow);
+    }
+  }, [loginWindow, name, open]);
+
   if (name !== openName) return null;
 
+  function handleCloseWindow() {
+    if (loginWindow === name) {
+      return;
+    } else {
+      close?.();
+    }
+  }
+
   return createPortal(
-    <div className={styles.overlay} onClick={close}>
+    <div className={styles.overlay} onClick={handleCloseWindow}>
       <FocusComponent isFocus={name === openName} />
       <div className={styles.modalBase}>
         <div className={styles.modalBaseBackdrop}>

@@ -56,17 +56,35 @@ function UserDropdown({ showDropdown, setHover }) {
       </Link>
       {userInfo.userType === "buyer" && (
         <>
-          <div className={styles.linkItem}>Wishlist</div>
+          <Link to={`user/${userInfo.id}/wishlist`} className={styles.linkItem}>
+            Wishlist
+          </Link>
           <div className={styles.linkItem}>Favorite Artists</div>
           <div className={styles.linkItem}>Collections</div>
           <div className={styles.linkItem}>Orders</div>
           <div className={styles.linkItem}>Offers</div>
         </>
       )}
-      <Link to="accounts/settings" className={styles.linkItem}>
-        Account
-      </Link>
-      <span className={styles.line}></span>
+      {userInfo.userType === "artist" && (
+        <>
+          <Link
+            to={`/artist/${userInfo.id}/artworks`}
+            className={styles.linkItem}
+          >
+            Artworks
+          </Link>
+          <Link
+            to={`/artist/${userInfo.id}/artwork/upload`}
+            className={styles.linkItem}
+          >
+            Upload Artwork
+          </Link>
+          <Link to="/artists/accounts/settings" className={styles.linkItem}>
+            Account
+          </Link>
+        </>
+      )}
+      {userInfo.userType === "buyer" && <span className={styles.line}></span>}
       {userInfo.userType === "buyer" && (
         <div className={styles.artistSignup}>
           <div className={styles.iconWrapper}>

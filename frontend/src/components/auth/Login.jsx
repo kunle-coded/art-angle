@@ -4,9 +4,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { useLoginMutation } from "../../slices/usersApiSlice";
 import { getAuth, setCredentials } from "../../slices/authSlice";
 import {
+  deleteUserType,
   disableProfileDropdown,
   enableError,
   enableSuccess,
+  getGlobal,
   updateSuccessMgs,
 } from "../../slices/globalSlice";
 import { useField, useShowPassword } from "../../hooks";
@@ -33,6 +35,7 @@ function Login({ onCloseModal, onOpenModal }) {
   const [login, { isLoading }] = useLoginMutation();
 
   const { userInfo } = useSelector(getAuth);
+  const { userType } = useSelector(getGlobal);
 
   useEffect(() => {
     if (userInfo) {
@@ -58,12 +61,13 @@ function Login({ onCloseModal, onOpenModal }) {
       dispatch(updateSuccessMgs("Login successful"));
       dispatch(enableSuccess());
       dispatch(disableProfileDropdown());
+      dispatch(deleteUserType());
       resetEmail(e);
       resetPassword(e);
       onCloseModal?.();
-    } catch (error) {
-      const errMsg = error?.data?.message;
-      dispatch(updateSuccessMgs(errMsg));
+    } catch (err) {
+      const errMsg = err?.data?.message;
+      dispatch(updateSuccessMgs(errMsg || err.errror));
       dispatch(enableError());
     }
   }
@@ -71,7 +75,11 @@ function Login({ onCloseModal, onOpenModal }) {
   return (
     <div className={styles.wrapper}>
       <Onboarding
-        introText="Log in to start collecting art by Nigeria’s leading artists"
+        introText={`Log in to start ${
+          userType === "buyer"
+            ? "collecting art by Nigeria’s leading artists"
+            : "selling art to art lovers worldwide"
+        }`}
         closeModal={onCloseModal}
       />
       {isLoading ? (

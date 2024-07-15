@@ -19,6 +19,11 @@ import AdBanner from "../components/ads/AdBanner";
 import ArtistCard from "../ui/ArtistCard";
 import BigCard from "../ui/BigCard";
 import { getArtworks } from "../services/apiArtworks";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { closeLogin, openLogin } from "../slices/globalSlice";
+import { getAuth } from "../slices/authSlice";
 
 function Homepage() {
   const { data, error, isLoading } = useQuery({
@@ -26,8 +31,23 @@ function Homepage() {
     queryFn: getArtworks,
   });
 
-  // console.log(data);
-  // console.log(isLoading ? "Loading" : "Loaded");
+  const { userInfo } = useSelector(getAuth);
+
+  const { pathname } = useLocation();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (pathname.includes("login")) {
+      if (userInfo) {
+        navigate("/");
+        return;
+      }
+      dispatch(openLogin("Login"));
+    } else {
+      dispatch(closeLogin());
+    }
+  }, [dispatch, navigate, pathname, userInfo]);
 
   return (
     <div className="page">

@@ -9,6 +9,15 @@ import FormComponent from "../forms/FormComponent";
 import Intro from "./Intro";
 import SignupArtist from "./SignupArtist";
 import Onboarding from "./Onboarding";
+import { useRegisterMutation } from "../../slices/usersApiSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { getAuth } from "../../slices/authSlice";
+import {
+  disableProfileDropdown,
+  enableError,
+  enableSuccess,
+  updateSuccessMgs,
+} from "../../slices/globalSlice";
 
 function Signup({ onCloseModal, onOpenModal }) {
   const [isSignup, setIsSignup] = useState(false);
@@ -31,26 +40,43 @@ function Signup({ onCloseModal, onOpenModal }) {
     }
   }, [email.value, name.value, password.value]);
 
-  const { signup } = useSignup();
+  const [register, { isLoading }] = useRegisterMutation();
 
-  function handleSignUp(e) {
-    const names = name.value.split(" ");
-    const newUser = {
-      firstname: names[0],
-      lastname: names[1],
-      email: email.value,
-      password: password.value,
-      userType: "buyer",
-    };
+  const { userInfo } = useSelector(getAuth);
 
-    signup(newUser, {
-      onSuccess: (data) => {
-        resetName(e);
-        resetEmail(e);
-        resetPassword(e);
-        onOpenModal("Login");
-      },
-    });
+  const dispatch = useDispatch();
+
+  async function singupHandler(e) {
+    e.preventDefault();
+    if (userInfo && userInfo.email === email.value) {
+      dispatch(updateSuccessMgs("Already logged in"));
+      dispatch(enableError());
+      return;
+    }
+    try {
+      const names = name.value.split(" ");
+      const newUser = {
+        firstname: names[0],
+        lastname: names[1],
+        email: email.value,
+        password: password.value,
+        userType: "buyer",
+      };
+
+      const res = await register(newUser).unwrap();
+      // dispatch(setCredentials({ ...res }));
+      dispatch(updateSuccessMgs(res.message));
+      dispatch(enableSuccess());
+      // dispatch(disableProfileDropdown());
+      resetEmail(e);
+      resetPassword(e);
+      // onCloseModal?.();
+      onOpenModal("Login");
+    } catch (err) {
+      const errMsg = err?.data?.message;
+      dispatch(updateSuccessMgs(errMsg || err.error));
+      dispatch(enableError());
+    }
   }
 
   function openSignup() {
@@ -86,7 +112,7 @@ function Signup({ onCloseModal, onOpenModal }) {
         <FormComponent
           type="signup"
           disable={isDisabled}
-          onConfirm={handleSignUp}
+          onConfirm={singupHandler}
           onOpenModal={onOpenModal}
         >
           <FormInput

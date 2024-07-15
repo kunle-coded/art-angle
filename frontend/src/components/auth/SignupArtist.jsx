@@ -7,6 +7,15 @@ import { useField, useIntersection, useShowPassword } from "../../hooks";
 import StyledTextArea from "../../ui/StyledTextArea";
 import Onboarding from "./Onboarding";
 import Spacer from "../../ui/Spacer";
+import { useRegisterMutation } from "../../slices/usersApiSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { getAuth } from "../../slices/authSlice";
+import {
+  enableError,
+  enableSuccess,
+  updateSuccessMgs,
+  updateUserType,
+} from "../../slices/globalSlice";
 
 function SignupArtist({ onSignup, onOpenModal }) {
   const [isDisabled, setIsDisabled] = useState(false);
@@ -35,6 +44,12 @@ function SignupArtist({ onSignup, onOpenModal }) {
   const bankName = useField("text");
   const { onReset: resetBankName, ...bankNameProps } = bankName;
 
+  const [register, { isLoading }] = useRegisterMutation();
+
+  const { userInfo } = useSelector(getAuth);
+
+  const dispatch = useDispatch();
+
   useEffect(() => {
     if (
       name.value === "" ||
@@ -43,7 +58,6 @@ function SignupArtist({ onSignup, onOpenModal }) {
       password.value === "" ||
       biography.value === "" ||
       specialisation.value === "" ||
-      portfolio.value === "" ||
       accountName.value === "" ||
       accountNumber.value === "" ||
       bankName.value === ""
@@ -65,31 +79,55 @@ function SignupArtist({ onSignup, onOpenModal }) {
     specialisation.value,
   ]);
 
-  function handleSignup() {
-    const userDetails = {
-      name: name.value,
-      email: email.value,
-      contactNumber: number.value,
-      password: password.value,
-      specialisation: specialisation.value,
-      portfolio: portfolio.value,
-      accountName: accountName.value,
-      accountNumber: accountNumber.value,
-      bankName: bankName.value,
-    };
+  async function signupHandler(e) {
+    e.preventDefault();
+    // if (userInfo && userInfo.email === email.value) {
+    //   dispatch(updateSuccessMgs("Already logged in"));
+    //   dispatch(enableError());
+    //   return;
+    // }
+    try {
+      const names = name.value.split(" ");
 
-    resetName();
-    resetEmail();
-    resetNumber();
-    resetPassword();
-    resetBiography();
-    resetSpecialisation();
-    resetPortfolio();
-    resetAccountName();
-    resetAccountNumber();
-    resetBankName();
+      const userDetails = {
+        firstname: names[0],
+        lastname: names[1],
+        email: email.value,
+        contactNumber: number.value,
+        password: password.value,
+        specialisation: specialisation.value,
+        portfolio: portfolio.value,
+        paymentDetails: {
+          accountName: accountName.value,
+          accountNumber: accountNumber.value,
+          bankName: bankName.value,
+        },
+        userType: "artist",
+      };
 
-    onSignup?.();
+      const res = await register(userDetails).unwrap();
+      // dispatch(setCredentials({ ...res }));
+      dispatch(updateSuccessMgs(res.message));
+      dispatch(enableSuccess());
+      dispatch(updateUserType("artist"));
+      resetName(e);
+      resetEmail(e);
+      resetNumber(e);
+      resetPassword(e);
+      resetBiography(e);
+      resetSpecialisation(e);
+      resetPortfolio(e);
+      resetAccountName(e);
+      resetAccountNumber(e);
+      resetBankName(e);
+      onOpenModal("Login");
+      // onSignup?.();
+    } catch (err) {
+      const errMsg = err?.data?.message;
+      dispatch(updateSuccessMgs(errMsg || err.error));
+      dispatch(enableError());
+      console.log(errMsg);
+    }
   }
 
   return (
@@ -104,7 +142,7 @@ function SignupArtist({ onSignup, onOpenModal }) {
         <FormComponent
           type="signup"
           disable={isDisabled}
-          onConfirm={handleSignup}
+          onConfirm={signupHandler}
           onOpenModal={onOpenModal}
         >
           <div className={styles.formSectionHeader}>Personal Information</div>

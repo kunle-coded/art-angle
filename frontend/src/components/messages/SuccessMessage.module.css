@@ -58,8 +58,6 @@
   /* transition: width 500ms linear; */
 }
 
-.successLoader {
-}
 .errorLoader {
   background-color: var(--error);
 }

@@ -25,6 +25,8 @@ function UserProfile() {
     }
   }
 
+  console.log(userInfo);
+
   return (
     <div className="page">
       <div className="container">
@@ -68,12 +70,15 @@ function UserProfile() {
                     </div>
                   </div>
                   <h3 className={styles.userName}>
-                    {userInfo.firstname} {userInfo.lastname}
+                    {userInfo?.firstname} {userInfo?.lastname}
                   </h3>
                   <DividerLine />
                   <div className={styles.utilityContainer}>
                     <a href="/follow" className={styles.followingLink}>
-                      <span>{userInfo.favouriteArtists.length}</span> Following
+                      <span>{userInfo?.favouriteArtists?.length}</span>{" "}
+                      {userInfo.userType === "buyer"
+                        ? "Following"
+                        : "Followers"}
                     </a>
                     <div className={styles.shareWrapper}>
                       <button className={styles.shareBtn}>
@@ -89,18 +94,30 @@ function UserProfile() {
               </div>
               <div className={styles.contentColumn}>
                 <div className={styles.contentContainer}>
-                  <PosterList title="Wishlist" list={artworksThree} />
-
-                  <DividerLine />
-
-                  <CardList title="Collections" list={artworksThree} />
-
-                  <DividerLine />
-
-                  <ArtistCardList
-                    title="Favorite Artists"
-                    list={artists.splice(0, 6)}
+                  <PosterList
+                    title={
+                      userInfo.userType === "buyer" ? "Wishlist" : "Artworks"
+                    }
+                    list={artworksThree}
                   />
+
+                  <DividerLine />
+
+                  <CardList
+                    title={
+                      userInfo.userType === "buyer" ? "Collections" : "Orders"
+                    }
+                    list={artworksThree}
+                  />
+
+                  {userInfo.userType === "buyer" && <DividerLine />}
+
+                  {userInfo.userType === "buyer" && (
+                    <ArtistCardList
+                      title="Favorite Artists"
+                      list={artists.splice(0, 6)}
+                    />
+                  )}
                 </div>
               </div>
             </div>

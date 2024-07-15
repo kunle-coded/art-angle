@@ -11,6 +11,7 @@ import {
   updateCurrentSort,
 } from "../slices/globalSlice";
 import Button from "../ui/Button";
+import { getAuth } from "../slices/authSlice";
 
 const sortArray = [
   "Price",
@@ -26,6 +27,7 @@ function ArtistsArtworks() {
   const [selected, setSelected] = useState(0);
 
   const { sortDropdown } = useSelector(getGlobal);
+  const { userInfo } = useSelector(getAuth);
 
   const labelRef = useRef(null);
 
@@ -66,7 +68,13 @@ function ArtistsArtworks() {
                   <SortButton ref={labelRef} onClick={openDropdown} />
                 </div>
                 <div className={styles.btnContainer}>
-                  <Button size="small">Add New Artwork</Button>
+                  <Button
+                    as="a"
+                    href={`/artist/${userInfo.id}/artwork/upload`}
+                    size="small"
+                  >
+                    Add New Artwork
+                  </Button>
                 </div>
               </div>
             </div>

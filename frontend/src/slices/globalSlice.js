@@ -16,6 +16,8 @@ const initialState = {
   isSuccess: false,
   isError: false,
   successMessage: "",
+  loginWindow: "",
+  userType: "buyer",
   currentSort: "",
 };
 
@@ -105,6 +107,19 @@ const globalSlice = createSlice({
     updateSuccessMgs(state, action) {
       state.successMessage = action.payload;
     },
+
+    openLogin(state, action) {
+      state.loginWindow = action.payload;
+    },
+    closeLogin(state) {
+      state.loginWindow = "";
+    },
+    updateUserType(state, action) {
+      state.userType = action.payload;
+    },
+    deleteUserType(state) {
+      state.userType = "buyer";
+    },
   },
 });
 
@@ -136,6 +151,10 @@ export const {
   updateSuccessMgs,
   enableError,
   disableError,
+  openLogin,
+  closeLogin,
+  updateUserType,
+  deleteUserType,
 } = globalSlice.actions;
 
 export default globalSlice.reducer;

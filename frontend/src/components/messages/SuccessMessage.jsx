@@ -28,8 +28,7 @@ function SuccessMessage() {
             return count - 10;
           } else {
             clearInterval(intervalId);
-            dispatch(disableSuccess());
-            dispatch(disableError());
+            setIsInitialized(true);
             return 0;
           }
         });
@@ -42,10 +41,12 @@ function SuccessMessage() {
   }, [isSuccess, isError, dispatch, counter, isInitialized]);
 
   useEffect(() => {
-    if (!isSuccess && !isError) {
+    if (isInitialized && counter === 0) {
+      dispatch(disableSuccess());
+      dispatch(disableError());
       setIsInitialized(false);
     }
-  }, [isSuccess, isError]);
+  }, [isInitialized, dispatch, counter]);
 
   return (
     <div
