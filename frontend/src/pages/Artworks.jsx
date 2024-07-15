@@ -7,8 +7,8 @@ import {
   showMediumDropdown,
   showRarityDropdown,
   showPriceDropdown,
-} from "../reducers/globalSlice";
-import { getFilters } from "../reducers/filterSlice";
+} from "../slices/globalSlice";
+import { getFilters } from "../slices/filterSlice";
 import {
   categories,
   rarity,

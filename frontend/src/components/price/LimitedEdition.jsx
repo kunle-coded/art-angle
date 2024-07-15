@@ -4,10 +4,7 @@ import { useField } from "../../hooks";
 import FormInput from "../../ui/FormInput";
 import Input from "../../ui/Input";
 import styles from "./LimitedEdition.module.css";
-import {
-  updateAvailableForSale,
-  updateRuns,
-} from "../../reducers/artworkSllice";
+import { updateAvailableForSale, updateRuns } from "../../slices/artworkSllice";
 
 function LimitedEdition({ artworkTitle }) {
   const runs = useField("text");

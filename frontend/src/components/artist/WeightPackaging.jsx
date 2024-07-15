@@ -14,7 +14,7 @@ import {
   updatePackagingWeight,
   updateTotalWeight,
   updateWeight,
-} from "../../reducers/artworkSllice";
+} from "../../slices/artworkSllice";
 
 function WeightPackaging() {
   const [isFramed, setIsFramed] = useState(false);

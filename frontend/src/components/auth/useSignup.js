@@ -1,16 +1,26 @@
 import { useMutation } from "@tanstack/react-query";
 import { registerUser } from "../../services/apiUser";
+import { useDispatch } from "react-redux";
+import {
+  enableError,
+  enableSuccess,
+  updateSuccessMgs,
+} from "../../slices/globalSlice";
 
 export function useSignup() {
-  const { mutate: signup, isLoading: isSigningUp } = useMutation({
+  const dispatch = useDispatch();
+
+  const { mutate: signup } = useMutation({
     mutationFn: (userData) => registerUser(userData),
     onSuccess: (data) => {
-      console.log("successful", data);
+      dispatch(updateSuccessMgs(data.message));
+      dispatch(enableSuccess());
     },
     onError: (error) => {
-      //   console.log(error.message);
+      dispatch(updateSuccessMgs(error.message));
+      dispatch(enableError());
     },
   });
 
-  return { signup, isSigningUp };
+  return { signup };
 }

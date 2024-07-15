@@ -5,7 +5,7 @@ import {
   removePadding,
   setPadding,
   setPosition,
-} from "../reducers/globalSlice";
+} from "../slices/globalSlice";
 
 export default function useDropdown(labelRef, sortRef, type) {
   const { sortDropdown, mediumDropdown, rarityDropdown, priceDropdown } =

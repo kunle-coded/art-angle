@@ -4,7 +4,7 @@ import {
   removeMediumItem,
   removeRarityItem,
   removePriceItem,
-} from "../reducers/filterSlice";
+} from "../slices/filterSlice";
 
 import styles from "./SelectedFilterButton.module.css";
 

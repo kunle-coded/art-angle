@@ -1,7 +1,7 @@
 import { forwardRef, useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
 import styles from "./SortComponent.module.css";
-import { getGlobal } from "../../reducers/globalSlice";
+import { getGlobal } from "../../slices/globalSlice";
 import useDropdown from "../../hooks/useDropdown";
 import Checkbox from "../../ui/Checkbox";
 

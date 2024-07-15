@@ -26,8 +26,8 @@ function Homepage() {
     queryFn: getArtworks,
   });
 
-  console.log(data);
-  console.log(isLoading ? "Loading" : "Loaded");
+  // console.log(data);
+  // console.log(isLoading ? "Loading" : "Loaded");
 
   return (
     <div className="page">

@@ -14,6 +14,7 @@ const initialState = {
   isModalOpen: false,
   isProfileDropdown: false,
   isSuccess: false,
+  isError: false,
   successMessage: "",
   currentSort: "",
 };
@@ -94,6 +95,12 @@ const globalSlice = createSlice({
     disableSuccess(state) {
       state.isSuccess = false;
     },
+    enableError(state) {
+      state.isError = true;
+    },
+    disableError(state) {
+      state.isError = false;
+    },
 
     updateSuccessMgs(state, action) {
       state.successMessage = action.payload;
@@ -127,6 +134,8 @@ export const {
   enableSuccess,
   disableSuccess,
   updateSuccessMgs,
+  enableError,
+  disableError,
 } = globalSlice.actions;
 
 export default globalSlice.reducer;

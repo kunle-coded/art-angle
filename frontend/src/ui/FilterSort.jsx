@@ -1,5 +1,5 @@
 import { useDispatch } from "react-redux";
-import { resetFilter } from "../reducers/filterSlice";
+import { resetFilter } from "../slices/filterSlice";
 import styles from "./FilterSort.module.css";
 import SelectedFilterButton from "./SelectedFilterButton";
 

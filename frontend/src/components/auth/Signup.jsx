@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
 import { useSignup } from "./useSignup";
 import { useField, useShowPassword } from "../../hooks";
-import { register } from "../../reducers/userSlice";
 
 import styles from "./Signup.module.css";
 import EyeIcon from "../icons/EyeIcon";
@@ -25,8 +23,6 @@ function Signup({ onCloseModal, onOpenModal }) {
   const password = useField(passwordType);
   const { onReset: resetPassword, ...passwordProps } = password;
 
-  const dispatch = useDispatch();
-
   useEffect(() => {
     if (name.value === "" || email.value === "" || password.value === "") {
       setIsDisabled(true);
@@ -35,7 +31,7 @@ function Signup({ onCloseModal, onOpenModal }) {
     }
   }, [email.value, name.value, password.value]);
 
-  const { signup, isSigningUp } = useSignup();
+  const { signup } = useSignup();
 
   function handleSignUp(e) {
     const names = name.value.split(" ");
@@ -49,21 +45,12 @@ function Signup({ onCloseModal, onOpenModal }) {
 
     signup(newUser, {
       onSuccess: (data) => {
-        console.log("success", data);
-      },
-
-      onError: (error) => {
-        console.log(error.message);
+        resetName(e);
+        resetEmail(e);
+        resetPassword(e);
+        onOpenModal("Login");
       },
     });
-
-    console.log(newUser);
-
-    // dispatch(register(newUser));
-    // resetName(e);
-    // resetEmail(e);
-    // resetPassword(e);
-    // onOpenModal("Login");
   }
 
   function openSignup() {

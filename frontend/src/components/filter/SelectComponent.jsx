@@ -8,13 +8,13 @@ import {
   removeRarityItem,
   updateAllFilters,
   removeAllFiltersItem,
-} from "../../reducers/filterSlice";
+} from "../../slices/filterSlice";
 import {
   disableMediumButton,
   enableMediumButton,
   disableRarityButton,
   enableRarityButton,
-} from "../../reducers/globalSlice";
+} from "../../slices/globalSlice";
 
 import styles from "./SelectComponent.module.css";
 

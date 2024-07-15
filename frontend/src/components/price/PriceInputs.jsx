@@ -5,7 +5,7 @@ import formatCurrency from "../../helpers/formatCurrency";
 import { useField } from "../../hooks";
 import FormInput from "../../ui/FormInput";
 import styles from "./PriceInputs.module.css";
-import { updatePrice, updateTotalPrice } from "../../reducers/artworkSllice";
+import { updatePrice, updateTotalPrice } from "../../slices/artworkSllice";
 
 function PriceInputs() {
   const price = useField("number");

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { getUser } from "../../reducers/userSlice";
+import { getUser } from "../../slices/userSlice";
 
 import Logo from "../../ui/Logo";
 import styles from "./Header.module.css";
@@ -12,7 +12,8 @@ import SearchIcon from "../icons/SearchIcon";
 import Login from "../auth/Login";
 import Signup from "../auth/Signup";
 import UserDropdown from "./UserDropdown";
-import { getGlobal } from "../../reducers/globalSlice";
+import { getGlobal } from "../../slices/globalSlice";
+import { getAuth } from "../../slices/authSlice";
 
 function Header({ onEnter, onLeave }) {
   const [isLogin, setIsLogin] = useState(false);
@@ -20,6 +21,7 @@ function Header({ onEnter, onLeave }) {
 
   const { user } = useSelector(getUser);
   const { isProfileDropdown } = useSelector(getGlobal);
+  const { userInfo } = useSelector(getAuth);
 
   useEffect(() => {
     if (user.email && user.password) {
@@ -91,7 +93,7 @@ function Header({ onEnter, onLeave }) {
           </div>
 
           <div className={styles.utilityMenu}>
-            {isLogin && (
+            {userInfo && (
               <div className={styles.userContainer}>
                 <div>
                   <button
@@ -99,7 +101,9 @@ function Header({ onEnter, onLeave }) {
                     onMouseEnter={() => setIsHovered(true)}
                     onMouseLeave={handleLeave}
                   >
-                    <span datatype="fullname">John Doe</span>
+                    <span datatype="fullname">
+                      {userInfo.firstname} {userInfo.lastname}{" "}
+                    </span>
                     <span datatype="initials">JD</span>
                   </button>
 
@@ -108,7 +112,7 @@ function Header({ onEnter, onLeave }) {
               </div>
             )}
 
-            {!isLogin && (
+            {!userInfo && (
               <Modal>
                 <Modal.Open opens="Login">
                   <Button type="secondary" size="small">

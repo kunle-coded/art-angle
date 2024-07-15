@@ -9,7 +9,7 @@ import {
   getGlobal,
   showSortDropdown,
   updateCurrentSort,
-} from "../reducers/globalSlice";
+} from "../slices/globalSlice";
 import Button from "../ui/Button";
 
 const sortArray = [

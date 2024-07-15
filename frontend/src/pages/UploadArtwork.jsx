@@ -14,7 +14,7 @@ import {
   updateDimensions,
   updateDescription,
   updateKeywords,
-} from "../reducers/artworkSllice";
+} from "../slices/artworkSllice";
 
 import DropdownInput from "../ui/DropdownInput";
 import ProgressIndicator from "../ui/ProgressIndicator";

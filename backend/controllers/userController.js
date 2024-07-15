@@ -40,7 +40,7 @@ const authUser = asyncHandler(async (req, res) => {
 
   if (user && (await user.matchPassword(password))) {
     generateToken(res, user.id);
-    res.status(200).json({ message: "Login successful" });
+    res.status(200).json(user);
   } else {
     res.status(401);
     throw new Error("Invalid email or password");
@@ -55,6 +55,7 @@ const logoutUser = asyncHandler(async (req, res) => {
     httpOnly: true,
     expires: new Date(0),
   });
+  console.log("log out user");
   res.status(200).json({ message: "User logeed out" });
 });
 

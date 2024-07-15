@@ -5,13 +5,13 @@ import {
   getFilters,
   removePriceItem,
   updatePrice,
-} from "../../reducers/filterSlice";
+} from "../../slices/filterSlice";
 import filterPrice from "../../helpers/filterPrice";
 import { MAX_FILTER_PRICE } from "../../constants";
 import {
   disablePriceButton,
   enablePriceButton,
-} from "../../reducers/globalSlice";
+} from "../../slices/globalSlice";
 
 function PriceSlider() {
   const [minValue, setMinValue] = useState(0);

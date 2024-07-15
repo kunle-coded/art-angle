@@ -6,7 +6,7 @@ import {
   closeRarityDropdown,
   getGlobal,
   closePriceDropdown,
-} from "../reducers/globalSlice";
+} from "../slices/globalSlice";
 
 import Navigation from "../components/header/Navigation";
 import Footer from "../components/footer/Footer";

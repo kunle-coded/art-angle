@@ -1,5 +1,5 @@
 import { useDispatch } from "react-redux";
-import { enableSuccess, updateSuccessMgs } from "../../reducers/globalSlice";
+import { enableSuccess, updateSuccessMgs } from "../../slices/globalSlice";
 
 import Button from "../../ui/Button";
 import styles from "./ConfirmDelete.module.css";

@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
 import styles from "./SortButton.module.css";
-import { getGlobal } from "../../reducers/globalSlice";
+import { getGlobal } from "../../slices/globalSlice";
 import { forwardRef } from "react";
 
 function SortButton(props, ref) {

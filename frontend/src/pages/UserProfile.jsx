@@ -8,9 +8,13 @@ import DividerLine from "../ui/DividerLine";
 import PosterList from "../components/lists/PosterList";
 import CardList from "../components/lists/CardList";
 import ArtistCardList from "../components/lists/ArtistCardList";
+import { useSelector } from "react-redux";
+import { getAuth } from "../slices/authSlice";
 
 function UserProfile() {
   const [isEditHover, setIsEditHover] = useState(false);
+
+  const { userInfo } = useSelector(getAuth);
 
   function handleClick(e) {
     console.log("clicked", e);
@@ -63,11 +67,13 @@ function UserProfile() {
                       </div>
                     </div>
                   </div>
-                  <h3 className={styles.userName}>Kunle Ronald</h3>
+                  <h3 className={styles.userName}>
+                    {userInfo.firstname} {userInfo.lastname}
+                  </h3>
                   <DividerLine />
                   <div className={styles.utilityContainer}>
                     <a href="/follow" className={styles.followingLink}>
-                      <span>0</span> Following
+                      <span>{userInfo.favouriteArtists.length}</span> Following
                     </a>
                     <div className={styles.shareWrapper}>
                       <button className={styles.shareBtn}>
