@@ -96,7 +96,8 @@ function SignupArtist({ onSignup, onOpenModal }) {
         contactNumber: number.value,
         password: password.value,
         specialisation: specialisation.value,
-        portfolio: portfolio.value,
+        biography: biography.value,
+        portfolioLink: portfolio.value,
         paymentDetails: {
           accountName: accountName.value,
           accountNumber: accountNumber.value,
@@ -215,12 +216,3 @@ function SignupArtist({ onSignup, onOpenModal }) {
 }
 
 export default SignupArtist;
-
-// eslint-disable-next-line no-lone-blocks
-{
-  /* <div className={styles.closeContainer}>
-  <div className={styles.close}>
-    <CloseIcon />
-  </div>
-</div>; */
-}

@@ -63,6 +63,9 @@ function UserDropdown({ showDropdown, setHover }) {
           <div className={styles.linkItem}>Collections</div>
           <div className={styles.linkItem}>Orders</div>
           <div className={styles.linkItem}>Offers</div>
+          <Link to="/user/accounts/settings" className={styles.linkItem}>
+            Account
+          </Link>
         </>
       )}
       {userInfo.userType === "artist" && (

@@ -1,15 +1,17 @@
-import { useDispatch } from "react-redux";
-import { enableSuccess, updateSuccessMgs } from "../../slices/globalSlice";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  enableSuccess,
+  getGlobal,
+  updateDeactivate,
+  updateSuccessMgs,
+} from "../../slices/globalSlice";
 
 import Button from "../../ui/Button";
 import styles from "./ConfirmDelete.module.css";
 
-function ConfirmDelete({ onCloseModal, message = "", successMsg = "" }) {
-  const dispatch = useDispatch();
-
-  function handleConfirm() {
-    dispatch(enableSuccess());
-    dispatch(updateSuccessMgs(successMsg));
+function ConfirmDelete({ onCloseModal, message = "", onConfirm }) {
+  function handleConfirm(e) {
+    onConfirm?.(e);
     onCloseModal?.();
   }
 

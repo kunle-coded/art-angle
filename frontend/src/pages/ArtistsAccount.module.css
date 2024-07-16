@@ -68,13 +68,18 @@
 }
 
 .sidebarLink {
+  appearance: none;
+  border: none;
   text-decoration: none;
+  text-align: left;
   color: inherit;
+  background-color: inherit;
   font-size: 18px;
   line-height: 24px;
   font-weight: bold;
   width: 100%;
   padding: 16px 20px;
+  cursor: pointer;
 }
 
 .contentContainer {

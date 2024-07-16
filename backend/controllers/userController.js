@@ -144,7 +144,7 @@ const deleteUser = asyncHandler(async (req, res) => {
       httpOnly: true,
       expires: new Date(0),
     });
-    res.json({ message: "User successfully deleted" });
+    res.json({ message: "Account successfully deactivated" });
   } else {
     res.status(404);
     throw new Error("User not found");

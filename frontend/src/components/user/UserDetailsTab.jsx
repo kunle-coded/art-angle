@@ -5,10 +5,14 @@ import styles from "./UserDetailsTab.module.css";
 import ButtonWithIcon from "../../ui/ButtonWithIcon";
 import EditIconFilled from "../icons/EditIconFilled";
 import DividerLine from "../../ui/DividerLine";
+import { useSelector } from "react-redux";
+import { getAuth } from "../../slices/authSlice";
 
 function UserDetailsTab() {
   const [isEdit, setIsEdit] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
+
+  const { userInfo } = useSelector(getAuth);
 
   const password = useField("text");
   const { onReset: resetPassword, ...passwordProps } = password;
@@ -47,12 +51,20 @@ function UserDetailsTab() {
       <DividerLine />
 
       <div className={styles.contentContainer}>
-        <LabeledInput label="First Name" display={!isEdit} displayText="John" />
-        <LabeledInput label="Last Name" display={!isEdit} displayText="Doe" />
+        <LabeledInput
+          label="First Name"
+          display={!isEdit}
+          displayText={userInfo.firstname}
+        />
+        <LabeledInput
+          label="Last Name"
+          display={!isEdit}
+          displayText={userInfo.lastname}
+        />
         <LabeledInput
           label="Email Address"
           display
-          displayText="johndoe@email.com"
+          displayText={userInfo.email}
         />
         <LabeledInput
           label="New Password"

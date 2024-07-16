@@ -26,10 +26,10 @@ import { closeLogin, openLogin } from "../slices/globalSlice";
 import { getAuth } from "../slices/authSlice";
 
 function Homepage() {
-  const { data, error, isLoading } = useQuery({
-    queryKey: ["artworks"],
-    queryFn: getArtworks,
-  });
+  // const { data, error, isLoading } = useQuery({
+  //   queryKey: ["artworks"],
+  //   queryFn: getArtworks,
+  // });
 
   const { userInfo } = useSelector(getAuth);
 

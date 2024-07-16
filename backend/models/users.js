@@ -41,7 +41,9 @@ const artistSchema = new mongoose.Schema({
   specialisation: {
     type: String,
   },
-  portfolioLinks: [String],
+  portfolioLink: {
+    type: String,
+  },
   paymentDetails: {
     accountName: {
       type: String,
@@ -60,6 +62,12 @@ const artistSchema = new mongoose.Schema({
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Artwork",
+    },
+  ],
+  followers: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Buyer",
     },
   ],
 });

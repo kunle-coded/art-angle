@@ -24,8 +24,18 @@ export const usersApiSlice = apiSlice.injectEndpoints({
         method: "POST",
       }),
     }),
+    delete: builder.mutation({
+      query: () => ({
+        url: `${USERS_URL}/deactivate`,
+        method: "DELETE",
+      }),
+    }),
   }),
 });
 
-export const { useRegisterMutation, useLoginMutation, useLogoutMutation } =
-  usersApiSlice;
+export const {
+  useRegisterMutation,
+  useLoginMutation,
+  useLogoutMutation,
+  useDeleteMutation,
+} = usersApiSlice;

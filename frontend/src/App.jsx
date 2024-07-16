@@ -64,8 +64,12 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "/accounts/:feature",
-        element: <UserAccount />,
+        path: "/user/accounts/:feature",
+        element: (
+          <Private>
+            <UserAccount />
+          </Private>
+        ),
       },
       {
         path: "/user/:userId/cart",

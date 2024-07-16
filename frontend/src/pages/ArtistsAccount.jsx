@@ -1,5 +1,14 @@
 import { useEffect, useState } from "react";
-import { Link, useNavigation, useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import { getAuth, logout } from "../slices/authSlice";
+import { useDeleteMutation, useLogoutMutation } from "../slices/usersApiSlice";
+import {
+  enableError,
+  enableSuccess,
+  updateSuccessMgs,
+} from "../slices/globalSlice";
+
 import styles from "./ArtistsAccount.module.css";
 // import { artworksThree, artists } from "../data";
 import OffersDashboard from "../components/user/OffersDashboard";
@@ -11,6 +20,8 @@ import Spacer from "../ui/Spacer";
 import LabeledTextArea from "../ui/LabeledTextArea";
 import DetailedListComponent from "../components/lists/DetailedListComponent";
 import DetailedList from "../components/lists/DetailedList";
+import Modal from "../components/modal/Modal";
+import ConfirmDelete from "../components/messages/ConfirmDelete";
 
 function ArtistsAccount() {
   const [currentItem, setCurrentItem] = useState(null);
@@ -21,8 +32,13 @@ function ArtistsAccount() {
   const [editPaymentInfo, setEditPaymentInfo] = useState(false);
   const [isAllChecked, setIsAllChecked] = useState(false);
 
+  const { userInfo } = useSelector(getAuth);
+  const [logoutUser] = useLogoutMutation();
+  const [deleteUser, { isLoading }] = useDeleteMutation();
+
   const { feature } = useParams();
-  const { state } = useNavigation();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const password = useField("text");
   const { onReset: resetPassword, ...passwordProps } = password;
@@ -73,6 +89,35 @@ function ArtistsAccount() {
 
   function handleCancel() {
     setIsAllChecked(false);
+  }
+
+  async function logoutHandler(e) {
+    e.preventDefault();
+
+    try {
+      await logoutUser().unwrap();
+      dispatch(logout());
+      navigate("/");
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  async function deleteHandler(e) {
+    e.preventDefault();
+
+    try {
+      const res = await deleteUser().unwrap();
+      dispatch(updateSuccessMgs(res.message));
+      dispatch(enableSuccess());
+      dispatch(logout());
+      navigate("/");
+    } catch (err) {
+      const errMsg = err?.data?.message;
+      dispatch(updateSuccessMgs(errMsg || err.error));
+      dispatch(enableError());
+      console.log(err);
+    }
   }
 
   return (
@@ -131,144 +176,159 @@ function ArtistsAccount() {
                         currentItem === 3 ? styles.active : ""
                       }`}
                     >
-                      <Link
+                      <button
                         tabIndex="3"
-                        to="/artists/accounts/logout"
                         className={styles.sidebarLink}
+                        onClick={logoutHandler}
                       >
                         Log Out
-                      </Link>
+                      </button>
                     </li>
                   </ul>
                 </nav>
               </div>
               <div className={styles.contentColumn}>
                 <div className={styles.contentContainer}>
-                  <div className={styles.contentArea}>
-                    {state === "loading" && <Spinner />}
-                    {feature === "settings" && (
-                      <>
-                        <ArtistDetailsTab
-                          title="Account Information"
-                          isPassword
-                          isEdit={isEdit && editAccountInfo}
-                          isEditing={isEditing}
-                          onEdit={() => handleEdit(1)}
-                        >
-                          <LabeledInput
-                            label="First Name"
-                            display={!editAccountInfo}
-                            displayText="John"
-                          />
-                          <LabeledInput
-                            label="Last Name"
-                            display={!editAccountInfo}
-                            displayText="Doe"
-                          />
-                          <LabeledInput
-                            label="Email Address"
-                            display
-                            displayText="johndoe@email.com"
-                          />
-                          <LabeledInput
-                            label="Contact Number"
-                            display={!editAccountInfo}
-                            displayText="+23480605404"
-                          />
-                          <LabeledInput
-                            label="New Password"
-                            placeholder="New Password"
-                            {...passwordProps}
-                          />
+                  {isLoading ? (
+                    <Spinner />
+                  ) : (
+                    <div className={styles.contentArea}>
+                      {feature === "settings" && (
+                        <>
+                          <ArtistDetailsTab
+                            title="Account Information"
+                            isPassword
+                            isEdit={isEdit && editAccountInfo}
+                            isEditing={isEditing}
+                            onEdit={() => handleEdit(1)}
+                          >
+                            <LabeledInput
+                              label="First Name"
+                              display={!editAccountInfo}
+                              displayText={userInfo.firstname}
+                            />
+                            <LabeledInput
+                              label="Last Name"
+                              display={!editAccountInfo}
+                              displayText={userInfo.lastname}
+                            />
+                            <LabeledInput
+                              label="Email Address"
+                              display
+                              displayText={userInfo.email}
+                            />
+                            <LabeledInput
+                              label="Contact Number"
+                              display={!editAccountInfo}
+                              displayText={userInfo.contactNumber}
+                            />
+                            <LabeledInput
+                              label="New Password"
+                              placeholder="New Password"
+                              {...passwordProps}
+                            />
 
-                          <div className={styles.errorContainer}>
-                            <div className={styles.errorSidebar}></div>
-                            <div className={styles.errorMessage}>
-                              Incorrect password. Please check and try again.
+                            <div className={styles.errorContainer}>
+                              <div className={styles.errorSidebar}></div>
+                              <div className={styles.errorMessage}>
+                                Incorrect password. Please check and try again.
+                              </div>
                             </div>
-                          </div>
 
-                          <LabeledInput
-                            label="Confirm Password"
-                            placeholder="Confirm Password"
-                            {...confirmPasswordProps}
-                          />
-                        </ArtistDetailsTab>
-                        <Spacer />
-                        <ArtistDetailsTab
-                          title="Artistic Information"
-                          isEdit={isEdit && editArtisticInfo}
-                          onEdit={() => handleEdit(2)}
-                        >
-                          <LabeledTextArea
-                            label="Biography"
-                            display={!editArtisticInfo}
-                            displayText="Lorem ipsum dolor sit amet consectetur. At ipsum nec augue egestas nunc. Pretium mi erat consequat vulputate sodales tristique nam. In sed mauris pellentesque habitasse pellentesque bibendum sapien aliquam habitant. Massa mattis enim nulla aliquam viverra nullam."
-                          />
-                          <LabeledInput
-                            label="Specialisation"
-                            display={!editArtisticInfo}
-                            displayText="Painting, Drawing"
-                          />
-                          <LabeledInput
-                            label="Portfolio Link"
-                            display={!editArtisticInfo}
-                            displayText="https://www.johndoe.com"
-                          />
-                        </ArtistDetailsTab>
-                        <Spacer />
-                        <ArtistDetailsTab
-                          title="Payment Details"
-                          isEdit={isEdit && editPaymentInfo}
-                          onEdit={() => handleEdit(3)}
-                        >
-                          <LabeledInput
-                            label="Account Name"
-                            display={!editPaymentInfo}
-                            displayText="John Doe"
-                          />
-                          <LabeledInput
-                            label="Account Number"
-                            display={!editPaymentInfo}
-                            displayText="194757858643"
-                          />
-                          <LabeledInput
-                            label="Bank Name"
-                            display={!editPaymentInfo}
-                            displayText="Guarantee Trust Bank"
-                          />
-                        </ArtistDetailsTab>
-                      </>
-                    )}
-                    {feature === "artworks" && (
-                      <OffersDashboard tabFor="Artworks">
-                        <DetailedListComponent
-                          isChecked={isAllChecked}
-                          onCheck={handleCheck}
-                          onCancel={handleCancel}
-                        >
-                          <DetailedList isAllChecked={isAllChecked} />
-                          <DetailedList isAllChecked={isAllChecked} />
-                        </DetailedListComponent>
-                      </OffersDashboard>
-                    )}
-                    {feature === "orders" && (
-                      <OffersDashboard tabFor="Orders">
-                        <DetailedListComponent
-                          isChecked={isAllChecked}
-                          onCheck={handleCheck}
-                          onCancel={handleCancel}
-                        >
-                          <DetailedList isAllChecked={isAllChecked} />
-                          <DetailedList isAllChecked={isAllChecked} />
-                        </DetailedListComponent>
-                      </OffersDashboard>
-                    )}
-                  </div>
+                            <LabeledInput
+                              label="Confirm Password"
+                              placeholder="Confirm Password"
+                              {...confirmPasswordProps}
+                            />
+                          </ArtistDetailsTab>
+                          <Spacer />
+                          <ArtistDetailsTab
+                            title="Artistic Information"
+                            isEdit={isEdit && editArtisticInfo}
+                            onEdit={() => handleEdit(2)}
+                          >
+                            <LabeledTextArea
+                              label="Biography"
+                              display={!editArtisticInfo}
+                              displayText={userInfo.biography}
+                            />
+                            <LabeledInput
+                              label="Specialisation"
+                              display={!editArtisticInfo}
+                              displayText={userInfo.specialisation}
+                            />
+                            <LabeledInput
+                              label="Portfolio Link"
+                              display={!editArtisticInfo}
+                              displayText={userInfo.portfolioLink}
+                            />
+                          </ArtistDetailsTab>
+                          <Spacer />
+                          <ArtistDetailsTab
+                            title="Payment Details"
+                            isEdit={isEdit && editPaymentInfo}
+                            onEdit={() => handleEdit(3)}
+                          >
+                            <LabeledInput
+                              label="Account Name"
+                              display={!editPaymentInfo}
+                              displayText={userInfo.paymentDetails.accountName}
+                            />
+                            <LabeledInput
+                              label="Account Number"
+                              display={!editPaymentInfo}
+                              displayText={
+                                userInfo.paymentDetails.accountNumber
+                              }
+                            />
+                            <LabeledInput
+                              label="Bank Name"
+                              display={!editPaymentInfo}
+                              displayText={userInfo.paymentDetails.bankName}
+                            />
+                          </ArtistDetailsTab>
+                        </>
+                      )}
+                      {feature === "artworks" && (
+                        <OffersDashboard tabFor="Artworks">
+                          <DetailedListComponent
+                            isChecked={isAllChecked}
+                            onCheck={handleCheck}
+                            onCancel={handleCancel}
+                          >
+                            <DetailedList isAllChecked={isAllChecked} />
+                            <DetailedList isAllChecked={isAllChecked} />
+                          </DetailedListComponent>
+                        </OffersDashboard>
+                      )}
+                      {feature === "orders" && (
+                        <OffersDashboard tabFor="Orders">
+                          <DetailedListComponent
+                            isChecked={isAllChecked}
+                            onCheck={handleCheck}
+                            onCancel={handleCancel}
+                          >
+                            <DetailedList isAllChecked={isAllChecked} />
+                            <DetailedList isAllChecked={isAllChecked} />
+                          </DetailedListComponent>
+                        </OffersDashboard>
+                      )}
+                    </div>
+                  )}
                   <div className={styles.footerContainer}>
-                    <button className={styles.footerBtn}>
-                      Deactivate Account
-                    </button>
+                    <Modal>
+                      <Modal.Open opens="confirm_delete">
+                        <button className={styles.footerBtn}>
+                          Deactivate Account
+                        </button>
+                      </Modal.Open>
+                      <Modal.Window name="confirm_delete">
+                        <ConfirmDelete
+                          message="Are you sure you want to deactivate your account?"
+                          onConfirm={deleteHandler}
+                        />
+                      </Modal.Window>
+                    </Modal>
                   </div>
                 </div>
               </div>
