@@ -36,6 +36,10 @@
   white-space: nowrap;
 }
 
+.dropdownMenuItems {
+  list-style: none;
+}
+
 .linkItem {
   display: flex;
   -webkit-box-align: center;

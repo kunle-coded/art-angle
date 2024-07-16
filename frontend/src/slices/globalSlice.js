@@ -16,6 +16,7 @@ const initialState = {
   isSuccess: false,
   isError: false,
   isDeactivate: false,
+  isLogout: false,
   successMessage: "",
   loginWindow: "",
   userType: "buyer",
@@ -121,8 +122,11 @@ const globalSlice = createSlice({
     deleteUserType(state) {
       state.userType = "buyer";
     },
-    updateDeactivate(state) {
-      state.isDeactivate = true;
+    activateLogout(state) {
+      state.isLogout = true;
+    },
+    deactivateLogout(state) {
+      state.isDeactivate = false;
     },
   },
 });
@@ -160,6 +164,8 @@ export const {
   updateUserType,
   deleteUserType,
   updateDeactivate,
+  activateLogout,
+  deactivateLogout,
 } = globalSlice.actions;
 
 export default globalSlice.reducer;

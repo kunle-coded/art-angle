@@ -2,20 +2,28 @@ import { useState } from "react";
 import styles from "./UserDropdown.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  activateLogout,
   disableProfileDropdown,
+  enableError,
   getGlobal,
   updateProfileDropdown,
+  updateSuccessMgs,
 } from "../../slices/globalSlice";
 import ImageIcon from "../icons/ImageIcon";
 import { Link, useNavigate } from "react-router-dom";
-import { getAuth, logout } from "../../slices/authSlice";
-import { useLogoutMutation } from "../../slices/usersApiSlice";
+import { getAuth, logout, setCredentials } from "../../slices/authSlice";
+import {
+  useLogoutMutation,
+  useProfileMutation,
+} from "../../slices/usersApiSlice";
 
 function UserDropdown({ showDropdown, setHover }) {
+  const [isError, setIsError] = useState(false);
   const { isProfileDropdown } = useSelector(getGlobal);
   const { userInfo } = useSelector(getAuth);
 
   const [logoutUser] = useLogoutMutation();
+  const [profile] = useProfileMutation();
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -34,8 +42,27 @@ function UserDropdown({ showDropdown, setHover }) {
     try {
       await logoutUser().unwrap();
       dispatch(logout());
+      dispatch(activateLogout());
       navigate("/");
     } catch (err) {
+      console.log(err);
+    }
+  }
+
+  async function profileHandler(e) {
+    e.preventDefault();
+
+    if (userInfo.email) return;
+
+    try {
+      const res = await profile().unwrap();
+      dispatch(setCredentials(res));
+      setIsError(false);
+    } catch (err) {
+      const errMsg = err?.data?.message;
+      dispatch(updateSuccessMgs(errMsg || err.error));
+      dispatch(enableError());
+      setIsError(true);
       console.log(err);
     }
   }
@@ -51,53 +78,97 @@ function UserDropdown({ showDropdown, setHover }) {
       <h3 datatype="fullname">
         {userInfo.firstname} {userInfo.lastname}
       </h3>
-      <Link to={`/user/${userInfo.id}`} className={styles.linkItem}>
-        View Profile
-      </Link>
+
       {userInfo.userType === "buyer" && (
-        <>
-          <Link
-            to={`user/${userInfo.id}/favorites`}
-            className={styles.linkItem}
-          >
-            Favorites
-          </Link>
-          <Link
-            to={`/user/${userInfo.id}/collections`}
-            className={styles.linkItem}
-          >
-            Collections
-          </Link>
-          <Link to="/user/accounts/orders" className={styles.linkItem}>
-            Orders
-          </Link>
-          <Link to="/user/accounts/offers" className={styles.linkItem}>
-            Offers
-          </Link>
-          <div className={styles.linkItem}>Following</div>
-          <Link to="/user/accounts/settings" className={styles.linkItem}>
-            Account
-          </Link>
-        </>
+        <ul className={styles.dropdownMenuItems} onClick={profileHandler}>
+          <li>
+            <Link
+              to={isError ? "" : `/user/${userInfo.id}`}
+              className={styles.linkItem}
+            >
+              View Profile
+            </Link>
+          </li>
+          <li>
+            <Link
+              to={isError ? "" : `user/${userInfo.id}/favorites`}
+              className={styles.linkItem}
+            >
+              Favorites
+            </Link>
+          </li>
+          <li>
+            <Link
+              to={isError ? "" : `/user/${userInfo.id}/collections`}
+              className={styles.linkItem}
+            >
+              Collections
+            </Link>
+          </li>
+          <li>
+            <Link
+              to={isError ? "" : "/user/accounts/orders"}
+              className={styles.linkItem}
+            >
+              Orders
+            </Link>
+          </li>
+          <li>
+            <Link
+              to={isError ? "" : "/user/accounts/offers"}
+              className={styles.linkItem}
+            >
+              Offers
+            </Link>
+          </li>
+          {/* <li>
+            <div className={styles.linkItem}>Following</div>
+          </li> */}
+          <li>
+            <Link
+              to={isError ? "" : "/user/accounts/settings"}
+              className={styles.linkItem}
+            >
+              Account
+            </Link>
+          </li>
+        </ul>
       )}
       {userInfo.userType === "artist" && (
-        <>
-          <Link
-            to={`/artist/${userInfo.id}/artworks`}
-            className={styles.linkItem}
-          >
-            Artworks
-          </Link>
-          <Link
-            to={`/artist/${userInfo.id}/artwork/upload`}
-            className={styles.linkItem}
-          >
-            Upload Artwork
-          </Link>
-          <Link to="/artists/accounts/settings" className={styles.linkItem}>
-            Account
-          </Link>
-        </>
+        <ul className={styles.dropdownMenuItems} onClick={profileHandler}>
+          <li>
+            <Link
+              to={isError ? "" : `/user/${userInfo.id}`}
+              className={styles.linkItem}
+            >
+              View Profile
+            </Link>
+          </li>
+          <li>
+            <Link
+              to={isError ? "" : `/artist/${userInfo.id}/artworks`}
+              className={styles.linkItem}
+            >
+              Artworks
+            </Link>
+          </li>
+          <li>
+            <Link
+              to={isError ? "" : `/artist/${userInfo.id}/artwork/upload`}
+              className={styles.linkItem}
+            >
+              Upload Artwork
+            </Link>
+          </li>
+          <li>
+            <Link
+              to={isError ? "" : "/artists/accounts/settings"}
+              className={styles.linkItem}
+            >
+              Account
+            </Link>
+          </li>
+        </ul>
       )}
       {userInfo.userType === "buyer" && <span className={styles.line}></span>}
       {userInfo.userType === "buyer" && (

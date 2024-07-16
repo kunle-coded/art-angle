@@ -11,6 +11,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useDeleteMutation, useLogoutMutation } from "../slices/usersApiSlice";
 import { getAuth, logout } from "../slices/authSlice";
 import {
+  activateLogout,
   enableError,
   enableSuccess,
   updateSuccessMgs,
@@ -60,7 +61,8 @@ function UserAccount() {
     try {
       await logoutUser().unwrap();
       dispatch(logout());
-      // navigate("/");
+      dispatch(activateLogout());
+      navigate("/");
     } catch (err) {
       console.log(err);
     }

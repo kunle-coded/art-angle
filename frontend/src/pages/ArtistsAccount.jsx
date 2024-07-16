@@ -4,6 +4,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { getAuth, logout } from "../slices/authSlice";
 import { useDeleteMutation, useLogoutMutation } from "../slices/usersApiSlice";
 import {
+  activateLogout,
   enableError,
   enableSuccess,
   updateSuccessMgs,
@@ -111,6 +112,7 @@ function ArtistsAccount() {
       dispatch(updateSuccessMgs(res.message));
       dispatch(enableSuccess());
       dispatch(logout());
+      dispatch(activateLogout());
       navigate("/");
     } catch (err) {
       const errMsg = err?.data?.message;
