@@ -5,7 +5,7 @@ import SmallCard from "../../ui/SmallCard";
 import Spacer from "../../ui/Spacer";
 import ListItems from "./ListItems";
 
-function CardList({ list = [], title = "" }) {
+function CardList({ list = [], title = "", link }) {
   return (
     <section className="section_basic">
       <PageTitle title={title} />
@@ -24,7 +24,7 @@ function CardList({ list = [], title = "" }) {
 
       <div className={styles.showMore}>
         <div className={styles.btnContainer}>
-          <LinkButton>View All {title}</LinkButton>
+          <LinkButton link={link}>View All {title}</LinkButton>
         </div>
       </div>
     </section>

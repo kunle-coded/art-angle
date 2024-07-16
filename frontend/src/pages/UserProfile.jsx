@@ -3,7 +3,7 @@ import EditIcon from "../components/icons/EditIcon";
 import ProfileIcon from "../components/icons/ProfileIcon";
 import ShareIcon from "../components/icons/ShareIcon";
 import styles from "./UserProfile.module.css";
-import { artworksThree, artists } from "../data";
+import { artworksThree, artworksTwo, artists } from "../data";
 import DividerLine from "../ui/DividerLine";
 import PosterList from "../components/lists/PosterList";
 import CardList from "../components/lists/CardList";
@@ -24,8 +24,6 @@ function UserProfile() {
       console.log("upload", e.target.files[0]);
     }
   }
-
-  console.log(userInfo);
 
   return (
     <div className="page">
@@ -96,9 +94,10 @@ function UserProfile() {
                 <div className={styles.contentContainer}>
                   <PosterList
                     title={
-                      userInfo.userType === "buyer" ? "Wishlist" : "Artworks"
+                      userInfo.userType === "buyer" ? "Favorites" : "Artworks"
                     }
-                    list={artworksThree}
+                    list={artworksThree.splice(0, 4)}
+                    link={`/user/${userInfo.id}/favourites`}
                   />
 
                   <DividerLine />
@@ -107,15 +106,16 @@ function UserProfile() {
                     title={
                       userInfo.userType === "buyer" ? "Collections" : "Orders"
                     }
-                    list={artworksThree}
+                    list={artworksTwo.splice(0, 4)}
+                    link={`/user/${userInfo.id}/collections`}
                   />
 
                   {userInfo.userType === "buyer" && <DividerLine />}
 
                   {userInfo.userType === "buyer" && (
                     <ArtistCardList
-                      title="Favorite Artists"
-                      list={artists.splice(0, 6)}
+                      title="Following"
+                      list={artists.splice(0, 4)}
                     />
                   )}
                 </div>

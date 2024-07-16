@@ -59,6 +59,8 @@
   flex-direction: column;
   -webkit-box-pack: center;
   justify-content: center;
+  -webkit-box-align: start;
+  align-items: flex-start;
   width: 100%;
 }
 
@@ -69,6 +71,10 @@
   overflow: hidden;
   text-overflow: ellipsis;
   margin-bottom: 10px;
+}
+
+.heading > span {
+  text-transform: capitalize;
 }
 
 .backBtn {

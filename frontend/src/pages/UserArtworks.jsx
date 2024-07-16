@@ -1,4 +1,6 @@
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { getAuth } from "../slices/authSlice";
 import ProfileIcon from "../components/icons/ProfileIcon";
 import styles from "./UserArtworks.module.css";
 import Spacer from "../ui/Spacer";
@@ -9,6 +11,10 @@ import ArtworkPoster from "../ui/ArtworkPoster";
 import { artworksThree } from "../data";
 
 function UserArtworks() {
+  const { userInfo } = useSelector(getAuth);
+
+  const { list } = useParams();
+
   const style1 = {
     flex: "1",
     minWidth: "0",
@@ -37,8 +43,10 @@ function UserArtworks() {
               </Link>
 
               <div className={styles.headerText}>
-                <h1 className={styles.heading}>John Doe's Favorites</h1>
-                <Link to="/user/34567" className={styles.backBtn}>
+                <h1 className={styles.heading}>
+                  {`${userInfo.firstname}'s`} <span>{list}</span>
+                </h1>
+                <Link to={`/user/${userInfo.id}`} className={styles.backBtn}>
                   <svg
                     viewBox="459.643 230 32.162 40"
                     xmlns="http://www.w3.org/2000/svg"

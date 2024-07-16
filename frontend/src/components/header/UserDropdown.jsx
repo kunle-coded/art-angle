@@ -56,13 +56,25 @@ function UserDropdown({ showDropdown, setHover }) {
       </Link>
       {userInfo.userType === "buyer" && (
         <>
-          <Link to={`user/${userInfo.id}/wishlist`} className={styles.linkItem}>
-            Wishlist
+          <Link
+            to={`user/${userInfo.id}/favorites`}
+            className={styles.linkItem}
+          >
+            Favorites
           </Link>
-          <div className={styles.linkItem}>Favorite Artists</div>
-          <div className={styles.linkItem}>Collections</div>
-          <div className={styles.linkItem}>Orders</div>
-          <div className={styles.linkItem}>Offers</div>
+          <Link
+            to={`/user/${userInfo.id}/collections`}
+            className={styles.linkItem}
+          >
+            Collections
+          </Link>
+          <Link to="/user/accounts/orders" className={styles.linkItem}>
+            Orders
+          </Link>
+          <Link to="/user/accounts/offers" className={styles.linkItem}>
+            Offers
+          </Link>
+          <div className={styles.linkItem}>Following</div>
           <Link to="/user/accounts/settings" className={styles.linkItem}>
             Account
           </Link>

@@ -60,7 +60,7 @@ function UserAccount() {
     try {
       await logoutUser().unwrap();
       dispatch(logout());
-      navigate("/");
+      // navigate("/");
     } catch (err) {
       console.log(err);
     }

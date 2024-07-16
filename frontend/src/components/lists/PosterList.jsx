@@ -5,7 +5,7 @@ import Spacer from "../../ui/Spacer";
 import ListItems from "./ListItems";
 import LinkButton from "../../ui/LinkButton";
 
-function PosterList({ list = [], title = "" }) {
+function PosterList({ list = [], title = "", link }) {
   return (
     <section className="section_basic">
       <PageTitle title={title} />
@@ -18,7 +18,7 @@ function PosterList({ list = [], title = "" }) {
 
       <div className={styles.showMore}>
         <div className={styles.btnContainer}>
-          <LinkButton>View All {title}</LinkButton>
+          <LinkButton link={link}>View All {title}</LinkButton>
         </div>
       </div>
     </section>
