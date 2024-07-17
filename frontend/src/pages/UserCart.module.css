@@ -158,3 +158,31 @@
 .support {
   margin-bottom: 20px;
 }
+
+.emptyCartWrapper {
+  display: flex;
+  flex-direction: column;
+  -webkit-box-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  align-items: center;
+  margin-top: 80px;
+}
+
+.cartIcon {
+  width: 105px;
+  height: 90px;
+  position: relative;
+  color: var(--outline);
+}
+
+.emptyCartText {
+  margin-top: 20px;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.emptyCartBtn {
+  margin-top: 60px;
+  width: 300px;
+  max-width: 350px;
+}

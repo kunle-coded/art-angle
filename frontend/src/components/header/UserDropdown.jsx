@@ -49,6 +49,8 @@ function UserDropdown({ showDropdown, setHover }) {
     }
   }
 
+  console.log(userInfo);
+
   async function profileHandler(e) {
     e.preventDefault();
 
@@ -121,9 +123,7 @@ function UserDropdown({ showDropdown, setHover }) {
               Offers
             </Link>
           </li>
-          {/* <li>
-            <div className={styles.linkItem}>Following</div>
-          </li> */}
+
           <li>
             <Link
               to={isError ? "" : "/user/accounts/settings"}

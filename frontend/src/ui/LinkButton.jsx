@@ -1,6 +1,6 @@
 import styles from "./LinkButton.module.css";
 
-function LinkButton({ type = "", link, onClick, children, ...props }) {
+function LinkButton({ type = "", link = "", onClick, children, ...props }) {
   return (
     <a
       href={link}

@@ -51,13 +51,13 @@ function Header({ onEnter, onLeave }) {
             >
               Artworks
             </NavLink>
-            <NavLink to="/paintings" className={styles.navlink}>
+            <NavLink to="/galleries" className={styles.navlink}>
               Galleries
             </NavLink>
-            <NavLink to="/sculptures" className={styles.navlink}>
+            <NavLink to="/fairs-and-events" className={styles.navlink}>
               Fairs & Events
             </NavLink>
-            <NavLink to="/photography" className={styles.navlink}>
+            <NavLink to="/selling" className={styles.navlink}>
               Sell
             </NavLink>
           </div>
@@ -123,7 +123,7 @@ function Header({ onEnter, onLeave }) {
               </Modal>
             )}
 
-            <a href="/cart" className={styles.cartLink}>
+            <a href="/checkout" className={styles.cartLink}>
               <CartIcon />
             </a>
             {/* <div className={styles.cartContainer}>

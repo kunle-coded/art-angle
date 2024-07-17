@@ -1,3 +1,6 @@
+import { useSelector } from "react-redux";
+import { getAuth } from "../slices/authSlice";
+
 import styles from "./UserCart.module.css";
 import CartList from "../components/lists/CartList";
 import FullButton from "../ui/FullButton";
@@ -6,8 +9,12 @@ import ShieldIcon from "../components/icons/ShieldIcon";
 import LockIcon from "../components/icons/LockIcon";
 import DollarIcon from "../components/icons/DollarIcon";
 import Button from "../ui/Button";
+import BigCartIcon from "../components/icons/BigCartIcon";
+import LinkButton from "../ui/LinkButton";
 
 function UserCart() {
+  const { userInfo } = useSelector(getAuth);
+
   return (
     <div className="page">
       <section className={styles.container}>
@@ -17,23 +24,43 @@ function UserCart() {
               <div className={styles.headerWrapper}>
                 <div className={styles.mainHeader}>Cart</div>
               </div>
-              <ul className={styles.mainContents}>
-                <CartList />
-                <CartList />
-              </ul>
+              {userInfo.cart.length >= 1 && (
+                <ul className={styles.mainContents}>
+                  <CartList />
+                  <CartList />
+                </ul>
+              )}
+
+              {(!userInfo || userInfo.cart.length === 0) && (
+                <div className={styles.emptyCartWrapper}>
+                  <div className={styles.cartIcon}>
+                    <BigCartIcon />
+                  </div>
+                  <div className={styles.emptyCartText}>
+                    Your cart is empty.
+                  </div>
+                  <div className={styles.emptyCartBtn}>
+                    <LinkButton link="/artworks">Browse Arts</LinkButton>
+                  </div>
+                </div>
+              )}
             </div>
             <aside className={styles.sidebarContainer}>
-              <div className={styles.headerWrapper}>
-                <div className={styles.mainHeader}>Estimated Total</div>
-                <div className={styles.cartPrice}>₦216,000</div>
-              </div>
-              <div className={styles.cartInfo}>
-                All charges and refunds will be made in NGN (₦216,000) and may
-                be subject to exchange rate fluctuations.
-              </div>
-              <div className={styles.checkoutBtn}>
-                <FullButton type="success">Checkout</FullButton>
-              </div>
+              {userInfo.cart.length >= 1 && (
+                <div>
+                  <div className={styles.headerWrapper}>
+                    <div className={styles.mainHeader}>Estimated Total</div>
+                    <div className={styles.cartPrice}>₦216,000</div>
+                  </div>
+                  <div className={styles.cartInfo}>
+                    All charges and refunds will be made in NGN (₦216,000) and
+                    may be subject to exchange rate fluctuations.
+                  </div>
+                  <div className={styles.checkoutBtn}>
+                    <FullButton type="success">Checkout</FullButton>
+                  </div>
+                </div>
+              )}
               <div className={styles.extraContainer}>
                 {/* Positive reviews */}
                 <div className={styles.extraItem}>
