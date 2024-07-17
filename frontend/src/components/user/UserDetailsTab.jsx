@@ -5,18 +5,35 @@ import styles from "./UserDetailsTab.module.css";
 import ButtonWithIcon from "../../ui/ButtonWithIcon";
 import EditIconFilled from "../icons/EditIconFilled";
 import DividerLine from "../../ui/DividerLine";
-import { useSelector } from "react-redux";
-import { getAuth } from "../../slices/authSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { getAuth, setCredentials } from "../../slices/authSlice";
+import {
+  useProfileQuery,
+  useUpdateProfileMutation,
+} from "../../slices/usersApiSlice";
+import {
+  enableError,
+  enableSuccess,
+  updateSuccessMgs,
+} from "../../slices/globalSlice";
+import Spinner from "../../ui/Spinner";
 
 function UserDetailsTab() {
   const [isEdit, setIsEdit] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
 
   const { userInfo } = useSelector(getAuth);
 
-  const password = useField("text");
+  const [updateProfile, { isLoading }] = useUpdateProfileMutation();
+  // const { data } = useProfileQuery();
+
+  const dispatch = useDispatch();
+
+  const password = useField("password");
   const { onReset: resetPassword, ...passwordProps } = password;
-  const confirmPassword = useField("text");
+  const confirmPassword = useField("password");
   const { onReset: resetconfirmPassword, ...confirmPasswordProps } =
     confirmPassword;
 
@@ -28,8 +45,51 @@ function UserDetailsTab() {
     }
   }, [password.value]);
 
-  function handleEdit(e) {
+  function handleEdit() {
     setIsEdit((prevState) => !prevState);
+  }
+
+  async function updateHandler(e) {
+    e.preventDefault();
+
+    if (!firstName && !lastName && !password.value) {
+      handleEdit();
+      return;
+    }
+
+    if (password.value && password.value !== confirmPassword.value) {
+      dispatch(updateSuccessMgs("Passwords do not match"));
+      dispatch(enableError());
+      return;
+    }
+
+    const userData = {};
+
+    if (firstName) {
+      userData.firstname = firstName;
+    }
+    if (lastName) {
+      userData.lastname = lastName;
+    }
+    if (password.value) {
+      userData.password = password.value;
+    }
+
+    try {
+      const res = await updateProfile(userData).unwrap();
+      // dispatch(setCredentials(data));
+      dispatch(updateSuccessMgs(res.message));
+      dispatch(enableSuccess());
+      handleEdit();
+
+      setFirstName("");
+      setLastName("");
+    } catch (err) {
+      const errMsg = err?.data?.message;
+      dispatch(updateSuccessMgs(errMsg || err.error));
+      dispatch(enableError());
+      console.log(err);
+    }
   }
 
   return (
@@ -43,23 +103,27 @@ function UserDetailsTab() {
           )}
 
           {(isEdit || isEditing) && (
-            <ButtonWithIcon text="Save" onClick={handleEdit} />
+            <ButtonWithIcon text="Save" onClick={updateHandler} />
           )}
         </div>
       </div>
 
       <DividerLine />
 
+      {isLoading && <Spinner />}
+
       <div className={styles.contentContainer}>
         <LabeledInput
           label="First Name"
           display={!isEdit}
           displayText={userInfo.firstname}
+          onInput={setFirstName}
         />
         <LabeledInput
           label="Last Name"
           display={!isEdit}
           displayText={userInfo.lastname}
+          onInput={setLastName}
         />
         <LabeledInput
           label="Email Address"
@@ -69,6 +133,7 @@ function UserDetailsTab() {
         <LabeledInput
           label="New Password"
           placeholder="New Password"
+          autoComplete="new-password"
           {...passwordProps}
         />
 
@@ -82,6 +147,7 @@ function UserDetailsTab() {
         <LabeledInput
           label="Confirm Password"
           placeholder="Confirm Password"
+          autoComplete="new-password"
           {...confirmPasswordProps}
         />
 

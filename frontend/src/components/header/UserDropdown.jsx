@@ -12,18 +12,27 @@ import {
 import ImageIcon from "../icons/ImageIcon";
 import { Link, useNavigate } from "react-router-dom";
 import { getAuth, logout, setCredentials } from "../../slices/authSlice";
-import {
-  useLogoutMutation,
-  useProfileMutation,
-} from "../../slices/usersApiSlice";
+import { useLogoutQuery, useProfileQuery } from "../../slices/usersApiSlice";
 
 function UserDropdown({ showDropdown, setHover }) {
   const [isError, setIsError] = useState(false);
+  const [isLogout, setIsLogout] = useState(false);
+  const [shouldFetch, setShouldFetch] = useState(false);
   const { isProfileDropdown } = useSelector(getGlobal);
   const { userInfo } = useSelector(getAuth);
 
-  const [logoutUser] = useLogoutMutation();
-  const [profile] = useProfileMutation();
+  const { isSuccess: isLogoutSuccess } = useLogoutQuery(undefined, {
+    skip: !isLogout,
+  });
+
+  const {
+    data,
+    isSuccess,
+    isError: isApiError,
+    error,
+  } = useProfileQuery(undefined, {
+    skip: !shouldFetch,
+  });
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -36,36 +45,32 @@ function UserDropdown({ showDropdown, setHover }) {
     dispatch(disableProfileDropdown());
   }
 
-  async function logoutHandler(e) {
+  function logoutHandler(e) {
     e.preventDefault();
 
-    try {
-      await logoutUser().unwrap();
+    if (isLogoutSuccess) {
       dispatch(logout());
       dispatch(activateLogout());
       navigate("/");
-    } catch (err) {
-      console.log(err);
     }
   }
 
-  console.log(userInfo);
-
-  async function profileHandler(e) {
+  function profileHandler(e) {
     e.preventDefault();
 
     if (userInfo.email) return;
+    setShouldFetch(true);
 
-    try {
-      const res = await profile().unwrap();
-      dispatch(setCredentials(res));
+    if (isSuccess) {
+      dispatch(setCredentials(data));
       setIsError(false);
-    } catch (err) {
-      const errMsg = err?.data?.message;
-      dispatch(updateSuccessMgs(errMsg || err.error));
+    }
+
+    if (isApiError) {
+      const errMsg = data?.message;
+      dispatch(updateSuccessMgs(errMsg || error));
       dispatch(enableError());
       setIsError(true);
-      console.log(err);
     }
   }
 

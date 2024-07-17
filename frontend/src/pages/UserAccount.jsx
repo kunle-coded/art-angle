@@ -8,7 +8,7 @@ import Spinner from "../ui/Spinner";
 import DetailedListComponent from "../components/lists/DetailedListComponent";
 import DetailedList from "../components/lists/DetailedList";
 import { useDispatch, useSelector } from "react-redux";
-import { useDeleteMutation, useLogoutMutation } from "../slices/usersApiSlice";
+import { useDeleteMutation, useLogoutQuery } from "../slices/usersApiSlice";
 import { getAuth, logout } from "../slices/authSlice";
 import {
   activateLogout,
@@ -22,8 +22,9 @@ import ConfirmDelete from "../components/messages/ConfirmDelete";
 function UserAccount() {
   const [currentItem, setCurrentItem] = useState(null);
   const [isAllChecked, setIsAllChecked] = useState(false);
+  const [isLogout, setIsLogout] = useState(false);
 
-  const [logoutUser] = useLogoutMutation();
+  const { isSuccess } = useLogoutQuery(undefined, { skip: !isLogout });
   const [deleteUser, { isLoading }] = useDeleteMutation();
 
   const { feature } = useParams();
@@ -55,16 +56,14 @@ function UserAccount() {
     setIsAllChecked(false);
   }
 
-  async function logoutHandler(e) {
+  function logoutHandler(e) {
     e.preventDefault();
+    setIsLogout(true);
 
-    try {
-      await logoutUser().unwrap();
+    if (isSuccess) {
       dispatch(logout());
       dispatch(activateLogout());
       navigate("/");
-    } catch (err) {
-      console.log(err);
     }
   }
 

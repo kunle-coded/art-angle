@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { getAuth, logout } from "../slices/authSlice";
-import { useDeleteMutation, useLogoutMutation } from "../slices/usersApiSlice";
+import { useDeleteMutation, useLogoutQuery } from "../slices/usersApiSlice";
 import {
   activateLogout,
   enableError,
@@ -32,9 +32,12 @@ function ArtistsAccount() {
   const [editArtisticInfo, setEditArtisticInfo] = useState(false);
   const [editPaymentInfo, setEditPaymentInfo] = useState(false);
   const [isAllChecked, setIsAllChecked] = useState(false);
+  const [isLogout, setIsLogout] = useState(false);
 
   const { userInfo } = useSelector(getAuth);
-  const [logoutUser] = useLogoutMutation();
+  const { isSuccess } = useLogoutQuery(undefined, {
+    skip: !isLogout,
+  });
   const [deleteUser, { isLoading }] = useDeleteMutation();
 
   const { feature } = useParams();
@@ -92,15 +95,14 @@ function ArtistsAccount() {
     setIsAllChecked(false);
   }
 
-  async function logoutHandler(e) {
+  function logoutHandler(e) {
     e.preventDefault();
 
-    try {
-      await logoutUser().unwrap();
+    setIsLogout(true);
+
+    if (isSuccess) {
       dispatch(logout());
       navigate("/");
-    } catch (err) {
-      console.log(err);
     }
   }
 

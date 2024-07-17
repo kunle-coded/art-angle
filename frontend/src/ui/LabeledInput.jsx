@@ -7,6 +7,8 @@ function LabeledInput({
   display = false,
   displayText = "",
   onHidePassword,
+  onInput,
+  autoComplete = "",
   children,
   ...props
 }) {
@@ -14,6 +16,7 @@ function LabeledInput({
 
   function handleChange(e) {
     setInputValue(e.target.value);
+    onInput(e.target.value);
   }
 
   return (
@@ -40,6 +43,7 @@ function LabeledInput({
               title={label}
               placeholder={placeholder}
               className={styles.input}
+              autoComplete={autoComplete}
               {...props}
             />
           )}

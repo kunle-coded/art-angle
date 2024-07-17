@@ -53,7 +53,7 @@ const authUser = asyncHandler(async (req, res) => {
 });
 
 // @desc Logout user
-// route POST /api/user/logout
+// route GET /api/user/logout
 // @access Public
 const logoutUser = asyncHandler(async (req, res) => {
   res.cookie("jwt", "", {
