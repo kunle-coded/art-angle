@@ -7,6 +7,8 @@ const baseRoutes = require("./routes/baseRoutes");
 const productRoutes = require("./routes/productRoutes");
 const artistRoutes = require("./routes/artistRoutes");
 
+const { uploadFileToS3 } = require("./utils/uploadFileToS3");
+
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

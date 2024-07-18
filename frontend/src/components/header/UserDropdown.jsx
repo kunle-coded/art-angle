@@ -47,6 +47,7 @@ function UserDropdown({ showDropdown, setHover }) {
 
   function logoutHandler(e) {
     e.preventDefault();
+    setIsLogout(true);
 
     if (isLogoutSuccess) {
       dispatch(logout());

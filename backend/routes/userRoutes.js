@@ -6,8 +6,10 @@ const {
   updateUserProfile,
   logoutUser,
   deleteUser,
+  uploadFile,
 } = require("../controllers/userController");
 const { protect } = require("../middleware/authMiddleware");
+const upload = require("../utils/upload");
 
 router.post("/register", registerUser);
 router.post("/auth", authUser);
@@ -16,6 +18,7 @@ router
   .route("/profile")
   .get(protect, getUserProfile)
   .put(protect, updateUserProfile);
+router.post("/upload", protect, upload.single("file"), uploadFile);
 router.delete("/deactivate", protect, deleteUser);
 
 module.exports = router;

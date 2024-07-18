@@ -27,6 +27,9 @@ const userSchema = new mongoose.Schema({
     enum: ["buyer", "artist"],
     required: true,
   },
+  profileImageUrl: {
+    type: String,
+  },
 });
 
 const artistSchema = new mongoose.Schema({

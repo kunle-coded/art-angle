@@ -2,6 +2,8 @@ const asyncHandler = require("express-async-handler");
 const bcrypt = require("bcrypt");
 const generateToken = require("../utils/generateToken");
 const { Buyer, Artist, User } = require("../models/users");
+const multer = require("multer");
+const { uploadFileToS3 } = require("../utils/uploadFileToS3");
 
 // @desc Register a new user
 // route POST /api/user/register
@@ -129,6 +131,52 @@ const updateUserProfile = asyncHandler(async (req, res) => {
   }
 });
 
+// @desc Upload image
+// route POST /api/user/upload
+// @access Private
+const uploadFile = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.user.id);
+
+  console.log(req.file.mimetype);
+  const file = req.file;
+
+  const imgUrl = uploadFileToS3("artworks", file);
+  console.log(imgUrl);
+
+  if (!req.file) {
+    res.status(401);
+    throw new Error("No user data to update");
+  }
+
+  const userData = { ...req.body };
+
+  const { password } = req.body;
+
+  if (password) {
+    const saltRounds = 10;
+    const salt = await bcrypt.genSalt(saltRounds);
+    const hashedPassword = await bcrypt.hash(password, salt);
+
+    userData.password = hashedPassword;
+  }
+
+  if (user.userType === "artist") {
+    await Artist.findOneAndUpdate(
+      { _id: user.id },
+      { $set: userData },
+      { new: true }
+    );
+    res.status(201).json({ message: "Successfully updated" });
+  } else {
+    await Buyer.findOneAndUpdate(
+      { _id: user.id },
+      { $set: userData },
+      { new: true }
+    );
+    res.status(201).json({ message: "Successfully updated" });
+  }
+});
+
 // @desc Delete user
 // route DELETE /api/user/deactivate
 // @access Public
@@ -162,5 +210,6 @@ module.exports = {
   logoutUser,
   getUserProfile,
   updateUserProfile,
+  uploadFile,
   deleteUser,
 };

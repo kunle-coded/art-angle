@@ -10,18 +10,39 @@ import CardList from "../components/lists/CardList";
 import ArtistCardList from "../components/lists/ArtistCardList";
 import { useSelector } from "react-redux";
 import { getAuth } from "../slices/authSlice";
+import {
+  useUpdateProfileMutation,
+  useUploadFileMutation,
+} from "../slices/usersApiSlice";
 
 function UserProfile() {
   const [isEditHover, setIsEditHover] = useState(false);
+  // const [file, setFile] = useState(null);
 
   const { userInfo } = useSelector(getAuth);
+
+  const [uploadFile, { isLoading }] = useUploadFileMutation();
 
   function handleClick(e) {
     console.log("clicked", e);
   }
-  function handleAvatarUpload(e) {
-    if (e.target) {
-      console.log("upload", e.target.files[0]);
+
+  async function handleAvatarUpload(e) {
+    // setFile(e.target.files[0]);
+    const file = e.target.files[0];
+
+    if (!file) {
+      console.log("Please select a file first!");
+    }
+
+    const formData = new FormData();
+    formData.append("file", file);
+
+    try {
+      const res = await uploadFile(formData).unwrap();
+      console.log("image succefully uploaded ", res);
+    } catch (err) {
+      console.log("Error uploading image ", err);
     }
   }
 
@@ -40,16 +61,16 @@ function UserProfile() {
                       </div>
 
                       {/* <img
-                      src="../boss-lady.png"
-                      alt=""
-                      className={styles.userImage}
-                    /> */}
+                        src="../boss-lady.png"
+                        alt=""
+                        className={styles.userImage}
+                      /> */}
 
                       <input
                         type="file"
                         id="avatar"
                         name="avatar"
-                        accept="image/png, image/jpeg, image/jpg"
+                        accept="image/png, image/jpeg, image/jpg, image/webp"
                         className={styles.imageUpload}
                         onMouseEnter={() => setIsEditHover(true)}
                         onMouseLeave={() => setIsEditHover(false)}

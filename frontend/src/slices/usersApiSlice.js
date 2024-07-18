@@ -37,6 +37,14 @@ export const usersApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ["User"],
     }),
+    uploadFile: builder.mutation({
+      query: (data) => ({
+        url: `${USERS_URL}/upload`,
+        method: "POST",
+        body: data,
+      }),
+      invalidatesTags: ["User"],
+    }),
     delete: builder.mutation({
       query: () => ({
         url: `${USERS_URL}/deactivate`,
@@ -53,4 +61,5 @@ export const {
   useDeleteMutation,
   useProfileQuery,
   useUpdateProfileMutation,
+  useUploadFileMutation,
 } = usersApiSlice;
