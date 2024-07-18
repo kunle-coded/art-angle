@@ -22,13 +22,13 @@ const userSchema = new mongoose.Schema({
     minLength: 8,
     required: true,
   },
+  profileImageUrl: {
+    type: String,
+  },
   userType: {
     type: String,
     enum: ["buyer", "artist"],
     required: true,
-  },
-  profileImageUrl: {
-    type: String,
   },
 });
 

@@ -1,4 +1,5 @@
 import { apiSlice } from "./apiSlice";
+import { setCredentials } from "./authSlice";
 
 const USERS_URL = "/api/user";
 
@@ -28,6 +29,14 @@ export const usersApiSlice = apiSlice.injectEndpoints({
         url: `${USERS_URL}/profile`,
       }),
       providesTags: ["User"],
+      async onQueryStarted(arg, { dispatch, queryFulfilled }) {
+        try {
+          const { data } = await queryFulfilled;
+          dispatch(setCredentials(data));
+        } catch (error) {
+          console.error("Error fetching profile: ", error);
+        }
+      },
     }),
     updateProfile: builder.mutation({
       query: (data) => ({
@@ -44,6 +53,14 @@ export const usersApiSlice = apiSlice.injectEndpoints({
         body: data,
       }),
       invalidatesTags: ["User"],
+      async onQueryStarted(arg, { dispatch, queryFulfilled }) {
+        try {
+          await queryFulfilled;
+          dispatch(apiSlice.endpoints.profile.initiate());
+        } catch (error) {
+          console.error("Error uploading file: ", error);
+        }
+      },
     }),
     delete: builder.mutation({
       query: () => ({

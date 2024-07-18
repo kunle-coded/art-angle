@@ -140,41 +140,17 @@ const uploadFile = asyncHandler(async (req, res) => {
   console.log(req.file.mimetype);
   const file = req.file;
 
-  const imgUrl = uploadFileToS3("artworks", file);
-  console.log(imgUrl);
-
   if (!req.file) {
     res.status(401);
-    throw new Error("No user data to update");
+    throw new Error("No file to upload");
   }
 
-  const userData = { ...req.body };
+  const imgUrl = await uploadFileToS3("artworks", file);
+  console.log(imgUrl);
 
-  const { password } = req.body;
-
-  if (password) {
-    const saltRounds = 10;
-    const salt = await bcrypt.genSalt(saltRounds);
-    const hashedPassword = await bcrypt.hash(password, salt);
-
-    userData.password = hashedPassword;
-  }
-
-  if (user.userType === "artist") {
-    await Artist.findOneAndUpdate(
-      { _id: user.id },
-      { $set: userData },
-      { new: true }
-    );
-    res.status(201).json({ message: "Successfully updated" });
-  } else {
-    await Buyer.findOneAndUpdate(
-      { _id: user.id },
-      { $set: userData },
-      { new: true }
-    );
-    res.status(201).json({ message: "Successfully updated" });
-  }
+  user.profileImageUrl = imgUrl;
+  await user.save();
+  res.status(201).json({ message: "Successfully updated" });
 });
 
 // @desc Delete user

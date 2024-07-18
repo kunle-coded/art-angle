@@ -27,6 +27,8 @@ function UserProfile() {
     console.log("clicked", e);
   }
 
+  console.log(userInfo);
+
   async function handleAvatarUpload(e) {
     // setFile(e.target.files[0]);
     const file = e.target.files[0];

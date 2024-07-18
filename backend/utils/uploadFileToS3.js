@@ -23,14 +23,19 @@ function uploadFileToS3(folderName, file) {
     ContentType: contentType,
   };
 
-  s3.upload(params, (err, data) => {
-    if (err) {
-      console.log("Error uploading file", err);
-      throw new Error(err.message);
-    } else {
-      console.log("File uploaded successfully. File location: ", data.Location);
-      return data.Location;
-    }
+  return new Promise((resolve, reject) => {
+    s3.upload(params, (err, data) => {
+      if (err) {
+        console.log("Error uploading file", err);
+        reject(new Error(err.message));
+      } else {
+        console.log(
+          "File uploaded successfully. File location: ",
+          data.Location
+        );
+        resolve(data.Location);
+      }
+    });
   });
 }
 
