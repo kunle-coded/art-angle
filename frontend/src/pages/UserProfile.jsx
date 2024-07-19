@@ -8,12 +8,17 @@ import DividerLine from "../ui/DividerLine";
 import PosterList from "../components/lists/PosterList";
 import CardList from "../components/lists/CardList";
 import ArtistCardList from "../components/lists/ArtistCardList";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getAuth } from "../slices/authSlice";
 import {
   useUpdateProfileMutation,
   useUploadFileMutation,
 } from "../slices/usersApiSlice";
+import {
+  enableError,
+  enableSuccess,
+  updateSuccessMgs,
+} from "../slices/globalSlice";
 
 function UserProfile() {
   const [isEditHover, setIsEditHover] = useState(false);
@@ -23,18 +28,20 @@ function UserProfile() {
 
   const [uploadFile, { isLoading }] = useUploadFileMutation();
 
+  const dispatch = useDispatch();
+
   function handleClick(e) {
     console.log("clicked", e);
   }
 
-  console.log(userInfo);
-
   async function handleAvatarUpload(e) {
-    // setFile(e.target.files[0]);
     const file = e.target.files[0];
 
     if (!file) {
       console.log("Please select a file first!");
+      dispatch(updateSuccessMgs("Please select a file to upload!"));
+      dispatch(enableError());
+      return;
     }
 
     const formData = new FormData();
@@ -43,8 +50,12 @@ function UserProfile() {
     try {
       const res = await uploadFile(formData).unwrap();
       console.log("image succefully uploaded ", res);
+      dispatch(updateSuccessMgs(res.message));
+      dispatch(enableSuccess());
     } catch (err) {
-      console.log("Error uploading image ", err);
+      const errMsg = err?.data?.message;
+      dispatch(updateSuccessMgs(errMsg || err.error));
+      dispatch(enableError());
     }
   }
 
@@ -58,15 +69,19 @@ function UserProfile() {
                 <div className={styles.profileWrapper}>
                   <div className={styles.profileImage}>
                     <div className={styles.avatar}>
-                      <div className={styles.avatarIcon}>
-                        <ProfileIcon />
-                      </div>
+                      {!userInfo.profileImageUrl && (
+                        <div className={styles.avatarIcon}>
+                          <ProfileIcon />
+                        </div>
+                      )}
 
-                      {/* <img
-                        src="../boss-lady.png"
-                        alt=""
-                        className={styles.userImage}
-                      /> */}
+                      {userInfo.profileImageUrl && (
+                        <img
+                          src={userInfo.profileImageUrl}
+                          alt=""
+                          className={styles.userImage}
+                        />
+                      )}
 
                       <input
                         type="file"

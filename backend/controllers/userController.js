@@ -4,6 +4,7 @@ const generateToken = require("../utils/generateToken");
 const { Buyer, Artist, User } = require("../models/users");
 const multer = require("multer");
 const { uploadFileToS3 } = require("../utils/uploadFileToS3");
+const { deleteFileFromS3 } = require("../utils/deleteFileFromS3");
 
 // @desc Register a new user
 // route POST /api/user/register
@@ -137,7 +138,6 @@ const updateUserProfile = asyncHandler(async (req, res) => {
 const uploadFile = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user.id);
 
-  console.log(req.file.mimetype);
   const file = req.file;
 
   if (!req.file) {
@@ -145,12 +145,20 @@ const uploadFile = asyncHandler(async (req, res) => {
     throw new Error("No file to upload");
   }
 
-  const imgUrl = await uploadFileToS3("artworks", file);
-  console.log(imgUrl);
+  let imageToDelete;
+  if (user.profileImageUrl && user.profileImageUrl.trim()) {
+    imageToDelete = user.profileImageUrl.split("com/")[1];
+  }
+
+  if (imageToDelete) {
+    await deleteFileFromS3(imageToDelete);
+  }
+
+  const imgUrl = await uploadFileToS3("users", file);
 
   user.profileImageUrl = imgUrl;
   await user.save();
-  res.status(201).json({ message: "Successfully updated" });
+  res.status(201).json({ message: "Successfully uploaded" });
 });
 
 // @desc Delete user

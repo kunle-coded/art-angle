@@ -11,31 +11,23 @@ AWS.config.update({ region: "eu-central-1" });
 
 const s3 = new AWS.S3();
 
-function uploadFileToS3(folderName, file) {
-  const contentType = file.mimetype || mime.lookup(file.originalname);
-  const fileName = `${uuidv4()}-${file.originalname}`;
-
+function deleteFileFromS3(filename) {
   const params = {
     Bucket: "artangle",
-    Key: `${folderName}/${fileName}`,
-    Body: file.buffer,
-    ContentType: contentType,
+    Key: filename,
   };
 
   return new Promise((resolve, reject) => {
-    s3.upload(params, (err, data) => {
+    s3.deleteObject(params, (err, data) => {
       if (err) {
-        console.log("Error uploading file", err);
+        console.log("Error deleting file", err);
         reject(new Error(err.message));
       } else {
-        console.log(
-          "File uploaded successfully. File location: ",
-          data.Location
-        );
-        resolve(data.Location);
+        console.log("File deleted successfully");
+        resolve();
       }
     });
   });
 }
 
-module.exports = { uploadFileToS3 };
+module.exports = { deleteFileFromS3 };
