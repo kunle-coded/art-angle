@@ -1,13 +1,28 @@
 import { useState } from "react";
 import styles from "./OffersDashboard.module.css";
 import Button from "../../ui/Button";
+import { useSelector } from "react-redux";
+import { getAuth } from "../../slices/authSlice";
+import DetailedListComponent from "../lists/DetailedListComponent";
+import DetailedList from "../lists/DetailedList";
 
-function OffersDashboard({ tabFor = "", children }) {
+function OffersDashboard({ tabFor = "", list = [] }) {
   const [activeTab, setActiveTab] = useState(0);
+  const [isAllChecked, setIsAllChecked] = useState(false);
+
+  const { userInfo } = useSelector(getAuth);
 
   function handleTabClick(e) {
     const tabIndex = e.target.tabIndex;
     setActiveTab(tabIndex);
+  }
+
+  function handleCheck() {
+    setIsAllChecked((prevState) => !prevState);
+  }
+
+  function handleCancel() {
+    setIsAllChecked(false);
   }
 
   return (
@@ -15,7 +30,7 @@ function OffersDashboard({ tabFor = "", children }) {
       <div className={styles.innerWrapper}>
         <div
           className={`${styles.tabsContainer} ${
-            children ? styles.fullwidth : ""
+            list.length >= 1 ? styles.fullwidth : ""
           }`}
         >
           <button
@@ -38,8 +53,16 @@ function OffersDashboard({ tabFor = "", children }) {
           </button>
         </div>
         <div className={styles.tabsContent}>
-          {children ? (
-            children
+          {list.length >= 1 ? (
+            <DetailedListComponent
+              isChecked={isAllChecked}
+              onCheck={handleCheck}
+              onCancel={handleCancel}
+            >
+              {list.map((listItem) => (
+                <DetailedList key={listItem.id} isAllChecked={isAllChecked} />
+              ))}
+            </DetailedListComponent>
           ) : (
             <div className={styles.defaultContent}>
               <div className={styles.noOffers}>

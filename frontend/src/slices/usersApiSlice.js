@@ -45,6 +45,14 @@ export const usersApiSlice = apiSlice.injectEndpoints({
         body: data,
       }),
       invalidatesTags: ["User"],
+      async onQueryStarted(arg, { dispatch, queryFulfilled }) {
+        try {
+          await queryFulfilled;
+          dispatch(apiSlice.endpoints.profile.initiate());
+        } catch (error) {
+          console.error("Error updating profile: ", error);
+        }
+      },
     }),
     uploadFile: builder.mutation({
       query: (data) => ({

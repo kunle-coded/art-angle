@@ -113,6 +113,22 @@
   align-items: center;
 }
 
+.spinnerContainer {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  display: flex;
+  -webkit-box-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background-color: rgba(229, 229, 229, 0.8);
+  z-index: 15;
+}
+
 .userName {
   font-size: 36px;
   line-height: 42px;

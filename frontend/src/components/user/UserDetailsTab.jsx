@@ -27,7 +27,6 @@ function UserDetailsTab() {
   const { userInfo } = useSelector(getAuth);
 
   const [updateProfile, { isLoading }] = useUpdateProfileMutation();
-  // const { data } = useProfileQuery();
 
   const dispatch = useDispatch();
 
@@ -77,7 +76,6 @@ function UserDetailsTab() {
 
     try {
       const res = await updateProfile(userData).unwrap();
-      // dispatch(setCredentials(data));
       dispatch(updateSuccessMgs(res.message));
       dispatch(enableSuccess());
       handleEdit();

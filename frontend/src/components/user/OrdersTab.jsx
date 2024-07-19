@@ -36,7 +36,7 @@ function OrdersTab() {
         <div className={styles.tabsContent}>
           <div className={styles.defaultContent}>
             <div className={styles.noOffers}>
-              <p>You haven't placed an offer yet.</p>
+              <p>You haven't placed an order yet.</p>
               <Button as="a" href="/artworks">
                 Browse Art
               </Button>

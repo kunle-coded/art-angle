@@ -1,0 +1,22 @@
+.container {
+  display: block;
+  width: 100%;
+}
+
+.innerWrapper {
+  display: flex;
+  flex-direction: column;
+  -webkit-box-pack: start;
+  justify-content: flex-start;
+}
+
+.contentContainer {
+  display: flex;
+  -webkit-box-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  align-items: center;
+  width: 50%;
+  min-height: 200px;
+  background-color: aqua;
+}

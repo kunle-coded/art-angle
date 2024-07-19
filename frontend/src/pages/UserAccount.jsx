@@ -18,11 +18,14 @@ import {
 } from "../slices/globalSlice";
 import Modal from "../components/modal/Modal";
 import ConfirmDelete from "../components/messages/ConfirmDelete";
+import EmptyList from "../ui/EmptyList";
 
 function UserAccount() {
   const [currentItem, setCurrentItem] = useState(null);
   const [isAllChecked, setIsAllChecked] = useState(false);
   const [isLogout, setIsLogout] = useState(false);
+
+  const { userInfo } = useSelector(getAuth);
 
   const { isSuccess } = useLogoutQuery(undefined, { skip: !isLogout });
   const [deleteUser, { isLoading }] = useDeleteMutation();
@@ -159,28 +162,16 @@ function UserAccount() {
                     <div className={styles.contentArea}>
                       {feature === "settings" && <UserDetailsTab />}
                       {feature === "offers" && (
-                        <OffersDashboard tabFor="Offers">
-                          <DetailedListComponent
-                            isChecked={isAllChecked}
-                            onCheck={handleCheck}
-                            onCancel={handleCancel}
-                          >
-                            <DetailedList isAllChecked={isAllChecked} />
-                            <DetailedList isAllChecked={isAllChecked} />
-                          </DetailedListComponent>
-                        </OffersDashboard>
+                        <OffersDashboard
+                          tabFor="Offers"
+                          list={userInfo.orders}
+                        />
                       )}
                       {feature === "orders" && (
-                        <OffersDashboard tabFor="Orders">
-                          <DetailedListComponent
-                            isChecked={isAllChecked}
-                            onCheck={handleCheck}
-                            onCancel={handleCancel}
-                          >
-                            <DetailedList isAllChecked={isAllChecked} />
-                            <DetailedList isAllChecked={isAllChecked} />
-                          </DetailedListComponent>
-                        </OffersDashboard>
+                        <OffersDashboard
+                          tabFor="Orders"
+                          list={userInfo.orders}
+                        />
                       )}
                     </div>
                   )}

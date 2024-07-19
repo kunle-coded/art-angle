@@ -19,6 +19,7 @@ import {
   enableSuccess,
   updateSuccessMgs,
 } from "../slices/globalSlice";
+import MiniSpinner from "../ui/MiniSpinner";
 
 function UserProfile() {
   const [isEditHover, setIsEditHover] = useState(false);
@@ -81,6 +82,12 @@ function UserProfile() {
                           alt=""
                           className={styles.userImage}
                         />
+                      )}
+
+                      {isLoading && (
+                        <div className={styles.spinnerContainer}>
+                          <MiniSpinner />
+                        </div>
                       )}
 
                       <input
