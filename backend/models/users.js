@@ -73,6 +73,12 @@ const artistSchema = new mongoose.Schema({
       ref: "Buyer",
     },
   ],
+  orders: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Artwork",
+    },
+  ],
 });
 
 const buyerSchema = new mongoose.Schema({
@@ -91,7 +97,7 @@ const buyerSchema = new mongoose.Schema({
   orderDetails: [
     {
       orderId: { type: String, required: true },
-      productId: { type: String, required: true },
+      productId: { type: mongoose.Schema.Types.ObjectId, ref: "Artwork" },
       orderDate: Date,
       status: {
         type: String,
@@ -99,7 +105,13 @@ const buyerSchema = new mongoose.Schema({
       },
     },
   ],
-  wishlist: [
+  collections: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Artwork",
+    },
+  ],
+  favorites: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Artwork",
@@ -111,7 +123,7 @@ const buyerSchema = new mongoose.Schema({
       ref: "Artwork",
     },
   ],
-  favouriteArtists: [
+  following: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Artist",

@@ -75,16 +75,18 @@ const getUserProfile = asyncHandler(async (req, res) => {
   if (user.userType === "artist") {
     const artist = await Artist.findById(user.id)
       .populate("artworks", "-owner")
+      .populate("orders", "-owner")
       .exec();
     res.status(200).json(artist);
   } else {
     const buyer = await Buyer.findById(user.id)
       .populate("orders", "-owner")
       .populate("offers", "-owner")
-      .populate("wishlist", "-owner")
+      .populate("favorites", "-owner")
+      .populate("collections", "-owner")
       .populate("cart", "-owner")
       .populate(
-        "favouriteArtists",
+        "following",
         "-paymentDetails -email -userType -contactNumber -__t"
       )
       .exec();

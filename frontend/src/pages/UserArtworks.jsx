@@ -32,12 +32,25 @@ function UserArtworks() {
         <div className={styles.wrapper}>
           <div className={styles.innerContainer}>
             <div className={styles.headerWrapper}>
-              <Link to="/user/34567" title="View profile of John Doe">
+              <Link
+                to={`/user/${userInfo.id}`}
+                title={`View profile of ${userInfo.firstname} ${userInfo.lastname}`}
+              >
                 <div className={styles.profileImage}>
                   <div className={styles.avatar}>
-                    <div className={styles.avatarIcon}>
-                      <ProfileIcon />
-                    </div>
+                    {!userInfo.profileImageUrl && (
+                      <div className={styles.avatarIcon}>
+                        <ProfileIcon />
+                      </div>
+                    )}
+
+                    {userInfo.profileImageUrl && (
+                      <img
+                        src={userInfo.profileImageUrl}
+                        alt={`${userInfo.firstname} ${userInfo.lastname}`}
+                        className={styles.userImage}
+                      />
+                    )}
                   </div>
                 </div>
               </Link>

@@ -61,7 +61,7 @@ function UserDropdown({ showDropdown, setHover }) {
     }
 
     if (isApiError) {
-      const errMsg = data?.message;
+      const errMsg = error?.message;
       dispatch(updateSuccessMgs(errMsg || error));
       dispatch(enableError());
       setIsError(true);

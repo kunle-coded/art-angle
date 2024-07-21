@@ -10,10 +10,7 @@ import CardList from "../components/lists/CardList";
 import ArtistCardList from "../components/lists/ArtistCardList";
 import { useDispatch, useSelector } from "react-redux";
 import { getAuth } from "../slices/authSlice";
-import {
-  useUpdateProfileMutation,
-  useUploadFileMutation,
-} from "../slices/usersApiSlice";
+import { useUploadFileMutation } from "../slices/usersApiSlice";
 import {
   enableError,
   enableSuccess,
@@ -23,17 +20,12 @@ import MiniSpinner from "../ui/MiniSpinner";
 
 function UserProfile() {
   const [isEditHover, setIsEditHover] = useState(false);
-  // const [file, setFile] = useState(null);
 
   const { userInfo } = useSelector(getAuth);
 
   const [uploadFile, { isLoading }] = useUploadFileMutation();
 
   const dispatch = useDispatch();
-
-  function handleClick(e) {
-    console.log("clicked", e);
-  }
 
   async function handleAvatarUpload(e) {
     const file = e.target.files[0];
@@ -49,7 +41,6 @@ function UserProfile() {
 
     try {
       const res = await uploadFile(formData).unwrap();
-      console.log("image succefully uploaded ", res);
       dispatch(updateSuccessMgs(res.message));
       dispatch(enableSuccess());
     } catch (err) {
@@ -78,7 +69,7 @@ function UserProfile() {
                       {userInfo.profileImageUrl && (
                         <img
                           src={userInfo.profileImageUrl}
-                          alt=""
+                          alt={`${userInfo.firstname} ${userInfo.lastname}`}
                           className={styles.userImage}
                         />
                       )}
@@ -119,7 +110,7 @@ function UserProfile() {
                     <a href="/follow" className={styles.followingLink}>
                       <span>
                         {userInfo.userType === "buyer"
-                          ? userInfo?.favouriteArtists?.length
+                          ? userInfo?.following?.length
                           : userInfo?.followers?.length}
                       </span>{" "}
                       {userInfo.userType === "buyer"

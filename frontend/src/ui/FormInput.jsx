@@ -4,6 +4,7 @@ import styles from "./FormInput.module.css";
 function FormInput({
   placeholder = "",
   label = "",
+  passwordInfo = true,
   onHidePassword,
   size = "",
   children,
@@ -58,7 +59,7 @@ function FormInput({
           </div>
         )}
       </div>
-      {label === "Password" && (
+      {label === "Password" && passwordInfo && (
         <div className={styles.passwordOption}>
           Password must be at least 8 characters and include a lowercase
           letter,uppercase letter, and digit.

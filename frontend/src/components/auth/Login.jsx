@@ -58,8 +58,6 @@ function Login({ onCloseModal, onOpenModal }) {
 
       const res = await login(user).unwrap();
       dispatch(setCredentials({ ...res }));
-      dispatch(updateSuccessMgs("Login successful"));
-      dispatch(enableSuccess());
       dispatch(disableProfileDropdown());
       dispatch(deleteUserType());
       resetEmail(e);
@@ -99,6 +97,7 @@ function Login({ onCloseModal, onOpenModal }) {
             <FormInput
               placeholder="Enter your password"
               label="Password"
+              passwordInfo={false}
               onHidePassword={toggleShowPassword}
               {...passwordProps}
             >

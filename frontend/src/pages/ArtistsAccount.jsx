@@ -4,7 +4,6 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { getAuth, logoutUser } from "../slices/authSlice";
 import { useDeleteMutation, useLogoutMutation } from "../slices/usersApiSlice";
 import {
-  activateLogout,
   enableError,
   enableSuccess,
   updateSuccessMgs,
@@ -32,7 +31,6 @@ function ArtistsAccount() {
   const [editArtisticInfo, setEditArtisticInfo] = useState(false);
   const [editPaymentInfo, setEditPaymentInfo] = useState(false);
   const [isAllChecked, setIsAllChecked] = useState(false);
-  const [isLogout, setIsLogout] = useState(false);
 
   const { userInfo } = useSelector(getAuth);
 
