@@ -39,7 +39,6 @@ function UserProfile() {
     const file = e.target.files[0];
 
     if (!file) {
-      console.log("Please select a file first!");
       dispatch(updateSuccessMgs("Please select a file to upload!"));
       dispatch(enableError());
       return;

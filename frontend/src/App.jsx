@@ -76,7 +76,7 @@ const router = createBrowserRouter([
         element: <UserCart />,
       },
       {
-        path: "/artists/accounts/:feature",
+        path: "/artist/accounts/:feature",
         element: (
           <PrivateArtist>
             <ArtistsAccount />

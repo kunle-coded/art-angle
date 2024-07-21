@@ -135,7 +135,7 @@ function ArtistsAccount() {
                       <Link
                         aria-label="account-settings"
                         tabIndex="0"
-                        to="/artists/accounts/settings"
+                        to="/artist/accounts/settings"
                         className={styles.sidebarLink}
                       >
                         Account Information
@@ -147,9 +147,9 @@ function ArtistsAccount() {
                       }`}
                     >
                       <Link
-                        aria-label="user-offers"
+                        aria-label="artist-offers"
                         tabIndex="1"
-                        to="/artists/accounts/artworks"
+                        to="/artist/accounts/artworks"
                         className={styles.sidebarLink}
                       >
                         Artwork Dashboard
@@ -161,9 +161,9 @@ function ArtistsAccount() {
                       }`}
                     >
                       <Link
-                        aria-label="user-orders"
+                        aria-label="artist-orders"
                         tabIndex="2"
-                        to="/artists/accounts/orders"
+                        to="/artist/accounts/orders"
                         className={styles.sidebarLink}
                       >
                         Orders

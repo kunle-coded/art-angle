@@ -80,6 +80,7 @@ const getUserProfile = asyncHandler(async (req, res) => {
   } else {
     const buyer = await Buyer.findById(user.id)
       .populate("orders", "-owner")
+      .populate("offers", "-owner")
       .populate("wishlist", "-owner")
       .populate("cart", "-owner")
       .populate(

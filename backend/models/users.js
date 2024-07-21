@@ -82,6 +82,12 @@ const buyerSchema = new mongoose.Schema({
       ref: "Artwork",
     },
   ],
+  offers: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Artwork",
+    },
+  ],
   orderDetails: [
     {
       orderId: { type: String, required: true },

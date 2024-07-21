@@ -161,7 +161,7 @@ function UserDropdown({ showDropdown, setHover }) {
           </li>
           <li>
             <Link
-              to={isError ? "" : "/artists/accounts/settings"}
+              to={isError ? "" : "/artist/accounts/settings"}
               className={styles.linkItem}
             >
               Account
