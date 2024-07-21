@@ -1,33 +1,27 @@
 import { useEffect, useState } from "react";
-import { Link, useNavigate, useNavigation, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import styles from "./UserAccount.module.css";
 // import { artworksThree, artists } from "../data";
 import UserDetailsTab from "../components/user/UserDetailsTab";
 import OffersDashboard from "../components/user/OffersDashboard";
 import Spinner from "../ui/Spinner";
-import DetailedListComponent from "../components/lists/DetailedListComponent";
-import DetailedList from "../components/lists/DetailedList";
 import { useDispatch, useSelector } from "react-redux";
-import { useDeleteMutation, useLogoutQuery } from "../slices/usersApiSlice";
-import { getAuth, logout } from "../slices/authSlice";
+import { useDeleteMutation, useLogoutMutation } from "../slices/usersApiSlice";
+import { getAuth, logoutUser } from "../slices/authSlice";
 import {
-  activateLogout,
   enableError,
   enableSuccess,
   updateSuccessMgs,
 } from "../slices/globalSlice";
 import Modal from "../components/modal/Modal";
 import ConfirmDelete from "../components/messages/ConfirmDelete";
-import EmptyList from "../ui/EmptyList";
 
 function UserAccount() {
   const [currentItem, setCurrentItem] = useState(null);
-  const [isAllChecked, setIsAllChecked] = useState(false);
-  const [isLogout, setIsLogout] = useState(false);
 
   const { userInfo } = useSelector(getAuth);
 
-  const { isSuccess } = useLogoutQuery(undefined, { skip: !isLogout });
+  const [logout] = useLogoutMutation();
   const [deleteUser, { isLoading }] = useDeleteMutation();
 
   const { feature } = useParams();
@@ -51,23 +45,12 @@ function UserAccount() {
     setCurrentItem(index);
   }
 
-  function handleCheck() {
-    setIsAllChecked((prevState) => !prevState);
-  }
-
-  function handleCancel() {
-    setIsAllChecked(false);
-  }
-
   function logoutHandler(e) {
     e.preventDefault();
-    setIsLogout(true);
 
-    if (isSuccess) {
-      dispatch(logout());
-      dispatch(activateLogout());
-      navigate("/");
-    }
+    logout();
+    dispatch(logoutUser());
+    navigate("/");
   }
 
   async function deleteHandler(e) {
@@ -77,8 +60,7 @@ function UserAccount() {
       const res = await deleteUser().unwrap();
       dispatch(updateSuccessMgs(res.message));
       dispatch(enableSuccess());
-      dispatch(logout());
-      navigate("/");
+      logoutHandler();
     } catch (err) {
       const errMsg = err?.data?.message;
       dispatch(updateSuccessMgs(errMsg || err.error));

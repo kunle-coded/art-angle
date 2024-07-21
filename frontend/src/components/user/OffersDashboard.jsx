@@ -66,7 +66,10 @@ function OffersDashboard({ tabFor = "", list = [] }) {
           ) : (
             <div className={styles.defaultContent}>
               <div className={styles.noOffers}>
-                <p>You haven't placed an {tabFor.toLocaleLowerCase()} yet.</p>
+                <p>
+                  You haven't placed an{" "}
+                  {tabFor.toLocaleLowerCase().slice(0, tabFor.length - 1)} yet.
+                </p>
                 <Button as="a" href="/artworks" size="small">
                   Browse Art
                 </Button>

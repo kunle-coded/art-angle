@@ -118,7 +118,11 @@ function UserProfile() {
                   <DividerLine />
                   <div className={styles.utilityContainer}>
                     <a href="/follow" className={styles.followingLink}>
-                      <span>{userInfo?.favouriteArtists?.length}</span>{" "}
+                      <span>
+                        {userInfo.userType === "buyer"
+                          ? userInfo?.favouriteArtists?.length
+                          : userInfo?.followers?.length}
+                      </span>{" "}
                       {userInfo.userType === "buyer"
                         ? "Following"
                         : "Followers"}

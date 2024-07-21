@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { getAuth, logout } from "../slices/authSlice";
-import { useDeleteMutation, useLogoutQuery } from "../slices/usersApiSlice";
+import { getAuth, logoutUser } from "../slices/authSlice";
+import { useDeleteMutation, useLogoutMutation } from "../slices/usersApiSlice";
 import {
   activateLogout,
   enableError,
@@ -35,9 +35,8 @@ function ArtistsAccount() {
   const [isLogout, setIsLogout] = useState(false);
 
   const { userInfo } = useSelector(getAuth);
-  const { isSuccess } = useLogoutQuery(undefined, {
-    skip: !isLogout,
-  });
+
+  const [logout] = useLogoutMutation();
   const [deleteUser, { isLoading }] = useDeleteMutation();
 
   const { feature } = useParams();
@@ -98,12 +97,9 @@ function ArtistsAccount() {
   function logoutHandler(e) {
     e.preventDefault();
 
-    setIsLogout(true);
-
-    if (isSuccess) {
-      dispatch(logout());
-      navigate("/");
-    }
+    logout();
+    dispatch(logoutUser());
+    navigate("/");
   }
 
   async function deleteHandler(e) {
@@ -113,9 +109,7 @@ function ArtistsAccount() {
       const res = await deleteUser().unwrap();
       dispatch(updateSuccessMgs(res.message));
       dispatch(enableSuccess());
-      dispatch(logout());
-      dispatch(activateLogout());
-      navigate("/");
+      logoutHandler();
     } catch (err) {
       const errMsg = err?.data?.message;
       dispatch(updateSuccessMgs(errMsg || err.error));
@@ -276,19 +270,21 @@ function ArtistsAccount() {
                             <LabeledInput
                               label="Account Name"
                               display={!editPaymentInfo}
-                              displayText={userInfo.paymentDetails.accountName}
+                              displayText={
+                                userInfo?.paymentDetails?.accountName
+                              }
                             />
                             <LabeledInput
                               label="Account Number"
                               display={!editPaymentInfo}
                               displayText={
-                                userInfo.paymentDetails.accountNumber
+                                userInfo?.paymentDetails?.accountNumber
                               }
                             />
                             <LabeledInput
                               label="Bank Name"
                               display={!editPaymentInfo}
-                              displayText={userInfo.paymentDetails.bankName}
+                              displayText={userInfo?.paymentDetails?.bankName}
                             />
                           </ArtistDetailsTab>
                         </>

@@ -2,7 +2,6 @@ import { useState } from "react";
 import styles from "./UserDropdown.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  activateLogout,
   disableProfileDropdown,
   enableError,
   getGlobal,
@@ -11,19 +10,17 @@ import {
 } from "../../slices/globalSlice";
 import ImageIcon from "../icons/ImageIcon";
 import { Link, useNavigate } from "react-router-dom";
-import { getAuth, logout, setCredentials } from "../../slices/authSlice";
-import { useLogoutQuery, useProfileQuery } from "../../slices/usersApiSlice";
+import { getAuth, logoutUser } from "../../slices/authSlice";
+import { useLogoutMutation, useProfileQuery } from "../../slices/usersApiSlice";
 
 function UserDropdown({ showDropdown, setHover }) {
   const [isError, setIsError] = useState(false);
-  const [isLogout, setIsLogout] = useState(false);
   const [shouldFetch, setShouldFetch] = useState(false);
+
   const { isProfileDropdown } = useSelector(getGlobal);
   const { userInfo } = useSelector(getAuth);
 
-  const { isSuccess: isLogoutSuccess } = useLogoutQuery(undefined, {
-    skip: !isLogout,
-  });
+  const [logout] = useLogoutMutation();
 
   const {
     data,
@@ -47,13 +44,10 @@ function UserDropdown({ showDropdown, setHover }) {
 
   function logoutHandler(e) {
     e.preventDefault();
-    setIsLogout(true);
 
-    if (isLogoutSuccess) {
-      dispatch(logout());
-      dispatch(activateLogout());
-      navigate("/");
-    }
+    logout();
+    dispatch(logoutUser());
+    navigate("/");
   }
 
   function profileHandler(e) {
@@ -63,7 +57,6 @@ function UserDropdown({ showDropdown, setHover }) {
     setShouldFetch(true);
 
     if (isSuccess) {
-      dispatch(setCredentials(data));
       setIsError(false);
     }
 
