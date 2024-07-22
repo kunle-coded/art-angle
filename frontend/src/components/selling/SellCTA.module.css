@@ -37,7 +37,6 @@
 .button {
   position: relative;
   white-space: nowrap;
-  font-weight: normal;
   text-align: center;
   display: inline-flex;
   -webkit-box-align: center;

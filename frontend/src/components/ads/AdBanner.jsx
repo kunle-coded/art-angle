@@ -1,7 +1,14 @@
+import { useSelector } from "react-redux";
+import { getAuth } from "../../slices/authSlice";
+
 import Button from "../../ui/Button";
+import SignupArtist from "../auth/SignupArtist";
+import Modal from "../modal/Modal";
 import styles from "./AdBanner.module.css";
 
 function AdBanner({ background = true }) {
+  const { userInfo } = useSelector(getAuth);
+
   return (
     <div className={background ? "section_block" : "section_basic"}>
       <div className={styles.container}>
@@ -30,9 +37,20 @@ function AdBanner({ background = true }) {
                   !background ? styles.buttonsNoBg : ""
                 }`}
               >
-                <Button as="a" href="/sell">
-                  Start Selling
-                </Button>
+                {userInfo?.userType === "artist" ? (
+                  <Button as="a" href={`/artist/${userInfo.id}/artwork/upload`}>
+                    Start Selling
+                  </Button>
+                ) : (
+                  <Modal>
+                    <Modal.Open opens="Signup Artist">
+                      <Button>Start Selling</Button>
+                    </Modal.Open>
+                    <Modal.Window name="Signup Artist">
+                      <SignupArtist />
+                    </Modal.Window>
+                  </Modal>
+                )}
                 <Button as="a" type="secondary" href="/contact">
                   Get in Touch
                 </Button>

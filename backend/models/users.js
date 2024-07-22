@@ -84,25 +84,19 @@ const artistSchema = new mongoose.Schema({
 const buyerSchema = new mongoose.Schema({
   orders: [
     {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Artwork",
+      orderId: { type: String, required: true },
+      artworkId: { type: mongoose.Schema.Types.ObjectId, ref: "Artwork" },
+      orderDate: Date,
+      status: {
+        type: String,
+        enum: ["in progress", "completed"],
+      },
     },
   ],
   offers: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Artwork",
-    },
-  ],
-  orderDetails: [
-    {
-      orderId: { type: String, required: true },
-      productId: { type: mongoose.Schema.Types.ObjectId, ref: "Artwork" },
-      orderDate: Date,
-      status: {
-        type: String,
-        enum: ["in progress", "completed"],
-      },
     },
   ],
   collections: [
