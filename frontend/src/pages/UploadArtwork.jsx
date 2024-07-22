@@ -31,7 +31,6 @@ import {
   materials,
   medium,
   styles as artStyles,
-  countries,
 } from "../data";
 import InputSidebarDisplay from "../ui/InputSidebarDisplay";
 import ArtworkAvailability from "../components/price/ArtworkAvailability";
@@ -129,6 +128,10 @@ function UploadArtwork() {
       ) {
         setCurrentStep((prevStep) => prevStep + 1);
       }
+    }
+
+    if (currentStep > 3) {
+      console.log("publish artwork");
     }
   }
 

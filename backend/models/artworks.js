@@ -12,11 +12,7 @@ const artworkSchema = new mongoose.Schema({
     required: true,
   },
   published: String,
-  medium: {
-    type: String,
-    minLength: 3,
-    required: true,
-  },
+  medium: [String],
   materials: [String],
   category: {
     type: String,
@@ -28,11 +24,7 @@ const artworkSchema = new mongoose.Schema({
     minLength: 3,
     required: true,
   },
-  style: {
-    type: String,
-    minLength: 3,
-    required: true,
-  },
+  styles: [String],
   description: {
     type: String,
     minLength: 3,
@@ -47,7 +39,7 @@ const artworkSchema = new mongoose.Schema({
     enum: ["limited", "one"],
     required: true,
   },
-  quantity: Number,
+  totalRun: Number,
   availability: {
     type: String,
     enum: ["for sale", "not for sale", "sold"],
@@ -58,6 +50,19 @@ const artworkSchema = new mongoose.Schema({
     ref: "Artist",
   },
 });
+
+// availableForSale: "",
+// weight: "",
+// framed: false,
+// frameDimensions: { width: "", height: "", depth: "" },
+// packagingType: "",
+// packagingInstructions: "",
+// packagingWeight: 0,
+// totalWeight: 0,
+// shippingAddress: { city: "", state: "", country: "" },
+// shippingCost: 0,
+// price: 0,
+// totalPrice: 0,
 
 artworkSchema.set("toJSON", {
   transform: (document, returnedObject) => {
