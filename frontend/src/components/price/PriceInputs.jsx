@@ -15,9 +15,9 @@ function PriceInputs() {
 
   useEffect(() => {
     if (price.value) {
-      dispatch(updatePrice(price.value));
+      dispatch(updatePrice(Number(price.value)));
     }
-    // dispatch(update(SHIPPING_COST));
+
     dispatch(updateTotalPrice(Number(price.value) + SHIPPING_COST));
   }, [dispatch, price.value]);
 

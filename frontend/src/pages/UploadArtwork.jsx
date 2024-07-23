@@ -78,6 +78,7 @@ function UploadArtwork() {
     shippingAddress,
     price,
   } = useSelector(getArtwork);
+  const newArtwork = useSelector(getArtwork);
 
   const dispatch = useDispatch();
 
@@ -131,7 +132,8 @@ function UploadArtwork() {
     }
 
     if (currentStep > 3) {
-      console.log("publish artwork");
+      const { images, ...artworkData } = newArtwork;
+      console.log("publish artwork: ", artworkData);
     }
   }
 
@@ -432,7 +434,7 @@ function UploadArtwork() {
                           >
                             <ShippingAddress />
                           </DropdownInput>
-                          <DropdownInput title="Price" isCheck={price}>
+                          <DropdownInput title="Price" isCheck={price > 0}>
                             <PriceInputs />
                           </DropdownInput>
                         </>
@@ -451,7 +453,7 @@ function UploadArtwork() {
                         Save & Exit
                       </Button>
                       <Button size="small" onClick={handleSaveContinue}>
-                        {currentStep >= 3 ? "Publish" : "Save & Continue"}
+                        {currentStep > 3 ? "Publish" : "Save & Continue"}
                       </Button>
                     </div>
                   </div>

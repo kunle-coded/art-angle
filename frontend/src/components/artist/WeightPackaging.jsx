@@ -21,35 +21,35 @@ function WeightPackaging() {
 
   const dispatch = useDispatch();
 
-  const weight = useField("text");
+  const weight = useField("number");
   const { onReset: resetWeight, ...weightProps } = weight;
-  const width = useField("text");
+  const width = useField("number");
   const { onReset: resetWidth, ...widthProps } = width;
-  const height = useField("text");
+  const height = useField("number");
   const { onReset: resetHeight, ...heightProps } = height;
-  const depth = useField("text");
+  const depth = useField("number");
   const { onReset: resetDepth, ...depthProps } = depth;
   const pkgInstructions = useField("text");
   const { onReset: resetPkgInstructions, ...pkgInstructionsProps } =
     pkgInstructions;
-  const estWeight = useField("text");
+  const estWeight = useField("number");
   const { onReset: resetEstWeight, ...estWeightProps } = estWeight;
 
   useEffect(() => {
     if (weight.value && estWeight.value) {
-      dispatch(updateWeight(weight.value));
+      dispatch(updateWeight(Number(weight.value)));
 
-      const totalWeight = Number(weight.value) + Number(estWeight.value);
+      const totalWeight = Number(weight.value + estWeight.value);
 
-      dispatch(updatePackagingWeight(estWeight.value));
+      dispatch(updatePackagingWeight(Number(estWeight.value)));
       dispatch(updateTotalWeight(totalWeight));
     }
 
     if (isFramed && width.value && height.value) {
       const framedDms = {
-        width: width.value,
-        height: height.value,
-        depth: depth.value,
+        width: Number(width.value),
+        height: Number(height.value),
+        depth: Number(depth.value),
       };
 
       dispatch(updateFramed(isFramed));
@@ -100,30 +100,32 @@ function WeightPackaging() {
         </div>
         <div className={styles.inputWrapper}>
           <CheckboxComponent isChecked={isFramed} onCheck={handleFramed} />
-          <p>Yes</p>
+          <p>{isFramed ? "Yes" : "No"}</p>
         </div>
       </div>
 
-      <div className={styles.sectionWrapper}>
-        <div className={styles.titleWrapper}>
-          <div className={styles.title}>Frame Dimensions</div>
+      {isFramed && (
+        <div className={styles.sectionWrapper}>
+          <div className={styles.titleWrapper}>
+            <div className={styles.title}>Frame Dimensions</div>
+          </div>
+          <div className={styles.inputsWrapper}>
+            <div className={styles.inputContainer}>
+              <p>Width</p>
+              <Input placeholder="18" size="small" {...widthProps} />
+            </div>
+            <div className={styles.inputContainer}>
+              <p>Height</p>
+              <Input placeholder="10" size="small" {...heightProps} />
+            </div>
+            <div className={styles.inputContainer}>
+              <p>Depth</p>
+              <Input placeholder="0.1" size="small" {...depthProps} />
+            </div>
+            <div>in</div>
+          </div>
         </div>
-        <div className={styles.inputsWrapper}>
-          <div className={styles.inputContainer}>
-            <p>Width</p>
-            <Input placeholder="18" size="small" {...widthProps} />
-          </div>
-          <div className={styles.inputContainer}>
-            <p>Height</p>
-            <Input placeholder="10" size="small" {...heightProps} />
-          </div>
-          <div className={styles.inputContainer}>
-            <p>Depth</p>
-            <Input placeholder="0.1" size="small" {...depthProps} />
-          </div>
-          <div>in</div>
-        </div>
-      </div>
+      )}
       <div className={styles.sectionWrapper}>
         <div className={styles.titleWrapper}>
           <div className={styles.title}>Packaging Type</div>

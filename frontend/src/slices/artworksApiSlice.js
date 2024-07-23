@@ -12,7 +12,7 @@ export const artworksApiSlice = apiArtworkSlice.injectEndpoints({
     }),
     upload: builder.mutation({
       query: (data) => ({
-        url: `${ARTWORKS_URL}(upload)`,
+        url: `${ARTWORKS_URL}/upload`,
         method: "POST",
         body: data,
       }),

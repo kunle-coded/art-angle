@@ -4,15 +4,15 @@ import Input from "./Input";
 import { useField } from "../hooks";
 
 function DimensionsInput({ onInput, showDiagram = true }) {
-  const [width, setWidth] = useState("18");
-  const [height, setHeight] = useState("10");
-  const [depth, setDepth] = useState("0.1");
+  const [width, setWidth] = useState(18);
+  const [height, setHeight] = useState(10);
+  const [depth, setDepth] = useState(0.1);
 
-  const widthInput = useField("text");
+  const widthInput = useField("number");
   const { onReset: resetWidth, ...widthProps } = widthInput;
-  const heightInput = useField("text");
+  const heightInput = useField("number");
   const { onReset: resetHeight, ...heightProps } = heightInput;
-  const depthInput = useField("text");
+  const depthInput = useField("number");
   const { onReset: resetDepth, ...depthProps } = depthInput;
 
   const diagramStyle = {
@@ -29,9 +29,9 @@ function DimensionsInput({ onInput, showDiagram = true }) {
       }
 
       const dimension = {
-        width: widthInput.value,
-        height: heightInput.value,
-        depth: depthInput.value,
+        width: Number(widthInput.value),
+        height: Number(heightInput.value),
+        depth: Number(depthInput.value),
       };
 
       onInput("Dimensions", dimension);

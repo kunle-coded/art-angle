@@ -42,6 +42,14 @@
   color: var(--primary-variant);
 }
 
+.userImage {
+  width: 100px;
+  height: 100px;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
 .uploadInfo {
   margin-top: 40px;
   text-align: center;
