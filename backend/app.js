@@ -6,6 +6,7 @@ const artworkRoutes = require("./routes/artworkRoutes");
 const baseRoutes = require("./routes/baseRoutes");
 const productRoutes = require("./routes/productRoutes");
 const artistRoutes = require("./routes/artistRoutes");
+const imageRoutes = require("./routes/imageRoutes");
 
 const { uploadFileToS3 } = require("./utils/uploadFileToS3");
 
@@ -19,6 +20,7 @@ app.use(cookieParser());
 app.use("/api", baseRoutes);
 app.use("/api/user", userRoutes);
 app.use("/api/user/artworks", artworkRoutes);
+app.use("/api/user/artworks/image", imageRoutes);
 app.use("/api/artwork", productRoutes);
 app.use("/api/artist", artistRoutes);
 

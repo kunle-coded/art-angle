@@ -18,7 +18,15 @@ export const artworksApiSlice = apiArtworkSlice.injectEndpoints({
       }),
       invalidatesTags: ["Artworks"],
     }),
+    uploadImage: builder.mutation({
+      query: (data) => ({
+        url: `${ARTWORKS_URL}/image/upload`,
+        method: "POST",
+        body: data,
+      }),
+    }),
   }),
 });
 
-export const { useArtworksQuery, useUploadMutation } = artworksApiSlice;
+export const { useArtworksQuery, useUploadMutation, useUploadImageMutation } =
+  artworksApiSlice;

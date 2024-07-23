@@ -2,7 +2,7 @@ import { useDispatch } from "react-redux";
 import { useField } from "../../hooks";
 import Input from "../../ui/Input";
 import styles from "./ShippingAddress.module.css";
-import { updateAddress } from "../../slices/artworkSllice";
+import { updateAddress } from "../../slices/artworkSlice";
 import StyledSelect from "../../ui/StyledSelect";
 import { countries } from "../../data";
 

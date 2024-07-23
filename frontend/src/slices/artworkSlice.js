@@ -106,6 +106,11 @@ const artworkSlice = createSlice({
     updateTotalPrice(state, action) {
       state.totalPrice = action.payload;
     },
+    updateImages(state, action) {
+      const updatedImages = [...state.images];
+      updatedImages[action.payload.index] = action.payload.url;
+      state.images = updatedImages;
+    },
   },
 });
 
@@ -134,6 +139,7 @@ export const {
   updateRuns,
   updateTotalPrice,
   updateTotalWeight,
+  updateImages,
 } = artworkSlice.actions;
 
 export default artworkSlice.reducer;

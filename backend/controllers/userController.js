@@ -2,7 +2,6 @@ const asyncHandler = require("express-async-handler");
 const bcrypt = require("bcrypt");
 const generateToken = require("../utils/generateToken");
 const { Buyer, Artist, User } = require("../models/users");
-const multer = require("multer");
 const { uploadFileToS3 } = require("../utils/uploadFileToS3");
 const { deleteFileFromS3 } = require("../utils/deleteFileFromS3");
 

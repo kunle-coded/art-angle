@@ -2,6 +2,7 @@ const asyncHandler = require("express-async-handler");
 const Artwork = require("../models/artworks");
 const { Artist, User } = require("../models/users");
 const { emptyObject } = require("../utils/helpers");
+const { uploadFileToS3 } = require("../utils/uploadFileToS3");
 
 // @desc Get all artworks
 // route GET /api/artworks
@@ -30,7 +31,7 @@ const getUserArtworks = asyncHandler(async (req, res) => {
 });
 
 // @desc Add an artwork
-// route POST /api/artworks
+// route POST /api/user/artworks/upload
 // access Private
 const addArtworks = asyncHandler(async (req, res) => {
   const user = req.user;
@@ -53,8 +54,42 @@ const addArtworks = asyncHandler(async (req, res) => {
   res.status(201).json(savedArtwork);
 });
 
+// @desc Upload artwork image
+// route POST /api/user/artworks/image/upload
+// @access Private
+const uploadArtworkImage = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.user.id);
+
+  if (user.userType === "buyer") {
+    res.status(401);
+    throw new Error("Unauthorized user");
+  }
+
+  const file = req.file;
+
+  if (!req.file) {
+    res.status(401);
+    throw new Error("No file to upload");
+  }
+
+  // let imageToDelete;
+  // if (user.profileImageUrl && user.profileImageUrl.trim()) {
+  //   imageToDelete = user.profileImageUrl.split("com/")[1];
+  // }
+
+  // if (imageToDelete) {
+  //   await deleteFileFromS3(imageToDelete);
+  // }
+
+  const imageUrl = await uploadFileToS3("artworks", file);
+
+  // user.profileImageUrl = imgUrl;
+  // await user.save();
+  res.status(201).json({ url: imageUrl });
+});
+
 // @desc Update an artwork
-// route PUT /api/artworks/id
+// route PUT /api/user/artworks/id
 // access Private
 const updateArtworks = asyncHandler(async (req, res) => {
   emptyObject(res, req.body);
@@ -121,6 +156,7 @@ module.exports = {
   getArtworks,
   getUserArtworks,
   addArtworks,
+  uploadArtworkImage,
   updateArtworks,
   deleteArtworks,
 };

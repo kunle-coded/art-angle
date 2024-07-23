@@ -2,7 +2,7 @@ import styles from "./ArtworkAvailability.module.css";
 import { Availability, Editions } from "../../constants/enums";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { updateAvailability, updateEditions } from "../../slices/artworkSllice";
+import { updateAvailability, updateEditions } from "../../slices/artworkSlice";
 
 function ArtworkAvailability({ title = "", type = "", setEditions }) {
   const [inputValue, setInputValue] = useState(

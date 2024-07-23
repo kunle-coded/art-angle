@@ -6,6 +6,7 @@ const {
   deleteArtworks,
 } = require("../controllers/artworkController");
 const { protect } = require("../middleware/authMiddleware");
+const upload = require("../utils/upload");
 
 router.get("/", protect, getUserArtworks);
 router.post("/upload", protect, addArtworks);

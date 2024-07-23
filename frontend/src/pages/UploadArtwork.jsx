@@ -14,7 +14,7 @@ import {
   updateDimensions,
   updateDescription,
   updateKeywords,
-} from "../slices/artworkSllice";
+} from "../slices/artworkSlice";
 
 import DropdownInput from "../ui/DropdownInput";
 import ProgressIndicator from "../ui/ProgressIndicator";
@@ -77,6 +77,7 @@ function UploadArtwork() {
     packagingWeight,
     shippingAddress,
     price,
+    images,
   } = useSelector(getArtwork);
   const newArtwork = useSelector(getArtwork);
 
@@ -91,8 +92,9 @@ function UploadArtwork() {
     if (currentStep === 1) {
       // update artwork title
       dispatch(updateTitle(title.value));
-      setCurrentStep((prevStep) => prevStep + 1);
-      setIsImage(true);
+      if (title.value && images[0] !== "") {
+        setCurrentStep((prevStep) => prevStep + 1);
+      }
     }
     // resetTitle(e);
 
@@ -207,16 +209,16 @@ function UploadArtwork() {
                   <div className={styles.sidebarContainer}>
                     <BackToPageButton label="Back to Artworks" />
                     <div className={styles.sidebarContent}>
-                      {isImage && (
+                      {images[0] !== "" && (
                         <div className={styles.artworkImage}>
                           <img
                             className={styles.image}
-                            src="/assets/artists/temi-wynston.webp"
+                            src={images[0]}
                             alt=""
                           />
                         </div>
                       )}
-                      {!isImage && (
+                      {images[0] === "" && (
                         <div className={styles.imagePlaceholder}></div>
                       )}
                       <div className={styles.inputDisplay}>
@@ -302,7 +304,10 @@ function UploadArtwork() {
                               {...titleProps}
                             />
                           </DropdownInput>
-                          <DropdownInput title="Image">
+                          <DropdownInput
+                            title="Image"
+                            isCheck={images[0] !== ""}
+                          >
                             <ImageUpload />
                           </DropdownInput>
                         </>
