@@ -39,7 +39,7 @@ function WeightPackaging() {
     if (weight.value && estWeight.value) {
       dispatch(updateWeight(Number(weight.value)));
 
-      const totalWeight = Number(weight.value + estWeight.value);
+      const totalWeight = Number(weight.value) + Number(estWeight.value);
 
       dispatch(updatePackagingWeight(Number(estWeight.value)));
       dispatch(updateTotalWeight(totalWeight));

@@ -1,3 +1,4 @@
+import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { useField } from "../hooks/index";
@@ -15,6 +16,7 @@ import {
   updateDescription,
   updateKeywords,
 } from "../slices/artworkSlice";
+import { useUploadMutation } from "../slices/artworksApiSlice";
 
 import DropdownInput from "../ui/DropdownInput";
 import ProgressIndicator from "../ui/ProgressIndicator";
@@ -22,7 +24,6 @@ import styles from "./UploadArtwork.module.css";
 import Input from "../ui/Input";
 import ImageUpload from "../ui/ImageUpload";
 import Button from "../ui/Button";
-import { useCallback, useEffect, useState } from "react";
 import StyledSelect from "../ui/StyledSelect";
 import DimensionsInput from "../ui/DimensionsInput";
 import {
@@ -40,6 +41,12 @@ import WeightPackaging from "../components/artist/WeightPackaging";
 import ShippingAddress from "../components/artist/ShippingAddress";
 import PriceInputs from "../components/price/PriceInputs";
 import BackToPageButton from "../ui/BackToPageButton";
+import Spinner from "../ui/Spinner";
+import {
+  enableError,
+  enableSuccess,
+  updateSuccessMgs,
+} from "../slices/globalSlice";
 
 const years = ["2019", "2020", "2021", "2022", "2023", "2024"];
 
@@ -81,6 +88,8 @@ function UploadArtwork() {
   } = useSelector(getArtwork);
   const newArtwork = useSelector(getArtwork);
 
+  const [upload, { isLoading }] = useUploadMutation();
+
   const dispatch = useDispatch();
 
   const title = useField("text");
@@ -88,7 +97,7 @@ function UploadArtwork() {
 
   const displayDimensions = `${dimensions.width} W x ${dimensions.height} H x ${dimensions.depth} D in`;
 
-  function handleSaveContinue(e) {
+  async function handleSaveContinue(e) {
     if (currentStep === 1) {
       // update artwork title
       dispatch(updateTitle(title.value));
@@ -133,9 +142,22 @@ function UploadArtwork() {
       }
     }
 
-    if (currentStep > 3) {
+    if (currentStep > 3 && currentTitle === "Publish") {
       const { images, ...artworkData } = newArtwork;
+
       console.log("publish artwork: ", artworkData);
+
+      try {
+        await upload({
+          ...newArtwork,
+          artist: "Oluwafunmilayo Arabambi",
+        }).unwrap();
+        dispatch(updateSuccessMgs("Artwork successfully uploaded"));
+        dispatch(enableSuccess());
+      } catch (err) {
+        dispatch(updateSuccessMgs(err?.data?.message || err.error));
+        dispatch(enableError());
+      }
     }
   }
 
@@ -293,6 +315,11 @@ function UploadArtwork() {
                 </div>
                 <div className={styles.contentColumn}>
                   <div className={styles.contentContainer}>
+                    {isLoading && (
+                      <div className={styles.spinnerContainer}>
+                        <Spinner />
+                      </div>
+                    )}
                     <div className={styles.contentHeader}>{currentTitle}</div>
                     <div className={styles.inputItems}>
                       {currentStep === 1 && (
