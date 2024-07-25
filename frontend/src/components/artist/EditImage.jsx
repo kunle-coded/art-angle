@@ -4,7 +4,7 @@ import styles from "./EditImage.module.css";
 import AddIcon from "../icons/AddIcon";
 import TrashIcon from "../icons/TrashIcon";
 
-function EditImage() {
+function EditImage({ images }) {
   const [isEdit, setIsEdit] = useState(false);
   const [isDelete, setIsDelete] = useState(false);
   const [currentItem, setCurrentItem] = useState(0);
@@ -38,25 +38,28 @@ function EditImage() {
         <EditHeader heading="Images" isEdit={isEdit} onClick={handleEdit} />
 
         <div className={styles.imagesWrapper}>
-          {imagesArr.map((image, i) => (
-            <div
-              key={image.id}
-              className={styles.imageContainer}
-              onMouseEnter={() => handleEnter(i)}
-              onMouseLeave={handleLeave}
-            >
-              <img src={image.imgUrl} alt="" className={styles.image} />
-              <div
-                className={`${styles.deleteWrapper} ${
-                  isDelete && currentItem === i ? styles.showDelete : ""
-                }`}
-              >
-                <div className={styles.deleteIcon}>
-                  <TrashIcon />
+          {images.map(
+            (image, i) =>
+              image !== "" && (
+                <div
+                  key={image}
+                  className={styles.imageContainer}
+                  onMouseEnter={() => handleEnter(i)}
+                  onMouseLeave={handleLeave}
+                >
+                  <img src={image} alt="" className={styles.image} />
+                  <div
+                    className={`${styles.deleteWrapper} ${
+                      isDelete && currentItem === i ? styles.showDelete : ""
+                    }`}
+                  >
+                    <div className={styles.deleteIcon}>
+                      <TrashIcon />
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
-          ))}
+              )
+          )}
           {isEdit && (
             <div className={styles.newImageWrapper}>
               <div className={styles.newImageIconWrapper}>

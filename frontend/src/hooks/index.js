@@ -4,7 +4,7 @@ export const useField = (type) => {
   const [value, setValue] = useState("");
 
   function onChange(event) {
-    setValue(event.target.value);
+    setValue(event.target.value.trim());
   }
 
   function onReset(event) {

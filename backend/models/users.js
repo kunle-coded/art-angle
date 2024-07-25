@@ -27,7 +27,7 @@ const userSchema = new mongoose.Schema({
   },
   userType: {
     type: String,
-    enum: ["buyer", "artist"],
+    enum: ["buyer", "artist", "admin"],
     required: true,
   },
 });
@@ -44,9 +44,7 @@ const artistSchema = new mongoose.Schema({
   specialisation: {
     type: String,
   },
-  portfolioLink: {
-    type: String,
-  },
+  portfolioLinks: [String],
   paymentDetails: {
     accountName: {
       type: String,

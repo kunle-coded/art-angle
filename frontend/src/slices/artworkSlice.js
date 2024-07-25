@@ -5,7 +5,7 @@ const initialState = {
   title: "",
   category: "",
   subject: "",
-  year: "",
+  published: "",
   images: ["", "", "", "", "", ""],
   medium: [],
   materials: [],
@@ -43,7 +43,7 @@ const artworkSlice = createSlice({
       state.subject = action.payload;
     },
     updateYear(state, action) {
-      state.year = action.payload;
+      state.published = action.payload;
     },
     updateMedium(state, action) {
       state.medium = [...state.medium, action.payload];

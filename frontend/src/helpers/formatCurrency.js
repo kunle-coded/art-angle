@@ -8,7 +8,6 @@ export default function formatCurrency(amount) {
     .replace("NGN", "₦")
     .replace(/\u00A0/g, "")
     .split(".")[0];
-  //   console.log(formatted.replace("NGN", "₦").replace(/\u00A0/g, ""));
 
   return nairaFormat;
 }

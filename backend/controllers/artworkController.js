@@ -30,6 +30,33 @@ const getUserArtworks = asyncHandler(async (req, res) => {
   }
 });
 
+// @desc Get user's single artwork
+// route GET /api/user/artworks/id
+// access Private
+const getUserSingleArtwork = asyncHandler(async (req, res) => {
+  const userId = req.user;
+  const user = await User.findById(userId);
+
+  if (user.userType === "buyer") {
+    res.status(401);
+    throw new Error("Unauthorized user");
+  }
+
+  const artworkId = req.params.id;
+
+  const artwork = await Artwork.findById(artworkId).lean();
+
+  if (artwork.owner.toString() === user.id) {
+    delete artwork.owner;
+    delete artwork._id;
+    delete artwork.__v;
+    res.status(200).json(artwork);
+  } else {
+    res.status(403);
+    throw new Error("You do not have permission to access this artwork");
+  }
+});
+
 // @desc Add an artwork
 // route POST /api/user/artworks/upload
 // access Private
@@ -41,7 +68,23 @@ const addArtworks = asyncHandler(async (req, res) => {
     throw new Error("Unauthorized user");
   }
 
-  const artworkData = { ...req.body, owner: user.id };
+  const artworkTitle = req.body.title;
+
+  const artworkExist = await Artwork.findOne({ title: artworkTitle });
+
+  if (artworkExist) {
+    res.status(401);
+    throw new Error("Artwork with the same name already exist");
+  }
+
+  const artworkData = {
+    ...req.body,
+    artist:
+      user.userType === "admin"
+        ? req.body.artist
+        : `${user.firstname} ${user.lastname}`,
+    owner: user.id,
+  };
   const artwork = new Artwork(artworkData);
   const savedArtwork = await artwork.save();
 
@@ -51,7 +94,7 @@ const addArtworks = asyncHandler(async (req, res) => {
     { new: true }
   );
 
-  res.status(201).json(savedArtwork);
+  res.status(201).json(savedArtwork.id);
 });
 
 // @desc Upload artwork image
@@ -155,6 +198,7 @@ const deleteArtworks = asyncHandler(async (req, res) => {
 module.exports = {
   getArtworks,
   getUserArtworks,
+  getUserSingleArtwork,
   addArtworks,
   uploadArtworkImage,
   updateArtworks,

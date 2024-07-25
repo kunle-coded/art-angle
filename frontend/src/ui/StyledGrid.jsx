@@ -2,6 +2,7 @@ import { useState } from "react";
 import Input from "./Input";
 import styles from "./StyledGrid.module.css";
 import StyledTextArea from "./StyledTextArea";
+import formatCurrency from "../helpers/formatCurrency";
 
 function StyledGrid({
   title = "",
@@ -10,6 +11,7 @@ function StyledGrid({
   singleValue = "",
   isEdit,
   isTextArea = false,
+  isNumber = false,
   children,
 }) {
   const [inputValues, setInputValues] = useState(
@@ -60,14 +62,16 @@ function StyledGrid({
                 <div className={styles.gridLabel}>{gridItem.label}</div>
               </div>
               <div className={styles.gridInnerRight}>
-                {isEdit ? (
+                {isEdit && gridItem.label !== "Shipping Cost" ? (
                   <Input
                     size="small"
                     value={inputValues[index]}
                     onChange={(e) => handleInputChange(index, e)}
                   />
                 ) : (
-                  <div className={styles.gridLabel}>{gridItem.value}</div>
+                  <div className={styles.gridLabel}>
+                    {isNumber ? formatCurrency(gridItem.value) : gridItem.value}
+                  </div>
                 )}
               </div>
             </div>

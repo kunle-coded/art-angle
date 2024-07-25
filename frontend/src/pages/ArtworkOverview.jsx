@@ -7,31 +7,43 @@ import EditImage from "../components/artist/EditImage";
 import Spacer from "../ui/Spacer";
 import EditDescripion from "../components/artist/EditDescripion";
 import StyledGrid from "../ui/StyledGrid";
-
-const subCatYr = [
-  { id: 0, label: "Subject", value: "Portraiture" },
-  { id: 1, label: "Category", value: "Contemporary Art" },
-  { id: 2, label: "Year", value: "2022" },
-];
-const medMatSty = [
-  { id: 0, label: "Medium", value: "Painting" },
-  { id: 1, label: "Materials", value: "Canvas" },
-  { id: 2, label: "Styles", value: "Modern, Conceptual" },
-];
-const price = [
-  { id: 0, label: "Artwork Price", value: "₦100,000" },
-  { id: 1, label: "Your Commission", value: "₦60,000" },
-  { id: 2, label: "Shipping Cost", value: "₦8,000" },
-  { id: 3, label: "Listed Price", value: "₦108,000" },
-];
-const weightPkg = [
-  { id: 0, label: "Packaging Type", value: "Tube" },
-  { id: 1, label: "Shipping Weight", value: "4kg" },
-];
+import { useParams } from "react-router-dom";
+import { useUserSingleArtworkQuery } from "../slices/artworksApiSlice";
+import Spinner from "../ui/Spinner";
+import { SHIPPING_COST } from "../constants/constants";
 
 function ArtworkOverview() {
   const [isDescEdit, setIsDescEdit] = useState(false);
   const [isPriceEdit, setIsPriceEdit] = useState(false);
+
+  const { id } = useParams();
+  const { data: artwork, isLoading } = useUserSingleArtworkQuery(id);
+  console.log(artwork);
+
+  if (isLoading) {
+    return <Spinner />;
+  }
+
+  const subCatYr = [
+    { id: 0, label: "Subject", value: artwork.subject },
+    { id: 1, label: "Category", value: artwork.category },
+    { id: 2, label: "Year", value: "2022" },
+  ];
+  const medMatSty = [
+    { id: 0, label: "Medium", value: artwork.medium },
+    { id: 1, label: "Materials", value: artwork.materials.join(", ") },
+    { id: 2, label: "Styles", value: artwork.styles.join(", ") },
+  ];
+  const price = [
+    { id: 0, label: "Artwork Price", value: artwork.price },
+    { id: 1, label: "Your Commission", value: artwork.price },
+    { id: 2, label: "Shipping Cost", value: SHIPPING_COST },
+    { id: 3, label: "Listed Price", value: artwork.totalPrice },
+  ];
+  const weightPkg = [
+    { id: 0, label: "Packaging Type", value: artwork.packagingType },
+    { id: 1, label: "Shipping Weight", value: `${artwork.totalWeight}kg` },
+  ];
 
   function handleDescEdit() {
     setIsDescEdit((prevState) => !prevState);
@@ -55,11 +67,11 @@ function ArtworkOverview() {
                     <div className={styles.artworkImage}>
                       <img
                         className={styles.image}
-                        src="/assets/artists/temi-wynston.webp"
+                        src={artwork?.images[0]}
                         alt=""
                       />
                     </div>
-                    <div className={styles.artworkTitle}>Nostalgic Beauty</div>
+                    <div className={styles.artworkTitle}>{artwork.title}</div>
                     <div className={styles.metaContainer}>
                       <div className={styles.metaWrapper}>
                         Views
@@ -89,7 +101,7 @@ function ArtworkOverview() {
               <div className={styles.contentColumn}>
                 <div className={styles.contentContainer}>
                   <div className={styles.inputItems}>
-                    <EditImage />
+                    <EditImage images={artwork.images} />
                     <Spacer />
                     <EditDescripion
                       title="Description"
@@ -159,6 +171,7 @@ I have taken this photo with a Canon EOS 7D within my studio. The photo will be 
                       <StyledGrid
                         title="Price"
                         gridList={price}
+                        isNumber
                         isEdit={isPriceEdit}
                       />
                       <StyledGrid

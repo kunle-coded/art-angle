@@ -27,8 +27,6 @@ const artworkSchema = new mongoose.Schema({
   styles: [String],
   description: {
     type: String,
-    minLength: 3,
-    required: true,
   },
   keywords: [String],
   weight: Number,

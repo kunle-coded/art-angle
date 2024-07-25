@@ -10,6 +10,11 @@ export const artworksApiSlice = apiArtworkSlice.injectEndpoints({
       }),
       providesTags: ["Artworks"],
     }),
+    userSingleArtwork: builder.query({
+      query: (id) => ({
+        url: `${ARTWORKS_URL}/${id}`,
+      }),
+    }),
     upload: builder.mutation({
       query: (data) => ({
         url: `${ARTWORKS_URL}/upload`,
@@ -28,5 +33,9 @@ export const artworksApiSlice = apiArtworkSlice.injectEndpoints({
   }),
 });
 
-export const { useArtworksQuery, useUploadMutation, useUploadImageMutation } =
-  artworksApiSlice;
+export const {
+  useArtworksQuery,
+  useUserSingleArtworkQuery,
+  useUploadMutation,
+  useUploadImageMutation,
+} = artworksApiSlice;

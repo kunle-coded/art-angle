@@ -737,6 +737,7 @@ const materials = [
   "Silk",
   "Silver",
   "Silver gelatin",
+  "Soft plastic (Nylon)",
   "Sound",
   "Spray paint",
   "Stainless steel",
@@ -765,6 +766,7 @@ const medium = [
   "Prints",
   "Work on Paper",
   "Drawing",
+  "Installation",
   "Design",
   "Textile",
 ];

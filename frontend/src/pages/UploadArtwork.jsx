@@ -45,8 +45,11 @@ import Spinner from "../ui/Spinner";
 import {
   enableError,
   enableSuccess,
+  getGlobal,
   updateSuccessMgs,
 } from "../slices/globalSlice";
+import { useNavigate } from "react-router-dom";
+import { getAuth } from "../slices/authSlice";
 
 const years = ["2019", "2020", "2021", "2022", "2023", "2024"];
 
@@ -57,7 +60,7 @@ const descriptionTips = [
 ];
 
 function UploadArtwork() {
-  const [isImage, setIsImage] = useState(false);
+  const [isDisabled, setIsDisabled] = useState(true);
   const [isShowMore, setIsShowMore] = useState(false);
   const [currentStep, setCurrentStep] = useState(1);
   const [isLimitedEdition, setIsLimitedEdition] = useState(true);
@@ -67,7 +70,7 @@ function UploadArtwork() {
     title: artworkTitle,
     category,
     subject,
-    year,
+    published,
     medium: artworkMedium,
     materials: artworkMaterials,
     styles: artworkStyles,
@@ -87,15 +90,91 @@ function UploadArtwork() {
     images,
   } = useSelector(getArtwork);
   const newArtwork = useSelector(getArtwork);
+  const { userInfo } = useSelector(getAuth);
 
   const [upload, { isLoading }] = useUploadMutation();
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const title = useField("text");
   const { onReset: resetTitle, ...titleProps } = title;
 
   const displayDimensions = `${dimensions.width} W x ${dimensions.height} H x ${dimensions.depth} D in`;
+
+  useEffect(() => {
+    if (currentStep === 2) {
+      setCurrentTitle("Description");
+      setIsDisabled(true);
+    } else if (currentStep === 3) {
+      setCurrentTitle("Price & Details");
+      setIsDisabled(true);
+    } else if (currentStep === 4) {
+      setCurrentTitle("Publish");
+    }
+  }, [currentStep]);
+
+  useEffect(() => {
+    if (currentStep === 1 && title.value && images[0] !== "") {
+      setIsDisabled(false);
+    } else if (
+      currentStep === 2 &&
+      category &&
+      subject &&
+      published &&
+      dimensions.width &&
+      dimensions.height &&
+      artworkMaterials.length >= 1 &&
+      artworkMedium.length >= 1 &&
+      artworkStyles.length >= 1 &&
+      keywords.length >= 1
+    ) {
+      setIsDisabled(false);
+    } else if (
+      currentStep === 3 &&
+      weight &&
+      packagingType &&
+      packagingWeight &&
+      ((framed && frameDimensions.width && frameDimensions.height) ||
+        !framed) &&
+      shippingAddress.city &&
+      shippingAddress.state &&
+      shippingAddress.country &&
+      ((editions === "Limited Edition" && totalRun && availableForSale) ||
+        editions === "One-of-a-kind") &&
+      price > 0
+    ) {
+      setIsDisabled(false);
+    } else if (currentStep === 4) {
+      setIsDisabled(false);
+    }
+  }, [
+    artworkMaterials.length,
+    artworkMedium.length,
+    artworkStyles.length,
+    availableForSale,
+    category,
+    currentStep,
+    dimensions.height,
+    dimensions.width,
+    editions,
+    frameDimensions.height,
+    frameDimensions.width,
+    framed,
+    images,
+    keywords.length,
+    packagingType,
+    packagingWeight,
+    price,
+    shippingAddress.city,
+    shippingAddress.country,
+    shippingAddress.state,
+    subject,
+    title.value,
+    totalRun,
+    weight,
+    published,
+  ]);
 
   async function handleSaveContinue(e) {
     if (currentStep === 1) {
@@ -111,13 +190,12 @@ function UploadArtwork() {
       if (
         category &&
         subject &&
-        year &&
+        published &&
         artworkMedium.length >= 1 &&
         artworkMaterials.length >= 1 &&
         artworkStyles.length >= 1 &&
         dimensions.width &&
         dimensions.height &&
-        description &&
         keywords.length >= 1
       ) {
         setCurrentStep((prevStep) => prevStep + 1);
@@ -143,17 +221,11 @@ function UploadArtwork() {
     }
 
     if (currentStep > 3 && currentTitle === "Publish") {
-      const { images, ...artworkData } = newArtwork;
-
-      console.log("publish artwork: ", artworkData);
-
       try {
-        await upload({
-          ...newArtwork,
-          artist: "Oluwafunmilayo Arabambi",
-        }).unwrap();
+        const res = await upload(newArtwork).unwrap();
         dispatch(updateSuccessMgs("Artwork successfully uploaded"));
         dispatch(enableSuccess());
+        navigate(`/artist/${userInfo.id}/artwork/${res}`);
       } catch (err) {
         dispatch(updateSuccessMgs(err?.data?.message || err.error));
         dispatch(enableError());
@@ -185,16 +257,6 @@ function UploadArtwork() {
     },
     [dispatch]
   );
-
-  useEffect(() => {
-    if (currentStep === 2) {
-      setCurrentTitle("Description");
-    } else if (currentStep === 3) {
-      setCurrentTitle("Price & Details");
-    } else if (currentStep === 4) {
-      setCurrentTitle("Publish");
-    }
-  }, [currentStep]);
 
   return (
     <div className="page">
@@ -259,8 +321,8 @@ function UploadArtwork() {
                         {subject && (
                           <InputSidebarDisplay label="Subject" item={subject} />
                         )}
-                        {year && (
-                          <InputSidebarDisplay label="Year" item={year} />
+                        {published && (
+                          <InputSidebarDisplay label="Year" item={published} />
                         )}
                         {artworkMedium.length >= 1 && (
                           <InputSidebarDisplay
@@ -343,7 +405,7 @@ function UploadArtwork() {
                         <>
                           <DropdownInput
                             title="Category, Subject, Year"
-                            isCheck={category && subject && year}
+                            isCheck={category && subject && published}
                           >
                             <StyledSelect
                               label="Category"
@@ -402,7 +464,7 @@ function UploadArtwork() {
                           </DropdownInput>
                           <DropdownInput
                             title="Keywords & Description"
-                            isCheck={keywords.length >= 1 && description}
+                            isCheck={keywords.length >= 1}
                           >
                             <StyledSelect
                               label="Keywords"
@@ -484,7 +546,11 @@ function UploadArtwork() {
                       <Button type="secondary" size="small">
                         Save & Exit
                       </Button>
-                      <Button size="small" onClick={handleSaveContinue}>
+                      <Button
+                        disable={isDisabled}
+                        size="small"
+                        onClick={handleSaveContinue}
+                      >
                         {currentStep > 3 ? "Publish" : "Save & Continue"}
                       </Button>
                     </div>
