@@ -1,13 +1,35 @@
 import { useState } from "react";
-import EditHeader from "../../ui/EditHeader";
+import { useDispatch } from "react-redux";
+import { updateImages } from "../../slices/artworkSlice";
+import {
+  enableError,
+  enableSuccess,
+  updateSuccessMgs,
+} from "../../slices/globalSlice";
+import {
+  useDeleteImageMutation,
+  useUploadImageMutation,
+} from "../../slices/artworksApiSlice";
+
 import styles from "./EditImage.module.css";
+import EditHeader from "../../ui/EditHeader";
 import AddIcon from "../icons/AddIcon";
 import TrashIcon from "../icons/TrashIcon";
+import { useParams } from "react-router-dom";
+import Modal from "../modal/Modal";
+import ConfirmDelete from "../messages/ConfirmDelete";
 
 function EditImage({ images }) {
   const [isEdit, setIsEdit] = useState(false);
   const [isDelete, setIsDelete] = useState(false);
   const [currentItem, setCurrentItem] = useState(0);
+
+  const dispatch = useDispatch();
+
+  const { id } = useParams();
+
+  const [uploadImage] = useUploadImageMutation();
+  const [deleteImage] = useDeleteImageMutation();
 
   function handleEdit() {
     setIsEdit((prevState) => !prevState);
@@ -21,16 +43,35 @@ function EditImage({ images }) {
     setIsDelete(false);
   }
 
-  const imagesArr = [
-    {
-      id: 0,
-      imgUrl: "/assets/artists/temi-wynston.webp",
-    },
-    {
-      id: 1,
-      imgUrl: "/assets/artists/kehinde-omolayo.webp",
-    },
-  ];
+  async function imageUploadHandler(e) {
+    const file = e.target.files[0];
+
+    const formData = new FormData();
+    formData.append("file", file);
+
+    try {
+      const res = await uploadImage(formData).unwrap();
+      const index = e.target.tabIndex;
+      const url = res.url;
+      dispatch(updateImages({ index, url }));
+    } catch (err) {
+      const errMsg = err?.data?.message;
+      dispatch(updateSuccessMgs(errMsg || err.error));
+      dispatch(enableError());
+    }
+  }
+
+  async function imageDeleteHandler(imageToDelete) {
+    try {
+      const res = await deleteImage({ id, url: imageToDelete }).unwrap();
+      dispatch(updateSuccessMgs(res));
+      dispatch(enableSuccess());
+    } catch (err) {
+      const errMsg = err?.data?.message;
+      dispatch(updateSuccessMgs(errMsg || err.error));
+      dispatch(enableError());
+    }
+  }
 
   return (
     <div className={styles.container}>
@@ -48,15 +89,29 @@ function EditImage({ images }) {
                   onMouseLeave={handleLeave}
                 >
                   <img src={image} alt="" className={styles.image} />
-                  <div
-                    className={`${styles.deleteWrapper} ${
-                      isDelete && currentItem === i ? styles.showDelete : ""
-                    }`}
-                  >
-                    <div className={styles.deleteIcon}>
-                      <TrashIcon />
-                    </div>
-                  </div>
+                  {isEdit && (
+                    <Modal>
+                      <Modal.Open opens="confirm_delete">
+                        <div
+                          className={`${styles.deleteWrapper} ${
+                            isDelete && currentItem === i
+                              ? styles.showDelete
+                              : ""
+                          }`}
+                        >
+                          <div className={styles.deleteIcon}>
+                            <TrashIcon />
+                          </div>
+                        </div>
+                      </Modal.Open>
+                      <Modal.Window name="confirm_delete">
+                        <ConfirmDelete
+                          message="Are you sure you want to delete this image?"
+                          onConfirm={() => imageDeleteHandler(image)}
+                        />
+                      </Modal.Window>
+                    </Modal>
+                  )}
                 </div>
               )
           )}
@@ -74,7 +129,9 @@ function EditImage({ images }) {
                   className={styles.imageUpload}
                 />
               </div>
-              <div className={styles.newImageText}>Add additional image</div>
+              <div className={styles.newImageText}>
+                Add {images.length >= 1 ? "additional" : ""} image
+              </div>
             </div>
           )}
         </div>

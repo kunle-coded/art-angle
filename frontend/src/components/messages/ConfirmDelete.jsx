@@ -1,11 +1,3 @@
-import { useDispatch, useSelector } from "react-redux";
-import {
-  enableSuccess,
-  getGlobal,
-  updateDeactivate,
-  updateSuccessMgs,
-} from "../../slices/globalSlice";
-
 import Button from "../../ui/Button";
 import styles from "./ConfirmDelete.module.css";
 

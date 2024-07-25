@@ -3,6 +3,7 @@ const Artwork = require("../models/artworks");
 const { Artist, User } = require("../models/users");
 const { emptyObject } = require("../utils/helpers");
 const { uploadFileToS3 } = require("../utils/uploadFileToS3");
+const { deleteFileFromS3 } = require("../utils/deleteFileFromS3");
 
 // @desc Get all artworks
 // route GET /api/artworks
@@ -115,20 +116,46 @@ const uploadArtworkImage = asyncHandler(async (req, res) => {
     throw new Error("No file to upload");
   }
 
-  // let imageToDelete;
-  // if (user.profileImageUrl && user.profileImageUrl.trim()) {
-  //   imageToDelete = user.profileImageUrl.split("com/")[1];
-  // }
-
-  // if (imageToDelete) {
-  //   await deleteFileFromS3(imageToDelete);
-  // }
-
   const imageUrl = await uploadFileToS3("artworks", file);
-
-  // user.profileImageUrl = imgUrl;
-  // await user.save();
   res.status(201).json({ url: imageUrl });
+});
+
+// @desc Delete artwork image
+// route POST /api/user/artworks/image/:id
+// @access Private
+const deleteArtworkImage = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.user.id);
+
+  if (user.userType === "buyer") {
+    res.status(401);
+    throw new Error("Unauthorized user");
+  }
+
+  const imageKey = req.body.url;
+  const artworkId = req.params.id;
+
+  const artwork = await Artwork.findById(artworkId);
+
+  if (artwork) {
+    if (artwork.owner.equals(user.id)) {
+      const images = artwork.images;
+      let imageToDelete;
+      images.forEach((image) => {
+        if (image.trim() === imageKey.trim()) {
+          imageToDelete = image;
+        }
+      });
+
+      if (imageToDelete) {
+        await deleteFileFromS3(imageToDelete);
+      }
+    } else {
+      res.status(403);
+      throw new Error("You have no permission to perform this operation");
+    }
+  }
+
+  res.status(201).json({ message: "Image deleted successfully" });
 });
 
 // @desc Update an artwork
@@ -201,6 +228,7 @@ module.exports = {
   getUserSingleArtwork,
   addArtworks,
   uploadArtworkImage,
+  deleteArtworkImage,
   updateArtworks,
   deleteArtworks,
 };
