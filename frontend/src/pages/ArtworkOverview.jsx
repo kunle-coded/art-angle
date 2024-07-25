@@ -1,4 +1,10 @@
 import { useState } from "react";
+import { useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { getAuth } from "../slices/authSlice";
+import { useUserSingleArtworkQuery } from "../slices/artworksApiSlice";
+
+import { SHIPPING_COST } from "../constants/constants";
 
 import styles from "./ArtworkOverview.module.css";
 import BackToPageButton from "../ui/BackToPageButton";
@@ -7,42 +13,66 @@ import EditImage from "../components/artist/EditImage";
 import Spacer from "../ui/Spacer";
 import EditDescripion from "../components/artist/EditDescripion";
 import StyledGrid from "../ui/StyledGrid";
-import { useParams } from "react-router-dom";
-import { useUserSingleArtworkQuery } from "../slices/artworksApiSlice";
 import Spinner from "../ui/Spinner";
-import { SHIPPING_COST } from "../constants/constants";
 
 function ArtworkOverview() {
   const [isDescEdit, setIsDescEdit] = useState(false);
   const [isPriceEdit, setIsPriceEdit] = useState(false);
 
+  const { userInfo } = useSelector(getAuth);
+
   const { id } = useParams();
   const { data: artwork, isLoading } = useUserSingleArtworkQuery(id);
-  console.log(artwork);
 
   if (isLoading) {
     return <Spinner />;
   }
 
   const subCatYr = [
-    { id: 0, label: "Subject", value: artwork.subject },
-    { id: 1, label: "Category", value: artwork.category },
-    { id: 2, label: "Year", value: "2022" },
+    { id: 0, editable: true, label: "Subject", value: artwork.subject },
+    { id: 1, editable: true, label: "Category", value: artwork.category },
+    { id: 2, editable: true, label: "Year", value: "2022" },
   ];
   const medMatSty = [
-    { id: 0, label: "Medium", value: artwork.medium },
-    { id: 1, label: "Materials", value: artwork.materials.join(", ") },
-    { id: 2, label: "Styles", value: artwork.styles.join(", ") },
+    { id: 0, editable: true, label: "Medium", value: artwork.medium },
+    {
+      id: 1,
+      editable: true,
+      label: "Materials",
+      value: artwork.materials.join(", "),
+    },
+    {
+      id: 2,
+      editable: true,
+      label: "Styles",
+      value: artwork.styles.join(", "),
+    },
   ];
   const price = [
-    { id: 0, label: "Artwork Price", value: artwork.price },
-    { id: 1, label: "Your Commission", value: artwork.price },
-    { id: 2, label: "Shipping Cost", value: SHIPPING_COST },
-    { id: 3, label: "Listed Price", value: artwork.totalPrice },
+    { id: 0, editable: true, label: "Artwork Price", value: artwork.price },
+    { id: 1, editable: false, label: "Your Commission", value: artwork.price },
+    { id: 2, editable: false, label: "Shipping Cost", value: SHIPPING_COST },
+    {
+      id: 3,
+      editable: false,
+      label: "Listed Price",
+      value: artwork.totalPrice,
+    },
   ];
   const weightPkg = [
-    { id: 0, label: "Packaging Type", value: artwork.packagingType },
-    { id: 1, label: "Shipping Weight", value: `${artwork.totalWeight}kg` },
+    {
+      id: 0,
+      editable: true,
+      label: "Packaging Type",
+      value: artwork.packagingType,
+      values: ["Tube", "Box", "Crate"],
+    },
+    {
+      id: 1,
+      editable: true,
+      label: "Shipping Weight",
+      value: `${artwork.totalWeight}kg`,
+    },
   ];
 
   function handleDescEdit() {
@@ -61,7 +91,10 @@ function ArtworkOverview() {
             <div className={styles.gridArea}>
               <aside className={styles.sidebarColumn}>
                 <div className={styles.sidebarContainer}>
-                  <BackToPageButton label="Back to Artworks" />
+                  <BackToPageButton
+                    label="Back to Artworks"
+                    link={`/artist/${userInfo.id}/artworks`}
+                  />
 
                   <div className={styles.sidebarContent}>
                     <div className={styles.artworkImage}>
@@ -121,30 +154,17 @@ function ArtworkOverview() {
 
                       <StyledGrid
                         title="Dimensions"
-                        singleValue="18 W x 10 H x 1 D in"
+                        singleValue={`${artwork.dimensions.width} W x ${artwork.dimensions.height} H x ${artwork.dimensions.depth} D in`}
                         isSingle
                         isEdit={isDescEdit}
-                      >
-                        <div>18 W x 10 H x 1 D in</div>
-                      </StyledGrid>
+                      />
                       <StyledGrid
                         title="Description"
-                        singleValue="Inspired by the landscape of the southwest and a modern aesthetic this image shows a juxtaposition between the chaotic cactus spines at odds with the minimalistic background highlighting the natural beauty of the plant.
-I have taken this photo with a Canon EOS 7D within my studio. The photo will be printed on museum... READ MORE"
+                        singleValue={artwork.description}
                         isSingle
                         isTextArea
                         isEdit={isDescEdit}
-                      >
-                        <div>
-                          Inspired by the landscape of the southwest and a
-                          modern aesthetic this image shows a juxtaposition
-                          between the chaotic cactus spines at odds with the
-                          minimalistic background highlighting the natural
-                          beauty of the plant. I have taken this photo with a
-                          Canon EOS 7D within my studio. The photo will be
-                          printed on museum... READ MORE
-                        </div>
-                      </StyledGrid>
+                      />
                     </EditDescripion>
                     <Spacer />
                     <EditDescripion
@@ -154,20 +174,21 @@ I have taken this photo with a Canon EOS 7D within my studio. The photo will be 
                     >
                       <StyledGrid
                         title="Status"
-                        singleValue="For Sale"
+                        singleValue={artwork.availability}
+                        selectList={["For Sale", "Not For Sale", "Sold"]}
+                        selectPlaceholder="Select availability"
                         isSingle
+                        isSelect
                         isEdit={isPriceEdit}
-                      >
-                        <div>For Sale</div>
-                      </StyledGrid>
-                      <StyledGrid
-                        title="Quantity"
-                        singleValue="1"
-                        isSingle
-                        isEdit={isPriceEdit}
-                      >
-                        <div>1</div>
-                      </StyledGrid>
+                      />
+                      {artwork.editions === "Limited Edition" && (
+                        <StyledGrid
+                          title="Quantity"
+                          singleValue={artwork.availableForSale}
+                          isSingle
+                          isEdit={isPriceEdit}
+                        />
+                      )}
                       <StyledGrid
                         title="Price"
                         gridList={price}
@@ -178,6 +199,8 @@ I have taken this photo with a Canon EOS 7D within my studio. The photo will be 
                         title="Weight & Packaging"
                         gridList={weightPkg}
                         isEdit={isPriceEdit}
+                        isSelect
+                        selectPlaceholder="Select packaging type"
                       />
                     </EditDescripion>
                   </div>

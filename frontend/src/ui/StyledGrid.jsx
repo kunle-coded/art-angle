@@ -3,14 +3,18 @@ import Input from "./Input";
 import styles from "./StyledGrid.module.css";
 import StyledTextArea from "./StyledTextArea";
 import formatCurrency from "../helpers/formatCurrency";
+import StyledSelect from "./StyledSelect";
 
 function StyledGrid({
   title = "",
   isSingle = false,
   gridList = [],
+  selectList = [],
   singleValue = "",
+  selectPlaceholder = "",
   isEdit,
   isTextArea = false,
+  isSelect = false,
   isNumber = false,
   children,
 }) {
@@ -30,6 +34,10 @@ function StyledGrid({
     setSingleInput(e.target.value);
   }
 
+  function handleSelect() {
+    console.log("selected");
+  }
+
   return (
     <div className={styles.contentGrid}>
       <div className={styles.gridItemLeft}>
@@ -39,7 +47,13 @@ function StyledGrid({
         {isSingle ? (
           <div className={styles.singleRow}>
             {isEdit ? (
-              isTextArea ? (
+              isSelect ? (
+                <StyledSelect
+                  placeholder={selectPlaceholder}
+                  options={selectList}
+                  onSelect={handleSelect}
+                />
+              ) : isTextArea ? (
                 <StyledTextArea
                   value={singleInput}
                   onChange={handleSingleInput}
@@ -52,7 +66,7 @@ function StyledGrid({
                 />
               )
             ) : (
-              <div className={styles.childrenContainer}>{children}</div>
+              <div className={styles.childrenContainer}>{singleInput}</div>
             )}
           </div>
         ) : (
@@ -62,12 +76,20 @@ function StyledGrid({
                 <div className={styles.gridLabel}>{gridItem.label}</div>
               </div>
               <div className={styles.gridInnerRight}>
-                {isEdit && gridItem.label !== "Shipping Cost" ? (
-                  <Input
-                    size="small"
-                    value={inputValues[index]}
-                    onChange={(e) => handleInputChange(index, e)}
-                  />
+                {isEdit && gridItem.editable ? (
+                  isSelect && gridItem.values ? (
+                    <StyledSelect
+                      placeholder={selectPlaceholder}
+                      options={gridItem.values}
+                      onSelect={handleSelect}
+                    />
+                  ) : (
+                    <Input
+                      size="small"
+                      value={inputValues[index]}
+                      onChange={(e) => handleInputChange(index, e)}
+                    />
+                  )
                 ) : (
                   <div className={styles.gridLabel}>
                     {isNumber ? formatCurrency(gridItem.value) : gridItem.value}
