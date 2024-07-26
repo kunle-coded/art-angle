@@ -25,9 +25,8 @@ function ImageUpload() {
 
     try {
       const res = await uploadImage(formData).unwrap();
-      const index = e.target.tabIndex;
       const url = res.url;
-      dispatch(updateImages({ index, url }));
+      dispatch(updateImages(url));
     } catch (err) {
       const errMsg = err?.data?.message;
       dispatch(updateSuccessMgs(errMsg || err.error));
@@ -38,35 +37,33 @@ function ImageUpload() {
   return (
     <div className={styles.container}>
       <div className={styles.uploadArea}>
-        {images.map((image, index) =>
-          image === "" ? (
-            <div key={index} className={styles.imagePlaceholder}>
-              <div className={styles.uploadIcon}>
-                <AddIcon />
-              </div>
-              <input
-                tabIndex={index}
-                type="file"
-                id="avatar"
-                name="avatar"
-                accept="image/png, image/jpeg, image/jpg, image/webp"
-                className={styles.imageUpload}
-                onChange={imageUploadHandler}
-              />
-              {isLoading && currentImage === index && (
-                <div className={styles.spinnerContainer}>
-                  <MiniSpinner />
-                </div>
-              )}
+        {images.map((image, index) => (
+          <img
+            key={index}
+            src={images[index]}
+            alt={title}
+            className={styles.userImage}
+          />
+        ))}
+        {images.length <= 5 && (
+          <div className={styles.imagePlaceholder}>
+            <div className={styles.uploadIcon}>
+              <AddIcon />
             </div>
-          ) : (
-            <img
-              key={index}
-              src={images[index]}
-              alt={title}
-              className={styles.userImage}
+            <input
+              type="file"
+              id="avatar"
+              name="avatar"
+              accept="image/png, image/jpeg, image/jpg, image/webp"
+              className={styles.imageUpload}
+              onChange={imageUploadHandler}
             />
-          )
+            {isLoading && (
+              <div className="spinner_container">
+                <MiniSpinner />
+              </div>
+            )}
+          </div>
         )}
       </div>
 

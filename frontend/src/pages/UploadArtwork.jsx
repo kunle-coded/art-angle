@@ -115,7 +115,7 @@ function UploadArtwork() {
   }, [currentStep]);
 
   useEffect(() => {
-    if (currentStep === 1 && title.value && images[0] !== "") {
+    if (currentStep === 1 && title.value && images.length >= 1) {
       setIsDisabled(false);
     } else if (
       currentStep === 2 &&
@@ -180,7 +180,8 @@ function UploadArtwork() {
     if (currentStep === 1) {
       // update artwork title
       dispatch(updateTitle(title.value));
-      if (title.value && images[0] !== "") {
+
+      if (title.value && images.length >= 1) {
         setCurrentStep((prevStep) => prevStep + 1);
       }
     }
@@ -225,6 +226,9 @@ function UploadArtwork() {
         const res = await upload(newArtwork).unwrap();
         dispatch(updateSuccessMgs("Artwork successfully uploaded"));
         dispatch(enableSuccess());
+
+        localStorage.removeItem("artworkImages");
+
         navigate(`/artist/${userInfo.id}/artwork/${res}`);
       } catch (err) {
         dispatch(updateSuccessMgs(err?.data?.message || err.error));
@@ -293,7 +297,7 @@ function UploadArtwork() {
                   <div className={styles.sidebarContainer}>
                     <BackToPageButton label="Back to Artworks" />
                     <div className={styles.sidebarContent}>
-                      {images[0] !== "" && (
+                      {images.length >= 1 && (
                         <div className={styles.artworkImage}>
                           <img
                             className={styles.image}
@@ -302,7 +306,7 @@ function UploadArtwork() {
                           />
                         </div>
                       )}
-                      {images[0] === "" && (
+                      {images.length < 1 && (
                         <div className={styles.imagePlaceholder}></div>
                       )}
                       <div className={styles.inputDisplay}>
@@ -361,16 +365,18 @@ function UploadArtwork() {
                           />
                         )}
 
-                        <div className={styles.btnContainer}>
-                          <button
-                            className={styles.showMoreBtn}
-                            onClick={() =>
-                              setIsShowMore((prevState) => !prevState)
-                            }
-                          >
-                            Show {isShowMore ? "Less" : "More"}
-                          </button>
-                        </div>
+                        {category && (
+                          <div className={styles.btnContainer}>
+                            <button
+                              className={styles.showMoreBtn}
+                              onClick={() =>
+                                setIsShowMore((prevState) => !prevState)
+                              }
+                            >
+                              Show {isShowMore ? "Less" : "More"}
+                            </button>
+                          </div>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -395,7 +401,7 @@ function UploadArtwork() {
                           </DropdownInput>
                           <DropdownInput
                             title="Image"
-                            isCheck={images[0] !== ""}
+                            isCheck={images.length >= 1}
                           >
                             <ImageUpload />
                           </DropdownInput>

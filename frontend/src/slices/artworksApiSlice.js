@@ -14,6 +14,7 @@ export const artworksApiSlice = apiArtworkSlice.injectEndpoints({
       query: (id) => ({
         url: `${ARTWORKS_URL}/${id}`,
       }),
+      providesTags: ["Artwork"],
     }),
     upload: builder.mutation({
       query: (data) => ({
@@ -37,6 +38,14 @@ export const artworksApiSlice = apiArtworkSlice.injectEndpoints({
         body: { url: data.url },
       }),
     }),
+    update: builder.mutation({
+      query: (data) => ({
+        url: `${ARTWORKS_URL}/${data.id}`,
+        method: "PUT",
+        body: data.value,
+      }),
+      invalidatesTags: ["Artwork"],
+    }),
   }),
 });
 
@@ -46,4 +55,5 @@ export const {
   useUploadMutation,
   useDeleteImageMutation,
   useUploadImageMutation,
+  useUpdateMutation,
 } = artworksApiSlice;

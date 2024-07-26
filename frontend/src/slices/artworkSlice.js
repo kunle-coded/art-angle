@@ -6,7 +6,9 @@ const initialState = {
   category: "",
   subject: "",
   published: "",
-  images: ["", "", "", "", "", ""],
+  images: localStorage.getItem("artworkImages")
+    ? JSON.parse(localStorage.getItem("artworkImages"))
+    : [],
   medium: [],
   materials: [],
   styles: [],
@@ -107,9 +109,12 @@ const artworkSlice = createSlice({
       state.totalPrice = action.payload;
     },
     updateImages(state, action) {
-      const updatedImages = [...state.images];
-      updatedImages[action.payload.index] = action.payload.url;
-      state.images = updatedImages;
+      const images = [...state.images, action.payload];
+      state.images = [...state.images, action.payload];
+      localStorage.setItem("artworkImages", JSON.stringify(images));
+    },
+    resetArtwork(state) {
+      return initialState;
     },
   },
 });
@@ -140,6 +145,7 @@ export const {
   updateTotalPrice,
   updateTotalWeight,
   updateImages,
+  resetArtwork,
 } = artworkSlice.actions;
 
 export default artworkSlice.reducer;

@@ -121,7 +121,7 @@ const uploadArtworkImage = asyncHandler(async (req, res) => {
 });
 
 // @desc Delete artwork image
-// route POST /api/user/artworks/image/:id
+// route DELETE /api/user/artworks/image/:id
 // @access Private
 const deleteArtworkImage = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user.id);
@@ -139,15 +139,21 @@ const deleteArtworkImage = asyncHandler(async (req, res) => {
   if (artwork) {
     if (artwork.owner.equals(user.id)) {
       const images = artwork.images;
-      let imageToDelete;
-      images.forEach((image) => {
-        if (image.trim() === imageKey.trim()) {
-          imageToDelete = image;
-        }
-      });
+      // let imageToDelete;
+      // images.forEach((image) => {
+      //   if (image.trim() === imageKey.trim()) {
+      //     imageToDelete = image;
+      //   }
+      // });
+
+      const imageToDelete = images.find((img) => img === imageKey);
 
       if (imageToDelete) {
+        console.log(imageToDelete);
         await deleteFileFromS3(imageToDelete);
+        const newImages = artwork.images.filter((img) => img !== imageToDelete);
+        artwork.images = newImages;
+        await artwork.save();
       }
     } else {
       res.status(403);
@@ -176,6 +182,14 @@ const updateArtworks = asyncHandler(async (req, res) => {
   const newArtworkData = req.body;
 
   const artwork = await Artwork.findById(artworkId);
+  const images = newArtworkData.images;
+
+  if (images) {
+    // const imageToAdd = images.filter((img) => img !== "");
+    // const oldImages = [...artwork.images];
+
+    newArtworkData.images = [...artwork.images, ...images];
+  }
 
   if (artwork) {
     if (artwork.owner.equals(user.id)) {

@@ -75,6 +75,10 @@ const getUserProfile = asyncHandler(async (req, res) => {
     const artist = await Artist.findById(user.id)
       .populate("artworks", "-owner")
       .populate("orders", "-owner")
+      .populate(
+        "following",
+        "-paymentDetails -email -userType -contactNumber -__t"
+      )
       .exec();
     res.status(200).json(artist);
   } else {
@@ -84,10 +88,6 @@ const getUserProfile = asyncHandler(async (req, res) => {
       .populate("favorites", "-owner")
       .populate("collections", "-owner")
       .populate("cart", "-owner")
-      .populate(
-        "following",
-        "-paymentDetails -email -userType -contactNumber -__t"
-      )
       .exec();
 
     res.json(buyer);

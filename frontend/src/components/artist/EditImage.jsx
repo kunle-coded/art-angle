@@ -1,6 +1,11 @@
 import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { updateImages } from "../../slices/artworkSlice";
+import { useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  getArtwork,
+  resetArtwork,
+  updateImages,
+} from "../../slices/artworkSlice";
 import {
   enableError,
   enableSuccess,
@@ -8,40 +13,67 @@ import {
 } from "../../slices/globalSlice";
 import {
   useDeleteImageMutation,
+  useUpdateMutation,
   useUploadImageMutation,
+  useUserSingleArtworkQuery,
 } from "../../slices/artworksApiSlice";
+import { getAuth } from "../../slices/authSlice";
 
 import styles from "./EditImage.module.css";
 import EditHeader from "../../ui/EditHeader";
 import AddIcon from "../icons/AddIcon";
 import TrashIcon from "../icons/TrashIcon";
-import { useParams } from "react-router-dom";
 import Modal from "../modal/Modal";
 import ConfirmDelete from "../messages/ConfirmDelete";
+import MiniSpinner from "../../ui/MiniSpinner";
 
 function EditImage({ images }) {
   const [isEdit, setIsEdit] = useState(false);
   const [isDelete, setIsDelete] = useState(false);
   const [currentItem, setCurrentItem] = useState(0);
+  const [imageIndex, setImageIndex] = useState(0);
 
   const dispatch = useDispatch();
 
   const { id } = useParams();
 
-  const [uploadImage] = useUploadImageMutation();
-  const [deleteImage] = useDeleteImageMutation();
+  const { data: artwork } = useUserSingleArtworkQuery(id);
+  const { images: imagesToUpload } = useSelector(getArtwork);
+  const [uploadImage, { isLoading }] = useUploadImageMutation();
+  const [deleteImage, { isLoading: isDeleteLoading }] =
+    useDeleteImageMutation();
+  const [update] = useUpdateMutation();
 
-  function handleEdit() {
+  async function handleEdit() {
     setIsEdit((prevState) => !prevState);
+
+    try {
+      if (isEdit) {
+        const isImages = imagesToUpload.length >= 1;
+        console.log("image in state-before", isImages);
+        if (isImages) {
+          console.log("image in state-after", isImages);
+          await update({ id, value: { images: imagesToUpload } });
+          dispatch(resetArtwork());
+        }
+      }
+    } catch (err) {
+      const errMsg = err?.data?.message;
+      dispatch(updateSuccessMgs(errMsg || err.error));
+      dispatch(enableError());
+    }
   }
 
   function handleEnter(index) {
     setCurrentItem(index);
     setIsDelete(true);
   }
+
   function handleLeave() {
     setIsDelete(false);
   }
+
+  // console.log(artwork);
 
   async function imageUploadHandler(e) {
     const file = e.target.files[0];
@@ -51,9 +83,8 @@ function EditImage({ images }) {
 
     try {
       const res = await uploadImage(formData).unwrap();
-      const index = e.target.tabIndex;
       const url = res.url;
-      dispatch(updateImages({ index, url }));
+      dispatch(updateImages(url));
     } catch (err) {
       const errMsg = err?.data?.message;
       dispatch(updateSuccessMgs(errMsg || err.error));
@@ -64,7 +95,8 @@ function EditImage({ images }) {
   async function imageDeleteHandler(imageToDelete) {
     try {
       const res = await deleteImage({ id, url: imageToDelete }).unwrap();
-      dispatch(updateSuccessMgs(res));
+
+      dispatch(updateSuccessMgs(res.message));
       dispatch(enableSuccess());
     } catch (err) {
       const errMsg = err?.data?.message;
@@ -112,6 +144,11 @@ function EditImage({ images }) {
                       </Modal.Window>
                     </Modal>
                   )}
+                  {isDeleteLoading && i && (
+                    <div className="spinner_container">
+                      <MiniSpinner />
+                    </div>
+                  )}
                 </div>
               )
           )}
@@ -125,9 +162,15 @@ function EditImage({ images }) {
                   type="file"
                   id="avatar"
                   name="avatar"
-                  accept="image/png, image/jpeg, image/jpg"
+                  accept="image/png, image/jpeg, image/jpg, image/webp"
                   className={styles.imageUpload}
+                  onChange={imageUploadHandler}
                 />
+                {isLoading && (
+                  <div className="spinner_container">
+                    <MiniSpinner />
+                  </div>
+                )}
               </div>
               <div className={styles.newImageText}>
                 Add {images.length >= 1 ? "additional" : ""} image
