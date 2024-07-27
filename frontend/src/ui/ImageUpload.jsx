@@ -17,7 +17,7 @@ function ImageUpload() {
   const dispatch = useDispatch();
 
   async function imageUploadHandler(e) {
-    setCurrentImage(e.target.tabIndex);
+    // setCurrentImage(e.target.tabIndex);
     const file = e.target.files[0];
 
     const formData = new FormData();
@@ -68,7 +68,6 @@ function ImageUpload() {
       </div>
 
       <div className={styles.uploadInfo}>Upload images</div>
-      <div className={styles.uploadAr}></div>
     </div>
   );
 }

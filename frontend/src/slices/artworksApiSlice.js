@@ -30,6 +30,7 @@ export const artworksApiSlice = apiArtworkSlice.injectEndpoints({
         method: "POST",
         body: data,
       }),
+      invalidatesTags: ["Artwork"],
     }),
     deleteImage: builder.mutation({
       query: (data) => ({
@@ -37,6 +38,7 @@ export const artworksApiSlice = apiArtworkSlice.injectEndpoints({
         method: "DELETE",
         body: { url: data.url },
       }),
+      invalidatesTags: ["Artwork"],
     }),
     update: builder.mutation({
       query: (data) => ({

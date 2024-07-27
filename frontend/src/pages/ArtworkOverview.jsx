@@ -14,12 +14,14 @@ import Spacer from "../ui/Spacer";
 import EditDescripion from "../components/artist/EditDescripion";
 import StyledGrid from "../ui/StyledGrid";
 import Spinner from "../ui/Spinner";
+import { getArtwork } from "../slices/artworkSlice";
 
 function ArtworkOverview() {
   const [isDescEdit, setIsDescEdit] = useState(false);
   const [isPriceEdit, setIsPriceEdit] = useState(false);
 
   const { userInfo } = useSelector(getAuth);
+  const { images } = useSelector(getArtwork);
 
   const { id } = useParams();
   const { data: artwork, isLoading } = useUserSingleArtworkQuery(id);
@@ -134,7 +136,9 @@ function ArtworkOverview() {
               <div className={styles.contentColumn}>
                 <div className={styles.contentContainer}>
                   <div className={styles.inputItems}>
-                    <EditImage images={artwork.images} />
+                    <EditImage
+                      images={images.length >= 1 ? images : artwork.images}
+                    />
                     <Spacer />
                     <EditDescripion
                       title="Description"

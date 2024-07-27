@@ -114,6 +114,7 @@ const artworkSlice = createSlice({
       localStorage.setItem("artworkImages", JSON.stringify(images));
     },
     resetArtwork(state) {
+      localStorage.removeItem("artworkImages");
       return initialState;
     },
   },

@@ -17,7 +17,6 @@ import {
   useUploadImageMutation,
   useUserSingleArtworkQuery,
 } from "../../slices/artworksApiSlice";
-import { getAuth } from "../../slices/authSlice";
 
 import styles from "./EditImage.module.css";
 import EditHeader from "../../ui/EditHeader";
@@ -30,8 +29,8 @@ import MiniSpinner from "../../ui/MiniSpinner";
 function EditImage({ images }) {
   const [isEdit, setIsEdit] = useState(false);
   const [isDelete, setIsDelete] = useState(false);
+  const [isUpload, setIsUpload] = useState(false);
   const [currentItem, setCurrentItem] = useState(0);
-  const [imageIndex, setImageIndex] = useState(0);
 
   const dispatch = useDispatch();
 
@@ -48,11 +47,10 @@ function EditImage({ images }) {
     setIsEdit((prevState) => !prevState);
 
     try {
-      if (isEdit) {
+      if (isEdit && isUpload) {
         const isImages = imagesToUpload.length >= 1;
-        console.log("image in state-before", isImages);
+
         if (isImages) {
-          console.log("image in state-after", isImages);
           await update({ id, value: { images: imagesToUpload } });
           dispatch(resetArtwork());
         }
@@ -73,8 +71,6 @@ function EditImage({ images }) {
     setIsDelete(false);
   }
 
-  // console.log(artwork);
-
   async function imageUploadHandler(e) {
     const file = e.target.files[0];
 
@@ -85,10 +81,12 @@ function EditImage({ images }) {
       const res = await uploadImage(formData).unwrap();
       const url = res.url;
       dispatch(updateImages(url));
+      setIsUpload(true);
     } catch (err) {
       const errMsg = err?.data?.message;
       dispatch(updateSuccessMgs(errMsg || err.error));
       dispatch(enableError());
+      setIsUpload(false);
     }
   }
 
@@ -120,7 +118,11 @@ function EditImage({ images }) {
                   onMouseEnter={() => handleEnter(i)}
                   onMouseLeave={handleLeave}
                 >
-                  <img src={image} alt="" className={styles.image} />
+                  <img
+                    src={image}
+                    alt={artwork.title}
+                    className={styles.image}
+                  />
                   {isEdit && (
                     <Modal>
                       <Modal.Open opens="confirm_delete">
