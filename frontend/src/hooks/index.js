@@ -55,6 +55,14 @@ export const useKeyPress = (key, callback) => {
   return handleKeyDown;
 };
 
+export const emptyObject = (object) => {
+  if (Object.keys(object).length === 0) {
+    return true;
+  } else {
+    return false;
+  }
+};
+
 export function useIntersect(root, target) {
   const [isIntersecting, setIsIntersecting] = useState(false);
 

@@ -1,10 +1,22 @@
 import { useState } from "react";
 import { useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getAuth } from "../slices/authSlice";
-import { useUserSingleArtworkQuery } from "../slices/artworksApiSlice";
+import {
+  useUpdateMutation,
+  useUserSingleArtworkQuery,
+} from "../slices/artworksApiSlice";
+import { getArtwork } from "../slices/artworkSlice";
 
 import { SHIPPING_COST } from "../constants/constants";
+
+import {
+  categoriesList,
+  subjects,
+  materials,
+  medium,
+  styles as artStyles,
+} from "../data";
 
 import styles from "./ArtworkOverview.module.css";
 import BackToPageButton from "../ui/BackToPageButton";
@@ -14,26 +26,55 @@ import Spacer from "../ui/Spacer";
 import EditDescripion from "../components/artist/EditDescripion";
 import StyledGrid from "../ui/StyledGrid";
 import Spinner from "../ui/Spinner";
-import { getArtwork } from "../slices/artworkSlice";
+import { emptyObject } from "../hooks";
+import { enableError, updateSuccessMgs } from "../slices/globalSlice";
+
+const years = ["2019", "2020", "2021", "2022", "2023", "2024"];
 
 function ArtworkOverview() {
   const [isDescEdit, setIsDescEdit] = useState(false);
   const [isPriceEdit, setIsPriceEdit] = useState(false);
+  const [multiEditData, setMultiEditData] = useState({});
 
   const { userInfo } = useSelector(getAuth);
   const { images } = useSelector(getArtwork);
 
   const { id } = useParams();
   const { data: artwork, isLoading } = useUserSingleArtworkQuery(id);
+  const [update, { isLoading: isUpdateLoading, isSuccess }] =
+    useUpdateMutation();
+
+  const dispatch = useDispatch();
 
   if (isLoading) {
     return <Spinner />;
   }
 
   const subCatYr = [
-    { id: 0, editable: true, label: "Subject", value: artwork.subject },
-    { id: 1, editable: true, label: "Category", value: artwork.category },
-    { id: 2, editable: true, label: "Year", value: "2022" },
+    {
+      id: 0,
+      editable: true,
+      label: "Subject",
+      value: artwork.subject,
+      options: subjects,
+      placeholder: "Select subject",
+    },
+    {
+      id: 1,
+      editable: true,
+      label: "Category",
+      value: artwork.category,
+      options: categoriesList,
+      placeholder: "Select category",
+    },
+    {
+      id: 2,
+      editable: true,
+      label: "Year",
+      value: artwork.published,
+      options: years,
+      placeholder: "Select year",
+    },
   ];
   const medMatSty = [
     { id: 0, editable: true, label: "Medium", value: artwork.medium },
@@ -67,7 +108,8 @@ function ArtworkOverview() {
       editable: true,
       label: "Packaging Type",
       value: artwork.packagingType,
-      values: ["Tube", "Box", "Crate"],
+      options: ["Tube", "Box", "Crate"],
+      placeholder: "Select packaging type",
     },
     {
       id: 1,
@@ -77,8 +119,29 @@ function ArtworkOverview() {
     },
   ];
 
-  function handleDescEdit() {
+  async function handleDescEdit() {
     setIsDescEdit((prevState) => !prevState);
+
+    const isEmpty = emptyObject(multiEditData);
+
+    if (isDescEdit && !isEmpty) {
+      try {
+        await update({ id, value: multiEditData }).unwrap();
+        if (isSuccess) {
+          setMultiEditData({});
+        }
+      } catch (err) {
+        dispatch(updateSuccessMgs(err?.data?.message || err.error));
+        dispatch(enableError());
+        console.log(err);
+      }
+    }
+  }
+
+  function handleMultiEdit(data) {
+    setMultiEditData((prevState) => {
+      return { ...prevState, ...data };
+    });
   }
 
   function handlePriceEdit() {
@@ -145,10 +208,13 @@ function ArtworkOverview() {
                       isEdit={isDescEdit}
                       onClick={handleDescEdit}
                     >
+                      {isUpdateLoading && <Spinner />}
                       <StyledGrid
                         title="Subject, Category, Year"
                         gridList={subCatYr}
                         isEdit={isDescEdit}
+                        onEdit={handleMultiEdit}
+                        isSelect
                       />
                       <StyledGrid
                         title="Mediums, Materials, Styles"
@@ -204,7 +270,6 @@ function ArtworkOverview() {
                         gridList={weightPkg}
                         isEdit={isPriceEdit}
                         isSelect
-                        selectPlaceholder="Select packaging type"
                       />
                     </EditDescripion>
                   </div>

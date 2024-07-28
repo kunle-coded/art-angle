@@ -16,6 +16,7 @@ function StyledSelect({
   isMultiple = false,
   isInput = false,
   isTextArea = false,
+  isNoLabel = false,
   onSelect,
 }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -73,7 +74,9 @@ function StyledSelect({
 
   return (
     <div className={`${styles.container} ${!label ? styles.fullWidth : ""}`}>
-      {label && <div className={styles.displayLabel}>{label}</div>}
+      {label && !isNoLabel && (
+        <div className={styles.displayLabel}>{label}</div>
+      )}
       {note && <div className={styles.displayNote}>{note}</div>}
       {info && <div className={styles.displayInfo}>{info}</div>}
       {note &&

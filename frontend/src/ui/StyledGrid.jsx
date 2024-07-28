@@ -16,6 +16,7 @@ function StyledGrid({
   isTextArea = false,
   isSelect = false,
   isNumber = false,
+  onEdit,
   children,
 }) {
   const [inputValues, setInputValues] = useState(
@@ -34,8 +35,13 @@ function StyledGrid({
     setSingleInput(e.target.value);
   }
 
-  function handleSelect() {
-    console.log("selected");
+  function handleSelect(label, selected) {
+    let modifiedLabel;
+
+    modifiedLabel = label === "Year" ? "Published" : label;
+    const dataObj = {};
+    dataObj[modifiedLabel.toLowerCase()] = selected;
+    onEdit(dataObj);
   }
 
   return (
@@ -77,10 +83,12 @@ function StyledGrid({
               </div>
               <div className={styles.gridInnerRight}>
                 {isEdit && gridItem.editable ? (
-                  isSelect && gridItem.values ? (
+                  isSelect && gridItem.options ? (
                     <StyledSelect
-                      placeholder={selectPlaceholder}
-                      options={gridItem.values}
+                      label={gridItem.label}
+                      placeholder={gridItem.placeholder}
+                      options={gridItem.options}
+                      isNoLabel
                       onSelect={handleSelect}
                     />
                   ) : (
