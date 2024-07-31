@@ -50,3 +50,7 @@
   border-color: var(--secondary);
   text-decoration: underline;
 }
+
+.smallBtn {
+  padding: 10px 0px;
+}

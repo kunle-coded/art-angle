@@ -31,6 +31,7 @@ import { emptyObject } from "../hooks";
 import { enableError, updateSuccessMgs } from "../slices/globalSlice";
 import Modal from "../components/modal/Modal";
 import ConfirmDelete from "../components/messages/ConfirmDelete";
+import EmptyArtwork from "../ui/EmptyArtwork";
 
 const years = ["2019", "2020", "2021", "2022", "2023", "2024"];
 
@@ -51,9 +52,14 @@ function ArtworkOverview() {
     useDeleteArtworkMutation();
 
   const dispatch = useDispatch();
+  console.log(artwork);
 
   if (isLoading) {
     return <Spinner />;
+  }
+
+  if (!artwork) {
+    return <EmptyArtwork />;
   }
 
   const subCatYr = [
