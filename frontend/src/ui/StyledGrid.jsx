@@ -4,6 +4,7 @@ import styles from "./StyledGrid.module.css";
 import StyledTextArea from "./StyledTextArea";
 import formatCurrency from "../helpers/formatCurrency";
 import StyledSelect from "./StyledSelect";
+import DimensionsInput from "./DimensionsInput";
 
 function StyledGrid({
   title = "",
@@ -12,12 +13,14 @@ function StyledGrid({
   selectList = [],
   singleValue = "",
   selectPlaceholder = "",
+  dimensions,
   isEdit,
   isTextArea = false,
   isSelect = false,
+  isMultiple = false,
   isNumber = false,
+  isDimensions = false,
   onEdit,
-  children,
 }) {
   const [inputValues, setInputValues] = useState(
     gridList.map((item) => item.value)
@@ -33,6 +36,12 @@ function StyledGrid({
 
   function handleSingleInput(e) {
     setSingleInput(e.target.value);
+  }
+
+  function handleDimensions(label, data) {
+    const dataObj = {};
+    dataObj[label.toLowerCase()] = data;
+    onEdit(dataObj);
   }
 
   function handleSelect(label, selected) {
@@ -58,11 +67,18 @@ function StyledGrid({
                   placeholder={selectPlaceholder}
                   options={selectList}
                   onSelect={handleSelect}
+                  isMultiple={isMultiple}
                 />
               ) : isTextArea ? (
                 <StyledTextArea
                   value={singleInput}
                   onChange={handleSingleInput}
+                />
+              ) : isDimensions ? (
+                <DimensionsInput
+                  showDiagram={false}
+                  onInput={handleDimensions}
+                  dimesions={dimensions}
                 />
               ) : (
                 <Input
@@ -89,6 +105,7 @@ function StyledGrid({
                       placeholder={gridItem.placeholder}
                       options={gridItem.options}
                       isNoLabel
+                      isMultiple={gridItem.multiple}
                       onSelect={handleSelect}
                     />
                   ) : (

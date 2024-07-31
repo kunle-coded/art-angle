@@ -1,12 +1,12 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import styles from "./DimensionsInput.module.css";
 import Input from "./Input";
 import { useField } from "../hooks";
 
-function DimensionsInput({ onInput, showDiagram = true }) {
-  const [width, setWidth] = useState(18);
-  const [height, setHeight] = useState(10);
-  const [depth, setDepth] = useState(0.1);
+function DimensionsInput({ onInput, dimesions, showDiagram = true }) {
+  const [width, setWidth] = useState(dimesions.width || 18);
+  const [height, setHeight] = useState(dimesions.height || 10);
+  const [depth, setDepth] = useState(dimesions.depth || 0.1);
 
   const widthInput = useField("number");
   const { onReset: resetWidth, ...widthProps } = widthInput;
@@ -20,6 +20,16 @@ function DimensionsInput({ onInput, showDiagram = true }) {
     height: `${height * 20}px`,
   };
 
+  const handleInput = useCallback(() => {
+    const dimension = {
+      width: Number(widthInput.value),
+      height: Number(heightInput.value),
+      depth: Number(depthInput.value),
+    };
+
+    onInput("Dimensions", dimension);
+  }, [depthInput.value, heightInput.value, onInput, widthInput.value]);
+
   useEffect(() => {
     if (widthInput.value && heightInput.value) {
       setWidth(widthInput.value);
@@ -28,15 +38,9 @@ function DimensionsInput({ onInput, showDiagram = true }) {
         setDepth(depthInput.value);
       }
 
-      const dimension = {
-        width: Number(widthInput.value),
-        height: Number(heightInput.value),
-        depth: Number(depthInput.value),
-      };
-
-      onInput("Dimensions", dimension);
+      handleInput();
     }
-  }, [depthInput.value, heightInput.value, onInput, widthInput.value]);
+  }, [depthInput.value, heightInput.value, widthInput.value]);
 
   return (
     <div className={styles.container}>

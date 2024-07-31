@@ -77,18 +77,32 @@ function ArtworkOverview() {
     },
   ];
   const medMatSty = [
-    { id: 0, editable: true, label: "Medium", value: artwork.medium },
+    {
+      id: 0,
+      editable: true,
+      label: "Medium",
+      value: artwork.medium,
+      options: medium,
+      placeholder: "Select medium",
+      multiple: false,
+    },
     {
       id: 1,
       editable: true,
       label: "Materials",
       value: artwork.materials.join(", "),
+      options: materials,
+      placeholder: "Select material",
+      multiple: true,
     },
     {
       id: 2,
       editable: true,
       label: "Styles",
       value: artwork.styles.join(", "),
+      options: artStyles,
+      placeholder: "Select style",
+      multiple: true,
     },
   ];
   const price = [
@@ -220,13 +234,18 @@ function ArtworkOverview() {
                         title="Mediums, Materials, Styles"
                         gridList={medMatSty}
                         isEdit={isDescEdit}
+                        onEdit={handleMultiEdit}
+                        isSelect
                       />
 
                       <StyledGrid
                         title="Dimensions"
                         singleValue={`${artwork.dimensions.width} W x ${artwork.dimensions.height} H x ${artwork.dimensions.depth} D in`}
                         isSingle
+                        isDimensions
+                        dimensions={artwork.dimensions}
                         isEdit={isDescEdit}
+                        onEdit={handleMultiEdit}
                       />
                       <StyledGrid
                         title="Description"
