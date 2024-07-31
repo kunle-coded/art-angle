@@ -1,7 +1,7 @@
 const asyncHandler = require("express-async-handler");
 const Artwork = require("../models/artworks");
 const { Artist, User } = require("../models/users");
-const { emptyObject } = require("../utils/helpers");
+const { emptyObject, generateImageName } = require("../utils/helpers");
 const { uploadFileToS3 } = require("../utils/uploadFileToS3");
 const { deleteFileFromS3 } = require("../utils/deleteFileFromS3");
 
@@ -116,7 +116,7 @@ const uploadArtworkImage = asyncHandler(async (req, res) => {
     throw new Error("No file to upload");
   }
 
-  const imageUrl = await uploadFileToS3("artworks", file);
+  const imageUrl = await uploadFileToS3("artworks", file, user.id);
   res.status(201).json({ url: imageUrl });
 });
 
@@ -139,29 +139,21 @@ const deleteArtworkImage = asyncHandler(async (req, res) => {
   if (artwork) {
     if (artwork.owner.equals(user.id)) {
       const images = artwork.images;
-      // let imageToDelete;
-      // images.forEach((image) => {
-      //   if (image.trim() === imageKey.trim()) {
-      //     imageToDelete = image;
-      //   }
-      // });
 
       const imageToDelete = images.find((img) => img === imageKey);
 
       if (imageToDelete) {
-        console.log(imageToDelete);
         await deleteFileFromS3(imageToDelete);
         const newImages = artwork.images.filter((img) => img !== imageToDelete);
         artwork.images = newImages;
         await artwork.save();
+        res.status(201).json({ message: "Image deleted successfully" });
       }
     } else {
       res.status(403);
       throw new Error("You have no permission to perform this operation");
     }
   }
-
-  res.status(201).json({ message: "Image deleted successfully" });
 });
 
 // @desc Update an artwork
