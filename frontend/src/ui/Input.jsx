@@ -1,11 +1,17 @@
 import styles from "./Input.module.css";
 
-function Input({ placeholder = "", label = "", size = "", ...props }) {
+function Input({
+  placeholder = "",
+  label = "",
+  type = "",
+  size = "",
+  ...props
+}) {
   return (
     <div className={styles.container}>
       <div className={styles.wrapper}>
         <input
-          type="text"
+          type={type ? type : "text"}
           placeholder={placeholder}
           className={`${styles.searchInput} ${
             size === "small" ? styles.small : ""

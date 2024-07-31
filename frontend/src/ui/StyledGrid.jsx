@@ -28,14 +28,40 @@ function StyledGrid({
 
   const [singleInput, setSingleInput] = useState(singleValue);
 
-  const handleInputChange = (index, event) => {
+  const handleInputChange = (index, label, event) => {
     const newValues = [...inputValues];
     newValues[index] = event.target.value;
     setInputValues(newValues);
+
+    const value = newValues[index];
+
+    let modifiedLabel;
+
+    if (label === "Artwork Price") {
+      modifiedLabel = "price";
+    } else if (label === "Shipping Weight") {
+      modifiedLabel = "totalWeight";
+    }
+    const dataObj = {};
+    dataObj[modifiedLabel] =
+      label === "Artwork Price" || label === "Shipping Weight"
+        ? Number(value)
+        : value;
+    onEdit(dataObj);
   };
 
   function handleSingleInput(e) {
     setSingleInput(e.target.value);
+
+    let modifiedLabel;
+
+    if (title === "Description") {
+      modifiedLabel = "description";
+    }
+
+    const dataObj = {};
+    dataObj[modifiedLabel] = e.target.value;
+    onEdit(dataObj);
   }
 
   function handleDimensions(label, data) {
@@ -47,9 +73,18 @@ function StyledGrid({
   function handleSelect(label, selected) {
     let modifiedLabel;
 
-    modifiedLabel = label === "Year" ? "Published" : label;
+    if (label === "Year") {
+      modifiedLabel = "published";
+    } else if (title === "Status") {
+      modifiedLabel = "availability";
+    } else if (label === "Packaging Type") {
+      modifiedLabel = "packagingType";
+    } else {
+      modifiedLabel = label;
+    }
+
     const dataObj = {};
-    dataObj[modifiedLabel.toLowerCase()] = selected;
+    dataObj[modifiedLabel] = selected;
     onEdit(dataObj);
   }
 
@@ -88,7 +123,11 @@ function StyledGrid({
                 />
               )
             ) : (
-              <div className={styles.childrenContainer}>{singleInput}</div>
+              <div className={styles.childrenContainer}>
+                {title === "Dimensions" || title === "Status"
+                  ? singleValue
+                  : singleInput}
+              </div>
             )}
           </div>
         ) : (
@@ -110,14 +149,23 @@ function StyledGrid({
                     />
                   ) : (
                     <Input
+                      type={
+                        gridItem.label === "Artwork Price" ||
+                        gridItem.label === "Shipping Weight"
+                          ? "number"
+                          : undefined
+                      }
                       size="small"
                       value={inputValues[index]}
-                      onChange={(e) => handleInputChange(index, e)}
+                      onChange={(e) =>
+                        handleInputChange(index, gridItem.label, e)
+                      }
                     />
                   )
                 ) : (
                   <div className={styles.gridLabel}>
                     {isNumber ? formatCurrency(gridItem.value) : gridItem.value}
+                    {gridItem.label === "Shipping Weight" && "kg"}
                   </div>
                 )}
               </div>

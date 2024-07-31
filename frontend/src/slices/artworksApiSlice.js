@@ -48,6 +48,13 @@ export const artworksApiSlice = apiArtworkSlice.injectEndpoints({
       }),
       invalidatesTags: ["Artwork"],
     }),
+    deleteArtwork: builder.mutation({
+      query: (id) => ({
+        url: `${ARTWORKS_URL}/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["Artwork"],
+    }),
   }),
 });
 
@@ -58,4 +65,5 @@ export const {
   useDeleteImageMutation,
   useUploadImageMutation,
   useUpdateMutation,
+  useDeleteArtworkMutation,
 } = artworksApiSlice;

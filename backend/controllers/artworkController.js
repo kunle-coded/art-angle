@@ -216,6 +216,14 @@ const deleteArtworks = asyncHandler(async (req, res) => {
 
   if (artworkExist) {
     if (artworkExist.owner.equals(user.id)) {
+      const images = artworkExist.images;
+
+      images.forEach(async (image) => {
+        if (image) {
+          await deleteFileFromS3(image);
+        }
+      });
+
       await Artwork.findByIdAndDelete(artworkId);
       res.status(200).json({ message: "Artwork successfully deleted" });
     } else {

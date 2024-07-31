@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getAuth } from "../slices/authSlice";
 import {
+  useDeleteArtworkMutation,
   useUpdateMutation,
   useUserSingleArtworkQuery,
 } from "../slices/artworksApiSlice";
@@ -28,12 +29,15 @@ import StyledGrid from "../ui/StyledGrid";
 import Spinner from "../ui/Spinner";
 import { emptyObject } from "../hooks";
 import { enableError, updateSuccessMgs } from "../slices/globalSlice";
+import Modal from "../components/modal/Modal";
+import ConfirmDelete from "../components/messages/ConfirmDelete";
 
 const years = ["2019", "2020", "2021", "2022", "2023", "2024"];
 
 function ArtworkOverview() {
   const [isDescEdit, setIsDescEdit] = useState(false);
   const [isPriceEdit, setIsPriceEdit] = useState(false);
+  const [currLoading, setCurrLoading] = useState(0);
   const [multiEditData, setMultiEditData] = useState({});
 
   const { userInfo } = useSelector(getAuth);
@@ -43,6 +47,8 @@ function ArtworkOverview() {
   const { data: artwork, isLoading } = useUserSingleArtworkQuery(id);
   const [update, { isLoading: isUpdateLoading, isSuccess }] =
     useUpdateMutation();
+  const [deleteArtwork, { isLoading: isDeleteLoading }] =
+    useDeleteArtworkMutation();
 
   const dispatch = useDispatch();
 
@@ -107,7 +113,12 @@ function ArtworkOverview() {
   ];
   const price = [
     { id: 0, editable: true, label: "Artwork Price", value: artwork.price },
-    { id: 1, editable: false, label: "Your Commission", value: artwork.price },
+    {
+      id: 1,
+      editable: false,
+      label: "Your Commission",
+      value: Number(artwork.price) * 0.6,
+    },
     { id: 2, editable: false, label: "Shipping Cost", value: SHIPPING_COST },
     {
       id: 3,
@@ -129,16 +140,14 @@ function ArtworkOverview() {
       id: 1,
       editable: true,
       label: "Shipping Weight",
-      value: `${artwork.totalWeight}kg`,
+      value: artwork.totalWeight,
     },
   ];
 
-  async function handleDescEdit() {
-    setIsDescEdit((prevState) => !prevState);
-
+  async function updateArtwork() {
     const isEmpty = emptyObject(multiEditData);
 
-    if (isDescEdit && !isEmpty) {
+    if (!isEmpty) {
       try {
         await update({ id, value: multiEditData }).unwrap();
         if (isSuccess) {
@@ -152,6 +161,15 @@ function ArtworkOverview() {
     }
   }
 
+  function handleDescEdit() {
+    setIsDescEdit((prevState) => !prevState);
+    setCurrLoading(1);
+
+    if (isDescEdit) {
+      updateArtwork();
+    }
+  }
+
   function handleMultiEdit(data) {
     setMultiEditData((prevState) => {
       return { ...prevState, ...data };
@@ -160,6 +178,31 @@ function ArtworkOverview() {
 
   function handlePriceEdit() {
     setIsPriceEdit((prevState) => !prevState);
+    setCurrLoading(2);
+
+    if (isPriceEdit) {
+      updateArtwork();
+    }
+  }
+
+  function handleCancelEdit() {
+    if (isDescEdit) {
+      setIsDescEdit(false);
+      setMultiEditData({});
+    } else if (isPriceEdit) {
+      setIsPriceEdit(false);
+      setMultiEditData({});
+    }
+  }
+
+  async function deleteArtworkHandler() {
+    try {
+      await deleteArtwork(id).unwrap();
+    } catch (err) {
+      dispatch(updateSuccessMgs(err?.data?.message || err.error));
+      dispatch(enableError());
+      console.log(err);
+    }
   }
 
   return (
@@ -203,9 +246,19 @@ function ArtworkOverview() {
                       </a>
                     </div>
                     <div className={styles.deleteBtnWrapper}>
-                      <button className={styles.deleteBtn}>
-                        Delete Artwork
-                      </button>
+                      <Modal>
+                        <Modal.Open opens="delete_artwork">
+                          <button className={styles.deleteBtn}>
+                            Delete Artwork
+                          </button>
+                        </Modal.Open>
+                        <Modal.Window name="delete_artwork">
+                          <ConfirmDelete
+                            message="Are you sure you want to delete this artwork?"
+                            onConfirm={deleteArtworkHandler}
+                          />
+                        </Modal.Window>
+                      </Modal>
                     </div>
                   </div>
                 </div>
@@ -213,6 +266,7 @@ function ArtworkOverview() {
               <div className={styles.contentColumn}>
                 <div className={styles.contentContainer}>
                   <div className={styles.inputItems}>
+                    {isDeleteLoading && <Spinner />}
                     <EditImage
                       images={images.length >= 1 ? images : artwork.images}
                     />
@@ -221,8 +275,11 @@ function ArtworkOverview() {
                       title="Description"
                       isEdit={isDescEdit}
                       onClick={handleDescEdit}
+                      onCancel={handleCancelEdit}
                     >
-                      {isUpdateLoading && <Spinner />}
+                      {isUpdateLoading && !isDescEdit && currLoading === 1 && (
+                        <Spinner />
+                      )}
                       <StyledGrid
                         title="Subject, Category, Year"
                         gridList={subCatYr}
@@ -253,6 +310,7 @@ function ArtworkOverview() {
                         isSingle
                         isTextArea
                         isEdit={isDescEdit}
+                        onEdit={handleMultiEdit}
                       />
                     </EditDescripion>
                     <Spacer />
@@ -260,7 +318,11 @@ function ArtworkOverview() {
                       title="Price & Details"
                       isEdit={isPriceEdit}
                       onClick={handlePriceEdit}
+                      onCancel={handleCancelEdit}
                     >
+                      {isUpdateLoading && !isPriceEdit && currLoading === 2 && (
+                        <Spinner />
+                      )}
                       <StyledGrid
                         title="Status"
                         singleValue={artwork.availability}
@@ -269,6 +331,7 @@ function ArtworkOverview() {
                         isSingle
                         isSelect
                         isEdit={isPriceEdit}
+                        onEdit={handleMultiEdit}
                       />
                       {artwork.editions === "Limited Edition" && (
                         <StyledGrid
@@ -283,12 +346,14 @@ function ArtworkOverview() {
                         gridList={price}
                         isNumber
                         isEdit={isPriceEdit}
+                        onEdit={handleMultiEdit}
                       />
                       <StyledGrid
                         title="Weight & Packaging"
                         gridList={weightPkg}
                         isEdit={isPriceEdit}
                         isSelect
+                        onEdit={handleMultiEdit}
                       />
                     </EditDescripion>
                   </div>

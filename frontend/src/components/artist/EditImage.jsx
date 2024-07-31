@@ -106,7 +106,12 @@ function EditImage({ images }) {
   return (
     <div className={styles.container}>
       <div className={styles.contentWrapper}>
-        <EditHeader heading="Images" isEdit={isEdit} onClick={handleEdit} />
+        <EditHeader
+          heading="Images"
+          isEdit={isEdit}
+          onClick={handleEdit}
+          onCancel={() => setIsEdit(false)}
+        />
 
         <div className={styles.imagesWrapper}>
           {images.map(

@@ -24,7 +24,7 @@ function DimensionsInput({ onInput, dimesions, showDiagram = true }) {
     const dimension = {
       width: Number(widthInput.value),
       height: Number(heightInput.value),
-      depth: Number(depthInput.value),
+      depth: depthInput.value ? Number(depthInput.value) : 0.1,
     };
 
     onInput("Dimensions", dimension);
@@ -40,7 +40,7 @@ function DimensionsInput({ onInput, dimesions, showDiagram = true }) {
 
       handleInput();
     }
-  }, [depthInput.value, heightInput.value, widthInput.value]);
+  }, [depthInput.value, handleInput, heightInput.value, widthInput.value]);
 
   return (
     <div className={styles.container}>

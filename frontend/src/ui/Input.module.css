@@ -21,6 +21,18 @@
   color: var(--primary-variant);
 }
 
+/* Chrome, Safari, Edge, Opera */
+.searchInput[type="number"]::-webkit-outer-spin-button,
+.searchInput[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+.searchInput[type="number"] {
+  -moz-appearance: textfield;
+}
+
 .small {
   height: 40px;
 }
