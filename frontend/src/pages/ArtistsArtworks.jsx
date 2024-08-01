@@ -32,8 +32,6 @@ function ArtistsArtworks() {
 
   const { data: artworks } = useArtistArtworksQuery();
 
-  console.log(artworks);
-
   const labelRef = useRef(null);
 
   const dispatch = useDispatch();

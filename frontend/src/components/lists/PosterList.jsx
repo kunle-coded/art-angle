@@ -5,14 +5,19 @@ import Spacer from "../../ui/Spacer";
 import ListItems from "./ListItems";
 import LinkButton from "../../ui/LinkButton";
 
-function PosterList({ list = [], title = "", link }) {
+function PosterList({ list = [], title = "", link, userType, artworkLink }) {
   return (
     <section className="section_basic">
       <PageTitle title={title} />
       <Spacer small />
       <ListItems>
         {list.map((artwork) => (
-          <SmallPoster key={artwork.id} artwork={artwork} />
+          <SmallPoster
+            key={artwork.id}
+            artwork={artwork}
+            type={userType}
+            link={`${artworkLink}/${artwork.id}`}
+          />
         ))}
       </ListItems>
 

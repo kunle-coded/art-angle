@@ -1,8 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import styles from "./SmallPoster.module.css";
 import Heart from "./Heart";
+import formatCurrency from "../helpers/formatCurrency";
 
-function SmallPoster({ artwork }) {
+function SmallPoster({ artwork, type, link }) {
   const [imageHeight, setImageHeight] = useState(0);
   const cardRef = useRef(null);
 
@@ -17,13 +18,13 @@ function SmallPoster({ artwork }) {
     <li ref={cardRef} className={styles.posterContainer}>
       <a
         aria-label={`${artwork.title} by ${artwork.artist}`}
-        href="/"
+        href={link}
         className={styles.poster}
       >
         <div className={styles.posterWrapper}>
           <div className={styles.posterImage}>
             <img
-              src={artwork.url}
+              src={artwork.images[0]}
               alt={`${artwork.title} by ${artwork.artist}`}
               className={styles.image}
               style={{ height: imageHeight }}
@@ -32,13 +33,15 @@ function SmallPoster({ artwork }) {
           <div className={styles.posterContent}>
             <div className={styles.posterTitle}>
               <div className={styles.title}>{artwork.title}</div>
-              <Heart />
+              {type === "buyer" && <Heart />}
             </div>
             <div className={styles.posterName}>
               {artwork.artist}, <span>{artwork.year}</span>
             </div>
             <div className={styles.posterMedium}>{artwork.medium}</div>
-            <div className={styles.posterPrice}>₦{artwork.price}</div>
+            <div className={styles.posterPrice}>
+              {formatCurrency(artwork.price)}
+            </div>
           </div>
         </div>
       </a>

@@ -180,8 +180,6 @@ function ArtworkOverview() {
     setMultiEditData((prevState) => {
       return { ...prevState, ...data };
     });
-
-    console.log("materials select: ", data, multiEditData);
   }
 
   function handlePriceEdit() {

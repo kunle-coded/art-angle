@@ -17,6 +17,7 @@ import {
   updateSuccessMgs,
 } from "../slices/globalSlice";
 import MiniSpinner from "../ui/MiniSpinner";
+import { useArtistArtworksQuery } from "../slices/artworksApiSlice";
 
 function UserProfile() {
   const [isEditHover, setIsEditHover] = useState(false);
@@ -24,8 +25,14 @@ function UserProfile() {
   const { userInfo } = useSelector(getAuth);
 
   const [uploadFile, { isLoading }] = useUploadFileMutation();
+  const { data: artworks } = useArtistArtworksQuery();
 
   const dispatch = useDispatch();
+
+  const allArtworksLink =
+    userInfo.userType === "buyer"
+      ? `/user/${userInfo.id}/favorites`
+      : `/artist/${userInfo.id}/artworks`;
 
   async function handleAvatarUpload(e) {
     const file = e.target.files[0];
@@ -135,8 +142,10 @@ function UserProfile() {
                     title={
                       userInfo.userType === "buyer" ? "Favorites" : "Artworks"
                     }
-                    list={artworksThree.splice(0, 4)}
-                    link={`/user/${userInfo.id}/favourites`}
+                    list={artworks}
+                    link={allArtworksLink}
+                    userType={userInfo.userType}
+                    artworkLink={`/artist/${userInfo.id}/artwork`}
                   />
 
                   <DividerLine />
