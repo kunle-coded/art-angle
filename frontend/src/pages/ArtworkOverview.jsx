@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getAuth } from "../slices/authSlice";
 import {
@@ -52,7 +52,7 @@ function ArtworkOverview() {
     useDeleteArtworkMutation();
 
   const dispatch = useDispatch();
-  console.log(artwork);
+  const navigate = useNavigate();
 
   if (isLoading) {
     return <Spinner />;
@@ -180,6 +180,8 @@ function ArtworkOverview() {
     setMultiEditData((prevState) => {
       return { ...prevState, ...data };
     });
+
+    console.log("materials select: ", data, multiEditData);
   }
 
   function handlePriceEdit() {
@@ -204,6 +206,7 @@ function ArtworkOverview() {
   async function deleteArtworkHandler() {
     try {
       await deleteArtwork(id).unwrap();
+      navigate(`/artist/${userInfo?.id}/artworks`);
     } catch (err) {
       dispatch(updateSuccessMgs(err?.data?.message || err.error));
       dispatch(enableError());

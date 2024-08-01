@@ -3,10 +3,10 @@ import styles from "./DimensionsInput.module.css";
 import Input from "./Input";
 import { useField } from "../hooks";
 
-function DimensionsInput({ onInput, dimesions, showDiagram = true }) {
-  const [width, setWidth] = useState(dimesions.width || 18);
-  const [height, setHeight] = useState(dimesions.height || 10);
-  const [depth, setDepth] = useState(dimesions.depth || 0.1);
+function DimensionsInput({ onInput, dimensions, showDiagram = true }) {
+  const [width, setWidth] = useState(dimensions ? dimensions.width : 18);
+  const [height, setHeight] = useState(dimensions ? dimensions.height : 10);
+  const [depth, setDepth] = useState(dimensions ? dimensions.depth : 0.1);
 
   const widthInput = useField("number");
   const { onReset: resetWidth, ...widthProps } = widthInput;
@@ -16,8 +16,8 @@ function DimensionsInput({ onInput, dimesions, showDiagram = true }) {
   const { onReset: resetDepth, ...depthProps } = depthInput;
 
   const diagramStyle = {
-    width: `${width * 20}px`,
-    height: `${height * 20}px`,
+    width: `${width * 10}px`,
+    height: `${height * 10}px`,
   };
 
   const handleInput = useCallback(() => {

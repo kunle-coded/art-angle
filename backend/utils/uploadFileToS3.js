@@ -1,22 +1,24 @@
 const AWS = require("aws-sdk");
 const { v4: uuidv4 } = require("uuid");
 const mime = require("mime-types");
-const { AWS_USER_PROFILE } = require("./config");
+const { AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY } = require("./config");
 const { generateImageName } = require("./helpers");
 
-const credentials = new AWS.SharedIniFileCredentials({
-  profile: AWS_USER_PROFILE,
+// const credentials = new AWS.SharedIniFileCredentials({
+//   profile: AWS_USER_PROFILE,
+// });
+// AWS.config.credentials = credentials;
+AWS.config.update({
+  region: "eu-central-1",
+  accessKeyId: AWS_ACCESS_KEY_ID,
+  secretAccessKey: AWS_SECRET_ACCESS_KEY,
 });
-AWS.config.credentials = credentials;
-AWS.config.update({ region: "eu-central-1" });
 
 const s3 = new AWS.S3();
 
 function uploadFileToS3(folderName, file, id) {
   const contentType = file.mimetype || mime.lookup(file.originalname);
   const fileName = `${generateImageName(id)}-${file.originalname}`;
-
-  console.log(fileName);
 
   const params = {
     Bucket: "artangle",
@@ -26,11 +28,13 @@ function uploadFileToS3(folderName, file, id) {
   };
 
   return new Promise((resolve, reject) => {
+    console.log("Starting headObject check...");
     s3.headObject(
       { Bucket: params.Bucket, Key: params.Key },
       (err, metadata) => {
         if (err) {
           if (err.code === "NotFound") {
+            console.log("File not found, proceeding with upload...");
             s3.upload(params, (err, data) => {
               if (err) {
                 console.log("Error uploading file", err);
@@ -57,3 +61,5 @@ function uploadFileToS3(folderName, file, id) {
 }
 
 module.exports = { uploadFileToS3 };
+
+// AWSReservedSSO_PowerUserAccess_86551d895212458e/kunle-dev

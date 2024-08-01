@@ -43,10 +43,10 @@ function StyledSelect({
 
       setSelectedMultiple((prevSelected) => [...prevSelected, option]);
       const selections = [...selectedMultiple, option];
-      const multipleSelections = selections.filter(
-        (item) => item !== placeholder
-      );
-      onSelect(label, multipleSelections);
+      // const multipleSelections = selections.filter(
+      //   (item) => item !== placeholder
+      // );
+      onSelect(label, option);
     } else {
       setSelected(option);
       onSelect(label, option);

@@ -12,6 +12,7 @@ import {
 } from "../slices/globalSlice";
 import Button from "../ui/Button";
 import { getAuth } from "../slices/authSlice";
+import { useArtistArtworksQuery } from "../slices/artworksApiSlice";
 
 const sortArray = [
   "Price",
@@ -28,6 +29,10 @@ function ArtistsArtworks() {
 
   const { sortDropdown } = useSelector(getGlobal);
   const { userInfo } = useSelector(getAuth);
+
+  const { data: artworks } = useArtistArtworksQuery();
+
+  console.log(artworks);
 
   const labelRef = useRef(null);
 
@@ -85,8 +90,13 @@ function ArtistsArtworks() {
                 onCheck={handleCheck}
                 onCancel={handleCancel}
               >
-                <DetailedList isAllChecked={isAllChecked} />
-                <DetailedList isAllChecked={isAllChecked} />
+                {artworks?.map((artwork) => (
+                  <DetailedList
+                    key={artwork.id}
+                    artwork={artwork}
+                    isAllChecked={isAllChecked}
+                  />
+                ))}
               </DetailedListComponent>
             </div>
           </div>

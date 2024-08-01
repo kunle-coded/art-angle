@@ -4,11 +4,17 @@ const ARTWORKS_URL = "/api/user/artworks";
 
 export const artworksApiSlice = apiArtworkSlice.injectEndpoints({
   endpoints: (builder) => ({
-    artworks: builder.query({
+    allArtworks: builder.query({
+      query: () => ({
+        url: "/api",
+      }),
+      providesTags: ["Artworks"],
+    }),
+    artistArtworks: builder.query({
       query: () => ({
         url: ARTWORKS_URL,
       }),
-      providesTags: ["Artworks"],
+      providesTags: ["artistArtworks"],
     }),
     userSingleArtwork: builder.query({
       query: (id) => ({
@@ -22,7 +28,7 @@ export const artworksApiSlice = apiArtworkSlice.injectEndpoints({
         method: "POST",
         body: data,
       }),
-      invalidatesTags: ["Artworks"],
+      invalidatesTags: ["Artworks", "artistArtworks"],
     }),
     uploadImage: builder.mutation({
       query: (data) => ({
@@ -53,13 +59,14 @@ export const artworksApiSlice = apiArtworkSlice.injectEndpoints({
         url: `${ARTWORKS_URL}/${id}`,
         method: "DELETE",
       }),
-      invalidatesTags: ["Artwork"],
+      invalidatesTags: ["Artwork", "artistArtworks", "Artworks"],
     }),
   }),
 });
 
 export const {
-  useArtworksQuery,
+  useAllArtworksQuery,
+  useArtistArtworksQuery,
   useUserSingleArtworkQuery,
   useUploadMutation,
   useDeleteImageMutation,

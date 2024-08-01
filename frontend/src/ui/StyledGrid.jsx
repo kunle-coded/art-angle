@@ -80,7 +80,7 @@ function StyledGrid({
     } else if (label === "Packaging Type") {
       modifiedLabel = "packagingType";
     } else {
-      modifiedLabel = label;
+      modifiedLabel = label.toLowerCase();
     }
 
     const dataObj = {};
@@ -113,7 +113,7 @@ function StyledGrid({
                 <DimensionsInput
                   showDiagram={false}
                   onInput={handleDimensions}
-                  dimesions={dimensions}
+                  dimensions={dimensions}
                 />
               ) : (
                 <Input
