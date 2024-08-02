@@ -13,6 +13,7 @@ function ArtistDetailsTab({
   isEditing,
   isEdit,
   onEdit,
+  onSave,
 }) {
   return (
     <div className={styles.container}>
@@ -27,7 +28,7 @@ function ArtistDetailsTab({
             )}
 
             {(isEdit || isEditing) && (
-              <ButtonWithIcon text="Save" onClick={onEdit} />
+              <ButtonWithIcon text="Save" onClick={onSave} />
             )}
           </div>
         </div>

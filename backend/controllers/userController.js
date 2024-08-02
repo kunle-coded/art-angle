@@ -170,7 +170,7 @@ const uploadFile = asyncHandler(async (req, res) => {
 const deleteUser = asyncHandler(async (req, res) => {
   if (!req.user) {
     res.status(401);
-    throw new Error("Anuthorized user or user not in database");
+    throw new Error("Unauthorized user or user not in database");
   }
 
   const userId = req.user.id;

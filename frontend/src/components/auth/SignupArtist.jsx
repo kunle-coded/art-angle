@@ -102,7 +102,7 @@ function SignupArtist({ onSignup, onOpenModal }) {
         birthYear,
         specialisation: specialisation.value,
         biography: biography.value,
-        portfolioLinks: [portfolio.value],
+        portfolioLink: [portfolio.value],
         paymentDetails: {
           accountName: accountName.value,
           accountNumber: accountNumber.value,

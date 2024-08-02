@@ -47,7 +47,7 @@ const artistSchema = new mongoose.Schema({
   specialisation: {
     type: String,
   },
-  portfolioLinks: {
+  portfolioLink: {
     type: String,
   },
   paymentDetails: {

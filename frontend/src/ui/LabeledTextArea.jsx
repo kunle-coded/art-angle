@@ -7,6 +7,7 @@ function LabeledTextArea({
   display = false,
   displayText = "",
   onHidePassword,
+  onInput,
   children,
   ...props
 }) {
@@ -17,6 +18,7 @@ function LabeledTextArea({
 
   function handleChange(e) {
     setInputValue(e.target.value);
+    onInput(e.target.value);
   }
 
   useEffect(() => {

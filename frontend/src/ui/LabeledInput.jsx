@@ -17,6 +17,7 @@ function LabeledInput({
   function handleChange(e) {
     setInputValue(e.target.value);
     onInput(e.target.value);
+    console.log(e.target.value);
   }
 
   return (
@@ -44,6 +45,8 @@ function LabeledInput({
               placeholder={placeholder}
               className={styles.input}
               autoComplete={autoComplete}
+              value={inputValue}
+              onChange={handleChange}
               {...props}
             />
           )}

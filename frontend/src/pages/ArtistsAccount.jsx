@@ -138,15 +138,32 @@ function ArtistsAccount() {
 
     const userData = {};
 
-    // if (firstName) {
-    //   userData.firstname = firstName;
-    // }
-    // if (lastName) {
-    //   userData.lastname = lastName;
-    // }
-    // if (password.value) {
-    //   userData.password = password.value;
-    // }
+    if (firstname) {
+      userData.firstname = firstname;
+    }
+    if (lastname) {
+      userData.lastname = lastname;
+    }
+    if (contactNumber) {
+      userData.contactNumber = contactNumber;
+    }
+    if (biography) {
+      userData.biography = biography;
+    }
+    if (specialisation) {
+      userData.specialisation = specialisation;
+    }
+    if (portfolioLink) {
+      userData.portfolioLink = portfolioLink;
+    }
+    console.log("portfolio ", portfolioLink);
+    if (accountName || accountNumber || bankName) {
+      userData.paymentDetails = { accountName, accountNumber, bankName };
+    }
+
+    if (password.value && password.value === confirmPassword.value) {
+      userData.password = password.value;
+    }
 
     try {
       const res = await updateProfile(userData).unwrap();
@@ -261,16 +278,19 @@ function ArtistsAccount() {
                             isEdit={isEdit && editAccountInfo}
                             isEditing={isEditing}
                             onEdit={() => handleEdit(1)}
+                            onSave={updateHandler}
                           >
                             <LabeledInput
                               label="First Name"
                               display={!editAccountInfo}
                               displayText={userInfo.firstname}
+                              onInput={setFirstname}
                             />
                             <LabeledInput
                               label="Last Name"
                               display={!editAccountInfo}
                               displayText={userInfo.lastname}
+                              onInput={setLastname}
                             />
                             <LabeledInput
                               label="Email Address"
@@ -281,6 +301,7 @@ function ArtistsAccount() {
                               label="Contact Number"
                               display={!editAccountInfo}
                               displayText={userInfo.contactNumber}
+                              onInput={setContactNumber}
                             />
                             <LabeledInput
                               label="New Password"
@@ -299,21 +320,25 @@ function ArtistsAccount() {
                             title="Artistic Information"
                             isEdit={isEdit && editArtisticInfo}
                             onEdit={() => handleEdit(2)}
+                            onSave={updateHandler}
                           >
                             <LabeledTextArea
                               label="Biography"
                               display={!editArtisticInfo}
                               displayText={userInfo.biography}
+                              onInput={setBiography}
                             />
                             <LabeledInput
                               label="Specialisation"
                               display={!editArtisticInfo}
                               displayText={userInfo.specialisation}
+                              onInput={setSpecialisation}
                             />
                             <LabeledInput
                               label="Portfolio Link"
                               display={!editArtisticInfo}
-                              displayText={userInfo.portfolioLinks[0]}
+                              displayText={userInfo.portfolioLink}
+                              onInput={setPortfolioLink}
                             />
                           </ArtistDetailsTab>
                           <Spacer />
@@ -321,6 +346,7 @@ function ArtistsAccount() {
                             title="Payment Details"
                             isEdit={isEdit && editPaymentInfo}
                             onEdit={() => handleEdit(3)}
+                            onSave={updateHandler}
                           >
                             <LabeledInput
                               label="Account Name"
@@ -328,6 +354,7 @@ function ArtistsAccount() {
                               displayText={
                                 userInfo?.paymentDetails?.accountName
                               }
+                              onInput={setAccountName}
                             />
                             <LabeledInput
                               label="Account Number"
@@ -335,11 +362,13 @@ function ArtistsAccount() {
                               displayText={
                                 userInfo?.paymentDetails?.accountNumber
                               }
+                              onInput={setAccountNumber}
                             />
                             <LabeledInput
                               label="Bank Name"
                               display={!editPaymentInfo}
                               displayText={userInfo?.paymentDetails?.bankName}
+                              onInput={setBankName}
                             />
                           </ArtistDetailsTab>
                         </>
