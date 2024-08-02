@@ -10,22 +10,31 @@ function PosterList({ list = [], title = "", link, userType, artworkLink }) {
     <section className="section_basic">
       <PageTitle title={title} />
       <Spacer small />
-      <ListItems>
-        {list.map((artwork) => (
-          <SmallPoster
-            key={artwork.id}
-            artwork={artwork}
-            type={userType}
-            link={`${artworkLink}/${artwork.id}`}
-          />
-        ))}
-      </ListItems>
 
-      <div className={styles.showMore}>
-        <div className={styles.btnContainer}>
-          <LinkButton link={link}>View All {title}</LinkButton>
+      {list.length < 1 ? (
+        <div className={styles.emptyList}>
+          You currently have no {title.toLocaleLowerCase()}
         </div>
-      </div>
+      ) : (
+        <ListItems>
+          {list.map((artwork) => (
+            <SmallPoster
+              key={artwork.id}
+              artwork={artwork}
+              type={userType}
+              link={`${artworkLink}/${artwork.id}`}
+            />
+          ))}
+        </ListItems>
+      )}
+
+      {list.length >= 1 && (
+        <div className={styles.showMore}>
+          <div className={styles.btnContainer}>
+            <LinkButton link={link}>View All {title}</LinkButton>
+          </div>
+        </div>
+      )}
     </section>
   );
 }

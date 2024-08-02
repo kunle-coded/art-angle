@@ -1,7 +1,17 @@
 import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 import { useField } from "../hooks/index";
+import { years } from "../helpers/generateYears";
+
+import {
+  categoriesList,
+  subjects,
+  materials,
+  medium,
+  styles as artStyles,
+} from "../data";
 
 import {
   getArtwork,
@@ -16,6 +26,13 @@ import {
   updateDescription,
   updateKeywords,
 } from "../slices/artworkSlice";
+import {
+  enableError,
+  enableSuccess,
+  getGlobal,
+  updateSuccessMgs,
+} from "../slices/globalSlice";
+import { getAuth } from "../slices/authSlice";
 import { useUploadMutation } from "../slices/artworksApiSlice";
 
 import DropdownInput from "../ui/DropdownInput";
@@ -26,13 +43,6 @@ import ImageUpload from "../ui/ImageUpload";
 import Button from "../ui/Button";
 import StyledSelect from "../ui/StyledSelect";
 import DimensionsInput from "../ui/DimensionsInput";
-import {
-  categoriesList,
-  subjects,
-  materials,
-  medium,
-  styles as artStyles,
-} from "../data";
 import InputSidebarDisplay from "../ui/InputSidebarDisplay";
 import ArtworkAvailability from "../components/price/ArtworkAvailability";
 import LimitedEdition from "../components/price/LimitedEdition";
@@ -42,16 +52,6 @@ import ShippingAddress from "../components/artist/ShippingAddress";
 import PriceInputs from "../components/price/PriceInputs";
 import BackToPageButton from "../ui/BackToPageButton";
 import Spinner from "../ui/Spinner";
-import {
-  enableError,
-  enableSuccess,
-  getGlobal,
-  updateSuccessMgs,
-} from "../slices/globalSlice";
-import { useNavigate } from "react-router-dom";
-import { getAuth } from "../slices/authSlice";
-
-const years = ["2019", "2020", "2021", "2022", "2023", "2024"];
 
 const descriptionTips = [
   "What/who inspired the work?",

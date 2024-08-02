@@ -1,14 +1,7 @@
 import { useEffect, useRef, useState } from "react";
-import EyeIcon from "../icons/EyeIcon";
-import FormInput from "../../ui/FormInput";
-import FormComponent from "../forms/FormComponent";
-import styles from "./SignupArtist.module.css";
-import { useField, useIntersection, useShowPassword } from "../../hooks";
-import StyledTextArea from "../../ui/StyledTextArea";
-import Onboarding from "./Onboarding";
-import Spacer from "../../ui/Spacer";
-import { useRegisterMutation } from "../../slices/usersApiSlice";
 import { useDispatch, useSelector } from "react-redux";
+import { useField, useIntersection, useShowPassword } from "../../hooks";
+import { useRegisterMutation } from "../../slices/usersApiSlice";
 import { getAuth } from "../../slices/authSlice";
 import {
   enableError,
@@ -16,9 +9,20 @@ import {
   updateSuccessMgs,
   updateUserType,
 } from "../../slices/globalSlice";
+import { years } from "../../helpers/generateYears";
+
+import EyeIcon from "../icons/EyeIcon";
+import FormInput from "../../ui/FormInput";
+import FormComponent from "../forms/FormComponent";
+import styles from "./SignupArtist.module.css";
+import StyledTextArea from "../../ui/StyledTextArea";
+import Onboarding from "./Onboarding";
+import Spacer from "../../ui/Spacer";
+import StyledSelect from "../../ui/StyledSelect";
 
 function SignupArtist({ onSignup, onOpenModal }) {
   const [isDisabled, setIsDisabled] = useState(false);
+  const [birthYear, setBirthYear] = useState("");
   // const [isIntersecting, setIsIntersecting] = useState(false);
   const { passwordType, toggleShowPassword } = useShowPassword();
 
@@ -95,6 +99,7 @@ function SignupArtist({ onSignup, onOpenModal }) {
         email: email.value,
         contactNumber: number.value,
         password: password.value,
+        birthYear,
         specialisation: specialisation.value,
         biography: biography.value,
         portfolioLinks: [portfolio.value],
@@ -129,6 +134,11 @@ function SignupArtist({ onSignup, onOpenModal }) {
       dispatch(enableError());
       console.log(errMsg);
     }
+  }
+
+  function handleSelect(label, selection) {
+    console.log(selection);
+    setBirthYear(selection);
   }
 
   return (
@@ -175,6 +185,11 @@ function SignupArtist({ onSignup, onOpenModal }) {
           <Spacer small />
 
           <div className={styles.formSectionHeader}>Artistic Information</div>
+          <StyledSelect
+            placeholder="Select year of birth"
+            options={years}
+            onSelect={handleSelect}
+          />
           <StyledTextArea
             placeholder="Enter your biography"
             label="Biography"

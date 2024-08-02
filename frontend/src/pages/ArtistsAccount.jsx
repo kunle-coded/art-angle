@@ -2,7 +2,11 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { getAuth, logoutUser } from "../slices/authSlice";
-import { useDeleteMutation, useLogoutMutation } from "../slices/usersApiSlice";
+import {
+  useDeleteMutation,
+  useLogoutMutation,
+  useUpdateProfileMutation,
+} from "../slices/usersApiSlice";
 import {
   enableError,
   enableSuccess,
@@ -32,10 +36,22 @@ function ArtistsAccount() {
   const [editPaymentInfo, setEditPaymentInfo] = useState(false);
   const [isAllChecked, setIsAllChecked] = useState(false);
 
+  const [firstname, setFirstname] = useState("");
+  const [lastname, setLastname] = useState("");
+  const [contactNumber, setContactNumber] = useState("");
+  const [biography, setBiography] = useState("");
+  const [specialisation, setSpecialisation] = useState("");
+  const [portfolioLink, setPortfolioLink] = useState("");
+  const [accountName, setAccountName] = useState("");
+  const [accountNumber, setAccountNumber] = useState("");
+  const [bankName, setBankName] = useState("");
+
   const { userInfo } = useSelector(getAuth);
 
   const [logout] = useLogoutMutation();
   const [deleteUser, { isLoading }] = useDeleteMutation();
+  const [updateProfile, { isLoading: isUpdateLoading }] =
+    useUpdateProfileMutation();
 
   const { feature } = useParams();
   const navigate = useNavigate();
@@ -98,6 +114,54 @@ function ArtistsAccount() {
     logout();
     dispatch(logoutUser());
     navigate("/");
+  }
+
+  async function updateHandler(e) {
+    e.preventDefault();
+
+    // if (!firstName && !lastName && !password.value) {
+    //   handleEdit();
+    //   return;
+    // }
+
+    if (password.value && password.value !== confirmPassword.value) {
+      dispatch(updateSuccessMgs("Passwords do not match"));
+      dispatch(enableError());
+      return;
+    }
+
+    // paymentDetails: {
+    //   accountName: accountName.value,
+    //   accountNumber: accountNumber.value,
+    //   bankName: bankName.value,
+    // },
+
+    const userData = {};
+
+    // if (firstName) {
+    //   userData.firstname = firstName;
+    // }
+    // if (lastName) {
+    //   userData.lastname = lastName;
+    // }
+    // if (password.value) {
+    //   userData.password = password.value;
+    // }
+
+    try {
+      const res = await updateProfile(userData).unwrap();
+      dispatch(updateSuccessMgs(res.message));
+      dispatch(enableSuccess());
+      handleEdit();
+
+      // setFirstName("");
+      // setLastName("");
+    } catch (err) {
+      const errMsg = err?.data?.message;
+      dispatch(updateSuccessMgs(errMsg || err.error));
+      dispatch(enableError());
+      console.log(err);
+    }
   }
 
   async function deleteHandler(e) {
@@ -224,13 +288,6 @@ function ArtistsAccount() {
                               {...passwordProps}
                             />
 
-                            <div className={styles.errorContainer}>
-                              <div className={styles.errorSidebar}></div>
-                              <div className={styles.errorMessage}>
-                                Incorrect password. Please check and try again.
-                              </div>
-                            </div>
-
                             <LabeledInput
                               label="Confirm Password"
                               placeholder="Confirm Password"
@@ -256,7 +313,7 @@ function ArtistsAccount() {
                             <LabeledInput
                               label="Portfolio Link"
                               display={!editArtisticInfo}
-                              displayText={userInfo.portfolioLink}
+                              displayText={userInfo.portfolioLinks[0]}
                             />
                           </ArtistDetailsTab>
                           <Spacer />

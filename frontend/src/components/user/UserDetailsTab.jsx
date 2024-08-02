@@ -135,13 +135,6 @@ function UserDetailsTab() {
           {...passwordProps}
         />
 
-        <div className={styles.errorContainer}>
-          <div className={styles.errorSidebar}></div>
-          <div className={styles.errorMessage}>
-            Incorrect password. Please check and try again.
-          </div>
-        </div>
-
         <LabeledInput
           label="Confirm Password"
           placeholder="Confirm Password"

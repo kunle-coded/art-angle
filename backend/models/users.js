@@ -38,13 +38,18 @@ const artistSchema = new mongoose.Schema({
     minLength: 5,
     required: true,
   },
+  birthYear: {
+    type: String,
+  },
   biography: {
     type: String,
   },
   specialisation: {
     type: String,
   },
-  portfolioLinks: [String],
+  portfolioLinks: {
+    type: String,
+  },
   paymentDetails: {
     accountName: {
       type: String,
