@@ -43,8 +43,6 @@ function EmptyArtwork() {
           </div>
         </div>
       </div>
-      <div className={styles.btnContaine}></div>
-      <div className={styles.containe}></div>
     </div>
   );
 }

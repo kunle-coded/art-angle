@@ -176,8 +176,6 @@ function UploadArtwork() {
     published,
   ]);
 
-  console.log(newArtwork);
-
   async function handleSaveContinue(e) {
     if (currentStep === 1) {
       // update artwork title

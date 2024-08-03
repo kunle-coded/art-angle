@@ -1,12 +1,13 @@
 import { apiArtworkSlice } from "./apiArtworkSlice";
 
 const ARTWORKS_URL = "/api/user/artworks";
+const ALL_ARTWORKS_URL = "/api/artworks";
 
 export const artworksApiSlice = apiArtworkSlice.injectEndpoints({
   endpoints: (builder) => ({
     allArtworks: builder.query({
       query: () => ({
-        url: "/api",
+        url: ALL_ARTWORKS_URL,
       }),
       providesTags: ["Artworks"],
     }),

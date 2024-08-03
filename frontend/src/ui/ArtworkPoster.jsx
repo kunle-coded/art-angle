@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import styles from "./ArtworkPoster.module.css";
 import { useRef, useState } from "react";
 import Heart from "./Heart";
+import formatCurrency from "../helpers/formatCurrency";
 
 function ArtworkPoster({ poster }) {
   const [paddingBottom, setPaddingBottom] = useState("100%");
@@ -67,7 +68,7 @@ function ArtworkPoster({ poster }) {
             <div className={styles.imageCompact}>
               <img
                 ref={imageRef}
-                src={poster.url}
+                src={poster.images[0]}
                 alt={`${poster.title} by ${poster.artist}`}
                 className={styles.image}
                 style={imageStyle}
@@ -88,10 +89,12 @@ function ArtworkPoster({ poster }) {
             <Heart />
           </div>
           <div className={styles.posterName}>
-            {poster.artist}, <span>{poster.year}</span>
+            {poster.artist}, <span>{poster.published}</span>
           </div>
           <div className={styles.posterMedium}>{poster.medium}</div>
-          <div className={styles.posterPrice}>₦{poster.price}</div>
+          <div className={styles.posterPrice}>
+            {formatCurrency(poster.price)}
+          </div>
         </div>
       </Link>
       <div style={{ height: "40px" }}></div>

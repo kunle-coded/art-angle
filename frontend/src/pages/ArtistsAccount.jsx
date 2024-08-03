@@ -26,6 +26,7 @@ import DetailedListComponent from "../components/lists/DetailedListComponent";
 import DetailedList from "../components/lists/DetailedList";
 import Modal from "../components/modal/Modal";
 import ConfirmDelete from "../components/messages/ConfirmDelete";
+import { useArtistArtworksQuery } from "../slices/artworksApiSlice";
 
 function ArtistsAccount() {
   const [currentItem, setCurrentItem] = useState(null);
@@ -52,6 +53,7 @@ function ArtistsAccount() {
   const [deleteUser, { isLoading }] = useDeleteMutation();
   const [updateProfile, { isLoading: isUpdateLoading }] =
     useUpdateProfileMutation();
+  const { data: artworks } = useArtistArtworksQuery();
 
   const { feature } = useParams();
   const navigate = useNavigate();
@@ -374,28 +376,13 @@ function ArtistsAccount() {
                         </>
                       )}
                       {feature === "artworks" && (
-                        <OffersDashboard tabFor="Artworks">
-                          <DetailedListComponent
-                            isChecked={isAllChecked}
-                            onCheck={handleCheck}
-                            onCancel={handleCancel}
-                          >
-                            <DetailedList isAllChecked={isAllChecked} />
-                            <DetailedList isAllChecked={isAllChecked} />
-                          </DetailedListComponent>
-                        </OffersDashboard>
+                        <OffersDashboard tabFor="Artworks" list={artworks} />
                       )}
                       {feature === "orders" && (
-                        <OffersDashboard tabFor="Orders">
-                          <DetailedListComponent
-                            isChecked={isAllChecked}
-                            onCheck={handleCheck}
-                            onCancel={handleCancel}
-                          >
-                            <DetailedList isAllChecked={isAllChecked} />
-                            <DetailedList isAllChecked={isAllChecked} />
-                          </DetailedListComponent>
-                        </OffersDashboard>
+                        <OffersDashboard
+                          tabFor="Orders"
+                          list={userInfo.orders}
+                        />
                       )}
                     </div>
                   )}

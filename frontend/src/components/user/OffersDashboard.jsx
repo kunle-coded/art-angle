@@ -60,7 +60,11 @@ function OffersDashboard({ tabFor = "", list = [] }) {
               onCancel={handleCancel}
             >
               {list.map((listItem) => (
-                <DetailedList key={listItem.id} isAllChecked={isAllChecked} />
+                <DetailedList
+                  key={listItem.id}
+                  artwork={listItem}
+                  isAllChecked={isAllChecked}
+                />
               ))}
             </DetailedListComponent>
           ) : (

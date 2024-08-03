@@ -663,11 +663,12 @@ const categoriesList = [
 
 const materials = [
   "Acrylic",
+  "Acrylic on canvas",
   "Aluminium",
   "Aquatint",
   "Arches paper",
-  "Art Paper",
-  "Blown Glas",
+  "Art paper",
+  "Blown glas",
   "Brass",
   "Bronze",
   "C-print",

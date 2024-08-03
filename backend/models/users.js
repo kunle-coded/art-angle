@@ -41,6 +41,9 @@ const artistSchema = new mongoose.Schema({
   birthYear: {
     type: String,
   },
+  nationality: {
+    type: String,
+  },
   biography: {
     type: String,
   },

@@ -13,6 +13,7 @@ import {
 import Button from "../ui/Button";
 import { getAuth } from "../slices/authSlice";
 import { useArtistArtworksQuery } from "../slices/artworksApiSlice";
+import EmptyArtwork from "../ui/EmptyArtwork";
 
 const sortArray = [
   "Price",
@@ -55,6 +56,10 @@ function ArtistsArtworks() {
 
   function openDropdown() {
     dispatch(showSortDropdown());
+  }
+
+  if (artworks?.length < 1) {
+    return <EmptyArtwork />;
   }
 
   return (

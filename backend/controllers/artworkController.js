@@ -10,7 +10,7 @@ const { deleteFileFromS3 } = require("../utils/deleteFileFromS3");
 // access Public
 const getArtworks = asyncHandler(async (req, res) => {
   const artworks = await Artwork.find({}).select("-owner");
-  res.status(200).json({ artworks });
+  res.status(200).json(artworks);
 });
 
 // @desc Get all user's artworks

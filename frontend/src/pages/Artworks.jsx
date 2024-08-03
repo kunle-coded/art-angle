@@ -13,7 +13,6 @@ import {
   categories,
   rarity,
   medium,
-  artworks,
   artworksTwo,
   artworksThree,
 } from "../data";
@@ -39,6 +38,10 @@ import ArtworkGrid from "../ui/ArtworkGrid";
 import ArtworkGridColumn from "../ui/ArtworkGridColumn";
 import Pagination from "../components/pagination/Pagination";
 import NewsLetter from "../components/cta/NewsLetter";
+import { useAllArtworksQuery } from "../slices/artworksApiSlice";
+import Spinner from "../ui/Spinner";
+import distributeArtworks from "../helpers/distributeArtworks";
+import { NUM_COLUMNS } from "../constants/constants";
 
 const sortArray = [
   "Recommended",
@@ -56,6 +59,8 @@ function Artworks() {
   const rarityRef = useRef(null);
   const mediumRef = useRef(null);
   const priceRef = useRef(null);
+
+  const { data: artworks } = useAllArtworksQuery();
 
   const { sortDropdown, mediumDropdown, rarityDropdown, priceDropdown } =
     useSelector(getGlobal);
@@ -109,6 +114,12 @@ function Artworks() {
     minWidth: "0",
     marginRight: "0px",
   };
+
+  if (!artworks) {
+    return <Spinner />;
+  }
+
+  const columns = distributeArtworks(artworks, NUM_COLUMNS);
 
   return (
     <div className="page">
@@ -164,26 +175,19 @@ function Artworks() {
       </FilterSort>
 
       <Section type="basic">
-        <SectionInfo
-          info={`${artworks.length * 2 + artworksTwo.length} Artworks:`}
-        />
+        <SectionInfo info={`${artworks.length} Artworks:`} />
         <Spacer small={true} />
         <ArtworkGrid>
-          <ArtworkGridColumn style={style1}>
-            {artworks.map((artwork) => (
-              <ArtworkPoster key={artwork.id} poster={artwork} />
-            ))}
-          </ArtworkGridColumn>
-          <ArtworkGridColumn style={style1}>
-            {artworksTwo.map((artwork) => (
-              <ArtworkPoster key={artwork.id} poster={artwork} />
-            ))}
-          </ArtworkGridColumn>
-          <ArtworkGridColumn style={style2}>
-            {artworksThree.map((artwork) => (
-              <ArtworkPoster key={artwork.id} poster={artwork} />
-            ))}
-          </ArtworkGridColumn>
+          {columns.map((column, colIndex) => (
+            <ArtworkGridColumn
+              key={colIndex}
+              style={colIndex === NUM_COLUMNS - 1 ? style2 : style1}
+            >
+              {column.map((artwork) => (
+                <ArtworkPoster key={artwork.id} poster={artwork} />
+              ))}
+            </ArtworkGridColumn>
+          ))}
         </ArtworkGrid>
       </Section>
 
