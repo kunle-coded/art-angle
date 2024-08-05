@@ -121,22 +121,34 @@ function ArtistsAccount() {
   async function updateHandler(e) {
     e.preventDefault();
 
-    // if (!firstName && !lastName && !password.value) {
-    //   handleEdit();
-    //   return;
-    // }
+    if (
+      editAccountInfo &&
+      !firstname &&
+      !lastname &&
+      !contactNumber &&
+      !password.value
+    ) {
+      setIsEdit(false);
+      setEditAccountInfo(false);
+      return;
+    }
+
+    if (editArtisticInfo && !biography && !specialisation && !portfolioLink) {
+      setIsEdit(false);
+      setEditArtisticInfo(false);
+      return;
+    }
+    if (editPaymentInfo && !accountName && !accountNumber && !bankName) {
+      setIsEdit(false);
+      setEditPaymentInfo(false);
+      return;
+    }
 
     if (password.value && password.value !== confirmPassword.value) {
       dispatch(updateSuccessMgs("Passwords do not match"));
       dispatch(enableError());
       return;
     }
-
-    // paymentDetails: {
-    //   accountName: accountName.value,
-    //   accountNumber: accountNumber.value,
-    //   bankName: bankName.value,
-    // },
 
     const userData = {};
 
@@ -149,6 +161,7 @@ function ArtistsAccount() {
     if (contactNumber) {
       userData.contactNumber = contactNumber;
     }
+
     if (biography) {
       userData.biography = biography;
     }
@@ -158,7 +171,7 @@ function ArtistsAccount() {
     if (portfolioLink) {
       userData.portfolioLink = portfolioLink;
     }
-    console.log("portfolio ", portfolioLink);
+
     if (accountName || accountNumber || bankName) {
       userData.paymentDetails = { accountName, accountNumber, bankName };
     }
@@ -172,9 +185,6 @@ function ArtistsAccount() {
       dispatch(updateSuccessMgs(res.message));
       dispatch(enableSuccess());
       handleEdit();
-
-      // setFirstName("");
-      // setLastName("");
     } catch (err) {
       const errMsg = err?.data?.message;
       dispatch(updateSuccessMgs(errMsg || err.error));
@@ -324,6 +334,16 @@ function ArtistsAccount() {
                             onEdit={() => handleEdit(2)}
                             onSave={updateHandler}
                           >
+                            <LabeledInput
+                              label="Birth Year"
+                              display
+                              displayText={userInfo.birthYear}
+                            />
+                            <LabeledInput
+                              label="Nationality"
+                              display
+                              displayText={userInfo.nationality}
+                            />
                             <LabeledTextArea
                               label="Biography"
                               display={!editArtisticInfo}

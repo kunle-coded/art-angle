@@ -10,6 +10,7 @@ import {
   updateUserType,
 } from "../../slices/globalSlice";
 import { years } from "../../helpers/generateYears";
+import { nationalities } from "../../data";
 
 import EyeIcon from "../icons/EyeIcon";
 import FormInput from "../../ui/FormInput";
@@ -23,6 +24,7 @@ import StyledSelect from "../../ui/StyledSelect";
 function SignupArtist({ onSignup, onOpenModal }) {
   const [isDisabled, setIsDisabled] = useState(false);
   const [birthYear, setBirthYear] = useState("");
+  const [nationality, setNationality] = useState("");
   // const [isIntersecting, setIsIntersecting] = useState(false);
   const { passwordType, toggleShowPassword } = useShowPassword();
 
@@ -100,6 +102,7 @@ function SignupArtist({ onSignup, onOpenModal }) {
         contactNumber: number.value,
         password: password.value,
         birthYear,
+        nationality,
         specialisation: specialisation.value,
         biography: biography.value,
         portfolioLink: [portfolio.value],
@@ -136,9 +139,11 @@ function SignupArtist({ onSignup, onOpenModal }) {
     }
   }
 
-  function handleSelect(label, selection) {
-    console.log(selection);
+  function handleBirthSelect(label, selection) {
     setBirthYear(selection);
+  }
+  function handleCountrySelect(label, selection) {
+    setNationality(selection);
   }
 
   return (
@@ -188,8 +193,15 @@ function SignupArtist({ onSignup, onOpenModal }) {
           <StyledSelect
             placeholder="Select year of birth"
             options={years}
-            onSelect={handleSelect}
+            onSelect={handleBirthSelect}
           />
+
+          <StyledSelect
+            placeholder="Select your nationality"
+            options={nationalities}
+            onSelect={handleCountrySelect}
+          />
+
           <StyledTextArea
             placeholder="Enter your biography"
             label="Biography"

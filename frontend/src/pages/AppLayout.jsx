@@ -23,6 +23,7 @@ function AppLayout() {
   function handleCloseDropdown(e) {
     // e.preventDefault();
     e.stopPropagation();
+
     if (sortDropdown) {
       dispatch(closeSortDropdown());
     } else if (mediumDropdown) {

@@ -71,6 +71,16 @@
   color: var(--on-primary-container);
 }
 
+.artworkLink {
+  list-style: none;
+  color: inherit;
+  text-decoration: none;
+}
+
+.artworkLink:hover {
+  text-decoration: underline;
+}
+
 .itemCategory,
 .itemSize {
   font-size: var(--desktop-body-md);

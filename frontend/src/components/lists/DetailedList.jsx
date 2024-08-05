@@ -1,4 +1,7 @@
 import { useState } from "react";
+import { useSelector } from "react-redux";
+import { getAuth } from "../../slices/authSlice";
+
 import Button from "../../ui/Button";
 import CheckboxComponent from "../../ui/CheckboxComponent";
 import styles from "./DetailedList.module.css";
@@ -8,6 +11,8 @@ import formatCurrency from "../../helpers/formatCurrency";
 
 function DetailedList({ isAllChecked = false, artwork }) {
   const [isChecked, setIsChecked] = useState(false);
+
+  const { userInfo } = useSelector(getAuth);
 
   function handleCheck() {
     setIsChecked((prevState) => !prevState);
@@ -32,10 +37,21 @@ function DetailedList({ isAllChecked = false, artwork }) {
         </div>
         <div className={styles.itemDetailsContainer}>
           <div className={styles.itemImageContainer}>
-            <img src={artwork.images[0]} alt="" className={styles.itemImage} />
+            <img
+              src={artwork.images[0]}
+              alt={`${artwork.title} by ${artwork.artist}`}
+              className={styles.itemImage}
+            />
           </div>
           <div className={styles.itemDetails}>
-            <div className={styles.itemTitle}>{artwork.title}</div>
+            <div className={styles.itemTitle}>
+              <a
+                href={`/artist/${userInfo.id}/artwork/${artwork.id}`}
+                className={styles.artworkLink}
+              >
+                {artwork.title}{" "}
+              </a>
+            </div>
             <div className={styles.itemCategory}>{artwork.medium}</div>
             <div
               className={styles.itemSize}

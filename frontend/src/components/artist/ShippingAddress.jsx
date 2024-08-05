@@ -43,7 +43,7 @@ function ShippingAddress() {
           <div className={styles.inputContainer}>
             <p>Country</p>
             <StyledSelect
-              placeholder="Enter your country"
+              placeholder="Select your country"
               size="small"
               options={countries}
               onSelect={handleCountrySelect}

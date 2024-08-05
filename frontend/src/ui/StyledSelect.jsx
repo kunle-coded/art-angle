@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./StyledSelect.module.css";
 import CloseIcon from "../components/icons/CloseIcon";
 import StyledTextArea from "./StyledTextArea";
@@ -28,6 +28,27 @@ function StyledSelect({
   const textAreaValue = useField("text");
   const { onReset: resetTextArea, ...textAreaProps } = textAreaValue;
 
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      const isSelect = e.target.name === "select_button";
+      if (isSelect) {
+        return;
+      } else {
+        setIsOpen(false);
+      }
+    };
+
+    document
+      .querySelector("body")
+      .addEventListener("click", handleClickOutside);
+
+    return () => {
+      document
+        .querySelector("body")
+        .removeEventListener("click", handleClickOutside);
+    };
+  }, []);
+
   function toggleOpen() {
     setIsOpen((prevState) => !prevState);
   }
@@ -46,6 +67,7 @@ function StyledSelect({
       // const multipleSelections = selections.filter(
       //   (item) => item !== placeholder
       // );
+
       onSelect(label, option);
     } else {
       setSelected(option);
@@ -99,7 +121,7 @@ function StyledSelect({
       {!isInput && !isTextArea && (
         <div className={styles.selectContainer}>
           <button
-            name="select button"
+            name="select_button"
             className={`${styles.select} ${
               size === "small" ? styles.small : ""
             }`}
