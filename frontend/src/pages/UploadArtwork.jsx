@@ -88,6 +88,7 @@ function UploadArtwork() {
     shippingAddress,
     price,
     images,
+    availability,
   } = useSelector(getArtwork);
   const newArtwork = useSelector(getArtwork);
   const { userInfo } = useSelector(getAuth);
@@ -131,18 +132,18 @@ function UploadArtwork() {
     ) {
       setIsDisabled(false);
     } else if (
-      currentStep === 3 &&
-      weight &&
-      packagingType &&
-      packagingWeight &&
-      ((framed && frameDimensions.width && frameDimensions.height) ||
-        !framed) &&
-      shippingAddress.city &&
-      shippingAddress.state &&
-      shippingAddress.country &&
-      ((editions === "Limited Edition" && totalRun && availableForSale) ||
-        editions === "One-of-a-kind") &&
-      price > 0
+      (currentStep === 3 &&
+        weight &&
+        packagingType &&
+        packagingWeight &&
+        ((framed && frameDimensions.width && frameDimensions.height) ||
+          !framed) &&
+        shippingAddress.city &&
+        shippingAddress.state &&
+        shippingAddress.country &&
+        ((editions === "Limited Edition" && totalRun && availableForSale) ||
+          (editions === "One-of-a-kind" && price > 0))) ||
+      availability === "Not For Sale"
     ) {
       setIsDisabled(false);
     } else if (currentStep === 4) {
@@ -174,6 +175,7 @@ function UploadArtwork() {
     totalRun,
     weight,
     published,
+    availability,
   ]);
 
   async function handleSaveContinue(e) {
@@ -215,7 +217,8 @@ function UploadArtwork() {
         shippingAddress.state &&
         shippingAddress.country &&
         packagingType &&
-        price
+        ((availability === "For Sale" && price) ||
+          (availability === "Not For Sale" && !price))
       ) {
         setCurrentStep((prevStep) => prevStep + 1);
       }

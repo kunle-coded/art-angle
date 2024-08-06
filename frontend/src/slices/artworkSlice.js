@@ -50,11 +50,20 @@ const artworkSlice = createSlice({
     updateMedium(state, action) {
       state.medium = [...state.medium, action.payload];
     },
+    deleteMediumItem(state, action) {
+      const newList = state.medium.filter((item) => item !== action.payload);
+      state.medium = [...newList];
+    },
     updateMaterials(state, action) {
       state.materials = [...state.materials, action.payload];
     },
     updateStyles(state, action) {
       state.styles = [...state.styles, action.payload];
+    },
+
+    deleteStyleItem(state, action) {
+      const newList = state.styles.filter((item) => item !== action.payload);
+      state.styles = [...newList];
     },
 
     updateDimensions(state, action) {
@@ -127,6 +136,7 @@ export const {
   updateYear,
   updateMaterials,
   updateMedium,
+  deleteMediumItem,
   updateStyles,
   updateDimensions,
   updateDescription,

@@ -154,7 +154,7 @@ function UserProfile() {
                     title={
                       userInfo.userType === "buyer" ? "Collections" : "Orders"
                     }
-                    list={artworksTwo.splice(0, 4)}
+                    list={userInfo.orders}
                     link={`/user/${userInfo.id}/collections`}
                   />
 

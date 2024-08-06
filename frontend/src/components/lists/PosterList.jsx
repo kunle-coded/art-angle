@@ -17,14 +17,17 @@ function PosterList({ list = [], title = "", link, userType, artworkLink }) {
         </div>
       ) : (
         <ListItems>
-          {list.map((artwork) => (
-            <SmallPoster
-              key={artwork.id}
-              artwork={artwork}
-              type={userType}
-              link={`${artworkLink}/${artwork.id}`}
-            />
-          ))}
+          {list.map(
+            (artwork, i) =>
+              i < 4 && (
+                <SmallPoster
+                  key={artwork.id}
+                  artwork={artwork}
+                  type={userType}
+                  link={`${artworkLink}/${artwork.id}`}
+                />
+              )
+          )}
         </ListItems>
       )}
 

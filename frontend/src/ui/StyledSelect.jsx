@@ -4,6 +4,8 @@ import CloseIcon from "../components/icons/CloseIcon";
 import StyledTextArea from "./StyledTextArea";
 import { useField } from "../hooks";
 import Button from "./Button";
+import { useDispatch } from "react-redux";
+import { deleteMediumItem } from "../slices/artworkSlice";
 
 function StyledSelect({
   label = "",
@@ -27,6 +29,8 @@ function StyledSelect({
   const { onReset, ...inputProps } = inputValue;
   const textAreaValue = useField("text");
   const { onReset: resetTextArea, ...textAreaProps } = textAreaValue;
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const handleClickOutside = (e) => {
@@ -63,10 +67,6 @@ function StyledSelect({
       }
 
       setSelectedMultiple((prevSelected) => [...prevSelected, option]);
-      const selections = [...selectedMultiple, option];
-      // const multipleSelections = selections.filter(
-      //   (item) => item !== placeholder
-      // );
 
       onSelect(label, option);
     } else {
@@ -80,6 +80,8 @@ function StyledSelect({
     setSelectedMultiple((prevItems) =>
       prevItems.filter((itemToDel) => itemToDel !== item)
     );
+
+    dispatch(deleteMediumItem(item));
   }
 
   function handleKeyDown(event) {
