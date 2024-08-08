@@ -104,3 +104,14 @@
   text-decoration: underline;
   cursor: pointer;
 }
+
+.emptyList {
+  display: flex;
+  -webkit-box-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  align-items: center;
+  padding: 50px 0px 0px;
+  font-size: var(--desktop-headline-xsm);
+  line-height: 26px;
+}

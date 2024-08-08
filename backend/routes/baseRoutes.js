@@ -11,7 +11,7 @@ const { protect } = require("../middleware/authMiddleware");
 router.get("/artworks", getArtworks);
 router.get("/artworks/featured", getFeaturedArtworks);
 router.get("/artworks/new", getNewArtworks);
-router.post("/artworks/price", getArtworksByPrice);
+router.get("/artworks/price", getArtworksByPrice);
 router.put("/checkout", protect, checkout);
 
 module.exports = router;

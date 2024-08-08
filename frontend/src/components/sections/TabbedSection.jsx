@@ -1,72 +1,43 @@
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import styles from "./TabbedSection.module.css";
-import { useCallback, useEffect, useRef, useState } from "react";
-import { useDispatch } from "react-redux";
-import {
-  enableError,
-  updatePriceSort,
-  updateSuccessMgs,
-} from "../../slices/globalSlice";
-import MiniSpinner from "../../ui/MiniSpinner";
+
 import Spinner from "../../ui/Spinner";
-import { useArtworksByPriceMutation } from "../../slices/artworksApiSlice";
+import { useArtworksByPriceQuery } from "../../slices/artworksApiSlice";
 import SmallCard from "../../ui/SmallCard";
 
 function TabbedSection({ children, onSort }) {
   const [isSelected, setIsSelected] = useState(4);
-  const [sortedArtworks, setSortedArtworks] = useState([]);
+  const [priceSort, setPriceSort] = useState({ min: 0, max: 2000000 });
 
-  const [artworksByPrice, { data: artworks, isLoading }] =
-    useArtworksByPriceMutation();
+  const { data: artworks, isFetching } = useArtworksByPriceQuery(priceSort);
 
   const tabsRef = useRef(null);
 
-  const dispatch = useDispatch();
+  console.log(isFetching);
 
-  useEffect(() => {
-    const priceSort = { min: 0, max: 2000000 };
+  const handleTabClick = useCallback(async (e) => {
+    const tabIndex = e.target.tabIndex;
+    const tabValue = e.target.dataset.value;
+    const values = tabValue.split("-");
 
-    async function getPriceSort() {
-      try {
-        await artworksByPrice(priceSort).unwrap();
-      } catch (error) {
-        // dispatch(updateSuccessMgs())
-        dispatch(enableError());
-      }
+    const priceSort = {};
+
+    if (values.length <= 1 && tabIndex === 0) {
+      priceSort.max = Number(values[0]);
+    } else if (values.length <= 1 && tabIndex === 4) {
+      priceSort.min = Number(values[0]);
+    } else {
+      priceSort.min = Number(values[0]);
+      priceSort.max = Number(values[1]);
     }
 
-    getPriceSort();
-  }, [artworksByPrice, dispatch]);
+    console.log(priceSort);
 
-  useEffect(() => {
-    if (artworks) {
-      setSortedArtworks(artworks);
-    }
-  }, [artworks]);
+    setPriceSort(priceSort);
 
-  const handleTabClick = useCallback(
-    async (e) => {
-      const tabIndex = e.target.tabIndex;
-      const tabValue = e.target.dataset.value;
-      const values = tabValue.split("-");
-
-      const priceSort = {};
-
-      if (values.length <= 1 && tabIndex === 0) {
-        priceSort.max = Number(values[0]);
-      } else if (values.length <= 1 && tabIndex === 4) {
-        priceSort.min = Number(values[0]);
-      } else {
-        priceSort.min = Number(values[0]);
-        priceSort.max = Number(values[1]);
-      }
-
-      await artworksByPrice(priceSort).unwrap();
-
-      setIsSelected(tabIndex);
-    },
-    [artworksByPrice]
-  );
+    setIsSelected(tabIndex);
+  }, []);
 
   const handleKeyDown = (e) => {
     if (e.key === "ArrowRight") {
@@ -157,22 +128,30 @@ function TabbedSection({ children, onSort }) {
           </div>
         </div>
         <div className={styles.cardsContainer}>
-          <ul className={styles.cards}>
-            {isLoading && (
-              <div className={styles.spinnerContainer}>
-                <Spinner />
-              </div>
-            )}
-            {sortedArtworks.map((art) => (
-              <SmallCard key={art.id} artwork={art} />
-            ))}
-          </ul>
+          {artworks.length >= 1 ? (
+            <ul className={styles.cards}>
+              {isFetching && (
+                <div className={styles.spinnerContainer}>
+                  <Spinner />
+                </div>
+              )}
+              {artworks?.map((art) => (
+                <SmallCard key={art.id} artwork={art} />
+              ))}
+            </ul>
+          ) : (
+            <div className={styles.emptyList}>
+              There are currently no artworks for the chosen price range.
+            </div>
+          )}
         </div>
-        <div className={styles.linkContainer}>
-          <Link className={styles.link}>
-            View More Artworks by Selected Price
-          </Link>
-        </div>
+        {artworks.length >= 1 && (
+          <div className={styles.linkContainer}>
+            <Link className={styles.link}>
+              View More Artworks by Selected Price
+            </Link>
+          </div>
+        )}
       </section>
     </div>
   );

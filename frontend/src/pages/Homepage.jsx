@@ -19,7 +19,6 @@ import { closeLogin, getGlobal, openLogin } from "../slices/globalSlice";
 import { getAuth } from "../slices/authSlice";
 import {
   useAllArtworksQuery,
-  useArtworksByPriceMutation,
   useFeaturedArtworksQuery,
   useNewArtworksQuery,
 } from "../slices/artworksApiSlice";

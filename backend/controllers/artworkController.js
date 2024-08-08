@@ -29,20 +29,22 @@ const getFeaturedArtworks = asyncHandler(async (req, res) => {
 // route GET /api/artworks/price
 // access Public
 const getArtworksByPrice = asyncHandler(async (req, res) => {
-  const priceRange = req.body;
+  const { minPrice, maxPrice } = req.query;
 
-  if (priceRange.max && !priceRange.min) {
+  console.log(minPrice, maxPrice);
+
+  if (maxPrice && minPrice === undefined) {
     const artworks = await Artwork.find({
-      price: { $lte: priceRange.max },
+      price: { $lte: maxPrice },
     })
       .sort({ price: 1 })
       .select("-owner")
       .limit(6);
 
     res.status(200).json(artworks);
-  } else if (priceRange.min && !priceRange.max) {
+  } else if (minPrice && maxPrice === undefined) {
     const artworks = await Artwork.find({
-      price: { $gte: priceRange.min },
+      price: { $gte: minPrice },
     })
       .sort({ price: 1 })
       .select("-owner")
@@ -51,7 +53,7 @@ const getArtworksByPrice = asyncHandler(async (req, res) => {
     res.status(200).json(artworks);
   } else {
     const artworks = await Artwork.find({
-      price: { $gte: priceRange.min, $lte: priceRange.max },
+      price: { $gte: minPrice, $lte: maxPrice },
     })
       .sort({ price: 1 })
       .select("-owner")

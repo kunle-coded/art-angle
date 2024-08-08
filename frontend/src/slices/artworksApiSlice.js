@@ -21,12 +21,18 @@ export const artworksApiSlice = apiArtworkSlice.injectEndpoints({
         url: `${ALL_ARTWORKS_URL}/new`,
       }),
     }),
-    artworksByPrice: builder.mutation({
-      query: (data) => ({
-        url: `${ALL_ARTWORKS_URL}/price`,
-        method: "POST",
-        body: data,
-      }),
+    artworksByPrice: builder.query({
+      query: ({ min, max }) => {
+        let url = `${ALL_ARTWORKS_URL}/price?`;
+
+        if (min !== undefined) {
+          url += `minPrice=${min}&`;
+        }
+        if (max !== undefined) {
+          url += `maxPrice=${max}`;
+        }
+        return url;
+      },
     }),
     artistArtworks: builder.query({
       query: () => ({
@@ -86,7 +92,7 @@ export const {
   useAllArtworksQuery,
   useFeaturedArtworksQuery,
   useNewArtworksQuery,
-  useArtworksByPriceMutation,
+  useArtworksByPriceQuery,
   useArtistArtworksQuery,
   useUserSingleArtworkQuery,
   useUploadMutation,
