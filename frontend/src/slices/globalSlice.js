@@ -21,7 +21,7 @@ const initialState = {
   loginWindow: "",
   userType: "buyer",
   currentSort: "",
-  priceSort: { min: 0, max: 0 },
+  priceSort: {},
 };
 
 const globalSlice = createSlice({

@@ -8,6 +8,7 @@
 .imageWrapper {
   display: block;
   width: 100%;
+  background-color: var(--outline-variant);
 }
 
 .cardImage {

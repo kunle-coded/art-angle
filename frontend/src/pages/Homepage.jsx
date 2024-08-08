@@ -25,13 +25,9 @@ import {
 } from "../slices/artworksApiSlice";
 
 function Homepage() {
-  const [isPriceSort, setIsPriceSort] = useState(false);
-
   const { data: allArtworks } = useAllArtworksQuery();
   const { data: featuredArtworks } = useFeaturedArtworksQuery();
   const { data: newArtworks } = useNewArtworksQuery();
-  const [artworksByPrice, { data: artworksPrice }] =
-    useArtworksByPriceMutation();
 
   const { userInfo } = useSelector(getAuth);
   const { priceSort } = useSelector(getGlobal);
@@ -51,19 +47,6 @@ function Homepage() {
       dispatch(closeLogin());
     }
   }, [dispatch, navigate, pathname, userInfo]);
-
-  // useEffect;
-
-  useEffect(() => {
-    async function getPriceSort() {
-      if (isPriceSort) {
-        console.log(isPriceSort);
-        await artworksByPrice(priceSort).unwrap();
-      }
-    }
-
-    getPriceSort();
-  }, [artworksByPrice, isPriceSort, priceSort]);
 
   return (
     <div className="page">
@@ -94,17 +77,7 @@ function Homepage() {
         </PosterBlock>
       </Section>
 
-      <TabbedSection onSort={setIsPriceSort}>
-        {artworksPrice?.map((art) => (
-          <SmallCard
-            key={art.id}
-            title={art.title}
-            name={art.artist}
-            price={art.price}
-            url={art.url}
-          />
-        ))}
-      </TabbedSection>
+      <TabbedSection />
 
       <AdBanner />
 

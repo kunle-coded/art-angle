@@ -1,40 +1,72 @@
 import { Link } from "react-router-dom";
 import styles from "./TabbedSection.module.css";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
-import { updatePriceSort } from "../../slices/globalSlice";
+import {
+  enableError,
+  updatePriceSort,
+  updateSuccessMgs,
+} from "../../slices/globalSlice";
+import MiniSpinner from "../../ui/MiniSpinner";
+import Spinner from "../../ui/Spinner";
+import { useArtworksByPriceMutation } from "../../slices/artworksApiSlice";
+import SmallCard from "../../ui/SmallCard";
 
 function TabbedSection({ children, onSort }) {
-  const [isSelected, setIsSelected] = useState(0);
+  const [isSelected, setIsSelected] = useState(4);
+  const [sortedArtworks, setSortedArtworks] = useState([]);
+
+  const [artworksByPrice, { data: artworks, isLoading }] =
+    useArtworksByPriceMutation();
 
   const tabsRef = useRef(null);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const priceSort = { min: 250000, max: 0 };
-    dispatch(updatePriceSort(priceSort));
-  }, [dispatch]);
+    const priceSort = { min: 0, max: 2000000 };
 
-  const handleTabClick = (e) => {
-    const tabIndex = e.target.tabIndex;
-    const tabValue = e.target.dataset.value;
-    const values = tabValue.split("-");
-
-    const priceSort = {};
-
-    if (values.length <= 1) {
-      priceSort.min = Number(values[0]);
-      priceSort.max = 0;
-    } else {
-      priceSort.min = Number(values[0]);
-      priceSort.max = Number(values[1]);
+    async function getPriceSort() {
+      try {
+        await artworksByPrice(priceSort).unwrap();
+      } catch (error) {
+        // dispatch(updateSuccessMgs())
+        dispatch(enableError());
+      }
     }
-    dispatch(updatePriceSort(priceSort));
-    onSort(true);
 
-    setIsSelected(tabIndex);
-  };
+    getPriceSort();
+  }, [artworksByPrice, dispatch]);
+
+  useEffect(() => {
+    if (artworks) {
+      setSortedArtworks(artworks);
+    }
+  }, [artworks]);
+
+  const handleTabClick = useCallback(
+    async (e) => {
+      const tabIndex = e.target.tabIndex;
+      const tabValue = e.target.dataset.value;
+      const values = tabValue.split("-");
+
+      const priceSort = {};
+
+      if (values.length <= 1 && tabIndex === 0) {
+        priceSort.max = Number(values[0]);
+      } else if (values.length <= 1 && tabIndex === 4) {
+        priceSort.min = Number(values[0]);
+      } else {
+        priceSort.min = Number(values[0]);
+        priceSort.max = Number(values[1]);
+      }
+
+      await artworksByPrice(priceSort).unwrap();
+
+      setIsSelected(tabIndex);
+    },
+    [artworksByPrice]
+  );
 
   const handleKeyDown = (e) => {
     if (e.key === "ArrowRight") {
@@ -125,7 +157,16 @@ function TabbedSection({ children, onSort }) {
           </div>
         </div>
         <div className={styles.cardsContainer}>
-          <ul className={styles.cards}>{children}</ul>
+          <ul className={styles.cards}>
+            {isLoading && (
+              <div className={styles.spinnerContainer}>
+                <Spinner />
+              </div>
+            )}
+            {sortedArtworks.map((art) => (
+              <SmallCard key={art.id} artwork={art} />
+            ))}
+          </ul>
         </div>
         <div className={styles.linkContainer}>
           <Link className={styles.link}>

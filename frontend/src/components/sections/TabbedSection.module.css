@@ -50,7 +50,8 @@
   color: var(--primary);
   background-color: transparent;
   cursor: pointer;
-  transition: background-color 250ms ease 0s;
+  /* transition: background-color 250ms ease 0s; */
+  transition: 0.2s background-color linear;
 }
 
 .selectedTab {
@@ -68,6 +69,16 @@
 .cardsContainer {
   padding: 50px 0px 0px 0px;
   width: 100%;
+  min-height: 276.5px;
+  position: relative;
+}
+
+.spinnerContainer {
+  position: absolute;
+  left: 0px;
+  right: 0px;
+  top: 0px;
+  z-index: 10;
 }
 
 .cards {
@@ -76,6 +87,7 @@
   column-gap: 20px;
   width: 100%;
   list-style: none;
+  transition: display 250ms ease;
 }
 
 .linkContainer {

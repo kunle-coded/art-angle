@@ -30,16 +30,35 @@ const getFeaturedArtworks = asyncHandler(async (req, res) => {
 // access Public
 const getArtworksByPrice = asyncHandler(async (req, res) => {
   const priceRange = req.body;
-  const artworks = await Artwork.find({
-    price: { $gte: priceRange.min, $lte: priceRange.max },
-  })
-    .sort({ price: 1 })
-    .select("-owner")
-    .limit(6);
 
-  console.log(artworks.length);
+  if (priceRange.max && !priceRange.min) {
+    const artworks = await Artwork.find({
+      price: { $lte: priceRange.max },
+    })
+      .sort({ price: 1 })
+      .select("-owner")
+      .limit(6);
 
-  res.status(200).json(artworks);
+    res.status(200).json(artworks);
+  } else if (priceRange.min && !priceRange.max) {
+    const artworks = await Artwork.find({
+      price: { $gte: priceRange.min },
+    })
+      .sort({ price: 1 })
+      .select("-owner")
+      .limit(6);
+
+    res.status(200).json(artworks);
+  } else {
+    const artworks = await Artwork.find({
+      price: { $gte: priceRange.min, $lte: priceRange.max },
+    })
+      .sort({ price: 1 })
+      .select("-owner")
+      .limit(6);
+
+    res.status(200).json(artworks);
+  }
 });
 
 // @desc Get all artworks
