@@ -13,6 +13,47 @@ const getArtworks = asyncHandler(async (req, res) => {
   res.status(200).json(artworks);
 });
 
+// @desc Get all artworks
+// route GET /api/artworks/featured
+// access Public
+const getFeaturedArtworks = asyncHandler(async (req, res) => {
+  const artworks = await Artwork.find({})
+    .select("-owner")
+    .sort({ price: "descending" })
+    .limit(8);
+
+  res.status(200).json(artworks);
+});
+
+// @desc Get all artworks
+// route GET /api/artworks/price
+// access Public
+const getArtworksByPrice = asyncHandler(async (req, res) => {
+  const priceRange = req.body;
+  const artworks = await Artwork.find({
+    price: { $gte: priceRange.min, $lte: priceRange.max },
+  })
+    .sort({ price: 1 })
+    .select("-owner")
+    .limit(6);
+
+  console.log(artworks.length);
+
+  res.status(200).json(artworks);
+});
+
+// @desc Get all artworks
+// route GET /api/artworks/new
+// access Public
+const getNewArtworks = asyncHandler(async (req, res) => {
+  const artworks = await Artwork.find()
+    .select("-owner")
+    .sort({ createdAt: -1 })
+    .limit(8);
+
+  res.status(200).json(artworks);
+});
+
 // @desc Get all user's artworks
 // route GET /api/user/artworks
 // access Private
@@ -238,6 +279,9 @@ const deleteArtworks = asyncHandler(async (req, res) => {
 
 module.exports = {
   getArtworks,
+  getFeaturedArtworks,
+  getNewArtworks,
+  getArtworksByPrice,
   getUserArtworks,
   getUserSingleArtwork,
   addArtworks,

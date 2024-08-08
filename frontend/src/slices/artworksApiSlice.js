@@ -11,6 +11,23 @@ export const artworksApiSlice = apiArtworkSlice.injectEndpoints({
       }),
       providesTags: ["Artworks"],
     }),
+    featuredArtworks: builder.query({
+      query: () => ({
+        url: `${ALL_ARTWORKS_URL}/featured`,
+      }),
+    }),
+    newArtworks: builder.query({
+      query: () => ({
+        url: `${ALL_ARTWORKS_URL}/new`,
+      }),
+    }),
+    artworksByPrice: builder.mutation({
+      query: (data) => ({
+        url: `${ALL_ARTWORKS_URL}/price`,
+        method: "POST",
+        body: data,
+      }),
+    }),
     artistArtworks: builder.query({
       query: () => ({
         url: ARTWORKS_URL,
@@ -67,6 +84,9 @@ export const artworksApiSlice = apiArtworkSlice.injectEndpoints({
 
 export const {
   useAllArtworksQuery,
+  useFeaturedArtworksQuery,
+  useNewArtworksQuery,
+  useArtworksByPriceMutation,
   useArtistArtworksQuery,
   useUserSingleArtworkQuery,
   useUploadMutation,

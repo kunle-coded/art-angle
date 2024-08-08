@@ -21,6 +21,7 @@ const initialState = {
   loginWindow: "",
   userType: "buyer",
   currentSort: "",
+  priceSort: { min: 0, max: 0 },
 };
 
 const globalSlice = createSlice({
@@ -128,6 +129,10 @@ const globalSlice = createSlice({
     deactivateLogout(state) {
       state.isDeactivate = false;
     },
+
+    updatePriceSort(state, action) {
+      state.priceSort = action.payload;
+    },
   },
 });
 
@@ -166,6 +171,7 @@ export const {
   updateDeactivate,
   activateLogout,
   deactivateLogout,
+  updatePriceSort,
 } = globalSlice.actions;
 
 export default globalSlice.reducer;

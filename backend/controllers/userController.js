@@ -157,7 +157,7 @@ const uploadFile = asyncHandler(async (req, res) => {
     await deleteFileFromS3(imageToDelete);
   }
 
-  const imgUrl = await uploadFileToS3("users", file);
+  const imgUrl = await uploadFileToS3("users", file, user.id);
 
   user.profileImageUrl = imgUrl;
   await user.save();

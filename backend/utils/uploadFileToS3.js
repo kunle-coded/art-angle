@@ -28,13 +28,11 @@ function uploadFileToS3(folderName, file, id) {
   };
 
   return new Promise((resolve, reject) => {
-    console.log("Starting headObject check...");
     s3.headObject(
       { Bucket: params.Bucket, Key: params.Key },
       (err, metadata) => {
         if (err) {
           if (err.code === "NotFound") {
-            console.log("File not found, proceeding with upload...");
             s3.upload(params, (err, data) => {
               if (err) {
                 console.log("Error uploading file", err);
@@ -61,5 +59,3 @@ function uploadFileToS3(folderName, file, id) {
 }
 
 module.exports = { uploadFileToS3 };
-
-// AWSReservedSSO_PowerUserAccess_86551d895212458e/kunle-dev

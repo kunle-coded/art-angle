@@ -6,32 +6,35 @@ import Section from "../components/sections/Section";
 import Slider from "../components/slider/Slider";
 import ScrollSection from "../components/sections/ScrollSection";
 import CategoryCard from "../ui/CategoryCard";
-import {
-  categories,
-  artworksByPrice,
-  artworks,
-  artists,
-  events,
-} from "../data";
+import { categories, artworks, artists, events } from "../data";
 import TabbedSection from "../components/sections/TabbedSection";
 import SmallCard from "../ui/SmallCard";
 import AdBanner from "../components/ads/AdBanner";
 import ArtistCard from "../ui/ArtistCard";
 import BigCard from "../ui/BigCard";
-import { getArtworks } from "../services/apiArtworks";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
-import { closeLogin, openLogin } from "../slices/globalSlice";
+import { useCallback, useEffect, useState } from "react";
+import { closeLogin, getGlobal, openLogin } from "../slices/globalSlice";
 import { getAuth } from "../slices/authSlice";
+import {
+  useAllArtworksQuery,
+  useArtworksByPriceMutation,
+  useFeaturedArtworksQuery,
+  useNewArtworksQuery,
+} from "../slices/artworksApiSlice";
 
 function Homepage() {
-  // const { data, error, isLoading } = useQuery({
-  //   queryKey: ["artworks"],
-  //   queryFn: getArtworks,
-  // });
+  const [isPriceSort, setIsPriceSort] = useState(false);
+
+  const { data: allArtworks } = useAllArtworksQuery();
+  const { data: featuredArtworks } = useFeaturedArtworksQuery();
+  const { data: newArtworks } = useNewArtworksQuery();
+  const [artworksByPrice, { data: artworksPrice }] =
+    useArtworksByPriceMutation();
 
   const { userInfo } = useSelector(getAuth);
+  const { priceSort } = useSelector(getGlobal);
 
   const { pathname } = useLocation();
   const dispatch = useDispatch();
@@ -49,12 +52,25 @@ function Homepage() {
     }
   }, [dispatch, navigate, pathname, userInfo]);
 
+  // useEffect;
+
+  useEffect(() => {
+    async function getPriceSort() {
+      if (isPriceSort) {
+        console.log(isPriceSort);
+        await artworksByPrice(priceSort).unwrap();
+      }
+    }
+
+    getPriceSort();
+  }, [artworksByPrice, isPriceSort, priceSort]);
+
   return (
     <div className="page">
       <Slider />
       <Section title="Featured artworks">
         <PosterBlock>
-          {artworks.map((artwork) => (
+          {featuredArtworks?.map((artwork) => (
             <Poster key={artwork.id} poster={artwork} />
           ))}
         </PosterBlock>
@@ -72,14 +88,14 @@ function Homepage() {
         link="/emerging-arts"
       >
         <PosterBlock>
-          {artworks.map((artwork) => (
+          {newArtworks?.map((artwork) => (
             <Poster key={artwork.id} poster={artwork} />
           ))}
         </PosterBlock>
       </Section>
 
-      <TabbedSection>
-        {artworksByPrice.map((art) => (
+      <TabbedSection onSort={setIsPriceSort}>
+        {artworksPrice?.map((art) => (
           <SmallCard
             key={art.id}
             title={art.title}
