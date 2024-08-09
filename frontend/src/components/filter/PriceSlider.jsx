@@ -13,7 +13,7 @@ import {
   enablePriceButton,
 } from "../../slices/globalSlice";
 
-function PriceSlider() {
+function PriceSlider({ priceParams }) {
   const [minValue, setMinValue] = useState(0);
   const [maxValue, setMaxValue] = useState(MAX_FILTER_PRICE);
   const [inputMinValue, setInputMinValue] = useState("");
@@ -21,7 +21,34 @@ function PriceSlider() {
 
   const { selectedPrice } = useSelector(getFilters);
 
+  // const priceParams = priceParams;
+  // const { minPrice, maxPrice } = priceParams;
+  console.log(priceParams);
+
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    const priceInput = filterPrice(minValue, maxValue);
+
+    console.log(priceInput);
+
+    if (priceParams?.minPrice) {
+      setMinValue(priceParams?.minPrice);
+      // setMaxValue(priceParams.maxPrice);
+      dispatch(updatePrice(priceInput));
+    }
+
+    if (priceParams?.maxPrice) {
+      // setMinValue(priceParams.minPrice);
+      setMaxValue(priceParams?.maxPrice);
+    }
+  }, [
+    dispatch,
+    maxValue,
+    minValue,
+    priceParams?.maxPrice,
+    priceParams?.minPrice,
+  ]);
 
   useEffect(() => {
     if (selectedPrice.length >= 1) {

@@ -6,15 +6,13 @@ import Spinner from "../../ui/Spinner";
 import { useArtworksByPriceQuery } from "../../slices/artworksApiSlice";
 import SmallCard from "../../ui/SmallCard";
 
-function TabbedSection({ children, onSort }) {
+function TabbedSection() {
   const [isSelected, setIsSelected] = useState(4);
   const [priceSort, setPriceSort] = useState({ min: 0, max: 2000000 });
 
   const { data: artworks, isFetching } = useArtworksByPriceQuery(priceSort);
 
   const tabsRef = useRef(null);
-
-  console.log(isFetching);
 
   const handleTabClick = useCallback(async (e) => {
     const tabIndex = e.target.tabIndex;
@@ -31,8 +29,6 @@ function TabbedSection({ children, onSort }) {
       priceSort.min = Number(values[0]);
       priceSort.max = Number(values[1]);
     }
-
-    console.log(priceSort);
 
     setPriceSort(priceSort);
 
@@ -128,7 +124,7 @@ function TabbedSection({ children, onSort }) {
           </div>
         </div>
         <div className={styles.cardsContainer}>
-          {artworks.length >= 1 ? (
+          {artworks?.length >= 1 ? (
             <ul className={styles.cards}>
               {isFetching && (
                 <div className={styles.spinnerContainer}>
@@ -145,9 +141,12 @@ function TabbedSection({ children, onSort }) {
             </div>
           )}
         </div>
-        {artworks.length >= 1 && (
+        {artworks?.length >= 1 && (
           <div className={styles.linkContainer}>
-            <Link className={styles.link}>
+            <Link
+              to={`/artworks?min=${priceSort.min}&max=${priceSort.max}`}
+              className={styles.link}
+            >
               View More Artworks by Selected Price
             </Link>
           </div>

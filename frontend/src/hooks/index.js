@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 
 export const useField = (type) => {
   const [value, setValue] = useState("");
@@ -18,6 +19,17 @@ export const useField = (type) => {
     onChange,
     onReset,
   };
+};
+
+export const usePriceParams = () => {
+  const location = useLocation();
+
+  const params = new URLSearchParams(location.search);
+
+  const minPrice = params.get("min");
+  const maxPrice = params.get("max");
+
+  return { minPrice, maxPrice };
 };
 
 export const useShowPassword = () => {

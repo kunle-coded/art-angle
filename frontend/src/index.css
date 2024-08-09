@@ -103,7 +103,6 @@ html {
 
 body {
   font-family: "Montserrat", "Josefin Sans", sans-serif;
-  transition: color 0.3s, background-color 0.3s;
   min-height: 100vh;
   font-optical-sizing: auto;
   font-weight: 400;
@@ -112,6 +111,7 @@ body {
   color: var(--primary);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+  transition: color 0.3s ease, background-color 0.3s ease;
 }
 
 input:-webkit-autofill,

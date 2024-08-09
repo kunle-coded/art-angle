@@ -9,13 +9,7 @@ import {
   showPriceDropdown,
 } from "../slices/globalSlice";
 import { getFilters } from "../slices/filterSlice";
-import {
-  categories,
-  rarity,
-  medium,
-  artworksTwo,
-  artworksThree,
-} from "../data";
+import { categories, rarity, medium } from "../data";
 
 import Section from "../components/sections/Section";
 import CategoryCardSmall from "../ui/CategoryCardSmall";
@@ -42,6 +36,7 @@ import { useAllArtworksQuery } from "../slices/artworksApiSlice";
 import Spinner from "../ui/Spinner";
 import distributeArtworks from "../helpers/distributeArtworks";
 import { NUM_COLUMNS } from "../constants/constants";
+import { usePriceParams } from "../hooks";
 
 const sortArray = [
   "Recommended",
@@ -61,6 +56,11 @@ function Artworks() {
   const priceRef = useRef(null);
 
   const { data: artworks } = useAllArtworksQuery();
+
+  const { minPrice, maxPrice } = usePriceParams();
+
+  // console.log("min price param: ", minPrice);
+  // console.log("max price param: ", maxPrice);
 
   const { sortDropdown, mediumDropdown, rarityDropdown, priceDropdown } =
     useSelector(getGlobal);
@@ -228,7 +228,7 @@ function Artworks() {
       <div>
         {priceDropdown && (
           <FilterDropdown ref={priceRef} type="price">
-            <PriceSlider />
+            <PriceSlider priceParams={{ minPrice, maxPrice }} />
           </FilterDropdown>
         )}
       </div>

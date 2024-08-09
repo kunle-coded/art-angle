@@ -8,13 +8,12 @@ import ScrollSection from "../components/sections/ScrollSection";
 import CategoryCard from "../ui/CategoryCard";
 import { categories, artworks, artists, events } from "../data";
 import TabbedSection from "../components/sections/TabbedSection";
-import SmallCard from "../ui/SmallCard";
 import AdBanner from "../components/ads/AdBanner";
 import ArtistCard from "../ui/ArtistCard";
 import BigCard from "../ui/BigCard";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect } from "react";
 import { closeLogin, getGlobal, openLogin } from "../slices/globalSlice";
 import { getAuth } from "../slices/authSlice";
 import {
@@ -29,7 +28,6 @@ function Homepage() {
   const { data: newArtworks } = useNewArtworksQuery();
 
   const { userInfo } = useSelector(getAuth);
-  const { priceSort } = useSelector(getGlobal);
 
   const { pathname } = useLocation();
   const dispatch = useDispatch();

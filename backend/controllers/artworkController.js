@@ -31,8 +31,6 @@ const getFeaturedArtworks = asyncHandler(async (req, res) => {
 const getArtworksByPrice = asyncHandler(async (req, res) => {
   const { minPrice, maxPrice } = req.query;
 
-  console.log(minPrice, maxPrice);
-
   if (maxPrice && minPrice === undefined) {
     const artworks = await Artwork.find({
       price: { $lte: maxPrice },
