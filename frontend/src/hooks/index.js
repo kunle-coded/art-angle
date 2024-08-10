@@ -32,6 +32,34 @@ export const usePriceParams = () => {
   return { minPrice, maxPrice };
 };
 
+export const useUpdateUrlParams = () => {
+  const location = useLocation();
+
+  const updateUrlParams = (newParams) => {
+    const searchParams = new URLSearchParams(location.search);
+
+    Object.keys(newParams).forEach((key) => {
+      searchParams.set(key, newParams[key]);
+    });
+
+    const newUrl = `${location.pathname}?${searchParams.toString()}`;
+    window.history.replaceState(null, "", newUrl);
+  };
+
+  return updateUrlParams;
+};
+
+export const useClearParams = (key, value) => {
+  const location = useLocation();
+
+  const clearParams = () => {
+    const newUrl = location.pathname;
+    window.history.replaceState(null, "", newUrl);
+  };
+
+  return clearParams;
+};
+
 export const useShowPassword = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [passwordType, setPasswordType] = useState("password");

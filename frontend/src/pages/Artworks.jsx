@@ -65,9 +65,6 @@ function Artworks() {
 
   const { minPrice, maxPrice } = usePriceParams();
 
-  // console.log("min price param: ", minPrice);
-  // console.log("max price param: ", maxPrice);
-
   const { sortDropdown, mediumDropdown, rarityDropdown, priceDropdown } =
     useSelector(getGlobal);
   const { selectedMedium, selectedRarity, selectedPrice } =
@@ -82,12 +79,16 @@ function Artworks() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(updatePriceFilter({ minPrice, maxPrice }));
+    if (minPrice || maxPrice) {
+      dispatch(updatePriceFilter({ minPrice, maxPrice }));
+    }
   }, []);
 
   useEffect(() => {
-    const priceInput = filterPrice(minPrice, maxPrice);
-    dispatch(updatePrice(priceInput));
+    if (minPrice || maxPrice) {
+      const priceInput = filterPrice(minPrice, maxPrice);
+      dispatch(updatePrice(priceInput));
+    }
   }, []);
 
   useEffect(() => {
