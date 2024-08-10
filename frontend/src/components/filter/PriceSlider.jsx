@@ -19,11 +19,8 @@ function PriceSlider({ onPriceChange }) {
   const [maxValue, setMaxValue] = useState(MAX_FILTER_PRICE);
   const [inputMinValue, setInputMinValue] = useState("");
   const [inputMaxValue, setInputMaxValue] = useState("");
-  const [isParamFilter, setIsParamFilter] = useState(false);
 
   const { selectedPrice, priceFilter } = useSelector(getFilters);
-
-  // const { minPrice, maxPrice } = usePriceParams();
 
   const dispatch = useDispatch();
 
@@ -42,7 +39,7 @@ function PriceSlider({ onPriceChange }) {
         setInputMinValue(minVal);
       }
 
-      if (isMaxValueValid) {
+      if (isMaxValueValid && maxVal < MAX_FILTER_PRICE) {
         setInputMaxValue(maxVal);
         setMaxValue(maxVal);
       }
@@ -55,7 +52,7 @@ function PriceSlider({ onPriceChange }) {
     } else {
       dispatch(disablePriceButton());
     }
-  }, [dispatch, isParamFilter, selectedPrice.length]);
+  }, [dispatch, selectedPrice.length]);
 
   function handleMinChange(e) {
     e.stopPropagation();
@@ -103,13 +100,7 @@ function PriceSlider({ onPriceChange }) {
 
   function handleMinInput(e) {
     const value = e.target.value;
-    console.log("input b4 if-- ", inputMinValue);
     if (Number(value) > MIN_FILTER_PRICE) {
-      console.log("input after if-- ", inputMinValue);
-      // if (Number(inputMinValue) === MIN_FILTER_PRICE) {
-      //   setInputMinValue("");
-      // } else {
-      // }
       setInputMinValue(value);
       setMinValue(value);
     } else {
@@ -120,7 +111,6 @@ function PriceSlider({ onPriceChange }) {
   }
   function handleMaxInput(e) {
     const value = e.target.value;
-    // setInputMaxValue(value);
 
     if (Number(inputMaxValue) < MAX_FILTER_PRICE) {
       if (Number(inputMaxValue) === MAX_FILTER_PRICE - 1) {

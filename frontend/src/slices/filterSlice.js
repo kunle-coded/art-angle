@@ -60,6 +60,9 @@ const filterSlice = createSlice({
     updatePriceFilter(state, action) {
       state.priceFilter = action.payload;
     },
+    removePriceFilter(state, action) {
+      state.priceFilter = initialState.priceFilter;
+    },
 
     resetFilter() {
       return initialState;
@@ -78,6 +81,7 @@ export const {
   updateAllFilters,
   removeAllFiltersItem,
   updatePriceFilter,
+  removePriceFilter,
 } = filterSlice.actions;
 
 export default filterSlice.reducer;

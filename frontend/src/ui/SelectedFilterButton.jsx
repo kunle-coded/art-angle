@@ -4,6 +4,7 @@ import {
   removeMediumItem,
   removeRarityItem,
   removePriceItem,
+  removePriceFilter,
 } from "../slices/filterSlice";
 
 import styles from "./SelectedFilterButton.module.css";
@@ -25,6 +26,7 @@ function SelectedFilterButton({ text }) {
       dispatch(removeRarityItem(text));
     } else if (isInPrice) {
       dispatch(removePriceItem());
+      dispatch(removePriceFilter());
     } else {
       return;
     }

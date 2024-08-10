@@ -187,8 +187,9 @@ function Artworks() {
           <FilterButton
             ref={priceRef}
             text="Price Range"
-            type="price"
+            type="filter"
             isDropdown={priceDropdown}
+            count={selectedPrice.length}
             onClick={() => openDropdown("price")}
           />
         </FilterComponent>
