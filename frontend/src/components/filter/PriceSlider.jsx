@@ -7,48 +7,47 @@ import {
   updatePrice,
 } from "../../slices/filterSlice";
 import filterPrice from "../../helpers/filterPrice";
-import { MAX_FILTER_PRICE } from "../../constants";
+import { MAX_FILTER_PRICE, MIN_FILTER_PRICE } from "../../constants/constants";
 import {
   disablePriceButton,
   enablePriceButton,
 } from "../../slices/globalSlice";
+import { usePriceParams } from "../../hooks";
 
-function PriceSlider({ priceParams }) {
-  const [minValue, setMinValue] = useState(0);
+function PriceSlider({ onPriceChange }) {
+  const [minValue, setMinValue] = useState(MIN_FILTER_PRICE);
   const [maxValue, setMaxValue] = useState(MAX_FILTER_PRICE);
   const [inputMinValue, setInputMinValue] = useState("");
   const [inputMaxValue, setInputMaxValue] = useState("");
+  const [isParamFilter, setIsParamFilter] = useState(false);
 
-  const { selectedPrice } = useSelector(getFilters);
+  const { selectedPrice, priceFilter } = useSelector(getFilters);
 
-  // const priceParams = priceParams;
-  // const { minPrice, maxPrice } = priceParams;
-  console.log(priceParams);
+  // const { minPrice, maxPrice } = usePriceParams();
 
   const dispatch = useDispatch();
 
+  const { minPrice, maxPrice } = priceFilter;
+
   useEffect(() => {
-    const priceInput = filterPrice(minValue, maxValue);
+    if (minPrice || maxPrice) {
+      const minVal = Number(minPrice);
+      const maxVal = Number(maxPrice);
 
-    console.log(priceInput);
+      const isMinValueValid = Number.isFinite(minVal);
+      const isMaxValueValid = Number.isFinite(maxVal);
 
-    if (priceParams?.minPrice) {
-      setMinValue(priceParams?.minPrice);
-      // setMaxValue(priceParams.maxPrice);
-      dispatch(updatePrice(priceInput));
+      if (isMinValueValid) {
+        setMinValue(minVal);
+        setInputMinValue(minVal);
+      }
+
+      if (isMaxValueValid) {
+        setInputMaxValue(maxVal);
+        setMaxValue(maxVal);
+      }
     }
-
-    if (priceParams?.maxPrice) {
-      // setMinValue(priceParams.minPrice);
-      setMaxValue(priceParams?.maxPrice);
-    }
-  }, [
-    dispatch,
-    maxValue,
-    minValue,
-    priceParams?.maxPrice,
-    priceParams?.minPrice,
-  ]);
+  }, []);
 
   useEffect(() => {
     if (selectedPrice.length >= 1) {
@@ -56,7 +55,7 @@ function PriceSlider({ priceParams }) {
     } else {
       dispatch(disablePriceButton());
     }
-  }, [dispatch, selectedPrice.length]);
+  }, [dispatch, isParamFilter, selectedPrice.length]);
 
   function handleMinChange(e) {
     e.stopPropagation();
@@ -64,6 +63,7 @@ function PriceSlider({ priceParams }) {
     if (value < maxValue) {
       setMinValue(value);
       setInputMinValue(value);
+      onPriceChange({ minPrice: value, maxPrice: maxValue });
     }
   }
 
@@ -72,6 +72,7 @@ function PriceSlider({ priceParams }) {
     const value = parseInt(e.target.value);
     if (value > minValue) {
       setMaxValue(value);
+      onPriceChange({ minPrice: minValue, maxPrice: value });
       if (value === MAX_FILTER_PRICE) {
         setInputMaxValue("");
       } else {
@@ -100,12 +101,52 @@ function PriceSlider({ priceParams }) {
     }
   }
 
+  function handleMinInput(e) {
+    const value = e.target.value;
+    console.log("input b4 if-- ", inputMinValue);
+    if (Number(value) > MIN_FILTER_PRICE) {
+      console.log("input after if-- ", inputMinValue);
+      // if (Number(inputMinValue) === MIN_FILTER_PRICE) {
+      //   setInputMinValue("");
+      // } else {
+      // }
+      setInputMinValue(value);
+      setMinValue(value);
+    } else {
+      setInputMinValue("");
+    }
+
+    onPriceChange({ minPrice: value, maxPrice: inputMaxValue });
+  }
+  function handleMaxInput(e) {
+    const value = e.target.value;
+    // setInputMaxValue(value);
+
+    if (Number(inputMaxValue) < MAX_FILTER_PRICE) {
+      if (Number(inputMaxValue) === MAX_FILTER_PRICE - 1) {
+        setInputMaxValue("");
+      } else {
+        setMaxValue(value);
+        setInputMaxValue(value);
+      }
+    } else {
+      setInputMaxValue("");
+      return;
+    }
+
+    onPriceChange({ minPrice: inputMinValue, maxPrice: value });
+  }
+
   function handleClick(e) {
     e.stopPropagation();
   }
 
   const minProgressPercent = (minValue / MAX_FILTER_PRICE) * 100;
   const maxProgressPercent = 100 - (maxValue / MAX_FILTER_PRICE) * 100;
+
+  // const minProgressPercent = (minValue / MAX_FILTER_PRICE) * 100;
+  // const maxProgressPercent = (maxValue / MAX_FILTER_PRICE) * 100;
+  // const progressWidth = maxProgressPercent - minProgressPercent;
 
   const translateY = `translateY(${-180}%)`;
 
@@ -138,7 +179,7 @@ function PriceSlider({ priceParams }) {
           className={styles.rangeMax}
           min="0"
           step="10000"
-          max="3000000"
+          max="2000000"
           value={maxValue}
           onChange={handleMaxChange}
           onMouseUp={handleMaxChangeEnd}
@@ -147,8 +188,10 @@ function PriceSlider({ priceParams }) {
       </div>
 
       <div className={styles.labels}>
-        <div className={styles.labelText}>₦0</div>
-        <div className={styles.labelText}>₦3m+</div>
+        <div className={styles.labelText}>{`₦${MIN_FILTER_PRICE}`}</div>
+        <div className={styles.labelText}>{`₦${
+          MAX_FILTER_PRICE.toString().split("0")[0]
+        }m+`}</div>
       </div>
 
       <div className={styles.spacer}></div>
@@ -167,7 +210,7 @@ function PriceSlider({ priceParams }) {
                   step="100"
                   value={inputMinValue}
                   className={styles.styledInput}
-                  onChange={(e) => setInputMinValue(e.target.value)}
+                  onChange={handleMinInput}
                 />
                 <label
                   htmlFor="price_min"
@@ -210,7 +253,7 @@ function PriceSlider({ priceParams }) {
                   step="100"
                   value={inputMaxValue}
                   className={styles.styledInput}
-                  onChange={(e) => setInputMaxValue(e.target.value)}
+                  onChange={handleMaxInput}
                 />
                 <label
                   htmlFor="price_max"

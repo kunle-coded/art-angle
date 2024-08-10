@@ -25,6 +25,7 @@ function FilterDropdown(props, ref) {
 
   const children = props.children;
   const type = props.type;
+  const confirmHandler = props.onConfirm;
 
   useEffect(() => {
     if (mediumDropdown || rarityDropdown || priceDropdown) {
@@ -90,6 +91,7 @@ function FilterDropdown(props, ref) {
                     : undefined
                 }
                 size="small"
+                onClick={confirmHandler}
               >
                 Confirm
               </Button>

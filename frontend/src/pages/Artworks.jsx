@@ -8,7 +8,11 @@ import {
   showRarityDropdown,
   showPriceDropdown,
 } from "../slices/globalSlice";
-import { getFilters } from "../slices/filterSlice";
+import {
+  getFilters,
+  updatePrice,
+  updatePriceFilter,
+} from "../slices/filterSlice";
 import { categories, rarity, medium } from "../data";
 
 import Section from "../components/sections/Section";
@@ -37,6 +41,7 @@ import Spinner from "../ui/Spinner";
 import distributeArtworks from "../helpers/distributeArtworks";
 import { NUM_COLUMNS } from "../constants/constants";
 import { usePriceParams } from "../hooks";
+import filterPrice from "../helpers/filterPrice";
 
 const sortArray = [
   "Recommended",
@@ -49,6 +54,7 @@ const sortArray = [
 function Artworks() {
   const [selected, setSelected] = useState(0);
   const [showModal, setShowModal] = useState(false);
+  const [priceValues, setPriceValues] = useState({});
 
   const labelRef = useRef(null);
   const rarityRef = useRef(null);
@@ -76,12 +82,27 @@ function Artworks() {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    dispatch(updatePriceFilter({ minPrice, maxPrice }));
+  }, []);
+
+  useEffect(() => {
+    const priceInput = filterPrice(minPrice, maxPrice);
+    dispatch(updatePrice(priceInput));
+  }, []);
+
+  useEffect(() => {
     dispatch(updateCurrentSort(sortArray[0]));
   });
 
   function handleSort(index, sortItem) {
     setSelected((prevState) => (prevState !== index ? index : prevState));
     dispatch(updateCurrentSort(sortItem));
+  }
+
+  function confirmPriceFilter() {
+    dispatch(updatePriceFilter(priceValues));
+    const priceInput = filterPrice(priceValues.minPrice, priceValues.maxPrice);
+    dispatch(updatePrice(priceInput));
   }
 
   function openDropdown(target) {
@@ -227,8 +248,12 @@ function Artworks() {
       </div>
       <div>
         {priceDropdown && (
-          <FilterDropdown ref={priceRef} type="price">
-            <PriceSlider priceParams={{ minPrice, maxPrice }} />
+          <FilterDropdown
+            ref={priceRef}
+            type="price"
+            onConfirm={confirmPriceFilter}
+          >
+            <PriceSlider onPriceChange={setPriceValues} />
           </FilterDropdown>
         )}
       </div>

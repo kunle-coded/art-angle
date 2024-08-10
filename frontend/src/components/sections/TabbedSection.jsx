@@ -7,8 +7,8 @@ import { useArtworksByPriceQuery } from "../../slices/artworksApiSlice";
 import SmallCard from "../../ui/SmallCard";
 
 function TabbedSection() {
-  const [isSelected, setIsSelected] = useState(4);
-  const [priceSort, setPriceSort] = useState({ min: 0, max: 2000000 });
+  const [isSelected, setIsSelected] = useState(0);
+  const [priceSort, setPriceSort] = useState({ min: undefined, max: 250000 });
 
   const { data: artworks, isFetching } = useArtworksByPriceQuery(priceSort);
 
@@ -23,8 +23,10 @@ function TabbedSection() {
 
     if (values.length <= 1 && tabIndex === 0) {
       priceSort.max = Number(values[0]);
+      // priceSort.min = undefined;
     } else if (values.length <= 1 && tabIndex === 4) {
       priceSort.min = Number(values[0]);
+      // priceSort.max = undefined;
     } else {
       priceSort.min = Number(values[0]);
       priceSort.max = Number(values[1]);
@@ -141,7 +143,7 @@ function TabbedSection() {
             </div>
           )}
         </div>
-        {artworks?.length >= 1 && (
+        {artworks?.length >= 0 && (
           <div className={styles.linkContainer}>
             <Link
               to={`/artworks?min=${priceSort.min}&max=${priceSort.max}`}

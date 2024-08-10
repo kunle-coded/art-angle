@@ -1,1 +1,0 @@
-export const MAX_FILTER_PRICE = 3000000;

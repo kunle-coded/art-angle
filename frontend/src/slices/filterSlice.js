@@ -5,6 +5,7 @@ const initialState = {
   selectedRarity: [],
   selectedPrice: [],
   allSelectedFilters: [],
+  priceFilter: {},
 };
 
 const filterSlice = createSlice({
@@ -56,6 +57,10 @@ const filterSlice = createSlice({
       state.selectedPrice = initialState.selectedPrice;
     },
 
+    updatePriceFilter(state, action) {
+      state.priceFilter = action.payload;
+    },
+
     resetFilter() {
       return initialState;
     },
@@ -72,6 +77,7 @@ export const {
   resetFilter,
   updateAllFilters,
   removeAllFiltersItem,
+  updatePriceFilter,
 } = filterSlice.actions;
 
 export default filterSlice.reducer;
