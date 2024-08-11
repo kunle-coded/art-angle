@@ -7,9 +7,6 @@ const initialState = {
   rarityDropdown: false,
   priceDropdown: false,
   dropdownPadding: false,
-  isMediumDisabled: true,
-  isRarityDisabled: true,
-  isPriceDisabled: true,
   isDropdown: false,
   isModalOpen: false,
   isProfileDropdown: false,
@@ -60,24 +57,6 @@ const globalSlice = createSlice({
     },
     removePadding(state) {
       state.dropdownPadding = false;
-    },
-    disableMediumButton(state) {
-      state.isMediumDisabled = true;
-    },
-    enableMediumButton(state) {
-      state.isMediumDisabled = false;
-    },
-    disableRarityButton(state) {
-      state.isRarityDisabled = true;
-    },
-    enableRarityButton(state) {
-      state.isRarityDisabled = false;
-    },
-    disablePriceButton(state) {
-      state.isPriceDisabled = true;
-    },
-    enablePriceButton(state) {
-      state.isPriceDisabled = false;
     },
     updateCurrentSort(state, action) {
       state.currentSort = action.payload;
@@ -148,12 +127,6 @@ export const {
   closePriceDropdown,
   setPadding,
   removePadding,
-  disableMediumButton,
-  enableMediumButton,
-  disableRarityButton,
-  enableRarityButton,
-  disablePriceButton,
-  enablePriceButton,
   updateCurrentSort,
   openModal,
   closeModal,

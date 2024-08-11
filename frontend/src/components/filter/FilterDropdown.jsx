@@ -1,10 +1,11 @@
-import { forwardRef, useEffect, useRef } from "react";
+import { forwardRef, useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { getGlobal } from "../../slices/globalSlice";
 import useDropdown from "../../hooks/useDropdown";
 import styles from "./FilterDropdown.module.css";
 
 import Button from "../../ui/Button";
+import { getFilters } from "../../slices/filterSlice";
 
 function FilterDropdown(props, ref) {
   const {
@@ -13,10 +14,10 @@ function FilterDropdown(props, ref) {
     rarityDropdown,
     priceDropdown,
     sortDropdownPadding,
-    isRarityDisabled,
-    isMediumDisabled,
-    isPriceDisabled,
   } = useSelector(getGlobal);
+
+  const { selectedMedium, selectedRarity, selectedPrice } =
+    useSelector(getFilters);
 
   const transformXY = `translate(${sortPosition.left}px, ${sortPosition.top}px)`;
 
@@ -68,12 +69,12 @@ function FilterDropdown(props, ref) {
               <Button
                 disable={
                   type === "medium"
-                    ? isMediumDisabled
+                    ? selectedMedium.length < 1
                     : type === "rarity"
-                    ? isRarityDisabled
+                    ? selectedRarity.length < 1
                     : type === "price"
-                    ? isPriceDisabled
-                    : undefined
+                    ? selectedPrice.length < 1
+                    : true
                 }
                 type="secondary"
                 size="small"
@@ -83,12 +84,12 @@ function FilterDropdown(props, ref) {
               <Button
                 disable={
                   type === "medium"
-                    ? isMediumDisabled
+                    ? selectedMedium.length < 1
                     : type === "rarity"
-                    ? isRarityDisabled
+                    ? selectedRarity.length < 1
                     : type === "price"
-                    ? isPriceDisabled
-                    : undefined
+                    ? selectedPrice.length < 1
+                    : true
                 }
                 size="small"
                 onClick={confirmHandler}

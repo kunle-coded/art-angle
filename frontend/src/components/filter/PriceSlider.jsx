@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import styles from "./PriceSlider.module.css";
 import { useDispatch, useSelector } from "react-redux";
+import styles from "./PriceSlider.module.css";
 import {
   getFilters,
   removePriceItem,
@@ -8,11 +8,6 @@ import {
 } from "../../slices/filterSlice";
 import filterPrice from "../../helpers/filterPrice";
 import { MAX_FILTER_PRICE, MIN_FILTER_PRICE } from "../../constants/constants";
-import {
-  disablePriceButton,
-  enablePriceButton,
-} from "../../slices/globalSlice";
-import { usePriceParams } from "../../hooks";
 
 function PriceSlider({ onPriceChange }) {
   const [minValue, setMinValue] = useState(MIN_FILTER_PRICE);
@@ -46,20 +41,13 @@ function PriceSlider({ onPriceChange }) {
     }
   }, []);
 
-  useEffect(() => {
-    if (selectedPrice.length >= 1) {
-      dispatch(enablePriceButton());
-    } else {
-      dispatch(disablePriceButton());
-    }
-  }, [dispatch, selectedPrice.length]);
-
   function handleMinChange(e) {
     e.stopPropagation();
     const value = parseInt(e.target.value);
     if (value < maxValue) {
       setMinValue(value);
       setInputMinValue(value);
+
       onPriceChange({ minPrice: value, maxPrice: maxValue });
     }
   }
@@ -69,6 +57,7 @@ function PriceSlider({ onPriceChange }) {
     const value = parseInt(e.target.value);
     if (value > minValue) {
       setMaxValue(value);
+
       onPriceChange({ minPrice: minValue, maxPrice: value });
       if (value === MAX_FILTER_PRICE) {
         setInputMaxValue("");
@@ -134,10 +123,6 @@ function PriceSlider({ onPriceChange }) {
   const minProgressPercent = (minValue / MAX_FILTER_PRICE) * 100;
   const maxProgressPercent = 100 - (maxValue / MAX_FILTER_PRICE) * 100;
 
-  // const minProgressPercent = (minValue / MAX_FILTER_PRICE) * 100;
-  // const maxProgressPercent = (maxValue / MAX_FILTER_PRICE) * 100;
-  // const progressWidth = maxProgressPercent - minProgressPercent;
-
   const translateY = `translateY(${-180}%)`;
 
   return (
@@ -158,7 +143,7 @@ function PriceSlider({ onPriceChange }) {
           className={styles.rangeMin}
           min="0"
           step="10000"
-          max="3000000"
+          max="2000000"
           value={minValue}
           onChange={handleMinChange}
           onMouseUp={handleMinChangeEnd}

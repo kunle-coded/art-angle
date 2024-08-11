@@ -9,12 +9,6 @@ import {
   updateAllFilters,
   removeAllFiltersItem,
 } from "../../slices/filterSlice";
-import {
-  disableMediumButton,
-  enableMediumButton,
-  disableRarityButton,
-  enableRarityButton,
-} from "../../slices/globalSlice";
 
 import styles from "./SelectComponent.module.css";
 
@@ -57,22 +51,6 @@ function SelectComponent({ item, type, customWidth, color }) {
       }
     }
   }, [dispatch, item, selectedMedium, selectedRarity, type]);
-
-  useEffect(() => {
-    if (type === "rarity" && selectedRarity.length >= 1) {
-      dispatch(enableRarityButton());
-    } else {
-      dispatch(disableRarityButton());
-    }
-  }, [dispatch, selectedRarity.length, type]);
-
-  useEffect(() => {
-    if (type === "medium" && selectedMedium.length >= 1) {
-      dispatch(enableMediumButton());
-    } else {
-      dispatch(disableMediumButton());
-    }
-  }, [dispatch, selectedMedium.length, type]);
 
   function handleCheckbox(e) {
     e.stopPropagation();

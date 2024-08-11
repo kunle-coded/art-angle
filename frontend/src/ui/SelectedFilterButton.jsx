@@ -8,12 +8,15 @@ import {
 } from "../slices/filterSlice";
 
 import styles from "./SelectedFilterButton.module.css";
+import { useDeleteUrlParams } from "../hooks";
 
 function SelectedFilterButton({ text }) {
-  const { selectedMedium, selectedRarity, selectedPrice } =
+  const { selectedMedium, selectedRarity, selectedPrice, priceFilter } =
     useSelector(getFilters);
 
   const dispatch = useDispatch();
+
+  const removeUrlParams = useDeleteUrlParams();
 
   function handleClose() {
     const isInMedium = selectedMedium.find((medium) => medium.value === text);
@@ -22,11 +25,18 @@ function SelectedFilterButton({ text }) {
 
     if (isInMedium) {
       dispatch(removeMediumItem(text));
+      removeUrlParams("medium", isInMedium.value);
     } else if (isInRarity) {
       dispatch(removeRarityItem(text));
     } else if (isInPrice) {
       dispatch(removePriceItem());
       dispatch(removePriceFilter());
+
+      const value = `${
+        priceFilter.minPrice !== undefined ? priceFilter.minPrice : "%2B"
+      }-${priceFilter.maxPrice !== undefined ? priceFilter.maxPrice : "%2B"}`;
+      console.log("is in price ", isInPrice, value);
+      removeUrlParams("price_range", value);
     } else {
       return;
     }

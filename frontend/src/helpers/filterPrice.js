@@ -51,8 +51,6 @@ function filterPrice(minValue, maxValue) {
   const isMinValueValid = Number.isFinite(minVal);
   const isMaxValueValid = Number.isFinite(maxVal);
 
-  console.log(minVal, maxVal);
-
   if (!isMinValueValid && isMaxValueValid) {
     formatMax = formatCurrency(maxValue);
     price = `Under ${formatMax}`;

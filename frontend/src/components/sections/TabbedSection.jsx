@@ -23,7 +23,7 @@ function TabbedSection() {
 
     if (values.length <= 1 && tabIndex === 0) {
       priceSort.max = Number(values[0]);
-      // priceSort.min = undefined;
+      // priceSort.min = 0;
     } else if (values.length <= 1 && tabIndex === 4) {
       priceSort.min = Number(values[0]);
       // priceSort.max = undefined;
@@ -146,7 +146,9 @@ function TabbedSection() {
         {artworks?.length >= 0 && (
           <div className={styles.linkContainer}>
             <Link
-              to={`/artworks?min=${priceSort.min}&max=${priceSort.max}`}
+              to={`/artworks?price_range=${
+                priceSort.min !== undefined ? priceSort.min : "%2B"
+              }-${priceSort.max !== undefined ? priceSort.max : "%2B"}`}
               className={styles.link}
             >
               View More Artworks by Selected Price

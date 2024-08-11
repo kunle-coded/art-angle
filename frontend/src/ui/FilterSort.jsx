@@ -2,12 +2,17 @@ import { useDispatch } from "react-redux";
 import { resetFilter } from "../slices/filterSlice";
 import styles from "./FilterSort.module.css";
 import SelectedFilterButton from "./SelectedFilterButton";
+import { useClearUrlParams } from "../hooks";
 
 function FilterSort({ children, filters = [] }) {
   const dispatch = useDispatch();
 
+  const clearParams = useClearUrlParams();
+
   function handleClearFilters() {
     dispatch(resetFilter());
+    clearParams();
+    console.log("clearing params");
   }
 
   return (

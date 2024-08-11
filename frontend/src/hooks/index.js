@@ -21,15 +21,28 @@ export const useField = (type) => {
   };
 };
 
-export const usePriceParams = () => {
+export const useUrlParams = () => {
   const location = useLocation();
 
-  const params = new URLSearchParams(location.search);
+  const getUrlParams = (key) => {
+    const params = new URLSearchParams(location.search);
+    const priceRange = params.get("price_range");
 
-  const minPrice = params.get("min");
-  const maxPrice = params.get("max");
+    if (key === "price_range" && priceRange) {
+      const range = priceRange.split("-");
 
-  return { minPrice, maxPrice };
+      const minPrice = range[0];
+      const maxPrice = range[1];
+
+      return { minPrice, maxPrice };
+    } else {
+      const searchParam = params.get(key);
+
+      return searchParam;
+    }
+  };
+
+  return getUrlParams;
 };
 
 export const useUpdateUrlParams = () => {
@@ -49,7 +62,41 @@ export const useUpdateUrlParams = () => {
   return updateUrlParams;
 };
 
-export const useClearParams = (key, value) => {
+export const useDeleteUrlParams = () => {
+  const location = useLocation();
+
+  const removeUrlParams = (key, valueToRemove) => {
+    console.log("current location  ", location);
+    const searchParams = new URLSearchParams(location.search);
+
+    const existingParam = searchParams.get(key);
+    console.log("existing param ", existingParam);
+
+    // Get the current values and split them into an array
+    const values = searchParams.get(key)?.split(" ") || [];
+    console.log("key & value to remove", values);
+    console.log("removing values", searchParams);
+
+    // Filter out the value to be removed
+    const filteredValues = values.filter((v) => v !== valueToRemove);
+
+    console.log("filtered ", filteredValues);
+
+    if (filteredValues.length > 0) {
+      // If there are still values left, update the parameter
+      searchParams.set(key, filteredValues.join("+"));
+    } else {
+      searchParams.delete(key);
+    }
+
+    const newUrl = `${location.pathname}?${searchParams.toString()}`;
+    window.history.replaceState(null, "", newUrl);
+  };
+
+  return removeUrlParams;
+};
+
+export const useClearUrlParams = (key, value) => {
   const location = useLocation();
 
   const clearParams = () => {

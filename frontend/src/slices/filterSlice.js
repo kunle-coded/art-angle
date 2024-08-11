@@ -12,11 +12,23 @@ const filterSlice = createSlice({
   name: "filter",
   initialState,
   reducers: {
+    // updateMedium(state, action) {
+    //   state.selectedMedium = [
+    //     ...state.selectedMedium,
+    //     { value: action.payload, timestamp: Date.now() },
+    //   ];
+    // },
     updateMedium(state, action) {
-      state.selectedMedium = [
-        ...state.selectedMedium,
-        { value: action.payload, timestamp: Date.now() },
-      ];
+      const exists = state.selectedMedium.some(
+        (medium) => medium.value === action.payload
+      );
+
+      if (!exists) {
+        state.selectedMedium.push({
+          value: action.payload,
+          timestamp: Date.now(),
+        });
+      }
     },
 
     removeMediumItem(state, action) {

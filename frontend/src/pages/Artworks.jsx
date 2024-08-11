@@ -10,6 +10,7 @@ import {
 } from "../slices/globalSlice";
 import {
   getFilters,
+  updateMedium,
   updatePrice,
   updatePriceFilter,
 } from "../slices/filterSlice";
@@ -40,7 +41,7 @@ import { useAllArtworksQuery } from "../slices/artworksApiSlice";
 import Spinner from "../ui/Spinner";
 import distributeArtworks from "../helpers/distributeArtworks";
 import { NUM_COLUMNS } from "../constants/constants";
-import { usePriceParams } from "../hooks";
+import { useUrlParams, useUpdateUrlParams } from "../hooks";
 import filterPrice from "../helpers/filterPrice";
 
 const sortArray = [
@@ -63,12 +64,14 @@ function Artworks() {
 
   const { data: artworks } = useAllArtworksQuery();
 
-  const { minPrice, maxPrice } = usePriceParams();
+  const getUrlParams = useUrlParams();
 
   const { sortDropdown, mediumDropdown, rarityDropdown, priceDropdown } =
     useSelector(getGlobal);
   const { selectedMedium, selectedRarity, selectedPrice } =
     useSelector(getFilters);
+
+  const updateUrlParams = useUpdateUrlParams();
 
   const selectedFilter = [
     ...selectedMedium,
@@ -78,16 +81,35 @@ function Artworks() {
 
   const dispatch = useDispatch();
 
+  const priceParams = getUrlParams("price_range");
+  const mediumParams = getUrlParams("medium");
+
   useEffect(() => {
-    if (minPrice || maxPrice) {
-      dispatch(updatePriceFilter({ minPrice, maxPrice }));
+    if (priceParams) {
+      const { minPrice, maxPrice } = priceParams;
+      if (minPrice || maxPrice) {
+        dispatch(updatePriceFilter({ minPrice, maxPrice }));
+      }
     }
   }, []);
 
   useEffect(() => {
-    if (minPrice || maxPrice) {
-      const priceInput = filterPrice(minPrice, maxPrice);
-      dispatch(updatePrice(priceInput));
+    if (mediumParams) {
+      const medArr = mediumParams.split(" ");
+
+      medArr.forEach((item) => {
+        dispatch(updateMedium(item));
+      });
+    }
+  }, []);
+
+  useEffect(() => {
+    if (priceParams) {
+      const { minPrice, maxPrice } = priceParams;
+      if (minPrice || maxPrice) {
+        const priceInput = filterPrice(minPrice, maxPrice);
+        dispatch(updatePrice(priceInput));
+      }
     }
   }, []);
 
@@ -104,6 +126,28 @@ function Artworks() {
     dispatch(updatePriceFilter(priceValues));
     const priceInput = filterPrice(priceValues.minPrice, priceValues.maxPrice);
     dispatch(updatePrice(priceInput));
+
+    const priceRange = {
+      price_range: `${priceValues.minPrice ? priceValues.minPrice : "+"}-${
+        priceValues.maxPrice ? priceValues.maxPrice : "+"
+      }`,
+    };
+    updateUrlParams(priceRange);
+  }
+
+  function handleConfirmMediumFilter() {
+    // dispatch(updatePriceFilter(priceValues));
+    // const priceInput = filterPrice(priceValues.minPrice, priceValues.maxPrice);
+    // dispatch(updatePrice(priceInput));
+    // updateUrlParams(priceRange);
+    if (selectedMedium.length >= 1) {
+      const mediumParam = {
+        medium: selectedMedium.map((medium) => medium.value).join("+"),
+      };
+      updateUrlParams(mediumParam);
+    } else {
+      return;
+    }
   }
 
   function openDropdown(target) {
@@ -232,7 +276,11 @@ function Artworks() {
       </div>
       <div>
         {mediumDropdown && (
-          <FilterDropdown ref={mediumRef} type="medium">
+          <FilterDropdown
+            ref={mediumRef}
+            type="medium"
+            onConfirm={handleConfirmMediumFilter}
+          >
             {medium.map((item, i) => (
               <SelectComponent key={i} item={item} type="medium" />
             ))}
