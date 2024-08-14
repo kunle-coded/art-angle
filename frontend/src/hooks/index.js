@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useParams, useSearchParams } from "react-router-dom";
 
 export const useField = (type) => {
   const [value, setValue] = useState("");
@@ -22,11 +22,10 @@ export const useField = (type) => {
 };
 
 export const useUrlParams = () => {
-  const location = useLocation();
+  const [searchParams] = useSearchParams();
 
   const getUrlParams = (key) => {
-    const params = new URLSearchParams(location.search);
-    const priceRange = params.get("price_range");
+    const priceRange = searchParams.get("price_range");
 
     if (key === "price_range" && priceRange) {
       const range = priceRange.split("-");
@@ -36,7 +35,7 @@ export const useUrlParams = () => {
 
       return { minPrice, maxPrice };
     } else {
-      const searchParam = params.get(key);
+      const searchParam = searchParams.get(key);
 
       return searchParam;
     }
@@ -46,62 +45,52 @@ export const useUrlParams = () => {
 };
 
 export const useUpdateUrlParams = () => {
-  const location = useLocation();
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const updateUrlParams = (newParams) => {
-    const searchParams = new URLSearchParams(location.search);
+    const updatedParams = new URLSearchParams(searchParams);
 
     Object.keys(newParams).forEach((key) => {
-      searchParams.set(key, newParams[key]);
+      updatedParams.set(key, newParams[key]);
     });
 
-    const newUrl = `${location.pathname}?${searchParams.toString()}`;
-    window.history.replaceState(null, "", newUrl);
+    setSearchParams(updatedParams);
   };
 
   return updateUrlParams;
 };
 
 export const useDeleteUrlParams = () => {
-  const location = useLocation();
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const removeUrlParams = (key, valueToRemove) => {
-    console.log("current location  ", location);
-    const searchParams = new URLSearchParams(location.search);
-
     const existingParam = searchParams.get(key);
-    console.log("existing param ", existingParam);
 
-    // Get the current values and split them into an array
-    const values = searchParams.get(key)?.split(" ") || [];
-    console.log("key & value to remove", values);
-    console.log("removing values", searchParams);
+    if (existingParam) {
+      console.log(existingParam, key, valueToRemove);
+      // const values = searchParams.get(key)?.split("+") || [];
+      const values = existingParam.split("+");
+      const filteredValues = values.filter((v) => v !== valueToRemove);
 
-    // Filter out the value to be removed
-    const filteredValues = values.filter((v) => v !== valueToRemove);
+      if (filteredValues.length > 0) {
+        // If there are still values left, update the parameter
+        searchParams.set(key, filteredValues.join("+"));
+      } else {
+        searchParams.delete(key);
+      }
 
-    console.log("filtered ", filteredValues);
-
-    if (filteredValues.length > 0) {
-      // If there are still values left, update the parameter
-      searchParams.set(key, filteredValues.join("+"));
-    } else {
-      searchParams.delete(key);
+      setSearchParams(searchParams);
     }
-
-    const newUrl = `${location.pathname}?${searchParams.toString()}`;
-    window.history.replaceState(null, "", newUrl);
   };
 
   return removeUrlParams;
 };
 
 export const useClearUrlParams = (key, value) => {
-  const location = useLocation();
+  const [, setSearchParams] = useSearchParams();
 
   const clearParams = () => {
-    const newUrl = location.pathname;
-    window.history.replaceState(null, "", newUrl);
+    setSearchParams({});
   };
 
   return clearParams;

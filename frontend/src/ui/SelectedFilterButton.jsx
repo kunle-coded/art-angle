@@ -24,19 +24,19 @@ function SelectedFilterButton({ text }) {
     const isInPrice = selectedPrice.find((price) => price.value === text);
 
     if (isInMedium) {
+      console.log("is in medium", isInMedium);
       dispatch(removeMediumItem(text));
       removeUrlParams("medium", isInMedium.value);
     } else if (isInRarity) {
       dispatch(removeRarityItem(text));
     } else if (isInPrice) {
-      dispatch(removePriceItem());
-      dispatch(removePriceFilter());
-
       const value = `${
         priceFilter.minPrice !== undefined ? priceFilter.minPrice : "%2B"
       }-${priceFilter.maxPrice !== undefined ? priceFilter.maxPrice : "%2B"}`;
-      console.log("is in price ", isInPrice, value);
       removeUrlParams("price_range", value);
+
+      dispatch(removePriceItem());
+      dispatch(removePriceFilter());
     } else {
       return;
     }

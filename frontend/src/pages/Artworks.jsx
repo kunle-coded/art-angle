@@ -88,6 +88,7 @@ function Artworks() {
     if (priceParams) {
       const { minPrice, maxPrice } = priceParams;
       if (minPrice || maxPrice) {
+        // console.log("price range= ", priceParams)
         dispatch(updatePriceFilter({ minPrice, maxPrice }));
       }
     }
@@ -95,7 +96,7 @@ function Artworks() {
 
   useEffect(() => {
     if (mediumParams) {
-      const medArr = mediumParams.split(" ");
+      const medArr = mediumParams.split("+");
 
       medArr.forEach((item) => {
         dispatch(updateMedium(item));
