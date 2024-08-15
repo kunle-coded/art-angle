@@ -1,6 +1,12 @@
 import { useState } from "react";
-import styles from "./DropdownComponent.module.css";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  getFilters,
+  removeMediumItem,
+  updateMedium,
+} from "../slices/filterSlice";
 import { colorCodes } from "../data";
+import styles from "./DropdownComponent.module.css";
 
 import DropdownIcon from "./DropdownIcon";
 import SelectComponent from "../components/filter/SelectComponent";
@@ -9,6 +15,9 @@ function DropdownComponent({ children, title, items, customWidth }) {
   const [isDropdown, setIsDropdown] = useState(true);
   const [showMore, setShowMore] = useState(false);
   const [visibleCount, setVisibleCount] = useState(6);
+  const [isChecked, setIsChecked] = useState(false);
+
+  const dispatch = useDispatch();
 
   function toggleDropdown() {
     setIsDropdown((drop) => !drop);
@@ -20,6 +29,20 @@ function DropdownComponent({ children, title, items, customWidth }) {
       setVisibleCount(items?.length);
     }
     setShowMore(!showMore);
+  }
+
+  function filterHandler(item) {
+    const filterTitle = title.toLowerCase();
+
+    if (filterTitle === "medium") {
+      if (isChecked) {
+        console.log("filter handler check >> ", filterTitle, item, isChecked);
+        dispatch(updateMedium(item));
+      } else {
+        console.log("filter handler uncheck >> ", filterTitle, item, isChecked);
+        dispatch(removeMediumItem(item));
+      }
+    }
   }
 
   return (
@@ -50,16 +73,19 @@ function DropdownComponent({ children, title, items, customWidth }) {
               <SelectComponent
                 key={i}
                 item={item}
-                type="rarity"
+                type={title.toLowerCase()}
                 customWidth={customWidth}
                 color={colorCodes[i]}
+                isAllFilters
+                onCheck={filterHandler}
+                setCheck={setIsChecked}
               />
             ))}
           </div>
         )}
         {isDropdown && items?.length > 6 && (
           <button className={styles.showMore} onClick={toggleShowMore}>
-            {showMore ? "Hide" : "Show more"}
+            {showMore ? "Show less" : "Show more"}
           </button>
         )}
       </div>

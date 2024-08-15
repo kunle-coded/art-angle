@@ -12,7 +12,15 @@ import {
 
 import styles from "./SelectComponent.module.css";
 
-function SelectComponent({ item, type, customWidth, color }) {
+function SelectComponent({
+  item,
+  type,
+  customWidth,
+  color,
+  isAllFilters = false,
+  onCheck,
+  setCheck,
+}) {
   const [isChecked, setIsChecked] = useState(false);
   const [isBlackWhite, setIsBlackWhite] = useState(false);
 
@@ -52,10 +60,22 @@ function SelectComponent({ item, type, customWidth, color }) {
     }
   }, [dispatch, item, selectedMedium, selectedRarity, type]);
 
+  useEffect(() => {
+    if (isAllFilters) {
+      if (isChecked) {
+        setCheck(true);
+        console.log("effect check", isChecked);
+      } else {
+        console.log("effect uncheck", isChecked);
+        setCheck(false);
+      }
+    }
+  }, [isChecked, isAllFilters, setCheck]);
+
   function handleCheckbox(e) {
     e.stopPropagation();
 
-    if (type === "medium") {
+    if (type === "medium" && !isAllFilters) {
       if (isChecked) {
         dispatch(removeMediumItem(item));
         setIsChecked(false);
@@ -63,13 +83,20 @@ function SelectComponent({ item, type, customWidth, color }) {
         dispatch(updateMedium(item));
         setIsChecked(true);
       }
-    } else if (type === "rarity") {
+    } else if (type === "rarity" && !isAllFilters) {
       if (isChecked) {
         dispatch(removeRarityItem(item));
         setIsChecked(false);
       } else {
         dispatch(updateRarity(item));
         setIsChecked(true);
+      }
+    } else if (isAllFilters) {
+      if (isChecked) {
+        setIsChecked(false);
+      } else {
+        setIsChecked(true);
+        onCheck(item);
       }
     } else {
       if (isChecked) {

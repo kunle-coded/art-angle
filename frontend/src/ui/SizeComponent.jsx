@@ -51,11 +51,18 @@ function SizeComponent() {
         />
       </div>
       <div className={styles.unit}>
-        <SelectComponent item={`Small (under ${sizeLowerValue}${unit})`} />
+        <SelectComponent
+          item={`Small (under ${sizeLowerValue}${unit})`}
+          type="size"
+        />
         <SelectComponent
           item={`Medium (${sizeLowerValue}${unit} - ${sizeUpperValue}${unit})`}
+          type="size"
         />
-        <SelectComponent item={`Large (over ${sizeUpperValue}${unit})`} />
+        <SelectComponent
+          item={`Large (over ${sizeUpperValue}${unit})`}
+          type="size"
+        />
       </div>
       <button className={styles.customButton} onClick={toggleShow}>
         <div className={styles.buttonText}>{`${
