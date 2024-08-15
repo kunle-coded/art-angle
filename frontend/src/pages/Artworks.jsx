@@ -9,10 +9,13 @@ import {
   showPriceDropdown,
 } from "../slices/globalSlice";
 import {
+  clearMedium,
   getFilters,
+  removeRarityItem,
   updateMedium,
   updatePrice,
   updatePriceFilter,
+  updateRarity,
 } from "../slices/filterSlice";
 import { categories, rarity, medium } from "../data";
 
@@ -75,7 +78,7 @@ function Artworks() {
 
   const selectedFilter = [
     ...selectedMedium,
-    ...selectedRarity,
+    selectedRarity,
     ...selectedPrice,
   ].sort((a, b) => a.timestamp - b.timestamp);
 
@@ -83,6 +86,7 @@ function Artworks() {
 
   const priceParams = getUrlParams("price_range");
   const mediumParams = getUrlParams("medium");
+  const rarityParams = getUrlParams("rarity");
 
   useEffect(() => {
     if (priceParams) {
@@ -101,6 +105,14 @@ function Artworks() {
       medArr.forEach((item) => {
         dispatch(updateMedium(item));
       });
+    }
+  }, []);
+
+  useEffect(() => {
+    if (rarityParams) {
+      const rarityValue = rarityParams.split("-").join(" ");
+
+      dispatch(updateRarity(rarityValue));
     }
   }, []);
 
@@ -137,10 +149,6 @@ function Artworks() {
   }
 
   function handleConfirmMediumFilter() {
-    // dispatch(updatePriceFilter(priceValues));
-    // const priceInput = filterPrice(priceValues.minPrice, priceValues.maxPrice);
-    // dispatch(updatePrice(priceInput));
-    // updateUrlParams(priceRange);
     if (selectedMedium.length >= 1) {
       const mediumParam = {
         medium: selectedMedium.map((medium) => medium.value).join("+"),
@@ -148,6 +156,25 @@ function Artworks() {
       updateUrlParams(mediumParam);
     } else {
       return;
+    }
+  }
+
+  function handleConfirmRarityFilter() {
+    if (selectedRarity.value) {
+      const rarityVal = selectedRarity.value.split(" ").join("-");
+      const rarityParam = { rarity: rarityVal };
+      updateUrlParams(rarityParam);
+    } else {
+      return;
+    }
+  }
+
+  function handleClearFilter(type) {
+    if (type === "rarity") {
+      dispatch(removeRarityItem());
+    }
+    if (type === "medium") {
+      dispatch(clearMedium());
     }
   }
 
@@ -219,7 +246,7 @@ function Artworks() {
             text="Rarity"
             type="filter"
             isDropdown={rarityDropdown}
-            count={selectedRarity.length}
+            count={selectedRarity.value ? 1 : null}
             onClick={() => openDropdown("rarity")}
           />
           <FilterButton
@@ -281,6 +308,7 @@ function Artworks() {
             ref={mediumRef}
             type="medium"
             onConfirm={handleConfirmMediumFilter}
+            onClear={handleClearFilter}
           >
             {medium.map((item, i) => (
               <SelectComponent key={i} item={item} type="medium" />
@@ -290,7 +318,12 @@ function Artworks() {
       </div>
       <div>
         {rarityDropdown && (
-          <FilterDropdown ref={rarityRef} type="rarity">
+          <FilterDropdown
+            ref={rarityRef}
+            type="rarity"
+            onConfirm={handleConfirmRarityFilter}
+            onClear={handleClearFilter}
+          >
             {rarity.map((item, i) => (
               <SelectComponent key={i} item={item} type="rarity" />
             ))}

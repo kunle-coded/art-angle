@@ -20,15 +20,16 @@ function SelectedFilterButton({ text }) {
 
   function handleClose() {
     const isInMedium = selectedMedium.find((medium) => medium.value === text);
-    const isInRarity = selectedRarity.find((rarity) => rarity.value === text);
+    const isInRarity = selectedRarity.value === text;
     const isInPrice = selectedPrice.find((price) => price.value === text);
 
     if (isInMedium) {
-      console.log("is in medium", isInMedium);
       dispatch(removeMediumItem(text));
       removeUrlParams("medium", isInMedium.value);
     } else if (isInRarity) {
       dispatch(removeRarityItem(text));
+      const rarityVal = selectedRarity.value.split(" ").join("-");
+      removeUrlParams("rarity", rarityVal);
     } else if (isInPrice) {
       const value = `${
         priceFilter.minPrice !== undefined ? priceFilter.minPrice : "%2B"

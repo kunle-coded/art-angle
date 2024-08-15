@@ -65,29 +65,61 @@ function ArtworkAvailability({ title = "", type = "", setEditions }) {
             <input
               type="radio"
               name={type === "editions" ? "editions" : "availability"}
-              id={type === "editions" ? "one_of_a_kind" : "not_for_sale"}
+              id={type === "editions" ? "unique" : "not_for_sale"}
               value={
-                type === "editions" ? Editions.ONE : Availability.NOT_FOR_SALE
+                type === "editions"
+                  ? Editions.UNIQUE
+                  : Availability.NOT_FOR_SALE
               }
               checked={
                 type === "editions"
-                  ? inputValue === Editions.ONE
+                  ? inputValue === Editions.UNIQUE
                   : inputValue === Availability.NOT_FOR_SALE
               }
               aria-checked={
                 type === "editions"
-                  ? inputValue === Editions.ONE
+                  ? inputValue === Editions.UNIQUE
                   : inputValue === Availability.NOT_FOR_SALE
               }
               onChange={handleChange}
               className={styles.input}
             />
-            <label
-              htmlFor={type === "editions" ? "one_of_a_kind" : "not_for_sale"}
-            >
-              {type === "editions" ? Editions.ONE : Availability.NOT_FOR_SALE}
+            <label htmlFor={type === "editions" ? "unique" : "not_for_sale"}>
+              {type === "editions"
+                ? Editions.UNIQUE
+                : Availability.NOT_FOR_SALE}
             </label>
           </div>
+          {type === "editions" && (
+            <div className={styles.inputItem}>
+              <input
+                type="radio"
+                name="editions"
+                id="open_edition"
+                value={Editions.OPEN}
+                checked={inputValue === Editions.OPEN}
+                aria-checked={inputValue === Editions.OPEN}
+                onChange={handleChange}
+                className={styles.input}
+              />
+              <label htmlFor="open_edition">{Editions.OPEN}</label>
+            </div>
+          )}
+          {type === "editions" && (
+            <div className={styles.inputItem}>
+              <input
+                type="radio"
+                name="editions"
+                id="unknown_edition"
+                value={Editions.UNKNOWN}
+                checked={inputValue === Editions.UNKNOWN}
+                aria-checked={inputValue === Editions.UNKNOWN}
+                onChange={handleChange}
+                className={styles.input}
+              />
+              <label htmlFor="unknown_edition">{Editions.UNKNOWN}</label>
+            </div>
+          )}
           {type !== "editions" && (
             <div className={styles.inputItem}>
               <input

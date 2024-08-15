@@ -27,6 +27,7 @@ function FilterDropdown(props, ref) {
   const children = props.children;
   const type = props.type;
   const confirmHandler = props.onConfirm;
+  const handleClear = props.onClear;
 
   useEffect(() => {
     if (mediumDropdown || rarityDropdown || priceDropdown) {
@@ -71,13 +72,14 @@ function FilterDropdown(props, ref) {
                   type === "medium"
                     ? selectedMedium.length < 1
                     : type === "rarity"
-                    ? selectedRarity.length < 1
+                    ? !selectedRarity.value
                     : type === "price"
                     ? selectedPrice.length < 1
                     : true
                 }
                 type="secondary"
                 size="small"
+                onClick={() => handleClear(type)}
               >
                 Clear
               </Button>
@@ -86,7 +88,7 @@ function FilterDropdown(props, ref) {
                   type === "medium"
                     ? selectedMedium.length < 1
                     : type === "rarity"
-                    ? selectedRarity.length < 1
+                    ? !selectedRarity.value
                     : type === "price"
                     ? selectedPrice.length < 1
                     : true

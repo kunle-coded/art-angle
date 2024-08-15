@@ -42,12 +42,12 @@ function SelectComponent({ item, type, customWidth, color }) {
     }
 
     if (type === "rarity") {
-      if (selectedRarity.length >= 1) {
-        selectedRarity.forEach((rarity) => {
-          if (rarity.value === item) {
-            setIsChecked(true);
-          }
-        });
+      if (selectedRarity.value !== null) {
+        if (selectedRarity.value === item) {
+          setIsChecked(true);
+        } else {
+          setIsChecked(false);
+        }
       }
     }
   }, [dispatch, item, selectedMedium, selectedRarity, type]);

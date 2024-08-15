@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   selectedMedium: [],
-  selectedRarity: [],
+  selectedRarity: {},
   selectedPrice: [],
   allSelectedFilters: [],
   priceFilter: {},
@@ -12,12 +12,6 @@ const filterSlice = createSlice({
   name: "filter",
   initialState,
   reducers: {
-    // updateMedium(state, action) {
-    //   state.selectedMedium = [
-    //     ...state.selectedMedium,
-    //     { value: action.payload, timestamp: Date.now() },
-    //   ];
-    // },
     updateMedium(state, action) {
       const exists = state.selectedMedium.some(
         (medium) => medium.value === action.payload
@@ -36,17 +30,17 @@ const filterSlice = createSlice({
         (filter) => filter.value !== action.payload
       );
     },
-    updateRarity(state, action) {
-      state.selectedRarity = [
-        ...state.selectedRarity,
-        { value: action.payload, timestamp: Date.now() },
-      ];
+
+    clearMedium(state) {
+      state.selectedMedium = initialState.selectedMedium;
     },
 
-    removeRarityItem(state, action) {
-      state.selectedRarity = state.selectedRarity.filter(
-        (rarity) => rarity.value !== action.payload
-      );
+    updateRarity(state, action) {
+      state.selectedRarity = { value: action.payload, timestamp: Date.now() };
+    },
+
+    removeRarityItem(state) {
+      state.selectedRarity = initialState.selectedRarity;
     },
 
     updateAllFilters(state, action) {
@@ -72,7 +66,7 @@ const filterSlice = createSlice({
     updatePriceFilter(state, action) {
       state.priceFilter = action.payload;
     },
-    removePriceFilter(state, action) {
+    removePriceFilter(state) {
       state.priceFilter = initialState.priceFilter;
     },
 
@@ -85,6 +79,7 @@ const filterSlice = createSlice({
 export const {
   updateMedium,
   removeMediumItem,
+  clearMedium,
   updateRarity,
   removeRarityItem,
   updatePrice,

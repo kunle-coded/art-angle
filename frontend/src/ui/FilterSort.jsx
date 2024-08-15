@@ -12,7 +12,6 @@ function FilterSort({ children, filters = [] }) {
   function handleClearFilters() {
     dispatch(resetFilter());
     clearParams();
-    console.log("clearing params");
   }
 
   return (
@@ -22,12 +21,17 @@ function FilterSort({ children, filters = [] }) {
         {filters.length >= 1 ? (
           <div className={styles.display}>
             <div className={styles.filters}>
-              {filters.map((filter, index) => (
-                <SelectedFilterButton key={index} text={filter.value} />
-              ))}
-              <button className={styles.clear} onClick={handleClearFilters}>
-                <div className={styles.clearText}>Clear all</div>
-              </button>
+              {filters.map(
+                (filter, index) =>
+                  filter.value && (
+                    <SelectedFilterButton key={index} text={filter.value} />
+                  )
+              )}
+              {filters[0].value && (
+                <button className={styles.clear} onClick={handleClearFilters}>
+                  <div className={styles.clearText}>Clear all</div>
+                </button>
+              )}
             </div>
           </div>
         ) : null}

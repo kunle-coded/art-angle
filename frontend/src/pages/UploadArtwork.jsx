@@ -142,7 +142,7 @@ function UploadArtwork() {
         shippingAddress.state &&
         shippingAddress.country &&
         ((editions === "Limited Edition" && totalRun && availableForSale) ||
-          (editions === "One-of-a-kind" && price > 0))) ||
+          (editions && price > 0))) ||
       availability === "Not For Sale"
     ) {
       setIsDisabled(false);
@@ -208,7 +208,7 @@ function UploadArtwork() {
     if (currentStep === 3) {
       if (
         ((editions === "Limited Edition" && totalRun && availableForSale) ||
-          editions === "One-of-a-kind") &&
+          editions) &&
         weight &&
         packagingWeight &&
         ((framed && frameDimensions.width && frameDimensions.height) ||

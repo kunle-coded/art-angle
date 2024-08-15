@@ -6,5 +6,7 @@ export const Availability = Object.freeze({
 
 export const Editions = Object.freeze({
   LIMITED: "Limited Edition",
-  ONE: "One-of-a-kind",
+  OPEN: "Open Edition",
+  UNKNOWN: "Unknown Edition",
+  UNIQUE: "Unique",
 });

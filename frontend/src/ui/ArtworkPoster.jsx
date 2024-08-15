@@ -82,6 +82,7 @@ function ArtworkPoster({ poster }) {
           </div>
         </Link>
       </div>
+
       <Link className={styles.posterContent}>
         <div className={styles.posterInfo}>
           <div className={styles.posterTitle}>

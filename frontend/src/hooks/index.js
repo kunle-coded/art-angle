@@ -67,8 +67,6 @@ export const useDeleteUrlParams = () => {
     const existingParam = searchParams.get(key);
 
     if (existingParam) {
-      console.log(existingParam, key, valueToRemove);
-      // const values = searchParams.get(key)?.split("+") || [];
       const values = existingParam.split("+");
       const filteredValues = values.filter((v) => v !== valueToRemove);
 

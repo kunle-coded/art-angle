@@ -36,7 +36,7 @@ const artworkSchema = new mongoose.Schema(
     images: [String],
     editions: {
       type: String,
-      enum: ["Limited Edition", "One-of-a-kind"],
+      enum: ["Limited Edition", "Unique", "Open Edition", "Unknown Edition"],
       required: true,
     },
     totalRun: Number,
