@@ -9,6 +9,7 @@ import {
   updateAllFilters,
   removeAllFiltersItem,
 } from "../../slices/filterSlice";
+import { useDeleteUrlParams, useUpdateUrlParams } from "../../hooks";
 
 import styles from "./SelectComponent.module.css";
 
@@ -19,7 +20,7 @@ function SelectComponent({
   color,
   isAllFilters = false,
   onCheck,
-  setCheck,
+  onCheckedItem,
 }) {
   const [isChecked, setIsChecked] = useState(false);
   const [isBlackWhite, setIsBlackWhite] = useState(false);
@@ -27,6 +28,9 @@ function SelectComponent({
   const { selectedMedium, selectedRarity } = useSelector(getFilters);
 
   const dispatch = useDispatch();
+
+  const removeUrlParams = useDeleteUrlParams();
+  const updateUrlParams = useUpdateUrlParams();
 
   useEffect(() => {
     if (color) {
@@ -39,16 +43,6 @@ function SelectComponent({
   }, [color, item]);
 
   useEffect(() => {
-    if (type === "medium") {
-      if (selectedMedium.length >= 1) {
-        selectedMedium.forEach((medium) => {
-          if (medium.value === item) {
-            setIsChecked(true);
-          }
-        });
-      }
-    }
-
     if (type === "rarity") {
       if (selectedRarity.value !== null) {
         if (selectedRarity.value === item) {
@@ -58,24 +52,34 @@ function SelectComponent({
         }
       }
     }
-  }, [dispatch, item, selectedMedium, selectedRarity, type]);
+  }, [item, selectedRarity, type]);
+
+  useEffect(() => {
+    if (type === "medium") {
+      const isItemSelected = selectedMedium.some(
+        (medium) => medium.value === item
+      );
+      setIsChecked(isItemSelected);
+    }
+  }, [item, selectedMedium, type]);
 
   useEffect(() => {
     if (isAllFilters) {
-      if (isChecked) {
-        setCheck(true);
-        console.log("effect check", isChecked);
-      } else {
-        console.log("effect uncheck", isChecked);
-        setCheck(false);
+      if (type === "medium") {
+        if (isChecked) {
+          onCheck(true);
+          onCheckedItem(item);
+        } else {
+          onCheck(false);
+        }
       }
     }
-  }, [isChecked, isAllFilters, setCheck]);
+  }, [isAllFilters, isChecked, item, type]);
 
   function handleCheckbox(e) {
     e.stopPropagation();
 
-    if (type === "medium" && !isAllFilters) {
+    if (type === "medium") {
       if (isChecked) {
         dispatch(removeMediumItem(item));
         setIsChecked(false);
@@ -83,20 +87,13 @@ function SelectComponent({
         dispatch(updateMedium(item));
         setIsChecked(true);
       }
-    } else if (type === "rarity" && !isAllFilters) {
+    } else if (type === "rarity") {
       if (isChecked) {
         dispatch(removeRarityItem(item));
         setIsChecked(false);
       } else {
         dispatch(updateRarity(item));
         setIsChecked(true);
-      }
-    } else if (isAllFilters) {
-      if (isChecked) {
-        setIsChecked(false);
-      } else {
-        setIsChecked(true);
-        onCheck(item);
       }
     } else {
       if (isChecked) {

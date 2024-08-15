@@ -16,7 +16,7 @@ import {
 } from "../../data";
 import SizeComponent from "../../ui/SizeComponent";
 
-function AllFilters({ onCloseModal }) {
+function AllFilters({ onCloseModal, isShowModal }) {
   const artistsNames = artists.map((artist) => artist.name);
   return (
     <div className={styles.slideIn}>
@@ -53,7 +53,7 @@ function AllFilters({ onCloseModal }) {
       <Spacer />
       <DropdownComponent items={rarity} title="Rarity" />
       <Spacer />
-      <DropdownComponent items={medium} title="Medium" />
+      <DropdownComponent items={medium} title="Medium" isOpen={isShowModal} />
       <Spacer />
       <DropdownComponent title="Price">
         <PriceSlider />

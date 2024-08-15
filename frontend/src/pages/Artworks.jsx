@@ -344,7 +344,7 @@ function Artworks() {
 
       <div>
         <FilterModal isShowModal={showModal} onCloseModal={closeModal}>
-          <AllFilters onCloseModal={closeModal} />
+          <AllFilters onCloseModal={closeModal} isShowModal={showModal} />
         </FilterModal>
       </div>
     </div>
