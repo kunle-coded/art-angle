@@ -19,7 +19,6 @@ function SelectComponent({
   customWidth,
   color,
   isAllFilters = false,
-  onCheck,
   onCheckedItem,
 }) {
   const [isChecked, setIsChecked] = useState(false);
@@ -28,9 +27,6 @@ function SelectComponent({
   const { selectedMedium, selectedRarity } = useSelector(getFilters);
 
   const dispatch = useDispatch();
-
-  const removeUrlParams = useDeleteUrlParams();
-  const updateUrlParams = useUpdateUrlParams();
 
   useEffect(() => {
     if (color) {
@@ -67,10 +63,11 @@ function SelectComponent({
     if (isAllFilters) {
       if (type === "medium") {
         if (isChecked) {
-          onCheck(true);
           onCheckedItem(item);
-        } else {
-          onCheck(false);
+        }
+      } else if (type === "rarity") {
+        if (isChecked) {
+          onCheckedItem(item);
         }
       }
     }

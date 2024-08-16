@@ -51,7 +51,7 @@ function AllFilters({ onCloseModal, isShowModal }) {
       <Spacer />
       <DropdownComponent items={artistsNames} title="Artists" />
       <Spacer />
-      <DropdownComponent items={rarity} title="Rarity" />
+      <DropdownComponent items={rarity} title="Rarity" isOpen={isShowModal} />
       <Spacer />
       <DropdownComponent items={medium} title="Medium" isOpen={isShowModal} />
       <Spacer />

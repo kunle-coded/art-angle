@@ -16,7 +16,6 @@ function DropdownComponent({ children, title, items, customWidth, isOpen }) {
   const [isDropdown, setIsDropdown] = useState(true);
   const [showMore, setShowMore] = useState(false);
   const [visibleCount, setVisibleCount] = useState(6);
-  const [isSelectChecked, setIsSelectChecked] = useState(false);
   const [checkedItem, setCheckedItem] = useState("");
 
   // const dispatch = useDispatch();
@@ -27,29 +26,31 @@ function DropdownComponent({ children, title, items, customWidth, isOpen }) {
   const updateUrlParams = useUpdateUrlParams();
 
   useEffect(() => {
-    if (title === "Medium" && isOpen) {
-      const isItemSelected = selectedMedium.some(
-        (medium) => medium.value === checkedItem
-      );
+    if (isOpen) {
+      if (title === "Medium") {
+        const isItemSelected = selectedMedium.some(
+          (medium) => medium.value === checkedItem
+        );
 
-      const urlUpdate = () => {
-        const mediumParam = {
-          medium: selectedMedium.map((medium) => medium.value).join("+"),
-        };
-        updateUrlParams(mediumParam);
-      };
-
-      const removeParam = () => {
-        removeUrlParams("medium", checkedItem);
-      };
-
-      if (isItemSelected) {
-        urlUpdate();
-      } else {
-        removeParam();
+        if (isItemSelected) {
+          const mediumParam = {
+            medium: selectedMedium.map((medium) => medium.value).join("+"),
+          };
+          updateUrlParams(mediumParam);
+        } else {
+          removeUrlParams("medium", checkedItem);
+        }
+      } else if (title === "Rarity") {
+        if (selectedRarity.value) {
+          const rarityVal = selectedRarity.value?.split(" ").join("-");
+          const rarityParam = { rarity: rarityVal };
+          updateUrlParams(rarityParam);
+        } else {
+          removeUrlParams("rarity", checkedItem);
+        }
       }
     }
-  }, [checkedItem, isOpen, selectedMedium, title]);
+  }, [checkedItem, isOpen, selectedMedium, selectedRarity, title]);
 
   function toggleDropdown() {
     setIsDropdown((drop) => !drop);
@@ -98,7 +99,6 @@ function DropdownComponent({ children, title, items, customWidth, isOpen }) {
                     customWidth={customWidth}
                     color={colorCodes[i]}
                     isAllFilters={isDropdown}
-                    onCheck={setIsSelectChecked}
                     onCheckedItem={setCheckedItem}
                   />
                 )
