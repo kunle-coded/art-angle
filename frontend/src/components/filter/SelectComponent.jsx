@@ -8,8 +8,9 @@ import {
   removeRarityItem,
   updateAllFilters,
   removeAllFiltersItem,
+  removeArtistItem,
+  updateArtistsFilter,
 } from "../../slices/filterSlice";
-import { useDeleteUrlParams, useUpdateUrlParams } from "../../hooks";
 
 import styles from "./SelectComponent.module.css";
 
@@ -24,7 +25,12 @@ function SelectComponent({
   const [isChecked, setIsChecked] = useState(false);
   const [isBlackWhite, setIsBlackWhite] = useState(false);
 
-  const { selectedMedium, selectedRarity } = useSelector(getFilters);
+  const {
+    selectedMedium,
+    selectedRarity,
+    selectedArtists,
+    allSelectedFilters,
+  } = useSelector(getFilters);
 
   const dispatch = useDispatch();
 
@@ -60,18 +66,32 @@ function SelectComponent({
   }, [item, selectedMedium, type]);
 
   useEffect(() => {
+    if (type === "artists") {
+      const isItemSelected = selectedArtists.some(
+        (artist) => artist.value === item
+      );
+      setIsChecked(isItemSelected);
+    }
+  }, [item, selectedArtists, type]);
+
+  // useEffect(() => {
+  //   if (type !== "medium" && type !== "rarity") {
+  //     const isItemSelected = allSelectedFilters.some(
+  //       (filter) => filter.value === item
+  //     );
+  //     setIsChecked(isItemSelected);
+  //   }
+  // }, [item, allSelectedFilters, type]);
+
+  useEffect(() => {
     if (isAllFilters) {
-      if (type === "medium") {
-        if (isChecked) {
-          onCheckedItem(item);
-        }
-      } else if (type === "rarity") {
-        if (isChecked) {
-          onCheckedItem(item);
-        }
+      if (isChecked) {
+        onCheckedItem(item);
+      } else {
+        onCheckedItem(item);
       }
     }
-  }, [isAllFilters, isChecked, item, type]);
+  }, [isAllFilters, isChecked, item]);
 
   function handleCheckbox(e) {
     e.stopPropagation();
@@ -92,9 +112,18 @@ function SelectComponent({
         dispatch(updateRarity(item));
         setIsChecked(true);
       }
+    } else if (type === "artists") {
+      if (isChecked) {
+        dispatch(removeArtistItem(item));
+        setIsChecked(false);
+      } else {
+        dispatch(updateArtistsFilter(item));
+        setIsChecked(true);
+      }
     } else {
       if (isChecked) {
         dispatch(removeAllFiltersItem(item));
+
         setIsChecked(false);
       } else {
         dispatch(updateAllFilters(item));

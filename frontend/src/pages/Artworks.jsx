@@ -11,6 +11,7 @@ import {
 import {
   clearMedium,
   getFilters,
+  removePriceFilter,
   removeRarityItem,
   updateMedium,
   updatePrice,
@@ -71,7 +72,7 @@ function Artworks() {
 
   const { sortDropdown, mediumDropdown, rarityDropdown, priceDropdown } =
     useSelector(getGlobal);
-  const { selectedMedium, selectedRarity, selectedPrice } =
+  const { selectedMedium, selectedRarity, selectedPrice, selectedArtists } =
     useSelector(getFilters);
 
   const updateUrlParams = useUpdateUrlParams();
@@ -80,6 +81,7 @@ function Artworks() {
     ...selectedMedium,
     selectedRarity,
     ...selectedPrice,
+    ...selectedArtists,
   ].sort((a, b) => a.timestamp - b.timestamp);
 
   const dispatch = useDispatch();
@@ -175,6 +177,12 @@ function Artworks() {
     }
     if (type === "medium") {
       dispatch(clearMedium());
+    }
+
+    console.log(type);
+
+    if (type === "price") {
+      dispatch(removePriceFilter());
     }
   }
 
@@ -336,6 +344,7 @@ function Artworks() {
             ref={priceRef}
             type="price"
             onConfirm={confirmPriceFilter}
+            onClear={handleClearFilter}
           >
             <PriceSlider onPriceChange={setPriceValues} />
           </FilterDropdown>

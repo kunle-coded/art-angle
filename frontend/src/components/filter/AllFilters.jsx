@@ -49,7 +49,11 @@ function AllFilters({ onCloseModal, isShowModal }) {
         <SearchField placeholder="Enter a search term" />
       </DropdownComponent>
       <Spacer />
-      <DropdownComponent items={artistsNames} title="Artists" />
+      <DropdownComponent
+        items={artistsNames}
+        title="Artists"
+        isOpen={isShowModal}
+      />
       <Spacer />
       <DropdownComponent items={rarity} title="Rarity" isOpen={isShowModal} />
       <Spacer />

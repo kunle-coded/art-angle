@@ -17,10 +17,16 @@ function DropdownComponent({ children, title, items, customWidth, isOpen }) {
   const [showMore, setShowMore] = useState(false);
   const [visibleCount, setVisibleCount] = useState(6);
   const [checkedItem, setCheckedItem] = useState("");
+  // const [selectedArtists, setSelectedArtists] = useState([]);
 
   // const dispatch = useDispatch();
 
-  const { selectedMedium, selectedRarity } = useSelector(getFilters);
+  const {
+    selectedMedium,
+    selectedRarity,
+    selectedArtists,
+    allSelectedFilters,
+  } = useSelector(getFilters);
 
   const removeUrlParams = useDeleteUrlParams();
   const updateUrlParams = useUpdateUrlParams();
@@ -48,9 +54,36 @@ function DropdownComponent({ children, title, items, customWidth, isOpen }) {
         } else {
           removeUrlParams("rarity", checkedItem);
         }
+      } else if (title === "Artists") {
+        const isArtistSelected = selectedArtists.some(
+          (artist) => artist.value === checkedItem
+        );
+
+        const itemToRemove = checkedItem.split(" ").join("-");
+
+        if (isArtistSelected) {
+          const artistParam = {
+            artists: selectedArtists
+              .map((artist) => artist.value.split(" ").join("-"))
+              .join("+"),
+          };
+          updateUrlParams(artistParam);
+        } else {
+          removeUrlParams("artists", itemToRemove);
+        }
+
+        console.log(isArtistSelected, selectedArtists, itemToRemove);
       }
     }
-  }, [checkedItem, isOpen, selectedMedium, selectedRarity, title]);
+  }, [
+    checkedItem,
+    isOpen,
+    selectedMedium,
+    selectedRarity,
+    selectedArtists,
+    title,
+    allSelectedFilters,
+  ]);
 
   function toggleDropdown() {
     setIsDropdown((drop) => !drop);

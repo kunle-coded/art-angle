@@ -5,14 +5,21 @@ import {
   removeRarityItem,
   removePriceItem,
   removePriceFilter,
+  removeAllFiltersItem,
+  removeArtistItem,
 } from "../slices/filterSlice";
 
 import styles from "./SelectedFilterButton.module.css";
 import { useDeleteUrlParams } from "../hooks";
 
 function SelectedFilterButton({ text }) {
-  const { selectedMedium, selectedRarity, selectedPrice, priceFilter } =
-    useSelector(getFilters);
+  const {
+    selectedMedium,
+    selectedRarity,
+    selectedPrice,
+    priceFilter,
+    selectedArtists,
+  } = useSelector(getFilters);
 
   const dispatch = useDispatch();
 
@@ -22,6 +29,7 @@ function SelectedFilterButton({ text }) {
     const isInMedium = selectedMedium.find((medium) => medium.value === text);
     const isInRarity = selectedRarity.value === text;
     const isInPrice = selectedPrice.find((price) => price.value === text);
+    const isInArtists = selectedArtists.find((artist) => artist.value === text);
 
     if (isInMedium) {
       dispatch(removeMediumItem(text));
@@ -38,8 +46,11 @@ function SelectedFilterButton({ text }) {
 
       dispatch(removePriceItem());
       dispatch(removePriceFilter());
+    } else if (isInArtists) {
+      dispatch(removeArtistItem(text));
+      removeUrlParams("artists", isInArtists.value.split(" ").join("-"));
     } else {
-      return;
+      dispatch(removeAllFiltersItem(text));
     }
   }
 

@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
+  selectedArtists: [],
   selectedMedium: [],
   selectedRarity: {},
   selectedPrice: [],
@@ -12,6 +13,25 @@ const filterSlice = createSlice({
   name: "filter",
   initialState,
   reducers: {
+    updateArtistsFilter(state, action) {
+      const exists = state.selectedArtists.some(
+        (artist) => artist.value === action.payload
+      );
+
+      if (!exists) {
+        state.selectedArtists.push({
+          value: action.payload,
+          timestamp: Date.now(),
+        });
+      }
+    },
+
+    removeArtistItem(state, action) {
+      state.selectedArtists = state.selectedArtists.filter(
+        (artist) => artist.value !== action.payload
+      );
+    },
+
     updateMedium(state, action) {
       const exists = state.selectedMedium.some(
         (medium) => medium.value === action.payload
@@ -43,18 +63,6 @@ const filterSlice = createSlice({
       state.selectedRarity = initialState.selectedRarity;
     },
 
-    updateAllFilters(state, action) {
-      state.allSelectedFilters = [
-        ...state.allSelectedFilters,
-        { value: action.payload, timestamp: Date.now() },
-      ];
-    },
-
-    removeAllFiltersItem(state, action) {
-      state.allSelectedFilters = state.allSelectedFilters.filter(
-        (filter) => filter.value !== action.payload
-      );
-    },
     updatePrice(state, action) {
       state.selectedPrice = [{ value: action.payload, timestamp: Date.now() }];
     },
@@ -70,6 +78,24 @@ const filterSlice = createSlice({
       state.priceFilter = initialState.priceFilter;
     },
 
+    updateAllFilters(state, action) {
+      const itExists = state.allSelectedFilters.some(
+        (filter) => filter.value === action.payload
+      );
+      if (!itExists) {
+        state.allSelectedFilters.push({
+          value: action.payload,
+          timestamp: Date.now(),
+        });
+      }
+    },
+
+    removeAllFiltersItem(state, action) {
+      state.allSelectedFilters = state.allSelectedFilters.filter(
+        (filter) => filter.value !== action.payload
+      );
+    },
+
     resetFilter() {
       return initialState;
     },
@@ -77,6 +103,8 @@ const filterSlice = createSlice({
 });
 
 export const {
+  updateArtistsFilter,
+  removeArtistItem,
   updateMedium,
   removeMediumItem,
   clearMedium,
