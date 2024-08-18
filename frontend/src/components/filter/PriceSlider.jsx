@@ -102,12 +102,11 @@ function PriceSlider({ onPriceChange }) {
     if (Number(value) > MIN_FILTER_PRICE) {
       setInputMinValue(value);
       setMinValue(value);
-      onPriceChange({ minPrice: value, maxPrice: maxValue });
+      onPriceChange({ minPrice: value });
     } else {
       setInputMinValue("");
-      setMinValue(MIN_FILTER_PRICE);
       dispatch(removePriceItem());
-      onPriceChange({ minPrice: value, maxPrice: maxValue });
+      onPriceChange({ minPrice: value });
     }
   }
 
@@ -120,13 +119,12 @@ function PriceSlider({ onPriceChange }) {
       } else {
         setMaxValue(value);
         setInputMaxValue(value);
-        onPriceChange({ minPrice: minValue, maxPrice: value });
+        onPriceChange({ maxPrice: value });
       }
     } else {
       setInputMaxValue("");
-      setMaxValue(MAX_FILTER_PRICE);
       dispatch(removePriceItem());
-      onPriceChange({ minPrice: minValue, maxPrice: value });
+      onPriceChange({ maxPrice: value });
     }
   }
 

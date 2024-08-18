@@ -50,6 +50,7 @@ function AllFilters({ onCloseModal, isShowModal }) {
           }`,
         };
         updateUrlParams(priceRange);
+        console.log("price filter if", price, priceFilter);
       } else {
         // const value = `${
         //   priceFilter.minPrice !== undefined ? priceFilter.minPrice : "%2B"
@@ -57,6 +58,8 @@ function AllFilters({ onCloseModal, isShowModal }) {
 
         removeUrlParams("price_range");
         dispatch(removePriceFilter());
+
+        console.log("price filter else", price, priceFilter);
       }
     },
     [dispatch]
