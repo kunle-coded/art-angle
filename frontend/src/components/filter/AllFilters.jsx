@@ -1,3 +1,11 @@
+import { useCallback, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  getFilters,
+  updatePrice,
+  updatePriceFilter,
+} from "../../slices/filterSlice";
+
 import DropdownComponent from "../../ui/DropdownComponent";
 import Spacer from "../../ui/Spacer";
 import styles from "./AllFilters.module.css";
@@ -15,9 +23,42 @@ import {
   locations,
 } from "../../data";
 import SizeComponent from "../../ui/SizeComponent";
+import {
+  emptyObject,
+  useDeleteUrlParams,
+  useUpdateUrlParams,
+} from "../../hooks";
+import filterPrice from "../../helpers/filterPrice";
 
 function AllFilters({ onCloseModal, isShowModal }) {
+  // const [priceValues, setPriceValues] = useState(null);
+
+  const { priceFilter } = useSelector(getFilters);
+
+  const updateUrlParams = useUpdateUrlParams();
+
+  const dispatch = useDispatch();
+
   const artistsNames = artists.map((artist) => artist.name);
+
+  const handlePriceAllFilter = useCallback(
+    (price) => {
+      if (price) {
+        dispatch(updatePriceFilter(price));
+        const priceInput = filterPrice(price.minPrice, price.maxPrice);
+        dispatch(updatePrice(priceInput));
+
+        const priceRange = {
+          price_range: `${price.minPrice ? price.minPrice : "+"}-${
+            price.maxPrice ? price.maxPrice : "+"
+          }`,
+        };
+        updateUrlParams(priceRange);
+      }
+    },
+    [dispatch]
+  );
+
   return (
     <div className={styles.slideIn}>
       <div className={styles.modalHeader}>
@@ -60,7 +101,7 @@ function AllFilters({ onCloseModal, isShowModal }) {
       <DropdownComponent items={medium} title="Medium" isOpen={isShowModal} />
       <Spacer />
       <DropdownComponent title="Price">
-        <PriceSlider />
+        <PriceSlider onPriceChange={handlePriceAllFilter} />
       </DropdownComponent>
       <Spacer />
       <DropdownComponent title="Size">

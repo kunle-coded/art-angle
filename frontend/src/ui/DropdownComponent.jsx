@@ -26,6 +26,7 @@ function DropdownComponent({ children, title, items, customWidth, isOpen }) {
     selectedRarity,
     selectedArtists,
     allSelectedFilters,
+    priceFilter,
   } = useSelector(getFilters);
 
   const removeUrlParams = useDeleteUrlParams();
@@ -71,8 +72,6 @@ function DropdownComponent({ children, title, items, customWidth, isOpen }) {
         } else {
           removeUrlParams("artists", itemToRemove);
         }
-
-        console.log(isArtistSelected, selectedArtists, itemToRemove);
       }
     }
   }, [

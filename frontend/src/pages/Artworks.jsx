@@ -179,8 +179,6 @@ function Artworks() {
       dispatch(clearMedium());
     }
 
-    console.log(type);
-
     if (type === "price") {
       dispatch(removePriceFilter());
     }

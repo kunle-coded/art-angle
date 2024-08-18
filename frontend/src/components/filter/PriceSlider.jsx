@@ -15,7 +15,7 @@ function PriceSlider({ onPriceChange }) {
   const [inputMinValue, setInputMinValue] = useState("");
   const [inputMaxValue, setInputMaxValue] = useState("");
 
-  const { selectedPrice, priceFilter } = useSelector(getFilters);
+  const { priceFilter } = useSelector(getFilters);
 
   const dispatch = useDispatch();
 
@@ -38,8 +38,13 @@ function PriceSlider({ onPriceChange }) {
         setInputMaxValue(maxVal);
         setMaxValue(maxVal);
       }
+    } else {
+      setMinValue(MIN_FILTER_PRICE);
+      setInputMinValue("");
+      setMaxValue(MAX_FILTER_PRICE);
+      setInputMaxValue("");
     }
-  }, []);
+  }, [maxPrice, minPrice]);
 
   function handleMinChange(e) {
     e.stopPropagation();
@@ -48,17 +53,18 @@ function PriceSlider({ onPriceChange }) {
       setMinValue(value);
       setInputMinValue(value);
 
-      onPriceChange({ minPrice: value, maxPrice: maxValue });
+      // onPriceChange({ minPrice: value, maxPrice: maxValue });
     }
   }
 
   function handleMaxChange(e) {
     e.stopPropagation();
+
     const value = parseInt(e.target.value);
     if (value > minValue) {
       setMaxValue(value);
 
-      onPriceChange({ minPrice: minValue, maxPrice: value });
+      // onPriceChange({ minPrice: minValue, maxPrice: value });
       if (value === MAX_FILTER_PRICE) {
         setInputMaxValue("");
       } else {
@@ -67,21 +73,27 @@ function PriceSlider({ onPriceChange }) {
     }
   }
 
-  function handleMinChangeEnd() {
+  function handleMinChangeEnd(e) {
     const priceInput = filterPrice(minValue, maxValue);
+    const value = parseInt(e.target.value);
+
+    console.log("end update price", value);
 
     if (priceInput !== null) {
       dispatch(updatePrice(priceInput));
+      onPriceChange({ minPrice: value, maxPrice: maxValue });
     } else {
       dispatch(removePriceItem());
     }
   }
 
-  function handleMaxChangeEnd() {
+  function handleMaxChangeEnd(e) {
     const priceInput = filterPrice(minValue, maxValue);
+    const value = parseInt(e.target.value);
 
     if (priceInput !== null) {
       dispatch(updatePrice(priceInput));
+      onPriceChange({ minPrice: minValue, maxPrice: value });
     } else {
       dispatch(removePriceItem());
     }

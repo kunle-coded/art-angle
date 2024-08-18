@@ -74,15 +74,6 @@ function SelectComponent({
     }
   }, [item, selectedArtists, type]);
 
-  // useEffect(() => {
-  //   if (type !== "medium" && type !== "rarity") {
-  //     const isItemSelected = allSelectedFilters.some(
-  //       (filter) => filter.value === item
-  //     );
-  //     setIsChecked(isItemSelected);
-  //   }
-  // }, [item, allSelectedFilters, type]);
-
   useEffect(() => {
     if (isAllFilters) {
       if (isChecked) {

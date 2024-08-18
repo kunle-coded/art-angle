@@ -31,7 +31,7 @@
   border-radius: 50%;
   border: 1px solid var(--primary-variant);
   color: var(--on-primary);
-  transition: background-color 0.25s ease 0s, border-color 0.25s ease 0s;
+  transition: 0.2s all linear;
 }
 
 .checked {
@@ -45,7 +45,7 @@
   width: 12px;
   height: 12px;
   border-radius: 50%;
-  transition: background-color 0.25s ease 0s;
+  transition: 0.2s all linear;
   background-color: currentColor;
 }
 
