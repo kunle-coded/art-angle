@@ -44,7 +44,7 @@ function PriceSlider({ onPriceChange }) {
       setMaxValue(MAX_FILTER_PRICE);
       setInputMaxValue("");
     }
-  }, [maxPrice, minPrice]);
+  }, [maxPrice, minPrice, priceFilter]);
 
   function handleMinChange(e) {
     e.stopPropagation();
@@ -77,8 +77,6 @@ function PriceSlider({ onPriceChange }) {
     const priceInput = filterPrice(minValue, maxValue);
     const value = parseInt(e.target.value);
 
-    console.log("end update price", value);
-
     if (priceInput !== null) {
       dispatch(updatePrice(priceInput));
       onPriceChange({ minPrice: value, maxPrice: maxValue });
@@ -104,12 +102,15 @@ function PriceSlider({ onPriceChange }) {
     if (Number(value) > MIN_FILTER_PRICE) {
       setInputMinValue(value);
       setMinValue(value);
+      onPriceChange({ minPrice: value, maxPrice: maxValue });
     } else {
       setInputMinValue("");
+      setMinValue(MIN_FILTER_PRICE);
+      dispatch(removePriceItem());
+      onPriceChange({ minPrice: value, maxPrice: maxValue });
     }
-
-    onPriceChange({ minPrice: value, maxPrice: inputMaxValue });
   }
+
   function handleMaxInput(e) {
     const value = e.target.value;
 
@@ -119,13 +120,14 @@ function PriceSlider({ onPriceChange }) {
       } else {
         setMaxValue(value);
         setInputMaxValue(value);
+        onPriceChange({ minPrice: minValue, maxPrice: value });
       }
     } else {
       setInputMaxValue("");
-      return;
+      setMaxValue(MAX_FILTER_PRICE);
+      dispatch(removePriceItem());
+      onPriceChange({ minPrice: minValue, maxPrice: value });
     }
-
-    onPriceChange({ minPrice: inputMinValue, maxPrice: value });
   }
 
   function handleClick(e) {

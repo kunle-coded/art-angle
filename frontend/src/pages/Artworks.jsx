@@ -94,7 +94,6 @@ function Artworks() {
     if (priceParams) {
       const { minPrice, maxPrice } = priceParams;
       if (minPrice || maxPrice) {
-        // console.log("price range= ", priceParams)
         dispatch(updatePriceFilter({ minPrice, maxPrice }));
       }
     }

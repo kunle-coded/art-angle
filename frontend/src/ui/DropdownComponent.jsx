@@ -10,7 +10,7 @@ import styles from "./DropdownComponent.module.css";
 
 import DropdownIcon from "./DropdownIcon";
 import SelectComponent from "../components/filter/SelectComponent";
-import { useDeleteUrlParams, useUpdateUrlParams, useUrlParams } from "../hooks";
+import { useDeleteUrlParams, useUpdateUrlParams } from "../hooks";
 
 function DropdownComponent({ children, title, items, customWidth, isOpen }) {
   const [isDropdown, setIsDropdown] = useState(true);

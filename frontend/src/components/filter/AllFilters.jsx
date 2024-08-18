@@ -1,7 +1,8 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getFilters,
+  removePriceFilter,
   updatePrice,
   updatePriceFilter,
 } from "../../slices/filterSlice";
@@ -23,19 +24,14 @@ import {
   locations,
 } from "../../data";
 import SizeComponent from "../../ui/SizeComponent";
-import {
-  emptyObject,
-  useDeleteUrlParams,
-  useUpdateUrlParams,
-} from "../../hooks";
+import { useDeleteUrlParams, useUpdateUrlParams } from "../../hooks";
 import filterPrice from "../../helpers/filterPrice";
 
 function AllFilters({ onCloseModal, isShowModal }) {
-  // const [priceValues, setPriceValues] = useState(null);
-
   const { priceFilter } = useSelector(getFilters);
 
   const updateUrlParams = useUpdateUrlParams();
+  const removeUrlParams = useDeleteUrlParams();
 
   const dispatch = useDispatch();
 
@@ -43,7 +39,7 @@ function AllFilters({ onCloseModal, isShowModal }) {
 
   const handlePriceAllFilter = useCallback(
     (price) => {
-      if (price) {
+      if (price.minPrice || price.maxPrice) {
         dispatch(updatePriceFilter(price));
         const priceInput = filterPrice(price.minPrice, price.maxPrice);
         dispatch(updatePrice(priceInput));
@@ -54,6 +50,13 @@ function AllFilters({ onCloseModal, isShowModal }) {
           }`,
         };
         updateUrlParams(priceRange);
+      } else {
+        // const value = `${
+        //   priceFilter.minPrice !== undefined ? priceFilter.minPrice : "%2B"
+        // }-${priceFilter.maxPrice !== undefined ? priceFilter.maxPrice : "%2B"}`;
+
+        removeUrlParams("price_range");
+        dispatch(removePriceFilter());
       }
     },
     [dispatch]
