@@ -111,7 +111,7 @@ function AllFilters({ onCloseModal, isShowModal }) {
       </DropdownComponent>
       <Spacer />
       <DropdownComponent title="Size">
-        <SizeComponent />
+        <SizeComponent isOpen={isShowModal} />
       </DropdownComponent>
       <Spacer />
       <DropdownComponent items={waysToBuy} title="Ways to Buy" />

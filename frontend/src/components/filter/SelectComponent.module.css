@@ -30,6 +30,13 @@
   color: var(--primary);
 }
 
+/* Item is disabled */
+
+.disabled {
+  color: #a4a4a4;
+  pointer-events: none;
+}
+
 .checkbox {
   display: flex;
   -webkit-box-align: center;

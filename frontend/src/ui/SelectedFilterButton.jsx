@@ -7,6 +7,8 @@ import {
   removePriceFilter,
   removeAllFiltersItem,
   removeArtistItem,
+  removeSizeItem,
+  removeSizeFilter,
 } from "../slices/filterSlice";
 
 import styles from "./SelectedFilterButton.module.css";
@@ -19,6 +21,7 @@ function SelectedFilterButton({ text }) {
     selectedPrice,
     priceFilter,
     selectedArtists,
+    selectedSize,
   } = useSelector(getFilters);
 
   const dispatch = useDispatch();
@@ -28,6 +31,7 @@ function SelectedFilterButton({ text }) {
   function handleClose() {
     const isInMedium = selectedMedium.find((medium) => medium.value === text);
     const isInRarity = selectedRarity.value === text;
+    const isInSize = selectedSize.value === text;
     const isInPrice = selectedPrice.find((price) => price.value === text);
     const isInArtists = selectedArtists.find((artist) => artist.value === text);
 
@@ -35,7 +39,7 @@ function SelectedFilterButton({ text }) {
       dispatch(removeMediumItem(text));
       removeUrlParams("medium", isInMedium.value);
     } else if (isInRarity) {
-      dispatch(removeRarityItem(text));
+      dispatch(removeRarityItem());
       const rarityVal = selectedRarity.value.split(" ").join("-");
       removeUrlParams("rarity", rarityVal);
     } else if (isInPrice) {
@@ -49,6 +53,10 @@ function SelectedFilterButton({ text }) {
     } else if (isInArtists) {
       dispatch(removeArtistItem(text));
       removeUrlParams("artists", isInArtists.value.split(" ").join("-"));
+    } else if (isInSize) {
+      dispatch(removeSizeItem());
+      dispatch(removeSizeFilter());
+      removeUrlParams("size");
     } else {
       dispatch(removeAllFiltersItem(text));
     }

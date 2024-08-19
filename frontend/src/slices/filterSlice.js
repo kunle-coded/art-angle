@@ -5,8 +5,10 @@ const initialState = {
   selectedMedium: [],
   selectedRarity: {},
   selectedPrice: [],
+  selectedSize: {},
   allSelectedFilters: [],
   priceFilter: {},
+  sizeFilter: {},
 };
 
 const filterSlice = createSlice({
@@ -78,6 +80,21 @@ const filterSlice = createSlice({
       state.priceFilter = initialState.priceFilter;
     },
 
+    updateSizeFilter(state, action) {
+      state.sizeFilter = action.payload;
+    },
+    removeSizeFilter(state) {
+      state.sizeFilter = initialState.sizeFilter;
+    },
+
+    updateSize(state, action) {
+      state.selectedSize = { value: action.payload, timestamp: Date.now() };
+    },
+
+    removeSizeItem(state) {
+      state.selectedSize = initialState.selectedSize;
+    },
+
     updateAllFilters(state, action) {
       const itExists = state.allSelectedFilters.some(
         (filter) => filter.value === action.payload
@@ -112,6 +129,10 @@ export const {
   removeRarityItem,
   updatePrice,
   removePriceItem,
+  updateSizeFilter,
+  removeSizeFilter,
+  updateSize,
+  removeSizeItem,
   resetFilter,
   updateAllFilters,
   removeAllFiltersItem,

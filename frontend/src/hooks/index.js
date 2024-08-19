@@ -9,7 +9,7 @@ export const useField = (type) => {
   }
 
   function onReset(event) {
-    event.preventDefault();
+    event?.preventDefault();
     setValue("");
   }
 

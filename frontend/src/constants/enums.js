@@ -10,3 +10,8 @@ export const Editions = Object.freeze({
   UNKNOWN: "Unknown Edition",
   UNIQUE: "Unique",
 });
+
+export const Sizes = Object.freeze({
+  SMALL: 16,
+  LARGE: 40,
+});

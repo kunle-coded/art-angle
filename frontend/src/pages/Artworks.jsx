@@ -72,8 +72,13 @@ function Artworks() {
 
   const { sortDropdown, mediumDropdown, rarityDropdown, priceDropdown } =
     useSelector(getGlobal);
-  const { selectedMedium, selectedRarity, selectedPrice, selectedArtists } =
-    useSelector(getFilters);
+  const {
+    selectedMedium,
+    selectedRarity,
+    selectedPrice,
+    selectedArtists,
+    selectedSize,
+  } = useSelector(getFilters);
 
   const updateUrlParams = useUpdateUrlParams();
 
@@ -82,6 +87,7 @@ function Artworks() {
     selectedRarity,
     ...selectedPrice,
     ...selectedArtists,
+    selectedSize,
   ].sort((a, b) => a.timestamp - b.timestamp);
 
   const dispatch = useDispatch();

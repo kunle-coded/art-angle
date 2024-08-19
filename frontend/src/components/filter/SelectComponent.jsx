@@ -10,6 +10,8 @@ import {
   removeAllFiltersItem,
   removeArtistItem,
   updateArtistsFilter,
+  removeSizeFilter,
+  updateSizeFilter,
 } from "../../slices/filterSlice";
 
 import styles from "./SelectComponent.module.css";
@@ -17,20 +19,18 @@ import styles from "./SelectComponent.module.css";
 function SelectComponent({
   item,
   type,
+  artworkSizes,
   customWidth,
   color,
   isAllFilters = false,
+  disableSelect = false,
   onCheckedItem,
 }) {
   const [isChecked, setIsChecked] = useState(false);
   const [isBlackWhite, setIsBlackWhite] = useState(false);
 
-  const {
-    selectedMedium,
-    selectedRarity,
-    selectedArtists,
-    allSelectedFilters,
-  } = useSelector(getFilters);
+  const { selectedMedium, selectedRarity, selectedArtists, sizeFilter } =
+    useSelector(getFilters);
 
   const dispatch = useDispatch();
 
@@ -84,6 +84,30 @@ function SelectComponent({
     }
   }, [isAllFilters, isChecked, item]);
 
+  useEffect(() => {
+    if (type === "size" && sizeFilter) {
+      if (sizeFilter.value !== null || sizeFilter.minSize) {
+        const isMedium = item.includes("Medium");
+
+        if (isMedium) {
+          const minSize = Number(artworkSizes?.value?.split("-")[0]);
+
+          if (sizeFilter.minSize === minSize) {
+            setIsChecked(true);
+          } else {
+            setIsChecked(false);
+          }
+        } else {
+          if (sizeFilter.value === artworkSizes.value) {
+            setIsChecked(true);
+          } else {
+            setIsChecked(false);
+          }
+        }
+      }
+    }
+  }, [artworkSizes, disableSelect, item, sizeFilter, type]);
+
   function handleCheckbox(e) {
     e.stopPropagation();
 
@@ -111,6 +135,31 @@ function SelectComponent({
         dispatch(updateArtistsFilter(item));
         setIsChecked(true);
       }
+    } else if (type === "size") {
+      if (disableSelect) {
+        setIsChecked(false);
+        return;
+      }
+
+      if (isChecked) {
+        dispatch(removeSizeFilter());
+        setIsChecked(false);
+      } else {
+        const isMedium = item.includes("Medium");
+
+        if (isMedium) {
+          const minSize = Number(artworkSizes.value.split("-")[0]);
+          const maxSize = Number(artworkSizes.value.split("-")[1]);
+          const unit = artworkSizes.unit;
+
+          const sizeObj = { minSize, maxSize, unit };
+
+          dispatch(updateSizeFilter(sizeObj));
+        } else {
+          dispatch(updateSizeFilter(artworkSizes));
+        }
+        setIsChecked(true);
+      }
     } else {
       if (isChecked) {
         dispatch(removeAllFiltersItem(item));
@@ -126,8 +175,10 @@ function SelectComponent({
   return (
     <div
       role="checkbox"
-      aria-checked="false"
-      className={`${styles.item} ${isChecked ? styles.activeItem : ""}`}
+      aria-checked={isChecked}
+      className={`${styles.item} ${isChecked ? styles.activeItem : ""} ${
+        disableSelect ? styles.disabled : ""
+      }`}
       onClick={handleCheckbox}
     >
       <div className={`${styles.checkbox} ${isChecked ? styles.checked : ""}`}>

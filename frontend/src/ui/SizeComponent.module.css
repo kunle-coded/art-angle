@@ -41,6 +41,14 @@
   line-height: 20px;
 }
 
+.customFieldContainer {
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
 .customFieldLabel {
   font-size: var(--desktop-body-lg);
   line-height: 26px;
