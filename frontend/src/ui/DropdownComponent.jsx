@@ -26,7 +26,7 @@ function DropdownComponent({ children, title, items, customWidth, isOpen }) {
     selectedRarity,
     selectedArtists,
     allSelectedFilters,
-    priceFilter,
+    selectedWaysToBuy,
   } = useSelector(getFilters);
 
   const removeUrlParams = useDeleteUrlParams();
@@ -72,6 +72,24 @@ function DropdownComponent({ children, title, items, customWidth, isOpen }) {
         } else {
           removeUrlParams("artists", itemToRemove);
         }
+      } else if (title === "Ways to Buy") {
+        const isItemSelected = selectedWaysToBuy.some(
+          (wayToBuy) => wayToBuy.value === checkedItem
+        );
+
+        if (isItemSelected) {
+          const wayToBuyParam = {
+            ways_to_buy: selectedWaysToBuy
+              .map((wayToBuy) =>
+                wayToBuy.value.toLowerCase().split(" ").join("-")
+              )
+              .join("+"),
+          };
+          updateUrlParams(wayToBuyParam);
+        } else {
+          const valueToRemove = checkedItem.toLowerCase().split(" ").join("-");
+          removeUrlParams("ways_to_buy", valueToRemove);
+        }
       }
     }
   }, [
@@ -80,6 +98,7 @@ function DropdownComponent({ children, title, items, customWidth, isOpen }) {
     selectedMedium,
     selectedRarity,
     selectedArtists,
+    selectedWaysToBuy,
     title,
     allSelectedFilters,
   ]);

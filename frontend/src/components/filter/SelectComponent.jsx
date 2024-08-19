@@ -12,6 +12,8 @@ import {
   updateArtistsFilter,
   removeSizeFilter,
   updateSizeFilter,
+  removeWaysToBuyItem,
+  updateWaysToBuy,
 } from "../../slices/filterSlice";
 
 import styles from "./SelectComponent.module.css";
@@ -29,8 +31,13 @@ function SelectComponent({
   const [isChecked, setIsChecked] = useState(false);
   const [isBlackWhite, setIsBlackWhite] = useState(false);
 
-  const { selectedMedium, selectedRarity, selectedArtists, sizeFilter } =
-    useSelector(getFilters);
+  const {
+    selectedMedium,
+    selectedRarity,
+    selectedArtists,
+    sizeFilter,
+    selectedWaysToBuy,
+  } = useSelector(getFilters);
 
   const dispatch = useDispatch();
 
@@ -108,6 +115,15 @@ function SelectComponent({
     }
   }, [artworkSizes, disableSelect, item, sizeFilter, type]);
 
+  useEffect(() => {
+    if (type === "ways to buy") {
+      const isItemSelected = selectedWaysToBuy.some(
+        (wayToBuy) => wayToBuy.value === item
+      );
+      setIsChecked(isItemSelected);
+    }
+  }, [item, selectedWaysToBuy, type]);
+
   function handleCheckbox(e) {
     e.stopPropagation();
 
@@ -160,12 +176,21 @@ function SelectComponent({
         }
         setIsChecked(true);
       }
+    } else if (type === "ways to buy") {
+      if (isChecked) {
+        dispatch(removeWaysToBuyItem(item));
+        setIsChecked(false);
+      } else {
+        dispatch(updateWaysToBuy(item));
+        setIsChecked(true);
+      }
     } else {
       if (isChecked) {
         dispatch(removeAllFiltersItem(item));
 
         setIsChecked(false);
       } else {
+        console.log("item ", type);
         dispatch(updateAllFilters(item));
         setIsChecked(true);
       }

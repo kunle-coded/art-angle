@@ -3,11 +3,23 @@ import { resetFilter } from "../slices/filterSlice";
 import styles from "./FilterSort.module.css";
 import SelectedFilterButton from "./SelectedFilterButton";
 import { useClearUrlParams } from "../hooks";
+import { useEffect, useState } from "react";
 
 function FilterSort({ children, filters = [] }) {
+  const [isShowClearAll, setIsShowClearAll] = useState(false);
+
   const dispatch = useDispatch();
 
   const clearParams = useClearUrlParams();
+
+  useEffect(() => {
+    const isValue = filters.filter((filter) => filter.value);
+    if (isValue.length >= 2) {
+      setIsShowClearAll(true);
+    } else {
+      setIsShowClearAll(false);
+    }
+  }, [filters]);
 
   function handleClearFilters() {
     dispatch(resetFilter());
@@ -27,7 +39,7 @@ function FilterSort({ children, filters = [] }) {
                     <SelectedFilterButton key={index} text={filter.value} />
                   )
               )}
-              {filters[0].value && (
+              {isShowClearAll && (
                 <button className={styles.clear} onClick={handleClearFilters}>
                   <div className={styles.clearText}>Clear all</div>
                 </button>

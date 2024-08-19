@@ -50,16 +50,9 @@ function AllFilters({ onCloseModal, isShowModal }) {
           }`,
         };
         updateUrlParams(priceRange);
-        console.log("price filter if", price, priceFilter);
       } else {
-        // const value = `${
-        //   priceFilter.minPrice !== undefined ? priceFilter.minPrice : "%2B"
-        // }-${priceFilter.maxPrice !== undefined ? priceFilter.maxPrice : "%2B"}`;
-
         removeUrlParams("price_range");
         dispatch(removePriceFilter());
-
-        console.log("price filter else", price, priceFilter);
       }
     },
     [dispatch]
@@ -114,7 +107,11 @@ function AllFilters({ onCloseModal, isShowModal }) {
         <SizeComponent isOpen={isShowModal} />
       </DropdownComponent>
       <Spacer />
-      <DropdownComponent items={waysToBuy} title="Ways to Buy" />
+      <DropdownComponent
+        items={waysToBuy}
+        title="Ways to Buy"
+        isOpen={isShowModal}
+      />
       <Spacer />
       <DropdownComponent items={materials} title="Materials">
         <SearchField placeholder="Enter a material" />
