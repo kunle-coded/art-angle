@@ -100,6 +100,50 @@ export const useClearUrlParams = (key, value) => {
   return clearParams;
 };
 
+// Url updater
+
+export const useUrlParamsUpdate = () => {
+  const removeUrlParams = useDeleteUrlParams();
+  const updateUrlParams = useUpdateUrlParams();
+
+  const paramsUpdater = (
+    paramKey,
+    paramList = null,
+    paramObject = null,
+    paramItem = null
+  ) => {
+    if (paramList && paramItem) {
+      const isItemSelected = paramList.some(
+        (param) => param.value === paramItem
+      );
+      if (isItemSelected) {
+        const paraObj = {
+          [paramKey]: paramList
+            .map((param) => param.value?.toLowerCase().split(" ").join("-"))
+            .join("+"),
+        };
+        updateUrlParams(paraObj);
+      } else {
+        const valueToRemove = paramItem?.toLowerCase().split(" ").join("-");
+        removeUrlParams(paramKey, valueToRemove);
+      }
+    } else if (paramObject) {
+      if (paramObject.value) {
+        const paramValue = paramObject.value
+          ?.toLowerCase()
+          .split(" ")
+          .join("-");
+        const paramObj = { [paramKey]: paramValue };
+        updateUrlParams(paramObj);
+      } else {
+        removeUrlParams(paramKey);
+      }
+    }
+  };
+
+  return paramsUpdater;
+};
+
 export const useShowPassword = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [passwordType, setPasswordType] = useState("password");

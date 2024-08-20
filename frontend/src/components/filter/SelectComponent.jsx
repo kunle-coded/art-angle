@@ -14,6 +14,8 @@ import {
   updateSizeFilter,
   removeWaysToBuyItem,
   updateWaysToBuy,
+  removeMaterialsItem,
+  updateMaterials,
 } from "../../slices/filterSlice";
 
 import styles from "./SelectComponent.module.css";
@@ -182,6 +184,15 @@ function SelectComponent({
         setIsChecked(false);
       } else {
         dispatch(updateWaysToBuy(item));
+        setIsChecked(true);
+      }
+    } else if (type === "materials") {
+      if (isChecked) {
+        dispatch(removeMaterialsItem(item));
+        setIsChecked(false);
+      } else {
+        console.log(type);
+        dispatch(updateMaterials(item));
         setIsChecked(true);
       }
     } else {

@@ -5,12 +5,16 @@ import {
   removeMediumItem,
   updateMedium,
 } from "../slices/filterSlice";
-import { colorCodes } from "../data";
+import { colorCodes, materials } from "../data";
 import styles from "./DropdownComponent.module.css";
 
 import DropdownIcon from "./DropdownIcon";
 import SelectComponent from "../components/filter/SelectComponent";
-import { useDeleteUrlParams, useUpdateUrlParams } from "../hooks";
+import {
+  useDeleteUrlParams,
+  useUpdateUrlParams,
+  useUrlParamsUpdate,
+} from "../hooks";
 
 function DropdownComponent({ children, title, items, customWidth, isOpen }) {
   const [isDropdown, setIsDropdown] = useState(true);
@@ -27,69 +31,25 @@ function DropdownComponent({ children, title, items, customWidth, isOpen }) {
     selectedArtists,
     allSelectedFilters,
     selectedWaysToBuy,
+    selectedMaterials,
   } = useSelector(getFilters);
 
   const removeUrlParams = useDeleteUrlParams();
   const updateUrlParams = useUpdateUrlParams();
+  const paramsUpdater = useUrlParamsUpdate();
 
   useEffect(() => {
     if (isOpen) {
       if (title === "Medium") {
-        const isItemSelected = selectedMedium.some(
-          (medium) => medium.value === checkedItem
-        );
-
-        if (isItemSelected) {
-          const mediumParam = {
-            medium: selectedMedium.map((medium) => medium.value).join("+"),
-          };
-          updateUrlParams(mediumParam);
-        } else {
-          removeUrlParams("medium", checkedItem);
-        }
+        paramsUpdater("medium", selectedMedium, null, checkedItem);
       } else if (title === "Rarity") {
-        if (selectedRarity.value) {
-          const rarityVal = selectedRarity.value?.split(" ").join("-");
-          const rarityParam = { rarity: rarityVal };
-          updateUrlParams(rarityParam);
-        } else {
-          removeUrlParams("rarity", checkedItem);
-        }
+        paramsUpdater("rarity", null, selectedRarity, checkedItem);
       } else if (title === "Artists") {
-        const isArtistSelected = selectedArtists.some(
-          (artist) => artist.value === checkedItem
-        );
-
-        const itemToRemove = checkedItem.split(" ").join("-");
-
-        if (isArtistSelected) {
-          const artistParam = {
-            artists: selectedArtists
-              .map((artist) => artist.value.split(" ").join("-"))
-              .join("+"),
-          };
-          updateUrlParams(artistParam);
-        } else {
-          removeUrlParams("artists", itemToRemove);
-        }
+        paramsUpdater("artists", selectedArtists, null, checkedItem);
       } else if (title === "Ways to Buy") {
-        const isItemSelected = selectedWaysToBuy.some(
-          (wayToBuy) => wayToBuy.value === checkedItem
-        );
-
-        if (isItemSelected) {
-          const wayToBuyParam = {
-            ways_to_buy: selectedWaysToBuy
-              .map((wayToBuy) =>
-                wayToBuy.value.toLowerCase().split(" ").join("-")
-              )
-              .join("+"),
-          };
-          updateUrlParams(wayToBuyParam);
-        } else {
-          const valueToRemove = checkedItem.toLowerCase().split(" ").join("-");
-          removeUrlParams("ways_to_buy", valueToRemove);
-        }
+        paramsUpdater("ways_to_buy", selectedWaysToBuy, null, checkedItem);
+      } else if (title === "Materials") {
+        paramsUpdater("materials", selectedMaterials, null, checkedItem);
       }
     }
   }, [
@@ -99,6 +59,7 @@ function DropdownComponent({ children, title, items, customWidth, isOpen }) {
     selectedRarity,
     selectedArtists,
     selectedWaysToBuy,
+    selectedMaterials,
     title,
     allSelectedFilters,
   ]);

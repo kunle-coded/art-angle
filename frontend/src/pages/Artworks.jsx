@@ -79,6 +79,7 @@ function Artworks() {
     selectedArtists,
     selectedSize,
     selectedWaysToBuy,
+    selectedMaterials,
   } = useSelector(getFilters);
 
   const updateUrlParams = useUpdateUrlParams();
@@ -90,6 +91,7 @@ function Artworks() {
     ...selectedArtists,
     selectedSize,
     ...selectedWaysToBuy,
+    ...selectedMaterials,
   ].sort((a, b) => a.timestamp - b.timestamp);
 
   const dispatch = useDispatch();

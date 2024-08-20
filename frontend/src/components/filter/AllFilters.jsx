@@ -113,7 +113,11 @@ function AllFilters({ onCloseModal, isShowModal }) {
         isOpen={isShowModal}
       />
       <Spacer />
-      <DropdownComponent items={materials} title="Materials">
+      <DropdownComponent
+        items={materials}
+        title="Materials"
+        isOpen={isShowModal}
+      >
         <SearchField placeholder="Enter a material" />
       </DropdownComponent>
       <Spacer />
