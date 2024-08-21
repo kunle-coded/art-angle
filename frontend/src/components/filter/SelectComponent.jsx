@@ -233,7 +233,6 @@ function SelectComponent({
         removeTimePeriodsItem,
         item
       );
-      console.log("time checkbox", isSelected);
       setIsChecked(isSelected);
     } else if (type === "color") {
       const isSelected = updateSelection(updateColors, removeColorsItem, item);

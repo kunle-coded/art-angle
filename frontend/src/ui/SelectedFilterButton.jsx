@@ -14,10 +14,11 @@ import {
   removeMaterialsItem,
   updateSizeFilter,
   removeTimePeriodsItem,
+  removeColorsItem,
 } from "../slices/filterSlice";
 
 import styles from "./SelectedFilterButton.module.css";
-import { useDeleteUrlParams } from "../hooks";
+import { useDeleteFilter, useDeleteUrlParams } from "../hooks";
 
 function SelectedFilterButton({ text }) {
   const {
@@ -38,49 +39,69 @@ function SelectedFilterButton({ text }) {
   const dispatch = useDispatch();
 
   const removeUrlParams = useDeleteUrlParams();
+  const deleteFilter = useDeleteFilter();
 
   function handleClose() {
-    const isInMedium = selectedMedium.find((medium) => medium.value === text);
     const isInRarity = selectedRarity.value === text;
     const isInSize = selectedSize.find((size) => size.value === text);
     const isInPrice = selectedPrice.find((price) => price.value === text);
-    const isInArtists = selectedArtists.find((artist) => artist.value === text);
-    const isInWaysToBuy = selectedWaysToBuy.find(
-      (wayToBuy) => wayToBuy.value === text
+
+    deleteFilter("single", text, selectedMedium, "medium", removeMediumItem);
+    deleteFilter(
+      "multiple",
+      text,
+      selectedWaysToBuy,
+      "ways_to_buy",
+      removeWaysToBuyItem
     );
-    const isMaterials = selectedMaterials.find(
-      (material) => material.value === text
+    deleteFilter(
+      "multiple",
+      text,
+      selectedMaterials,
+      "materials",
+      removeMaterialsItem
     );
-    const isInLocations = selectedLocations.find(
-      (location) => location.value === text
-    );
-    const isInPeriods = selectedTimePeriods.find(
-      (period) => period.value === text
+    deleteFilter(
+      "double",
+      text,
+      selectedLocations,
+      "locations",
+      removeLocationsItem
     );
 
-    if (isInMedium) {
-      dispatch(removeMediumItem(text));
-      const value = text.toLowerCase();
-      removeUrlParams("medium", value);
-    } else if (isInRarity) {
+    deleteFilter(
+      "none",
+      text,
+      selectedTimePeriods,
+      "periods",
+      removeTimePeriodsItem
+    );
+    deleteFilter("multiple", text, selectedColors, "colors", removeColorsItem);
+    deleteFilter(
+      "multiple",
+      text,
+      selectedArtists,
+      "artists",
+      removeArtistItem
+    );
+
+    if (isInRarity) {
       dispatch(removeRarityItem());
       const rarityVal = selectedRarity.value.toLowerCase().split(" ").join("-");
       removeUrlParams("rarity", rarityVal);
-    } else if (isInPrice) {
+    }
+
+    if (isInPrice) {
       const value = `${
         priceFilter.minPrice !== undefined ? priceFilter.minPrice : "%2B"
       }-${priceFilter.maxPrice !== undefined ? priceFilter.maxPrice : "%2B"}`;
-      removeUrlParams("price_range", value);
 
       dispatch(removePriceItem());
       dispatch(removePriceFilter());
-    } else if (isInArtists) {
-      dispatch(removeArtistItem(text));
-      removeUrlParams(
-        "artists",
-        isInArtists.value?.toLowerCase().split(" ").join("-")
-      );
-    } else if (isInSize) {
+      removeUrlParams("price_range", value);
+    }
+
+    if (isInSize) {
       const isWidth = isInSize.value.includes("w:");
       const isHeight = isInSize.value.includes("h:");
 
@@ -102,23 +123,6 @@ function SelectedFilterButton({ text }) {
         dispatch(removeSizeFilter());
         removeUrlParams("size");
       }
-    } else if (isInWaysToBuy) {
-      dispatch(removeWaysToBuyItem(text));
-      const valueToRemove = text.toLowerCase().split(" ").join("-");
-      removeUrlParams("ways_to_buy", valueToRemove);
-    } else if (isMaterials) {
-      dispatch(removeMaterialsItem(text));
-      const valueToRemove = text.toLowerCase().split(" ").join("-");
-      removeUrlParams("materials", valueToRemove);
-    } else if (isInLocations) {
-      dispatch(removeLocationsItem(text));
-      const valueToRemove = text.split(" ").join("");
-      removeUrlParams("locations", valueToRemove);
-    } else if (isInPeriods) {
-      dispatch(removeTimePeriodsItem(text));
-      removeUrlParams("periods", text);
-    } else {
-      dispatch(removeAllFiltersItem(text));
     }
   }
 

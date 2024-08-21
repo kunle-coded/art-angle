@@ -175,6 +175,42 @@ export const useSelectionUpdate = () => {
   return updateSelection;
 };
 
+export const useDeleteFilter = () => {
+  const removeUrlParams = useDeleteUrlParams();
+  const dispatch = useDispatch();
+
+  const deleteFilter = (
+    deleteType = "",
+    textContent = "",
+    filterList = [],
+    paramKey = "",
+    deleteAction
+  ) => {
+    const isInList = filterList.find((item) => item.value === textContent);
+
+    if (isInList) {
+      if (deleteType === "single") {
+        const value = textContent.toLowerCase();
+        removeUrlParams(paramKey, value);
+      } else if (deleteType === "double") {
+        const valueToRemove = textContent.split(" ").join("");
+        removeUrlParams(paramKey, valueToRemove);
+      } else if (deleteType === "multiple") {
+        const valueToRemove = textContent.toLowerCase().split(" ").join("-");
+        removeUrlParams(paramKey, valueToRemove);
+      } else {
+        removeUrlParams(paramKey, textContent);
+      }
+
+      dispatch(deleteAction(textContent));
+    } else {
+      return;
+    }
+  };
+
+  return deleteFilter;
+};
+
 export const useShowPassword = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [passwordType, setPasswordType] = useState("password");

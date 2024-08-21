@@ -118,6 +118,7 @@ function Artworks() {
       selectedSize,
       selectedWaysToBuy,
       selectedTimePeriods,
+      selectedColors,
     ]
   );
 
