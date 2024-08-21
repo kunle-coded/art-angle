@@ -13,6 +13,7 @@ import {
   removeLocationsItem,
   removeMaterialsItem,
   updateSizeFilter,
+  removeTimePeriodsItem,
 } from "../slices/filterSlice";
 
 import styles from "./SelectedFilterButton.module.css";
@@ -30,6 +31,7 @@ function SelectedFilterButton({ text }) {
     selectedWaysToBuy,
     selectedMaterials,
     selectedLocations,
+    selectedTimePeriods,
   } = useSelector(getFilters);
 
   const dispatch = useDispatch();
@@ -50,6 +52,9 @@ function SelectedFilterButton({ text }) {
     );
     const isInLocations = selectedLocations.find(
       (location) => location.value === text
+    );
+    const isInPeriods = selectedTimePeriods.find(
+      (period) => period.value === text
     );
 
     if (isInMedium) {
@@ -108,6 +113,9 @@ function SelectedFilterButton({ text }) {
       dispatch(removeLocationsItem(text));
       const valueToRemove = text.split(" ").join("");
       removeUrlParams("locations", valueToRemove);
+    } else if (isInPeriods) {
+      dispatch(removeTimePeriodsItem(text));
+      removeUrlParams("periods", text);
     } else {
       dispatch(removeAllFiltersItem(text));
     }

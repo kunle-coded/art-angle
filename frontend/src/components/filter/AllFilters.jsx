@@ -129,13 +129,23 @@ function AllFilters({ onCloseModal, isShowModal }) {
         <SearchField placeholder="Enter a city" />
       </DropdownComponent>
       <Spacer />
-      <DropdownComponent items={timePeriod} title="Time Periods" />
+      <DropdownComponent
+        items={timePeriod}
+        title="Time Periods"
+        isOpen={isShowModal}
+      />
       <Spacer />
-      <DropdownComponent items={colors} title="Color" customWidth={true} />
+      <DropdownComponent
+        items={colors}
+        title="Color"
+        customWidth={true}
+        isOpen={isShowModal}
+      />
       <Spacer />
       <DropdownComponent
         items={artGalleries}
         title="Galleries and Institutions"
+        isOpen={isShowModal}
       >
         <SearchField placeholder="Enter a gallery" />
       </DropdownComponent>

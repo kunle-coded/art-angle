@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useLocation, useParams, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 
 export const useField = (type) => {
   const [value, setValue] = useState("");

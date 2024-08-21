@@ -82,6 +82,7 @@ function Artworks() {
     selectedWaysToBuy,
     selectedMaterials,
     selectedLocations,
+    selectedTimePeriods,
   } = useSelector(getFilters);
 
   const updateUrlParams = useUpdateUrlParams();
@@ -95,6 +96,7 @@ function Artworks() {
     ...selectedWaysToBuy,
     ...selectedMaterials,
     ...selectedLocations,
+    ...selectedTimePeriods,
   ].sort((a, b) => a.timestamp - b.timestamp);
 
   const allSelectedFilters = useMemo(
@@ -104,6 +106,7 @@ function Artworks() {
       ...selectedWaysToBuy,
       ...selectedMaterials,
       ...selectedLocations,
+      ...selectedTimePeriods,
     ],
     [
       selectedArtists,
@@ -111,6 +114,7 @@ function Artworks() {
       selectedMaterials,
       selectedSize,
       selectedWaysToBuy,
+      selectedTimePeriods,
     ]
   );
 

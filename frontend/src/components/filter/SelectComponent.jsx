@@ -18,6 +18,8 @@ import {
   updateMaterials,
   removeLocationsItem,
   updateLocations,
+  removeTimePeriodsItem,
+  updateTimePeriods,
 } from "../../slices/filterSlice";
 import selectedItemsChecker from "../../helpers/selectedItemsChecker";
 
@@ -45,6 +47,7 @@ function SelectComponent({
     selectedWaysToBuy,
     selectedMaterials,
     selectedLocations,
+    selectedTimePeriods,
   } = useSelector(getFilters);
 
   const dispatch = useDispatch();
@@ -98,6 +101,11 @@ function SelectComponent({
       const isItemSelected = selectedItemsChecker(item, selectedLocations);
       setIsChecked(isItemSelected);
     }
+
+    if (type === "time periods") {
+      const isItemSelected = selectedItemsChecker(item, selectedTimePeriods);
+      setIsChecked(isItemSelected);
+    }
   }, [
     item,
     type,
@@ -106,6 +114,7 @@ function SelectComponent({
     selectedWaysToBuy,
     selectedMaterials,
     selectedLocations,
+    selectedTimePeriods,
   ]);
 
   useEffect(() => {
@@ -218,6 +227,14 @@ function SelectComponent({
         setIsChecked(false);
       } else {
         dispatch(updateLocations(item));
+        setIsChecked(true);
+      }
+    } else if (type === "time periods") {
+      if (isChecked) {
+        dispatch(removeTimePeriodsItem(item));
+        setIsChecked(false);
+      } else {
+        dispatch(updateTimePeriods(item));
         setIsChecked(true);
       }
     } else {
