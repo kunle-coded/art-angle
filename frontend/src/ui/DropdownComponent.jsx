@@ -33,6 +33,7 @@ function DropdownComponent({ children, title, items, customWidth, isOpen }) {
     selectedWaysToBuy,
     selectedMaterials,
     selectedTimePeriods,
+    selectedColors,
   } = useSelector(getFilters);
 
   const paramsUpdater = useUrlParamsUpdate();
@@ -92,6 +93,14 @@ function DropdownComponent({ children, title, items, customWidth, isOpen }) {
       }
     }
   }, [checkedItem, isOpen, selectedTimePeriods, title]);
+
+  useEffect(() => {
+    if (isOpen) {
+      if (title === "Color") {
+        paramsUpdater("colors", selectedColors, null, checkedItem);
+      }
+    }
+  }, [checkedItem, isOpen, selectedColors, title]);
 
   function toggleDropdown() {
     setIsDropdown((drop) => !drop);

@@ -117,6 +117,7 @@ export const useUrlParamsUpdate = () => {
       const isItemSelected = paramList.some(
         (param) => param.value === paramItem
       );
+
       if (isItemSelected) {
         const paramObj = {};
 

@@ -20,6 +20,8 @@ import {
   updateLocations,
   removeTimePeriodsItem,
   updateTimePeriods,
+  removeColorsItem,
+  updateColors,
 } from "../../slices/filterSlice";
 import selectedItemsChecker from "../../helpers/selectedItemsChecker";
 
@@ -49,6 +51,7 @@ function SelectComponent({
     selectedMaterials,
     selectedLocations,
     selectedTimePeriods,
+    selectedColors,
   } = useSelector(getFilters);
 
   const dispatch = useDispatch();
@@ -109,6 +112,10 @@ function SelectComponent({
       const isItemSelected = selectedItemsChecker(item, selectedTimePeriods);
       setIsChecked(isItemSelected);
     }
+    if (type === "color") {
+      const isItemSelected = selectedItemsChecker(item, selectedColors);
+      setIsChecked(isItemSelected);
+    }
   }, [
     item,
     type,
@@ -118,6 +125,7 @@ function SelectComponent({
     selectedMaterials,
     selectedLocations,
     selectedTimePeriods,
+    selectedColors,
   ]);
 
   useEffect(() => {
@@ -225,18 +233,21 @@ function SelectComponent({
         removeTimePeriodsItem,
         item
       );
+      console.log("time checkbox", isSelected);
       setIsChecked(isSelected);
-    }
-    //  else {
-    //   if (isChecked) {
-    //     dispatch(removeAllFiltersItem(item));
+    } else if (type === "color") {
+      const isSelected = updateSelection(updateColors, removeColorsItem, item);
+      setIsChecked(isSelected);
+    } else {
+      if (isChecked) {
+        dispatch(removeAllFiltersItem(item));
 
-    //     setIsChecked(false);
-    //   } else {
-    //     dispatch(updateAllFilters(item));
-    //     setIsChecked(true);
-    //   }
-    // }
+        setIsChecked(false);
+      } else {
+        dispatch(updateAllFilters(item));
+        setIsChecked(true);
+      }
+    }
   }
 
   return (

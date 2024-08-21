@@ -32,6 +32,7 @@ function SelectedFilterButton({ text }) {
     selectedMaterials,
     selectedLocations,
     selectedTimePeriods,
+    selectedColors,
   } = useSelector(getFilters);
 
   const dispatch = useDispatch();
