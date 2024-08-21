@@ -41,6 +41,7 @@ function SelectComponent({
     selectedRarity,
     selectedArtists,
     sizeFilter,
+    selectedSize,
     selectedWaysToBuy,
     selectedMaterials,
     selectedLocations,
@@ -118,8 +119,8 @@ function SelectComponent({
   }, [isAllFilters, isChecked, item]);
 
   useEffect(() => {
-    if (type === "size" && sizeFilter) {
-      if (sizeFilter.value !== null || sizeFilter.minSize) {
+    if (type === "size") {
+      if (sizeFilter.value || sizeFilter.minSize) {
         const isMedium = item.includes("Medium");
 
         if (isMedium) {
@@ -137,6 +138,8 @@ function SelectComponent({
             setIsChecked(false);
           }
         }
+      } else {
+        setIsChecked(false);
       }
     }
   }, [artworkSizes, disableSelect, item, sizeFilter, type]);
@@ -165,10 +168,8 @@ function SelectComponent({
         dispatch(removeArtistItem(item));
         setIsChecked(false);
       } else {
-        console.log(item);
         dispatch(updateArtistsFilter(item));
         setIsChecked(true);
-        // onCheckedItem(item);
       }
     } else if (type === "size") {
       if (disableSelect) {
@@ -183,12 +184,12 @@ function SelectComponent({
         const isMedium = item.includes("Medium");
 
         if (isMedium) {
-          const minSize = Number(artworkSizes.value.split("-")[0]);
-          const maxSize = Number(artworkSizes.value.split("-")[1]);
+          const sizes = artworkSizes.value.split("-");
+          const minSize = Number(sizes[0]);
+          const maxSize = Number(sizes[1]);
           const unit = artworkSizes.unit;
 
           const sizeObj = { minSize, maxSize, unit };
-
           dispatch(updateSizeFilter(sizeObj));
         } else {
           dispatch(updateSizeFilter(artworkSizes));

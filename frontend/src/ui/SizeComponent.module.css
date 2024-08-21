@@ -43,10 +43,19 @@
 
 .customFieldContainer {
   display: flex;
+  flex-direction: column;
+  -webkit-box-pack: center;
+  justify-content: center;
+  margin-top: 10px;
+  width: auto;
+}
+
+.customFieldWrapper {
+  display: flex;
   -webkit-box-align: center;
   align-items: center;
+  justify-content: flex-start;
   gap: 10px;
-  margin-top: 10px;
 }
 
 .customFieldLabel {
@@ -74,6 +83,8 @@
   margin-top: 0px;
 }
 
-.inputSpacer {
-  margin-left: 10px;
+.customFieldBtn {
+  display: block;
+  margin-top: 20px;
+  /* width: 100%; */
 }

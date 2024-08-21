@@ -6,7 +6,7 @@ const initialState = {
   selectedRarity: {},
   selectedMaterials: [],
   selectedPrice: [],
-  selectedSize: {},
+  selectedSize: [],
   allSelectedFilters: [],
   priceFilter: {},
   sizeFilter: {},
@@ -113,11 +113,22 @@ const filterSlice = createSlice({
     },
 
     updateSize(state, action) {
-      state.selectedSize = { value: action.payload, timestamp: Date.now() };
+      const exists = state.selectedSize.some(
+        (size) => size.value === action.payload
+      );
+
+      if (!exists) {
+        state.selectedSize.push({
+          value: action.payload,
+          timestamp: Date.now(),
+        });
+      }
     },
 
-    removeSizeItem(state) {
-      state.selectedSize = initialState.selectedSize;
+    removeSizeItem(state, action) {
+      state.selectedSize = state.selectedSize.filter(
+        (size) => size.value !== action.payload
+      );
     },
 
     updateWaysToBuy(state, action) {

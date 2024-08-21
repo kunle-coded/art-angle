@@ -17,8 +17,8 @@
   transition: border-color 0.25s ease 0s, color 0.25s ease 0s;
   height: 50px;
   background-color: var(--surface);
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: var(--desktop-body-lg);
-  color: var(--primary-variant);
 }
 
 /* Chrome, Safari, Edge, Opera */

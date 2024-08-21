@@ -12,6 +12,7 @@ import {
   removeWaysToBuyItem,
   removeLocationsItem,
   removeMaterialsItem,
+  updateSizeFilter,
 } from "../slices/filterSlice";
 
 import styles from "./SelectedFilterButton.module.css";
@@ -25,6 +26,7 @@ function SelectedFilterButton({ text }) {
     priceFilter,
     selectedArtists,
     selectedSize,
+    sizeFilter,
     selectedWaysToBuy,
     selectedMaterials,
     selectedLocations,
@@ -37,7 +39,7 @@ function SelectedFilterButton({ text }) {
   function handleClose() {
     const isInMedium = selectedMedium.find((medium) => medium.value === text);
     const isInRarity = selectedRarity.value === text;
-    const isInSize = selectedSize.value === text;
+    const isInSize = selectedSize.find((size) => size.value === text);
     const isInPrice = selectedPrice.find((price) => price.value === text);
     const isInArtists = selectedArtists.find((artist) => artist.value === text);
     const isInWaysToBuy = selectedWaysToBuy.find(
@@ -73,9 +75,27 @@ function SelectedFilterButton({ text }) {
         isInArtists.value?.toLowerCase().split(" ").join("-")
       );
     } else if (isInSize) {
-      dispatch(removeSizeItem());
-      dispatch(removeSizeFilter());
-      removeUrlParams("size");
+      const isWidth = isInSize.value.includes("w:");
+      const isHeight = isInSize.value.includes("h:");
+
+      const newSizeFilter = { ...sizeFilter };
+      if (isWidth) {
+        newSizeFilter.minWidth = "";
+        newSizeFilter.maxWidth = "";
+        dispatch(removeSizeItem(text));
+        removeUrlParams("width");
+        dispatch(updateSizeFilter(newSizeFilter));
+      } else if (isHeight) {
+        newSizeFilter.minHeight = "";
+        newSizeFilter.maxHeight = "";
+        dispatch(removeSizeItem(text));
+        removeUrlParams("height");
+        dispatch(updateSizeFilter(newSizeFilter));
+      } else {
+        dispatch(removeSizeItem(text));
+        dispatch(removeSizeFilter());
+        removeUrlParams("size");
+      }
     } else if (isInWaysToBuy) {
       dispatch(removeWaysToBuyItem(text));
       const valueToRemove = text.toLowerCase().split(" ").join("-");

@@ -91,7 +91,7 @@ function Artworks() {
     selectedRarity,
     ...selectedPrice,
     ...selectedArtists,
-    selectedSize,
+    ...selectedSize,
     ...selectedWaysToBuy,
     ...selectedMaterials,
     ...selectedLocations,
@@ -100,7 +100,7 @@ function Artworks() {
   const allSelectedFilters = useMemo(
     () => [
       ...selectedArtists,
-      selectedSize,
+      ...selectedSize,
       ...selectedWaysToBuy,
       ...selectedMaterials,
       ...selectedLocations,
