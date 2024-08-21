@@ -52,10 +52,11 @@ function SelectedFilterButton({ text }) {
 
     if (isInMedium) {
       dispatch(removeMediumItem(text));
-      removeUrlParams("medium", isInMedium.value);
+      const value = text.toLowerCase();
+      removeUrlParams("medium", value);
     } else if (isInRarity) {
       dispatch(removeRarityItem());
-      const rarityVal = selectedRarity.value.split(" ").join("-");
+      const rarityVal = selectedRarity.value.toLowerCase().split(" ").join("-");
       removeUrlParams("rarity", rarityVal);
     } else if (isInPrice) {
       const value = `${
@@ -67,7 +68,10 @@ function SelectedFilterButton({ text }) {
       dispatch(removePriceFilter());
     } else if (isInArtists) {
       dispatch(removeArtistItem(text));
-      removeUrlParams("artists", isInArtists.value.split(" ").join("-"));
+      removeUrlParams(
+        "artists",
+        isInArtists.value?.toLowerCase().split(" ").join("-")
+      );
     } else if (isInSize) {
       dispatch(removeSizeItem());
       dispatch(removeSizeFilter());

@@ -128,6 +128,7 @@ export const useUrlParamsUpdate = () => {
             .map((param) => param.value?.toLowerCase().split(" ").join("-"))
             .join("+");
         }
+
         updateUrlParams(paramObj);
       } else {
         const valueToRemove =

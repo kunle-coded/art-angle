@@ -19,9 +19,9 @@ import {
   removeLocationsItem,
   updateLocations,
 } from "../../slices/filterSlice";
+import selectedItemsChecker from "../../helpers/selectedItemsChecker";
 
 import styles from "./SelectComponent.module.css";
-import checkSelectedItems from "../../helpers/checkSelectedItem";
 
 function SelectComponent({
   item,
@@ -74,27 +74,27 @@ function SelectComponent({
   // Check list if an item is already selected and set checkbox to checked
   useEffect(() => {
     if (type === "medium") {
-      const isItemSelected = checkSelectedItems(item, selectedMedium);
+      const isItemSelected = selectedItemsChecker(item, selectedMedium);
       setIsChecked(isItemSelected);
     }
 
     if (type === "artists") {
-      const isItemSelected = checkSelectedItems(item, selectedArtists);
+      const isItemSelected = selectedItemsChecker(item, selectedArtists);
       setIsChecked(isItemSelected);
     }
 
     if (type === "ways to buy") {
-      const isItemSelected = checkSelectedItems(item, selectedWaysToBuy);
+      const isItemSelected = selectedItemsChecker(item, selectedWaysToBuy);
       setIsChecked(isItemSelected);
     }
 
     if (type === "materials") {
-      const isItemSelected = checkSelectedItems(item, selectedMaterials);
+      const isItemSelected = selectedItemsChecker(item, selectedMaterials);
       setIsChecked(isItemSelected);
     }
 
     if (type === "artwork location") {
-      const isItemSelected = checkSelectedItems(item, selectedLocations);
+      const isItemSelected = selectedItemsChecker(item, selectedLocations);
       setIsChecked(isItemSelected);
     }
   }, [
@@ -165,8 +165,10 @@ function SelectComponent({
         dispatch(removeArtistItem(item));
         setIsChecked(false);
       } else {
+        console.log(item);
         dispatch(updateArtistsFilter(item));
         setIsChecked(true);
+        // onCheckedItem(item);
       }
     } else if (type === "size") {
       if (disableSelect) {

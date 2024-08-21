@@ -29,46 +29,60 @@ function DropdownComponent({ children, title, items, customWidth, isOpen }) {
     selectedMedium,
     selectedRarity,
     selectedArtists,
-    allSelectedFilters,
+    selectedLocations,
     selectedWaysToBuy,
     selectedMaterials,
-    selectedLocations,
   } = useSelector(getFilters);
 
-  const removeUrlParams = useDeleteUrlParams();
-  const updateUrlParams = useUpdateUrlParams();
   const paramsUpdater = useUrlParamsUpdate();
 
   useEffect(() => {
     if (isOpen) {
       if (title === "Medium") {
         paramsUpdater("medium", selectedMedium, null, checkedItem);
-      } else if (title === "Rarity") {
-        paramsUpdater("rarity", null, selectedRarity, checkedItem);
-      } else if (title === "Artists") {
+      }
+    }
+  }, [checkedItem, isOpen, selectedMedium, title]);
+
+  useEffect(() => {
+    if (isOpen) {
+      if (title === "Artists") {
         paramsUpdater("artists", selectedArtists, null, checkedItem);
-      } else if (title === "Ways to Buy") {
+      }
+    }
+  }, [checkedItem, isOpen, selectedArtists, title]);
+
+  useEffect(() => {
+    if (isOpen) {
+      if (title === "Rarity") {
+        paramsUpdater("rarity", null, selectedRarity, checkedItem);
+      }
+    }
+  }, [checkedItem, isOpen, selectedRarity, title]);
+
+  useEffect(() => {
+    if (isOpen) {
+      if (title === "Ways to Buy") {
         paramsUpdater("ways_to_buy", selectedWaysToBuy, null, checkedItem);
-      } else if (title === "Materials") {
-        console.log(selectedMaterials, checkedItem);
+      }
+    }
+  }, [checkedItem, isOpen, selectedWaysToBuy, title]);
+
+  useEffect(() => {
+    if (isOpen) {
+      if (title === "Materials") {
         paramsUpdater("materials", selectedMaterials, null, checkedItem);
-      } else if (title === "Artwork Location") {
-        console.log(title, selectedLocations);
+      }
+    }
+  }, [checkedItem, isOpen, selectedMaterials, title]);
+
+  useEffect(() => {
+    if (isOpen) {
+      if (title === "Artwork Location") {
         paramsUpdater("locations", selectedLocations, null, checkedItem);
       }
     }
-  }, [
-    checkedItem,
-    isOpen,
-    selectedMedium,
-    selectedRarity,
-    selectedArtists,
-    selectedWaysToBuy,
-    selectedMaterials,
-    selectedLocations,
-    title,
-    allSelectedFilters,
-  ]);
+  }, [checkedItem, isOpen, selectedLocations, title]);
 
   function toggleDropdown() {
     setIsDropdown((drop) => !drop);

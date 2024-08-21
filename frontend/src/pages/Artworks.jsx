@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getGlobal,
@@ -58,6 +58,7 @@ const sortArray = [
 
 function Artworks() {
   const [selected, setSelected] = useState(0);
+  const [allSelectedFiltersCount, setAllSelectedFiltersCount] = useState(0);
   const [showModal, setShowModal] = useState(false);
   const [priceValues, setPriceValues] = useState({});
 
@@ -95,6 +96,23 @@ function Artworks() {
     ...selectedMaterials,
     ...selectedLocations,
   ].sort((a, b) => a.timestamp - b.timestamp);
+
+  const allSelectedFilters = useMemo(
+    () => [
+      ...selectedArtists,
+      selectedSize,
+      ...selectedWaysToBuy,
+      ...selectedMaterials,
+      ...selectedLocations,
+    ],
+    [
+      selectedArtists,
+      selectedLocations,
+      selectedMaterials,
+      selectedSize,
+      selectedWaysToBuy,
+    ]
+  );
 
   const dispatch = useDispatch();
 
@@ -140,6 +158,13 @@ function Artworks() {
   }, []);
 
   useEffect(() => {
+    const selectedCount = allSelectedFilters.filter(
+      (selected) => selected.value
+    );
+    setAllSelectedFiltersCount(selectedCount.length);
+  }, [allSelectedFilters]);
+
+  useEffect(() => {
     dispatch(updateCurrentSort(sortArray[0]));
   });
 
@@ -164,7 +189,9 @@ function Artworks() {
   function handleConfirmMediumFilter() {
     if (selectedMedium.length >= 1) {
       const mediumParam = {
-        medium: selectedMedium.map((medium) => medium.value).join("+"),
+        medium: selectedMedium
+          .map((medium) => medium.value.toLowerCase())
+          .join("+"),
       };
       updateUrlParams(mediumParam);
     } else {
@@ -174,7 +201,7 @@ function Artworks() {
 
   function handleConfirmRarityFilter() {
     if (selectedRarity.value) {
-      const rarityVal = selectedRarity.value.split(" ").join("-");
+      const rarityVal = selectedRarity.value.toLowerCase().split(" ").join("-");
       const rarityParam = { rarity: rarityVal };
       updateUrlParams(rarityParam);
     } else {
@@ -255,6 +282,8 @@ function Artworks() {
         <FilterComponent>
           <FilterButton
             text="All Filters"
+            type="filter"
+            count={allSelectedFiltersCount}
             left={true}
             onClick={() => openModal()}
           />

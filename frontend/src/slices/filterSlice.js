@@ -82,10 +82,6 @@ const filterSlice = createSlice({
       );
     },
 
-    clearMaterials(state) {
-      state.selectedMaterials = initialState.selectedMaterials;
-    },
-
     updateRarity(state, action) {
       state.selectedRarity = { value: action.payload, timestamp: Date.now() };
     },
@@ -143,10 +139,6 @@ const filterSlice = createSlice({
       );
     },
 
-    clearWaysToBuy(state) {
-      state.selectedWaysToBuy = initialState.selectedWaysToBuy;
-    },
-
     updateLocations(state, action) {
       const exists = state.selectedLocations.some(
         (location) => location.value === action.payload
@@ -164,10 +156,6 @@ const filterSlice = createSlice({
       state.selectedLocations = state.selectedLocations.filter(
         (location) => location.value !== action.payload
       );
-    },
-
-    clearLocations(state) {
-      state.selectedLocations = initialState.selectedLocations;
     },
 
     updateColors(state, action) {
@@ -189,10 +177,6 @@ const filterSlice = createSlice({
       );
     },
 
-    clearColors(state) {
-      state.selectedColors = initialState.selectedColors;
-    },
-
     updateTimePeriods(state, action) {
       const exists = state.selectedTimePeriods.some(
         (period) => period.value === action.payload
@@ -212,10 +196,6 @@ const filterSlice = createSlice({
       );
     },
 
-    clearTimePeriods(state) {
-      state.selectedTimePeriods = initialState.selectedTimePeriods;
-    },
-
     updateGalleries(state, action) {
       const exists = state.selectedGalleries.some(
         (gallery) => gallery.value === action.payload
@@ -233,10 +213,6 @@ const filterSlice = createSlice({
       state.selectedGalleries = state.selectedGalleries.filter(
         (gallery) => gallery.value !== action.payload
       );
-    },
-
-    clearGalleries(state) {
-      state.selectedGalleries = initialState.selectedGalleries;
     },
 
     updateAllFilters(state, action) {
@@ -271,22 +247,16 @@ export const {
   clearMedium,
   updateColors,
   removeColorsItem,
-  clearColors,
   updateGalleries,
   removeGalleriesItem,
-  clearGalleries,
   updateLocations,
   removeLocationsItem,
-  clearLocations,
   updateMaterials,
   removeMaterialsItem,
-  clearMaterials,
   updateTimePeriods,
   removeTimePeriodsItem,
-  clearTimePeriods,
   updateWaysToBuy,
   removeWaysToBuyItem,
-  clearWaysToBuy,
   updateRarity,
   removeRarityItem,
   updatePrice,
