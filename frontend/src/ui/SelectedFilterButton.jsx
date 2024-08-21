@@ -10,6 +10,8 @@ import {
   removeSizeItem,
   removeSizeFilter,
   removeWaysToBuyItem,
+  removeLocationsItem,
+  removeMaterialsItem,
 } from "../slices/filterSlice";
 
 import styles from "./SelectedFilterButton.module.css";
@@ -24,6 +26,8 @@ function SelectedFilterButton({ text }) {
     selectedArtists,
     selectedSize,
     selectedWaysToBuy,
+    selectedMaterials,
+    selectedLocations,
   } = useSelector(getFilters);
 
   const dispatch = useDispatch();
@@ -38,6 +42,12 @@ function SelectedFilterButton({ text }) {
     const isInArtists = selectedArtists.find((artist) => artist.value === text);
     const isInWaysToBuy = selectedWaysToBuy.find(
       (wayToBuy) => wayToBuy.value === text
+    );
+    const isMaterials = selectedMaterials.find(
+      (material) => material.value === text
+    );
+    const isInLocations = selectedLocations.find(
+      (location) => location.value === text
     );
 
     if (isInMedium) {
@@ -66,6 +76,14 @@ function SelectedFilterButton({ text }) {
       dispatch(removeWaysToBuyItem(text));
       const valueToRemove = text.toLowerCase().split(" ").join("-");
       removeUrlParams("ways_to_buy", valueToRemove);
+    } else if (isMaterials) {
+      dispatch(removeMaterialsItem(text));
+      const valueToRemove = text.toLowerCase().split(" ").join("-");
+      removeUrlParams("materials", valueToRemove);
+    } else if (isInLocations) {
+      dispatch(removeLocationsItem(text));
+      const valueToRemove = text.split(" ").join("");
+      removeUrlParams("locations", valueToRemove);
     } else {
       dispatch(removeAllFiltersItem(text));
     }

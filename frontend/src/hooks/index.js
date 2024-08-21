@@ -117,14 +117,23 @@ export const useUrlParamsUpdate = () => {
         (param) => param.value === paramItem
       );
       if (isItemSelected) {
-        const paraObj = {
-          [paramKey]: paramList
+        const paramObj = {};
+
+        if (paramKey === "locations") {
+          paramObj[paramKey] = paramList
+            .map((param) => param.value?.split(" ").join(""))
+            .join("+");
+        } else {
+          paramObj[paramKey] = paramList
             .map((param) => param.value?.toLowerCase().split(" ").join("-"))
-            .join("+"),
-        };
-        updateUrlParams(paraObj);
+            .join("+");
+        }
+        updateUrlParams(paramObj);
       } else {
-        const valueToRemove = paramItem?.toLowerCase().split(" ").join("-");
+        const valueToRemove =
+          paramKey === "locations"
+            ? paramItem?.split(" ").join("")
+            : paramItem?.toLowerCase().split(" ").join("-");
         removeUrlParams(paramKey, valueToRemove);
       }
     } else if (paramObject) {

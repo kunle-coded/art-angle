@@ -16,9 +16,12 @@ import {
   updateWaysToBuy,
   removeMaterialsItem,
   updateMaterials,
+  removeLocationsItem,
+  updateLocations,
 } from "../../slices/filterSlice";
 
 import styles from "./SelectComponent.module.css";
+import checkSelectedItems from "../../helpers/checkSelectedItem";
 
 function SelectComponent({
   item,
@@ -39,6 +42,8 @@ function SelectComponent({
     selectedArtists,
     sizeFilter,
     selectedWaysToBuy,
+    selectedMaterials,
+    selectedLocations,
   } = useSelector(getFilters);
 
   const dispatch = useDispatch();
@@ -53,6 +58,7 @@ function SelectComponent({
     }
   }, [color, item]);
 
+  // Check object if it contains selected item and set checkbox to checked
   useEffect(() => {
     if (type === "rarity") {
       if (selectedRarity.value !== null) {
@@ -65,23 +71,41 @@ function SelectComponent({
     }
   }, [item, selectedRarity, type]);
 
+  // Check list if an item is already selected and set checkbox to checked
   useEffect(() => {
     if (type === "medium") {
-      const isItemSelected = selectedMedium.some(
-        (medium) => medium.value === item
-      );
+      const isItemSelected = checkSelectedItems(item, selectedMedium);
       setIsChecked(isItemSelected);
     }
-  }, [item, selectedMedium, type]);
 
-  useEffect(() => {
     if (type === "artists") {
-      const isItemSelected = selectedArtists.some(
-        (artist) => artist.value === item
-      );
+      const isItemSelected = checkSelectedItems(item, selectedArtists);
       setIsChecked(isItemSelected);
     }
-  }, [item, selectedArtists, type]);
+
+    if (type === "ways to buy") {
+      const isItemSelected = checkSelectedItems(item, selectedWaysToBuy);
+      setIsChecked(isItemSelected);
+    }
+
+    if (type === "materials") {
+      const isItemSelected = checkSelectedItems(item, selectedMaterials);
+      setIsChecked(isItemSelected);
+    }
+
+    if (type === "artwork location") {
+      const isItemSelected = checkSelectedItems(item, selectedLocations);
+      setIsChecked(isItemSelected);
+    }
+  }, [
+    item,
+    type,
+    selectedMedium,
+    selectedArtists,
+    selectedWaysToBuy,
+    selectedMaterials,
+    selectedLocations,
+  ]);
 
   useEffect(() => {
     if (isAllFilters) {
@@ -116,15 +140,6 @@ function SelectComponent({
       }
     }
   }, [artworkSizes, disableSelect, item, sizeFilter, type]);
-
-  useEffect(() => {
-    if (type === "ways to buy") {
-      const isItemSelected = selectedWaysToBuy.some(
-        (wayToBuy) => wayToBuy.value === item
-      );
-      setIsChecked(isItemSelected);
-    }
-  }, [item, selectedWaysToBuy, type]);
 
   function handleCheckbox(e) {
     e.stopPropagation();
@@ -191,8 +206,15 @@ function SelectComponent({
         dispatch(removeMaterialsItem(item));
         setIsChecked(false);
       } else {
-        console.log(type);
         dispatch(updateMaterials(item));
+        setIsChecked(true);
+      }
+    } else if (type === "artwork location") {
+      if (isChecked) {
+        dispatch(removeLocationsItem(item));
+        setIsChecked(false);
+      } else {
+        dispatch(updateLocations(item));
         setIsChecked(true);
       }
     } else {
@@ -201,7 +223,6 @@ function SelectComponent({
 
         setIsChecked(false);
       } else {
-        console.log("item ", type);
         dispatch(updateAllFilters(item));
         setIsChecked(true);
       }

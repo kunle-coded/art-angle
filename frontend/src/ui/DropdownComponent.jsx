@@ -32,6 +32,7 @@ function DropdownComponent({ children, title, items, customWidth, isOpen }) {
     allSelectedFilters,
     selectedWaysToBuy,
     selectedMaterials,
+    selectedLocations,
   } = useSelector(getFilters);
 
   const removeUrlParams = useDeleteUrlParams();
@@ -49,7 +50,11 @@ function DropdownComponent({ children, title, items, customWidth, isOpen }) {
       } else if (title === "Ways to Buy") {
         paramsUpdater("ways_to_buy", selectedWaysToBuy, null, checkedItem);
       } else if (title === "Materials") {
+        console.log(selectedMaterials, checkedItem);
         paramsUpdater("materials", selectedMaterials, null, checkedItem);
+      } else if (title === "Artwork Location") {
+        console.log(title, selectedLocations);
+        paramsUpdater("locations", selectedLocations, null, checkedItem);
       }
     }
   }, [
@@ -60,6 +65,7 @@ function DropdownComponent({ children, title, items, customWidth, isOpen }) {
     selectedArtists,
     selectedWaysToBuy,
     selectedMaterials,
+    selectedLocations,
     title,
     allSelectedFilters,
   ]);

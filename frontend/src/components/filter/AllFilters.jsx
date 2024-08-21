@@ -121,7 +121,11 @@ function AllFilters({ onCloseModal, isShowModal }) {
         <SearchField placeholder="Enter a material" />
       </DropdownComponent>
       <Spacer />
-      <DropdownComponent items={locations} title="Artwork Location">
+      <DropdownComponent
+        items={locations}
+        title="Artwork Location"
+        isOpen={isShowModal}
+      >
         <SearchField placeholder="Enter a city" />
       </DropdownComponent>
       <Spacer />
