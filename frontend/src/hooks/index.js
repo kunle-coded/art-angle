@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
 import { useSearchParams } from "react-router-dom";
 
 export const useField = (type) => {
@@ -152,6 +153,25 @@ export const useUrlParamsUpdate = () => {
   };
 
   return paramsUpdater;
+};
+
+export const useSelectionUpdate = () => {
+  const [isChecked, setIsChecked] = useState(false);
+  const dispatch = useDispatch();
+
+  const updateSelection = (updateAction, deleteAction, itemToUpdate) => {
+    if (isChecked) {
+      dispatch(deleteAction(itemToUpdate));
+      setIsChecked(false);
+    } else {
+      dispatch(updateAction(itemToUpdate));
+      setIsChecked(true);
+    }
+
+    return isChecked;
+  };
+
+  return updateSelection;
 };
 
 export const useShowPassword = () => {

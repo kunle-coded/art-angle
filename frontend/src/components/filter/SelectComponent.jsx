@@ -24,6 +24,7 @@ import {
 import selectedItemsChecker from "../../helpers/selectedItemsChecker";
 
 import styles from "./SelectComponent.module.css";
+import { useSelectionUpdate } from "../../hooks";
 
 function SelectComponent({
   item,
@@ -51,6 +52,8 @@ function SelectComponent({
   } = useSelector(getFilters);
 
   const dispatch = useDispatch();
+
+  const updateSelection = useSelectionUpdate();
 
   useEffect(() => {
     if (color) {
@@ -153,33 +156,23 @@ function SelectComponent({
     }
   }, [artworkSizes, disableSelect, item, sizeFilter, type]);
 
+  // Function to select and deselect checkbox, it also updates the filter state
   function handleCheckbox(e) {
     e.stopPropagation();
 
     if (type === "medium") {
-      if (isChecked) {
-        dispatch(removeMediumItem(item));
-        setIsChecked(false);
-      } else {
-        dispatch(updateMedium(item));
-        setIsChecked(true);
-      }
+      const isSelected = updateSelection(updateMedium, removeMediumItem, item);
+      setIsChecked(isSelected);
     } else if (type === "rarity") {
-      if (isChecked) {
-        dispatch(removeRarityItem(item));
-        setIsChecked(false);
-      } else {
-        dispatch(updateRarity(item));
-        setIsChecked(true);
-      }
+      const isSelected = updateSelection(updateRarity, removeRarityItem, item);
+      setIsChecked(isSelected);
     } else if (type === "artists") {
-      if (isChecked) {
-        dispatch(removeArtistItem(item));
-        setIsChecked(false);
-      } else {
-        dispatch(updateArtistsFilter(item));
-        setIsChecked(true);
-      }
+      const isSelected = updateSelection(
+        updateArtistsFilter,
+        removeArtistItem,
+        item
+      );
+      setIsChecked(isSelected);
     } else if (type === "size") {
       if (disableSelect) {
         setIsChecked(false);
@@ -206,47 +199,44 @@ function SelectComponent({
         setIsChecked(true);
       }
     } else if (type === "ways to buy") {
-      if (isChecked) {
-        dispatch(removeWaysToBuyItem(item));
-        setIsChecked(false);
-      } else {
-        dispatch(updateWaysToBuy(item));
-        setIsChecked(true);
-      }
+      const isSelected = updateSelection(
+        updateWaysToBuy,
+        removeWaysToBuyItem,
+        item
+      );
+      setIsChecked(isSelected);
     } else if (type === "materials") {
-      if (isChecked) {
-        dispatch(removeMaterialsItem(item));
-        setIsChecked(false);
-      } else {
-        dispatch(updateMaterials(item));
-        setIsChecked(true);
-      }
+      const isSelected = updateSelection(
+        updateMaterials,
+        removeMaterialsItem,
+        item
+      );
+      setIsChecked(isSelected);
     } else if (type === "artwork location") {
-      if (isChecked) {
-        dispatch(removeLocationsItem(item));
-        setIsChecked(false);
-      } else {
-        dispatch(updateLocations(item));
-        setIsChecked(true);
-      }
+      const isSelected = updateSelection(
+        updateLocations,
+        removeLocationsItem,
+        item
+      );
+      setIsChecked(isSelected);
     } else if (type === "time periods") {
-      if (isChecked) {
-        dispatch(removeTimePeriodsItem(item));
-        setIsChecked(false);
-      } else {
-        dispatch(updateTimePeriods(item));
-        setIsChecked(true);
-      }
-    } else {
-      if (isChecked) {
-        dispatch(removeAllFiltersItem(item));
-
-        setIsChecked(false);
-      } else {
-        dispatch(updateAllFilters(item));
-        setIsChecked(true);
-      }
+      const isSelected = updateSelection(
+        updateTimePeriods,
+        removeTimePeriodsItem,
+        item
+      );
+      setIsChecked(isSelected);
     }
+    //  else {
+    //   if (isChecked) {
+    //     dispatch(removeAllFiltersItem(item));
+
+    //     setIsChecked(false);
+    //   } else {
+    //     dispatch(updateAllFilters(item));
+    //     setIsChecked(true);
+    //   }
+    // }
   }
 
   return (
