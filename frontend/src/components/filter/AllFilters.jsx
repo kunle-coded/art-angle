@@ -99,25 +99,42 @@ function AllFilters({ onCloseModal, isShowModal }) {
     }
   }, [gallerySearch.value]);
 
-  const handlePriceAllFilter = useCallback(
-    (price) => {
-      if (price.minPrice || price.maxPrice) {
-        dispatch(updatePriceFilter(price));
+  // const handlePriceAllFilter = useCallback(
+  //   (price) => {
+  //     if (price.minPrice || price.maxPrice) {
+  //       dispatch(updatePriceFilter(price));
 
-        const priceRange = {
-          price_range: `${price.minPrice ? price.minPrice : "+"}-${
-            price.maxPrice ? price.maxPrice : "+"
-          }`,
-        };
+  //       const priceRange = {
+  //         price_range: `${price.minPrice ? price.minPrice : "+"}-${
+  //           price.maxPrice ? price.maxPrice : "+"
+  //         }`,
+  //       };
 
-        updateUrlParams(priceRange);
-      } else {
-        removeUrlParams("price_range");
-        dispatch(removePriceFilter());
-      }
-    },
-    [dispatch]
-  );
+  //       updateUrlParams(priceRange);
+  //     } else {
+  //       removeUrlParams("price_range");
+  //       dispatch(removePriceFilter());
+  //     }
+  //   },
+  //   [dispatch]
+  // );
+
+  const handlePriceAllFilter = (price) => {
+    if (price.minPrice || price.maxPrice) {
+      dispatch(updatePriceFilter(price));
+
+      const priceRange = {
+        price_range: `${price.minPrice ? price.minPrice : "+"}-${
+          price.maxPrice ? price.maxPrice : "+"
+        }`,
+      };
+
+      updateUrlParams(priceRange);
+    } else {
+      removeUrlParams("price_range");
+      dispatch(removePriceFilter());
+    }
+  };
 
   function handleClearKeywordInput(e) {
     resetKeywordSearch(e);

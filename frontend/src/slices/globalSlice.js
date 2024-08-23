@@ -17,7 +17,7 @@ const initialState = {
   successMessage: "",
   loginWindow: "",
   userType: "buyer",
-  currentSort: "",
+  currentSort: "Recommended",
   priceSort: {},
 };
 

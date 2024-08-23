@@ -45,14 +45,15 @@ import { useAllArtworksQuery } from "../slices/artworksApiSlice";
 import Spinner from "../ui/Spinner";
 import distributeArtworks from "../helpers/distributeArtworks";
 import { NUM_COLUMNS } from "../constants/constants";
-import { useUrlParams, useUpdateUrlParams } from "../hooks";
+import { useUrlParams, useUpdateUrlParams, useDeleteUrlParams } from "../hooks";
 import filterPrice from "../helpers/filterPrice";
 import { getSearch } from "../slices/searchSlice";
 
 const sortArray = [
   "Recommended",
-  "Recently Updated",
   "Recently Added",
+  "Price (Descending)",
+  "Price (Ascending)",
   "Artwork Year (Descending)",
   "Artwork Year (Ascending)",
 ];
@@ -91,6 +92,7 @@ function Artworks() {
   const { searchedKeyword } = useSelector(getSearch);
 
   const updateUrlParams = useUpdateUrlParams();
+  const removeUrlParams = useDeleteUrlParams();
 
   const selectedFilter = [
     ...selectedMedium,
@@ -184,13 +186,39 @@ function Artworks() {
     setAllSelectedFiltersCount(selectedCount.length);
   }, [allSelectedFilters]);
 
-  useEffect(() => {
-    dispatch(updateCurrentSort(sortArray[0]));
-  });
-
   function handleSort(index, sortItem) {
     setSelected((prevState) => (prevState !== index ? index : prevState));
     dispatch(updateCurrentSort(sortItem));
+
+    const sortParam = {};
+
+    switch (index) {
+      case 1:
+        sortParam.sort = "published-at";
+        break;
+      case 2:
+        sortParam.sort = "price-descending";
+        break;
+      case 3:
+        sortParam.sort = "price-ascending";
+        break;
+      case 4:
+        sortParam.sort = "year-descending";
+        break;
+      case 5:
+        sortParam.sort = "year-ascending";
+        break;
+
+      default:
+        sortParam.sort = null;
+        break;
+    }
+
+    if (sortParam.sort) {
+      updateUrlParams(sortParam);
+    } else {
+      removeUrlParams("sort");
+    }
   }
 
   function confirmPriceFilter() {

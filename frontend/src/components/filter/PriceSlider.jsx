@@ -40,8 +40,8 @@ function PriceSlider({ onPriceChange }) {
       }
     } else {
       setMinValue(MIN_FILTER_PRICE);
-      setInputMinValue("");
       setMaxValue(MAX_FILTER_PRICE);
+      setInputMinValue("");
       setInputMaxValue("");
     }
   }, [maxPrice, minPrice, priceFilter]);
