@@ -56,3 +56,16 @@
   height: 18px;
   position: relative;
 }
+
+.clearBtn {
+  appearance: none;
+  padding: 0px;
+  border: 0px;
+  margin: 0px;
+  background-color: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: inherit;
+  display: flex;
+  cursor: pointer;
+}

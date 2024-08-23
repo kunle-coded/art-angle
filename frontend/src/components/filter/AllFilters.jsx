@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getFilters,
@@ -24,18 +24,26 @@ import {
   locations,
 } from "../../data";
 import SizeComponent from "../../ui/SizeComponent";
-import { useDeleteUrlParams, useUpdateUrlParams } from "../../hooks";
-import filterPrice from "../../helpers/filterPrice";
+import { useDeleteUrlParams, useField, useUpdateUrlParams } from "../../hooks";
+import { updateKeyword } from "../../slices/searchSlice";
 
 function AllFilters({ onCloseModal, isShowModal }) {
-  const { priceFilter } = useSelector(getFilters);
-
   const updateUrlParams = useUpdateUrlParams();
   const removeUrlParams = useDeleteUrlParams();
 
   const dispatch = useDispatch();
 
+  const keywordSearch = useField("text");
+  const { onReset: resetKeywordSearch, ...keywordSearchProps } = keywordSearch;
+
   const artistsNames = artists.map((artist) => artist.name);
+
+  useEffect(() => {
+    if (keywordSearch.value.length >= 3) {
+      console.log("searching...", keywordSearch.value);
+      dispatch(updateKeyword(keywordSearch.value));
+    }
+  }, [keywordSearch.value]);
 
   const handlePriceAllFilter = useCallback(
     (price) => {
@@ -87,7 +95,12 @@ function AllFilters({ onCloseModal, isShowModal }) {
       </div>
       <Spacer />
       <DropdownComponent title="Keyword Search">
-        <SearchField placeholder="Enter a search term" />
+        <SearchField
+          placeholder="Enter a search term"
+          isShowClear={keywordSearch.value.length >= 1}
+          onClear={resetKeywordSearch}
+          {...keywordSearchProps}
+        />
       </DropdownComponent>
       <Spacer />
       <DropdownComponent

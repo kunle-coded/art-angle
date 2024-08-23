@@ -47,6 +47,7 @@ import distributeArtworks from "../helpers/distributeArtworks";
 import { NUM_COLUMNS } from "../constants/constants";
 import { useUrlParams, useUpdateUrlParams } from "../hooks";
 import filterPrice from "../helpers/filterPrice";
+import { getSearch } from "../slices/searchSlice";
 
 const sortArray = [
   "Recommended",
@@ -87,6 +88,8 @@ function Artworks() {
     selectedGalleries,
   } = useSelector(getFilters);
 
+  const { searchedKeyword } = useSelector(getSearch);
+
   const updateUrlParams = useUpdateUrlParams();
 
   const selectedFilter = [
@@ -101,6 +104,7 @@ function Artworks() {
     ...selectedTimePeriods,
     ...selectedColors,
     ...selectedGalleries,
+    searchedKeyword,
   ].sort((a, b) => a.timestamp - b.timestamp);
 
   const allSelectedFilters = useMemo(

@@ -6,6 +6,7 @@ import { apiSlice } from "./slices/apiSlice";
 import { apiArtworkSlice } from "./slices/apiArtworkSlice";
 import userSlice from "./slices/userSlice";
 import artworkSlice from "./slices/artworkSlice";
+import searchSlice from "./slices/searchSlice";
 
 const store = configureStore({
   reducer: {
@@ -14,6 +15,7 @@ const store = configureStore({
     auth: authReducer,
     user: userSlice,
     artwork: artworkSlice,
+    search: searchSlice,
     [apiSlice.reducerPath]: apiSlice.reducer,
     [apiArtworkSlice.reducerPath]: apiArtworkSlice.reducer,
   },
