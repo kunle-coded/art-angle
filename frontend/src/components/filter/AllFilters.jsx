@@ -32,7 +32,9 @@ import {
 import SizeComponent from "../../ui/SizeComponent";
 
 function AllFilters({ onCloseModal, isShowModal }) {
+  const [materialsList, setMaterialsList] = useState(materials);
   const [isKeyword, setIsKeyword] = useState(false);
+  const [isNoMaterial, setIsNoMaterial] = useState(false);
 
   const { searchedKeyword } = useSelector(getSearch);
 
@@ -43,6 +45,9 @@ function AllFilters({ onCloseModal, isShowModal }) {
 
   const keywordSearch = useField("text");
   const { onReset: resetKeywordSearch, ...keywordSearchProps } = keywordSearch;
+  const materialsSearch = useField("text");
+  const { onReset: resetMaterialsSearch, ...materialsSearchProps } =
+    materialsSearch;
 
   const artistsNames = artists.map((artist) => artist.name);
 
@@ -58,6 +63,31 @@ function AllFilters({ onCloseModal, isShowModal }) {
       resetKeywordSearch();
     }
   }, [searchedKeyword.value, isKeyword]);
+
+  useEffect(() => {
+    if (materialsSearch.value) {
+      const searchResult = materials.filter((material) =>
+        material
+          .toLocaleLowerCase()
+          .includes(materialsSearch.value.toLocaleLowerCase())
+      );
+      const materialsRest = materials.filter(
+        (material) =>
+          !material
+            .toLocaleLowerCase()
+            .includes(materialsSearch.value.toLocaleLowerCase())
+      );
+
+      if (searchResult.length >= 1) {
+        const newMaterials = [...searchResult, ...materialsRest];
+        setMaterialsList(newMaterials);
+      } else {
+        setMaterialsList([]);
+      }
+    } else {
+      setMaterialsList(materials);
+    }
+  }, [materialsSearch.value]);
 
   const handlePriceAllFilter = useCallback(
     (price) => {
@@ -85,6 +115,13 @@ function AllFilters({ onCloseModal, isShowModal }) {
       dispatch(deleteKeyword());
       removeUrlParams("keyword");
       setIsKeyword(false);
+    }
+  }
+
+  function handleClearMaterialInput(e) {
+    resetMaterialsSearch(e);
+    if (materialsSearch.value.length >= 3) {
+      setMaterialsList(materials);
     }
   }
 
@@ -149,11 +186,16 @@ function AllFilters({ onCloseModal, isShowModal }) {
       />
       <Spacer />
       <DropdownComponent
-        items={materials}
+        items={materialsList}
         title="Materials"
         isOpen={isShowModal}
       >
-        <SearchField placeholder="Enter a material" />
+        <SearchField
+          placeholder="Enter a material"
+          isShowClear={materialsSearch.value.length >= 1}
+          onClear={handleClearMaterialInput}
+          {...materialsSearchProps}
+        />
       </DropdownComponent>
       <Spacer />
       <DropdownComponent

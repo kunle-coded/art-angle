@@ -117,7 +117,6 @@ function DropdownComponent({ children, title, items, customWidth, isOpen }) {
     if (isOpen) {
       if (title === "Keyword Search") {
         if (searchedKeyword.value) {
-          console.log(searchedKeyword);
           paramsUpdater("keyword", null, searchedKeyword, null);
         }
       }
@@ -159,7 +158,8 @@ function DropdownComponent({ children, title, items, customWidth, isOpen }) {
         {isDropdown && items && children && (
           <div style={{ marginBottom: "20px" }}></div>
         )}
-        {isDropdown && items && (
+
+        {isDropdown && items?.length >= 1 ? (
           <div className={styles.contents}>
             {items.map(
               (item, i) =>
@@ -176,6 +176,8 @@ function DropdownComponent({ children, title, items, customWidth, isOpen }) {
                 )
             )}
           </div>
+        ) : (
+          <div className={styles.title}>No results.</div>
         )}
         {isDropdown && items?.length > 6 && (
           <button className={styles.showMore} onClick={toggleShowMore}>
