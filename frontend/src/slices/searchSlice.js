@@ -18,10 +18,15 @@ const searchSlice = createSlice({
       state.searchedKeyword = searched;
       localStorage.setItem("keyword", JSON.stringify(searched));
     },
+
+    deleteKeyword(state) {
+      localStorage.removeItem("keyword");
+      state.searchedKeyword = initialState.searchedKeyword;
+    },
   },
 });
 
-export const { updateKeyword } = searchSlice.actions;
+export const { updateKeyword, deleteKeyword } = searchSlice.actions;
 
 export default searchSlice.reducer;
 

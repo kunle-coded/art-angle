@@ -15,6 +15,7 @@ import {
   useUpdateUrlParams,
   useUrlParamsUpdate,
 } from "../hooks";
+import { getSearch } from "../slices/searchSlice";
 
 function DropdownComponent({ children, title, items, customWidth, isOpen }) {
   const [isDropdown, setIsDropdown] = useState(true);
@@ -36,6 +37,7 @@ function DropdownComponent({ children, title, items, customWidth, isOpen }) {
     selectedColors,
     selectedGalleries,
   } = useSelector(getFilters);
+  const { searchedKeyword } = useSelector(getSearch);
 
   const paramsUpdater = useUrlParamsUpdate();
 
@@ -110,6 +112,17 @@ function DropdownComponent({ children, title, items, customWidth, isOpen }) {
       }
     }
   }, [checkedItem, isOpen, selectedGalleries, title]);
+
+  useEffect(() => {
+    if (isOpen) {
+      if (title === "Keyword Search") {
+        if (searchedKeyword.value) {
+          console.log(searchedKeyword);
+          paramsUpdater("keyword", null, searchedKeyword, null);
+        }
+      }
+    }
+  }, [isOpen, searchedKeyword, title]);
 
   function toggleDropdown() {
     setIsDropdown((drop) => !drop);

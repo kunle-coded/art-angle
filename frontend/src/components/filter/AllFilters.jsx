@@ -6,6 +6,12 @@ import {
   updatePrice,
   updatePriceFilter,
 } from "../../slices/filterSlice";
+import {
+  deleteKeyword,
+  getSearch,
+  updateKeyword,
+} from "../../slices/searchSlice";
+import { useDeleteUrlParams, useField, useUpdateUrlParams } from "../../hooks";
 
 import DropdownComponent from "../../ui/DropdownComponent";
 import Spacer from "../../ui/Spacer";
@@ -24,10 +30,12 @@ import {
   locations,
 } from "../../data";
 import SizeComponent from "../../ui/SizeComponent";
-import { useDeleteUrlParams, useField, useUpdateUrlParams } from "../../hooks";
-import { updateKeyword } from "../../slices/searchSlice";
 
 function AllFilters({ onCloseModal, isShowModal }) {
+  const [isKeyword, setIsKeyword] = useState(false);
+
+  const { searchedKeyword } = useSelector(getSearch);
+
   const updateUrlParams = useUpdateUrlParams();
   const removeUrlParams = useDeleteUrlParams();
 
@@ -40,17 +48,21 @@ function AllFilters({ onCloseModal, isShowModal }) {
 
   useEffect(() => {
     if (keywordSearch.value.length >= 3) {
-      console.log("searching...", keywordSearch.value);
       dispatch(updateKeyword(keywordSearch.value));
+      setIsKeyword(true);
     }
   }, [keywordSearch.value]);
+
+  useEffect(() => {
+    if (!searchedKeyword.value && isKeyword) {
+      resetKeywordSearch();
+    }
+  }, [searchedKeyword.value, isKeyword]);
 
   const handlePriceAllFilter = useCallback(
     (price) => {
       if (price.minPrice || price.maxPrice) {
         dispatch(updatePriceFilter(price));
-        // const priceInput = filterPrice(price.minPrice, price.maxPrice);
-        // dispatch(updatePrice(priceInput));
 
         const priceRange = {
           price_range: `${price.minPrice ? price.minPrice : "+"}-${
@@ -66,6 +78,15 @@ function AllFilters({ onCloseModal, isShowModal }) {
     },
     [dispatch]
   );
+
+  function handleClearKeywordInput(e) {
+    resetKeywordSearch(e);
+    if (keywordSearch.value.length >= 3) {
+      dispatch(deleteKeyword());
+      removeUrlParams("keyword");
+      setIsKeyword(false);
+    }
+  }
 
   return (
     <div className={styles.slideIn}>
@@ -94,11 +115,11 @@ function AllFilters({ onCloseModal, isShowModal }) {
         </button>
       </div>
       <Spacer />
-      <DropdownComponent title="Keyword Search">
+      <DropdownComponent title="Keyword Search" isOpen={isShowModal}>
         <SearchField
           placeholder="Enter a search term"
           isShowClear={keywordSearch.value.length >= 1}
-          onClear={resetKeywordSearch}
+          onClear={handleClearKeywordInput}
           {...keywordSearchProps}
         />
       </DropdownComponent>

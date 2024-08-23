@@ -20,6 +20,7 @@ import {
 
 import styles from "./SelectedFilterButton.module.css";
 import { useDeleteFilter, useDeleteUrlParams } from "../hooks";
+import { deleteKeyword, getSearch } from "../slices/searchSlice";
 
 function SelectedFilterButton({ text }) {
   const {
@@ -37,6 +38,7 @@ function SelectedFilterButton({ text }) {
     selectedColors,
     selectedGalleries,
   } = useSelector(getFilters);
+  const { searchedKeyword } = useSelector(getSearch);
 
   const dispatch = useDispatch();
 
@@ -47,6 +49,7 @@ function SelectedFilterButton({ text }) {
     const isInRarity = selectedRarity.value === text;
     const isInSize = selectedSize.find((size) => size.value === text);
     const isInPrice = selectedPrice.find((price) => price.value === text);
+    const isInKeyword = searchedKeyword.value === text;
 
     deleteFilter("single", text, selectedMedium, "medium", removeMediumItem);
     deleteFilter(
@@ -94,6 +97,11 @@ function SelectedFilterButton({ text }) {
       "galleries",
       removeGalleriesItem
     );
+
+    if (isInKeyword) {
+      dispatch(deleteKeyword());
+      removeUrlParams("keyword");
+    }
 
     if (isInRarity) {
       dispatch(removeRarityItem());
