@@ -22,6 +22,8 @@ import {
   updateTimePeriods,
   removeColorsItem,
   updateColors,
+  updateGalleries,
+  removeGalleriesItem,
 } from "../../slices/filterSlice";
 import selectedItemsChecker from "../../helpers/selectedItemsChecker";
 
@@ -166,7 +168,7 @@ function SelectComponent({
 
   // Function to select and deselect checkbox, it also updates the filter state
   function handleCheckbox(e) {
-    e.stopPropagation();
+    // e.stopPropagation();
 
     if (type === "medium") {
       const isSelected = updateSelection(updateMedium, removeMediumItem, item);

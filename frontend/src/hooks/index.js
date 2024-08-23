@@ -50,6 +50,7 @@ export const useUpdateUrlParams = () => {
 
   const updateUrlParams = (newParams) => {
     const updatedParams = new URLSearchParams(searchParams);
+    // console.log("previous params", updatedParams);
 
     Object.keys(newParams).forEach((key) => {
       updatedParams.set(key, newParams[key]);

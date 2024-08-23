@@ -50,8 +50,9 @@
   color: var(--surface);
   border: 1px solid;
   border-color: var(--outline);
-  transition: background-color 0.25s ease 0s, border-color 0.25s ease 0s,
-    color 0.25 ease 0s;
+  /* transition: background-color 0.25s ease 0s, border-color 0.25s ease 0s,
+    color 0.25 ease 0s; */
+  transition: background-color 0.25s, border-color 0.25s, color 0.25s;
 }
 
 .checked {

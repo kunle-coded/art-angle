@@ -133,6 +133,8 @@ function Artworks() {
       const { minPrice, maxPrice } = priceParams;
       if (minPrice || maxPrice) {
         dispatch(updatePriceFilter({ minPrice, maxPrice }));
+        const priceInput = filterPrice(minPrice, maxPrice);
+        dispatch(updatePrice(priceInput));
       }
     }
   }, []);
@@ -155,15 +157,15 @@ function Artworks() {
     }
   }, []);
 
-  useEffect(() => {
-    if (priceParams) {
-      const { minPrice, maxPrice } = priceParams;
-      if (minPrice || maxPrice) {
-        const priceInput = filterPrice(minPrice, maxPrice);
-        dispatch(updatePrice(priceInput));
-      }
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (priceParams) {
+  //     const { minPrice, maxPrice } = priceParams;
+  //     if (minPrice || maxPrice) {
+  //       const priceInput = filterPrice(minPrice, maxPrice);
+  //       dispatch(updatePrice(priceInput));
+  //     }
+  //   }
+  // }, []);
 
   useEffect(() => {
     const selectedCount = allSelectedFilters.filter(

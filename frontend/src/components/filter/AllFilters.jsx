@@ -41,14 +41,15 @@ function AllFilters({ onCloseModal, isShowModal }) {
     (price) => {
       if (price.minPrice || price.maxPrice) {
         dispatch(updatePriceFilter(price));
-        const priceInput = filterPrice(price.minPrice, price.maxPrice);
-        dispatch(updatePrice(priceInput));
+        // const priceInput = filterPrice(price.minPrice, price.maxPrice);
+        // dispatch(updatePrice(priceInput));
 
         const priceRange = {
           price_range: `${price.minPrice ? price.minPrice : "+"}-${
             price.maxPrice ? price.maxPrice : "+"
           }`,
         };
+
         updateUrlParams(priceRange);
       } else {
         removeUrlParams("price_range");

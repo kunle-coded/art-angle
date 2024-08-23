@@ -81,6 +81,7 @@ function PriceSlider({ onPriceChange }) {
       dispatch(updatePrice(priceInput));
       onPriceChange({ minPrice: value, maxPrice: maxValue });
     } else {
+      onPriceChange({ minPrice: value });
       dispatch(removePriceItem());
     }
   }
@@ -93,6 +94,7 @@ function PriceSlider({ onPriceChange }) {
       dispatch(updatePrice(priceInput));
       onPriceChange({ minPrice: minValue, maxPrice: value });
     } else {
+      onPriceChange({ maxPrice: value });
       dispatch(removePriceItem());
     }
   }
