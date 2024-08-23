@@ -34,6 +34,7 @@ function DropdownComponent({ children, title, items, customWidth, isOpen }) {
     selectedMaterials,
     selectedTimePeriods,
     selectedColors,
+    selectedGalleries,
   } = useSelector(getFilters);
 
   const paramsUpdater = useUrlParamsUpdate();
@@ -101,6 +102,14 @@ function DropdownComponent({ children, title, items, customWidth, isOpen }) {
       }
     }
   }, [checkedItem, isOpen, selectedColors, title]);
+
+  useEffect(() => {
+    if (isOpen) {
+      if (title === "Galleries and Institutions") {
+        paramsUpdater("galleries", selectedGalleries, null, checkedItem);
+      }
+    }
+  }, [checkedItem, isOpen, selectedGalleries, title]);
 
   function toggleDropdown() {
     setIsDropdown((drop) => !drop);

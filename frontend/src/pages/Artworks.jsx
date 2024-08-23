@@ -84,6 +84,7 @@ function Artworks() {
     selectedLocations,
     selectedTimePeriods,
     selectedColors,
+    selectedGalleries,
   } = useSelector(getFilters);
 
   const updateUrlParams = useUpdateUrlParams();
@@ -99,6 +100,7 @@ function Artworks() {
     ...selectedLocations,
     ...selectedTimePeriods,
     ...selectedColors,
+    ...selectedGalleries,
   ].sort((a, b) => a.timestamp - b.timestamp);
 
   const allSelectedFilters = useMemo(
@@ -110,6 +112,7 @@ function Artworks() {
       ...selectedLocations,
       ...selectedTimePeriods,
       ...selectedColors,
+      ...selectedGalleries,
     ],
     [
       selectedArtists,
@@ -119,6 +122,7 @@ function Artworks() {
       selectedWaysToBuy,
       selectedTimePeriods,
       selectedColors,
+      selectedGalleries,
     ]
   );
 
@@ -239,6 +243,7 @@ function Artworks() {
       dispatch(showMediumDropdown());
     } else if (target === "rarity") {
       dispatch(showRarityDropdown());
+      console.log(target, rarityDropdown);
     } else if (target === "price") {
       dispatch(showPriceDropdown());
     }

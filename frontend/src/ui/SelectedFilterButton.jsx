@@ -15,6 +15,7 @@ import {
   updateSizeFilter,
   removeTimePeriodsItem,
   removeColorsItem,
+  removeGalleriesItem,
 } from "../slices/filterSlice";
 
 import styles from "./SelectedFilterButton.module.css";
@@ -34,6 +35,7 @@ function SelectedFilterButton({ text }) {
     selectedLocations,
     selectedTimePeriods,
     selectedColors,
+    selectedGalleries,
   } = useSelector(getFilters);
 
   const dispatch = useDispatch();
@@ -83,6 +85,14 @@ function SelectedFilterButton({ text }) {
       selectedArtists,
       "artists",
       removeArtistItem
+    );
+
+    deleteFilter(
+      "multiple",
+      text,
+      selectedGalleries,
+      "galleries",
+      removeGalleriesItem
     );
 
     if (isInRarity) {

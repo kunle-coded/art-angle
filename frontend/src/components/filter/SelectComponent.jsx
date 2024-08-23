@@ -54,6 +54,7 @@ function SelectComponent({
     selectedLocations,
     selectedTimePeriods,
     selectedColors,
+    selectedGalleries,
   } = useSelector(getFilters);
 
   const dispatch = useDispatch();
@@ -118,6 +119,10 @@ function SelectComponent({
       const isItemSelected = selectedItemsChecker(item, selectedColors);
       setIsChecked(isItemSelected);
     }
+    if (type === "galleries and institutions") {
+      const isItemSelected = selectedItemsChecker(item, selectedGalleries);
+      setIsChecked(isItemSelected);
+    }
   }, [
     item,
     type,
@@ -128,6 +133,7 @@ function SelectComponent({
     selectedLocations,
     selectedTimePeriods,
     selectedColors,
+    selectedGalleries,
   ]);
 
   useEffect(() => {
@@ -168,7 +174,7 @@ function SelectComponent({
 
   // Function to select and deselect checkbox, it also updates the filter state
   function handleCheckbox(e) {
-    // e.stopPropagation();
+    e.stopPropagation();
 
     if (type === "medium") {
       const isSelected = updateSelection(updateMedium, removeMediumItem, item);
@@ -239,10 +245,16 @@ function SelectComponent({
     } else if (type === "color") {
       const isSelected = updateSelection(updateColors, removeColorsItem, item);
       setIsChecked(isSelected);
+    } else if (type === "galleries and institutions") {
+      const isSelected = updateSelection(
+        updateGalleries,
+        removeGalleriesItem,
+        item
+      );
+      setIsChecked(isSelected);
     } else {
       if (isChecked) {
         dispatch(removeAllFiltersItem(item));
-
         setIsChecked(false);
       } else {
         dispatch(updateAllFilters(item));
