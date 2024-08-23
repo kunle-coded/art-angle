@@ -30,6 +30,7 @@ import {
   locations,
 } from "../../data";
 import SizeComponent from "../../ui/SizeComponent";
+import searchList from "../../helpers/listSearcher";
 
 function AllFilters({ onCloseModal, isShowModal }) {
   const [materialsList, setMaterialsList] = useState(materials);
@@ -66,24 +67,8 @@ function AllFilters({ onCloseModal, isShowModal }) {
 
   useEffect(() => {
     if (materialsSearch.value) {
-      const searchResult = materials.filter((material) =>
-        material
-          .toLocaleLowerCase()
-          .includes(materialsSearch.value.toLocaleLowerCase())
-      );
-      const materialsRest = materials.filter(
-        (material) =>
-          !material
-            .toLocaleLowerCase()
-            .includes(materialsSearch.value.toLocaleLowerCase())
-      );
-
-      if (searchResult.length >= 1) {
-        const newMaterials = [...searchResult, ...materialsRest];
-        setMaterialsList(newMaterials);
-      } else {
-        setMaterialsList([]);
-      }
+      const searchResult = searchList(materials, materialsSearch.value);
+      setMaterialsList(searchResult);
     } else {
       setMaterialsList(materials);
     }
