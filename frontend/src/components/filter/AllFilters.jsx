@@ -34,8 +34,9 @@ import searchList from "../../helpers/listSearcher";
 
 function AllFilters({ onCloseModal, isShowModal }) {
   const [materialsList, setMaterialsList] = useState(materials);
+  const [locationsList, setLocationsList] = useState(locations);
+  const [galleriesList, setGalleriesList] = useState(artGalleries);
   const [isKeyword, setIsKeyword] = useState(false);
-  const [isNoMaterial, setIsNoMaterial] = useState(false);
 
   const { searchedKeyword } = useSelector(getSearch);
 
@@ -49,12 +50,18 @@ function AllFilters({ onCloseModal, isShowModal }) {
   const materialsSearch = useField("text");
   const { onReset: resetMaterialsSearch, ...materialsSearchProps } =
     materialsSearch;
+  const locationSearch = useField("text");
+  const { onReset: resetLocationSearch, ...locationSearchProps } =
+    locationSearch;
+  const gallerySearch = useField("text");
+  const { onReset: resetGallerySearch, ...gallerySearchProps } = gallerySearch;
 
   const artistsNames = artists.map((artist) => artist.name);
 
   useEffect(() => {
     if (keywordSearch.value.length >= 3) {
-      dispatch(updateKeyword(keywordSearch.value));
+      const keyword = `Keyword: ${keywordSearch.value}`;
+      dispatch(updateKeyword(keyword));
       setIsKeyword(true);
     }
   }, [keywordSearch.value]);
@@ -73,6 +80,24 @@ function AllFilters({ onCloseModal, isShowModal }) {
       setMaterialsList(materials);
     }
   }, [materialsSearch.value]);
+
+  useEffect(() => {
+    if (locationSearch.value) {
+      const searchResult = searchList(locations, locationSearch.value);
+      setLocationsList(searchResult);
+    } else {
+      setLocationsList(locations);
+    }
+  }, [locationSearch.value]);
+
+  useEffect(() => {
+    if (gallerySearch.value) {
+      const searchResult = searchList(artGalleries, gallerySearch.value);
+      setGalleriesList(searchResult);
+    } else {
+      setGalleriesList(artGalleries);
+    }
+  }, [gallerySearch.value]);
 
   const handlePriceAllFilter = useCallback(
     (price) => {
@@ -105,9 +130,17 @@ function AllFilters({ onCloseModal, isShowModal }) {
 
   function handleClearMaterialInput(e) {
     resetMaterialsSearch(e);
-    if (materialsSearch.value.length >= 3) {
-      setMaterialsList(materials);
-    }
+    setMaterialsList(materials);
+  }
+
+  function handleClearLocationInput(e) {
+    resetLocationSearch(e);
+    setLocationsList(locations);
+  }
+
+  function handleClearGalleryInput(e) {
+    resetGallerySearch(e);
+    setGalleriesList(artGalleries);
   }
 
   return (
@@ -184,11 +217,16 @@ function AllFilters({ onCloseModal, isShowModal }) {
       </DropdownComponent>
       <Spacer />
       <DropdownComponent
-        items={locations}
+        items={locationsList}
         title="Artwork Location"
         isOpen={isShowModal}
       >
-        <SearchField placeholder="Enter a city" />
+        <SearchField
+          placeholder="Enter a city"
+          isShowClear={locationSearch.value.length >= 1}
+          onClear={handleClearLocationInput}
+          {...locationSearchProps}
+        />
       </DropdownComponent>
       <Spacer />
       <DropdownComponent
@@ -205,11 +243,16 @@ function AllFilters({ onCloseModal, isShowModal }) {
       />
       <Spacer />
       <DropdownComponent
-        items={artGalleries}
+        items={galleriesList}
         title="Galleries and Institutions"
         isOpen={isShowModal}
       >
-        <SearchField placeholder="Enter a gallery" />
+        <SearchField
+          placeholder="Enter a gallery"
+          isShowClear={gallerySearch.value.length >= 1}
+          onClear={handleClearGalleryInput}
+          {...gallerySearchProps}
+        />
       </DropdownComponent>
     </div>
   );

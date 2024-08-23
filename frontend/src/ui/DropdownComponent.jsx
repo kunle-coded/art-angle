@@ -159,26 +159,28 @@ function DropdownComponent({ children, title, items, customWidth, isOpen }) {
           <div style={{ marginBottom: "20px" }}></div>
         )}
 
-        {isDropdown && items?.length >= 1 ? (
-          <div className={styles.contents}>
-            {items.map(
-              (item, i) =>
-                i <= visibleCount && (
-                  <SelectComponent
-                    key={i}
-                    item={item}
-                    type={title.toLowerCase()}
-                    customWidth={customWidth}
-                    color={colorCodes[i]}
-                    isAllFilters={isDropdown}
-                    onCheckedItem={setCheckedItem}
-                  />
-                )
-            )}
-          </div>
-        ) : (
-          <div className={styles.title}>No results.</div>
-        )}
+        {isDropdown &&
+          items &&
+          (items?.length >= 1 ? (
+            <div className={styles.contents}>
+              {items.map(
+                (item, i) =>
+                  i <= visibleCount && (
+                    <SelectComponent
+                      key={i}
+                      item={item}
+                      type={title.toLowerCase()}
+                      customWidth={customWidth}
+                      color={colorCodes[i]}
+                      isAllFilters={isDropdown}
+                      onCheckedItem={setCheckedItem}
+                    />
+                  )
+              )}
+            </div>
+          ) : (
+            <div className={styles.title}>No results.</div>
+          ))}
         {isDropdown && items?.length > 6 && (
           <button className={styles.showMore} onClick={toggleShowMore}>
             {showMore ? "Show less" : "Show more"}

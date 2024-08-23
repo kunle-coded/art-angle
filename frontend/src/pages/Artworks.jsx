@@ -117,6 +117,7 @@ function Artworks() {
       ...selectedTimePeriods,
       ...selectedColors,
       ...selectedGalleries,
+      searchedKeyword,
     ],
     [
       selectedArtists,
@@ -127,6 +128,7 @@ function Artworks() {
       selectedTimePeriods,
       selectedColors,
       selectedGalleries,
+      searchedKeyword,
     ]
   );
 
