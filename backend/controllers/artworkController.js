@@ -62,6 +62,45 @@ const getArtworksByPrice = asyncHandler(async (req, res) => {
 });
 
 // @desc Get all artworks
+// route GET /api/artworks/filter
+// access Public
+const getArtworksByFilter = asyncHandler(async (req, res) => {
+  // const { minPrice, maxPrice } = req.query;
+  const filterQuery = req.query;
+  console.log(filterQuery);
+
+  // if (maxPrice && minPrice === undefined) {
+  //   const artworks = await Artwork.find({
+  //     price: { $lte: maxPrice },
+  //   })
+  //     .sort({ price: 1 })
+  //     .select("-owner")
+  //     .limit(6);
+
+  //   res.status(200).json(artworks);
+  // } else if (minPrice && maxPrice === undefined) {
+  //   const artworks = await Artwork.find({
+  //     price: { $gte: minPrice },
+  //   })
+  //     .sort({ price: 1 })
+  //     .select("-owner")
+  //     .limit(6);
+
+  //   res.status(200).json(artworks);
+  // } else {
+  //   const artworks = await Artwork.find({
+  //     price: { $gte: minPrice, $lte: maxPrice },
+  //   })
+  //     .sort({ price: 1 })
+  //     .select("-owner")
+  //     .limit(6);
+
+  //   res.status(200).json(artworks);
+  // }
+  res.status(200).json({ message: "artworks filtered" });
+});
+
+// @desc Get all artworks
 // route GET /api/artworks/new
 // access Public
 const getNewArtworks = asyncHandler(async (req, res) => {
@@ -301,6 +340,7 @@ module.exports = {
   getFeaturedArtworks,
   getNewArtworks,
   getArtworksByPrice,
+  getArtworksByFilter,
   getUserArtworks,
   getUserSingleArtwork,
   addArtworks,

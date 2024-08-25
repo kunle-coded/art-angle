@@ -11,6 +11,19 @@ export const artworksApiSlice = apiArtworkSlice.injectEndpoints({
       }),
       providesTags: ["Artworks"],
     }),
+    filtertedArtworks: builder.query({
+      query: (filters) => {
+        const params = new URLSearchParams();
+
+        Object.keys(filters).forEach((key) => {
+          if (filters[key]) {
+            params.append(key, filters[key]);
+          }
+        });
+
+        return `${ALL_ARTWORKS_URL}/filter?${params.toString()}`;
+      },
+    }),
     featuredArtworks: builder.query({
       query: () => ({
         url: `${ALL_ARTWORKS_URL}/featured`,
@@ -90,6 +103,7 @@ export const artworksApiSlice = apiArtworkSlice.injectEndpoints({
 
 export const {
   useAllArtworksQuery,
+  useFiltertedArtworksQuery,
   useFeaturedArtworksQuery,
   useNewArtworksQuery,
   useArtworksByPriceQuery,

@@ -41,13 +41,17 @@ import ArtworkGrid from "../ui/ArtworkGrid";
 import ArtworkGridColumn from "../ui/ArtworkGridColumn";
 import Pagination from "../components/pagination/Pagination";
 import NewsLetter from "../components/cta/NewsLetter";
-import { useAllArtworksQuery } from "../slices/artworksApiSlice";
+import {
+  useAllArtworksQuery,
+  useFiltertedArtworksQuery,
+} from "../slices/artworksApiSlice";
 import Spinner from "../ui/Spinner";
 import distributeArtworks from "../helpers/distributeArtworks";
 import { NUM_COLUMNS } from "../constants/constants";
 import { useUrlParams, useUpdateUrlParams, useDeleteUrlParams } from "../hooks";
 import filterPrice from "../helpers/filterPrice";
 import { getSearch } from "../slices/searchSlice";
+import { useSearchParams } from "react-router-dom";
 
 const sortArray = [
   "Recommended",
@@ -59,9 +63,13 @@ const sortArray = [
 ];
 
 function Artworks() {
+  const { data, isSuccess } = useAllArtworksQuery();
+
+  const [artworks, setArtworks] = useState([]);
   const [selected, setSelected] = useState(0);
   const [allSelectedFiltersCount, setAllSelectedFiltersCount] = useState(0);
   const [showModal, setShowModal] = useState(false);
+  const [skipFilter, setSkipFilter] = useState(true);
   const [priceValues, setPriceValues] = useState({});
 
   const labelRef = useRef(null);
@@ -69,7 +77,7 @@ function Artworks() {
   const mediumRef = useRef(null);
   const priceRef = useRef(null);
 
-  const { data: artworks } = useAllArtworksQuery();
+  const columns = distributeArtworks(artworks, NUM_COLUMNS);
 
   const getUrlParams = useUrlParams();
 
@@ -139,6 +147,21 @@ function Artworks() {
   const priceParams = getUrlParams("price_range");
   const mediumParams = getUrlParams("medium");
   const rarityParams = getUrlParams("rarity");
+  // const allParams = getUrlParams();
+
+  const { data: filtered } = useFiltertedArtworksQuery(
+    { price_range: "1000-5000" },
+    {
+      skip: skipFilter,
+    }
+  );
+  console.log(filtered);
+
+  useEffect(() => {
+    if (isSuccess) {
+      setArtworks(data);
+    }
+  }, [data, isSuccess]);
 
   useEffect(() => {
     if (priceParams) {
@@ -305,8 +328,6 @@ function Artworks() {
   if (!artworks) {
     return <Spinner />;
   }
-
-  const columns = distributeArtworks(artworks, NUM_COLUMNS);
 
   return (
     <div className="page">

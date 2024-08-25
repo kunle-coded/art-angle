@@ -28,17 +28,21 @@ export const useUrlParams = () => {
   const getUrlParams = (key) => {
     const priceRange = searchParams.get("price_range");
 
-    if (key === "price_range" && priceRange) {
-      const range = priceRange.split("-");
+    if (key) {
+      if (key === "price_range" && priceRange) {
+        const range = priceRange.split("-");
 
-      const minPrice = range[0];
-      const maxPrice = range[1];
+        const minPrice = range[0];
+        const maxPrice = range[1];
 
-      return { minPrice, maxPrice };
+        return { minPrice, maxPrice };
+      } else {
+        const searchParam = searchParams.get(key);
+
+        return searchParam;
+      }
     } else {
-      const searchParam = searchParams.get(key);
-
-      return searchParam;
+      return searchParams;
     }
   };
 
