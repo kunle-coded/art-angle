@@ -48,7 +48,12 @@ import {
 import Spinner from "../ui/Spinner";
 import distributeArtworks from "../helpers/distributeArtworks";
 import { NUM_COLUMNS } from "../constants/constants";
-import { useUrlParams, useUpdateUrlParams, useDeleteUrlParams } from "../hooks";
+import {
+  useUrlParams,
+  useUpdateUrlParams,
+  useDeleteUrlParams,
+  emptyObject,
+} from "../hooks";
 import filterPrice from "../helpers/filterPrice";
 import { getSearch } from "../slices/searchSlice";
 import { useSearchParams } from "react-router-dom";
@@ -147,21 +152,23 @@ function Artworks() {
   const priceParams = getUrlParams("price_range");
   const mediumParams = getUrlParams("medium");
   const rarityParams = getUrlParams("rarity");
-  // const allParams = getUrlParams();
+  const allParams = getUrlParams();
 
-  const { data: filtered } = useFiltertedArtworksQuery(
-    { price_range: "1000-5000" },
-    {
-      skip: skipFilter,
-    }
-  );
-  console.log(filtered);
+  const { data: filtered } = useFiltertedArtworksQuery(allParams, {
+    skip: skipFilter,
+  });
 
   useEffect(() => {
     if (isSuccess) {
       setArtworks(data);
     }
   }, [data, isSuccess]);
+
+  useEffect(() => {
+    const isAllParamsEmpty = emptyObject(allParams);
+
+    setSkipFilter(isAllParamsEmpty);
+  }, [allParams]);
 
   useEffect(() => {
     if (priceParams) {
@@ -174,23 +181,28 @@ function Artworks() {
     }
   }, []);
 
-  useEffect(() => {
-    if (mediumParams) {
-      const medArr = mediumParams.split("+");
+  // useEffect(() => {
+  //   // const exists = selectedMedium.some(
+  //   //   (medium) => medium.value === item
+  //   // );
+  //   // console.log(exists);
+  //   if (mediumParams) {
+  //     const medArr = mediumParams.split("+");
+  //     console.log(medArr);
 
-      medArr.forEach((item) => {
-        dispatch(updateMedium(item));
-      });
-    }
-  }, []);
+  //     medArr.forEach((item) => {
+  //       // dispatch(updateMedium(item));
+  //     });
+  //   }
+  // }, []);
 
-  useEffect(() => {
-    if (rarityParams) {
-      const rarityValue = rarityParams.split("-").join(" ");
+  // useEffect(() => {
+  //   if (rarityParams) {
+  //     const rarityValue = rarityParams.split("-").join(" ");
 
-      dispatch(updateRarity(rarityValue));
-    }
-  }, []);
+  //     dispatch(updateRarity(rarityValue));
+  //   }
+  // }, []);
 
   // useEffect(() => {
   //   if (priceParams) {
@@ -300,7 +312,6 @@ function Artworks() {
       dispatch(showMediumDropdown());
     } else if (target === "rarity") {
       dispatch(showRarityDropdown());
-      console.log(target, rarityDropdown);
     } else if (target === "price") {
       dispatch(showPriceDropdown());
     }

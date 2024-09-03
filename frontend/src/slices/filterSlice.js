@@ -1,20 +1,48 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  selectedArtists: [],
-  selectedMedium: [],
-  selectedRarity: {},
-  selectedMaterials: [],
-  selectedPrice: [],
-  selectedSize: [],
-  allSelectedFilters: [],
-  priceFilter: {},
-  sizeFilter: {},
-  selectedWaysToBuy: [],
-  selectedLocations: [],
-  selectedColors: [],
-  selectedGalleries: [],
-  selectedTimePeriods: [],
+  selectedArtists: localStorage.getItem("selectedArtists")
+    ? JSON.parse(localStorage.getItem("selectedArtists"))
+    : [],
+  selectedMedium: localStorage.getItem("selectedMedium")
+    ? JSON.parse(localStorage.getItem("selectedMedium"))
+    : [],
+  selectedRarity: localStorage.getItem("selectedRarity")
+    ? JSON.parse(localStorage.getItem("selectedRarity"))
+    : {},
+  selectedMaterials: localStorage.getItem("selectedMaterials")
+    ? JSON.parse(localStorage.getItem("selectedMaterials"))
+    : [],
+  selectedPrice: localStorage.getItem("selectedPrice")
+    ? JSON.parse(localStorage.getItem("selectedPrice"))
+    : [],
+  selectedSize: localStorage.getItem("selectedSize")
+    ? JSON.parse(localStorage.getItem("selectedSize"))
+    : [],
+  allSelectedFilters: localStorage.getItem("allSelectedFilters")
+    ? JSON.parse(localStorage.getItem("allSelectedFilters"))
+    : [],
+  priceFilter: localStorage.getItem("priceFilter")
+    ? JSON.parse(localStorage.getItem("priceFilter"))
+    : {},
+  sizeFilter: localStorage.getItem("sizeFilter")
+    ? JSON.parse(localStorage.getItem("sizeFilter"))
+    : {},
+  selectedWaysToBuy: localStorage.getItem("selectedWaysToBuy")
+    ? JSON.parse(localStorage.getItem("selectedWaysToBuy"))
+    : [],
+  selectedLocations: localStorage.getItem("selectedLocations")
+    ? JSON.parse(localStorage.getItem("selectedLocations"))
+    : [],
+  selectedColors: localStorage.getItem("selectedColors")
+    ? JSON.parse(localStorage.getItem("selectedColors"))
+    : [],
+  selectedGalleries: localStorage.getItem("selectedGalleries")
+    ? JSON.parse(localStorage.getItem("selectedGalleries"))
+    : [],
+  selectedTimePeriods: localStorage.getItem("selectedTimePeriods")
+    ? JSON.parse(localStorage.getItem("selectedTimePeriods"))
+    : [],
 };
 
 const filterSlice = createSlice({
@@ -31,13 +59,20 @@ const filterSlice = createSlice({
           value: action.payload,
           timestamp: Date.now(),
         });
+
+        localStorage.setItem(
+          "selectedArtists",
+          JSON.stringify(state.selectedArtists)
+        );
       }
     },
 
     removeArtistItem(state, action) {
-      state.selectedArtists = state.selectedArtists.filter(
+      const updated = state.selectedArtists.filter(
         (artist) => artist.value !== action.payload
       );
+      state.selectedArtists = updated;
+      localStorage.setItem("selectedArtists", JSON.stringify(updated));
     },
 
     updateMedium(state, action) {
@@ -50,17 +85,25 @@ const filterSlice = createSlice({
           value: action.payload,
           timestamp: Date.now(),
         });
+
+        localStorage.setItem(
+          "selectedMedium",
+          JSON.stringify(state.selectedMedium)
+        );
       }
     },
 
     removeMediumItem(state, action) {
-      state.selectedMedium = state.selectedMedium.filter(
-        (filter) => filter.value !== action.payload
+      const updated = state.selectedMedium.filter(
+        (medium) => medium.value !== action.payload
       );
+      state.selectedMedium = updated;
+      localStorage.setItem("selectedMedium", JSON.stringify(updated));
     },
 
     clearMedium(state) {
       state.selectedMedium = initialState.selectedMedium;
+      localStorage.removeItem("selectedMedium");
     },
 
     updateMaterials(state, action) {
@@ -73,43 +116,62 @@ const filterSlice = createSlice({
           value: action.payload,
           timestamp: Date.now(),
         });
+
+        localStorage.setItem(
+          "selectedMaterials",
+          JSON.stringify(state.selectedMaterials)
+        );
       }
     },
 
     removeMaterialsItem(state, action) {
-      state.selectedMaterials = state.selectedMaterials.filter(
+      const updated = state.selectedMaterials.filter(
         (material) => material.value !== action.payload
       );
+      state.selectedMaterials = updated;
+      localStorage.setItem("selectedMaterials", JSON.stringify(updated));
     },
 
     updateRarity(state, action) {
-      state.selectedRarity = { value: action.payload, timestamp: Date.now() };
+      const payload = { value: action.payload, timestamp: Date.now() };
+      state.selectedRarity = payload;
+      localStorage.setItem("selectedRarity", JSON.stringify(payload));
     },
 
     removeRarityItem(state) {
       state.selectedRarity = initialState.selectedRarity;
+      localStorage.removeItem("selectedRarity");
     },
 
     updatePrice(state, action) {
-      state.selectedPrice = [{ value: action.payload, timestamp: Date.now() }];
+      const payload = [{ value: action.payload, timestamp: Date.now() }];
+      state.selectedPrice = payload;
+      localStorage.setItem("selectedPrice", JSON.stringify(payload));
     },
 
     removePriceItem(state) {
       state.selectedPrice = initialState.selectedPrice;
+      localStorage.removeItem("selectedPrice");
     },
 
     updatePriceFilter(state, action) {
       state.priceFilter = action.payload;
+      localStorage.setItem("priceFilter", JSON.stringify(action.payload));
     },
+
     removePriceFilter(state) {
       state.priceFilter = initialState.priceFilter;
+      localStorage.removeItem("priceFilter");
     },
 
     updateSizeFilter(state, action) {
       state.sizeFilter = action.payload;
+      localStorage.setItem("sizeFilter", JSON.stringify(action.payload));
     },
+
     removeSizeFilter(state) {
       state.sizeFilter = initialState.sizeFilter;
+      localStorage.removeItem("sizeFilter");
     },
 
     updateSize(state, action) {
@@ -122,13 +184,20 @@ const filterSlice = createSlice({
           value: action.payload,
           timestamp: Date.now(),
         });
+
+        localStorage.setItem(
+          "selectedSize",
+          JSON.stringify(state.selectedSize)
+        );
       }
     },
 
     removeSizeItem(state, action) {
-      state.selectedSize = state.selectedSize.filter(
+      const updated = state.selectedSize.filter(
         (size) => size.value !== action.payload
       );
+      state.selectedSize = updated;
+      localStorage.setItem("selectedSize", JSON.stringify(updated));
     },
 
     updateWaysToBuy(state, action) {
@@ -141,13 +210,20 @@ const filterSlice = createSlice({
           value: action.payload,
           timestamp: Date.now(),
         });
+
+        localStorage.setItem(
+          "selectedWaysToBuy",
+          JSON.stringify(state.selectedWaysToBuy)
+        );
       }
     },
 
     removeWaysToBuyItem(state, action) {
-      state.selectedWaysToBuy = state.selectedWaysToBuy.filter(
+      const updated = state.selectedWaysToBuy.filter(
         (item) => item.value !== action.payload
       );
+      state.selectedWaysToBuy = updated;
+      localStorage.setItem("selectedWaysToBuy", JSON.stringify(updated));
     },
 
     updateLocations(state, action) {
@@ -160,13 +236,20 @@ const filterSlice = createSlice({
           value: action.payload,
           timestamp: Date.now(),
         });
+
+        localStorage.setItem(
+          "selectedLocations",
+          JSON.stringify(state.selectedLocations)
+        );
       }
     },
 
     removeLocationsItem(state, action) {
-      state.selectedLocations = state.selectedLocations.filter(
+      const updated = state.selectedLocations.filter(
         (location) => location.value !== action.payload
       );
+      state.selectedLocations = updated;
+      localStorage.setItem("selectedLocations", JSON.stringify(updated));
     },
 
     updateColors(state, action) {
@@ -179,13 +262,20 @@ const filterSlice = createSlice({
           value: action.payload,
           timestamp: Date.now(),
         });
+
+        localStorage.setItem(
+          "selectedColors",
+          JSON.stringify(state.selectedColors)
+        );
       }
     },
 
     removeColorsItem(state, action) {
-      state.selectedColors = state.selectedColors.filter(
+      const updated = state.selectedColors.filter(
         (color) => color.value !== action.payload
       );
+      state.selectedColors = updated;
+      localStorage.setItem("selectedColors", JSON.stringify(updated));
     },
 
     updateTimePeriods(state, action) {
@@ -198,13 +288,20 @@ const filterSlice = createSlice({
           value: action.payload,
           timestamp: Date.now(),
         });
+
+        localStorage.setItem(
+          "selectedTimePeriods",
+          JSON.stringify(state.selectedTimePeriods)
+        );
       }
     },
 
     removeTimePeriodsItem(state, action) {
-      state.selectedTimePeriods = state.selectedTimePeriods.filter(
+      const updated = state.selectedTimePeriods.filter(
         (period) => period.value !== action.payload
       );
+      state.selectedTimePeriods = updated;
+      localStorage.setItem("selectedTimePeriods", JSON.stringify(updated));
     },
 
     updateGalleries(state, action) {
@@ -217,13 +314,20 @@ const filterSlice = createSlice({
           value: action.payload,
           timestamp: Date.now(),
         });
+
+        localStorage.setItem(
+          "selectedGalleries",
+          JSON.stringify(state.selectedGalleries)
+        );
       }
     },
 
     removeGalleriesItem(state, action) {
-      state.selectedGalleries = state.selectedGalleries.filter(
+      const updated = state.selectedGalleries.filter(
         (gallery) => gallery.value !== action.payload
       );
+      state.selectedGalleries = updated;
+      localStorage.setItem("selectedGalleries", JSON.stringify(updated));
     },
 
     updateAllFilters(state, action) {
@@ -244,7 +348,8 @@ const filterSlice = createSlice({
       );
     },
 
-    resetFilter() {
+    resetFilter(state) {
+      localStorage.clear();
       return initialState;
     },
   },

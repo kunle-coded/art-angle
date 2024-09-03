@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { useSearchParams } from "react-router-dom";
+import { useLocation, useSearchParams } from "react-router-dom";
 
 export const useField = (type) => {
   const [value, setValue] = useState("");
@@ -24,11 +24,12 @@ export const useField = (type) => {
 
 export const useUrlParams = () => {
   const [searchParams] = useSearchParams();
+  const location = useLocation();
+  const urlSearchParams = new URLSearchParams(location.search);
 
   const getUrlParams = (key) => {
-    const priceRange = searchParams.get("price_range");
-
     if (key) {
+      const priceRange = searchParams.get("price_range");
       if (key === "price_range" && priceRange) {
         const range = priceRange.split("-");
 
@@ -42,7 +43,11 @@ export const useUrlParams = () => {
         return searchParam;
       }
     } else {
-      return searchParams;
+      const filterParams = {};
+      urlSearchParams.forEach((value, key) => {
+        filterParams[key] = value;
+      });
+      return filterParams;
     }
   };
 
