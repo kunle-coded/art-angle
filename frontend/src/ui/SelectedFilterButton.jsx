@@ -5,7 +5,6 @@ import {
   removeRarityItem,
   removePriceItem,
   removePriceFilter,
-  removeAllFiltersItem,
   removeArtistItem,
   removeSizeItem,
   removeSizeFilter,

@@ -6,8 +6,6 @@ import {
   removeMediumItem,
   updateRarity,
   removeRarityItem,
-  updateAllFilters,
-  removeAllFiltersItem,
   removeArtistItem,
   updateArtistsFilter,
   removeSizeFilter,
@@ -254,10 +252,10 @@ function SelectComponent({
       setIsChecked(isSelected);
     } else {
       if (isChecked) {
-        dispatch(removeAllFiltersItem(item));
+        // dispatch(removeAllFiltersItem(item));
         setIsChecked(false);
       } else {
-        dispatch(updateAllFilters(item));
+        // dispatch(updateAllFilters(item));
         setIsChecked(true);
       }
     }

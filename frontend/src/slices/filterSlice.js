@@ -19,9 +19,9 @@ const initialState = {
   selectedSize: localStorage.getItem("selectedSize")
     ? JSON.parse(localStorage.getItem("selectedSize"))
     : [],
-  allSelectedFilters: localStorage.getItem("allSelectedFilters")
-    ? JSON.parse(localStorage.getItem("allSelectedFilters"))
-    : [],
+  // allSelectedFilters: localStorage.getItem("allSelectedFilters")
+  //   ? JSON.parse(localStorage.getItem("allSelectedFilters"))
+  //   : [],
   priceFilter: localStorage.getItem("priceFilter")
     ? JSON.parse(localStorage.getItem("priceFilter"))
     : {},
@@ -330,24 +330,6 @@ const filterSlice = createSlice({
       localStorage.setItem("selectedGalleries", JSON.stringify(updated));
     },
 
-    updateAllFilters(state, action) {
-      const itExists = state.allSelectedFilters.some(
-        (filter) => filter.value === action.payload
-      );
-      if (!itExists) {
-        state.allSelectedFilters.push({
-          value: action.payload,
-          timestamp: Date.now(),
-        });
-      }
-    },
-
-    removeAllFiltersItem(state, action) {
-      state.allSelectedFilters = state.allSelectedFilters.filter(
-        (filter) => filter.value !== action.payload
-      );
-    },
-
     resetFilter(state) {
       localStorage.clear();
       return initialState;
@@ -382,8 +364,6 @@ export const {
   updateSize,
   removeSizeItem,
   resetFilter,
-  updateAllFilters,
-  removeAllFiltersItem,
   updatePriceFilter,
   removePriceFilter,
 } = filterSlice.actions;

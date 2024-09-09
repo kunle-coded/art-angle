@@ -150,8 +150,8 @@ function Artworks() {
   const dispatch = useDispatch();
 
   const priceParams = getUrlParams("price_range");
-  const mediumParams = getUrlParams("medium");
-  const rarityParams = getUrlParams("rarity");
+  // const mediumParams = getUrlParams("medium");
+  // const rarityParams = getUrlParams("rarity");
   const allParams = getUrlParams();
 
   const { data: filtered } = useFiltertedArtworksQuery(allParams, {
@@ -169,6 +169,12 @@ function Artworks() {
 
     setSkipFilter(isAllParamsEmpty);
   }, [allParams]);
+
+  useEffect(() => {
+    if (filtered) {
+      console.log(filtered);
+    }
+  }, [filtered]);
 
   useEffect(() => {
     if (priceParams) {
