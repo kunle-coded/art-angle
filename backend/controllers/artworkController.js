@@ -74,11 +74,18 @@ const getArtworksByFilter = asyncHandler(async (req, res) => {
   const query = {};
 
   if (medium) {
-    query.medium = capitalizeFirstChar(medium);
+    if (medium.includes("+")) {
+      const mediumQuery = medium
+        .split("+")
+        .map((item) => capitalizeFirstChar(item));
+      query.medium = { $in: mediumQuery };
+    } else {
+      query.medium = capitalizeFirstChar(medium);
+    }
   }
 
   if (rarity) {
-    query.rarity;
+    query.rarity = rarity;
   }
 
   if (price_range) {
