@@ -7,6 +7,8 @@ import {
   showMediumDropdown,
   showRarityDropdown,
   showPriceDropdown,
+  updateSuccessMgs,
+  enableError,
 } from "../slices/globalSlice";
 import {
   clearMedium,
@@ -154,7 +156,13 @@ function Artworks() {
   // const rarityParams = getUrlParams("rarity");
   const allParams = getUrlParams();
 
-  const { data: filtered } = useFiltertedArtworksQuery(allParams, {
+  const {
+    data: filtered,
+    error,
+    isError,
+    isSuccess: isFilterSuccess,
+    isLoading: isFilterLoading,
+  } = useFiltertedArtworksQuery(allParams, {
     skip: skipFilter,
   });
 
@@ -167,14 +175,34 @@ function Artworks() {
   useEffect(() => {
     const isAllParamsEmpty = emptyObject(allParams);
 
-    setSkipFilter(isAllParamsEmpty);
+    if (isAllParamsEmpty) {
+      setSkipFilter(true);
+    } else {
+      setSkipFilter(false);
+    }
   }, [allParams]);
 
   useEffect(() => {
-    if (filtered) {
-      console.log(filtered);
+    if (isFilterSuccess && filtered) {
+      if (filtered.length >= 1) {
+        setArtworks(filtered);
+      }
+    } else {
+      if (isError) {
+        const errMsg = error?.data?.message;
+        dispatch(updateSuccessMgs(errMsg));
+        dispatch(enableError());
+      }
     }
-  }, [filtered]);
+  }, [dispatch, isError, filtered, isFilterSuccess]);
+
+  useEffect(() => {
+    const isAllParamsEmpty = emptyObject(allParams);
+
+    if (isFilterSuccess && isAllParamsEmpty) {
+      setArtworks(data);
+    }
+  }, [allParams, isFilterSuccess, data]);
 
   useEffect(() => {
     if (priceParams) {
@@ -405,6 +433,7 @@ function Artworks() {
       <Section type="basic">
         <SectionInfo info={`${artworks.length} Artworks:`} />
         <Spacer small={true} />
+        {isFilterLoading && <Spinner />}
         <ArtworkGrid>
           {columns.map((column, colIndex) => (
             <ArtworkGridColumn

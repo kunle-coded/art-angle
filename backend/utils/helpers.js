@@ -5,6 +5,12 @@ const emptyObject = (res, object) => {
   }
 };
 
+const capitalizeFirstChar = (string = "") => {
+  if (!string) return;
+
+  return string[0].toUpperCase() + string.slice(1);
+};
+
 const generateImageName = (text) => {
   const part1 = text.slice(0, 7);
   const part2 = text.slice(7, 14);
@@ -14,4 +20,4 @@ const generateImageName = (text) => {
   return fileName;
 };
 
-module.exports = { emptyObject, generateImageName };
+module.exports = { emptyObject, capitalizeFirstChar, generateImageName };

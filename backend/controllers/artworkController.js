@@ -1,7 +1,11 @@
 const asyncHandler = require("express-async-handler");
 const Artwork = require("../models/artworks");
 const { Artist, User } = require("../models/users");
-const { emptyObject, generateImageName } = require("../utils/helpers");
+const {
+  emptyObject,
+  generateImageName,
+  capitalizeFirstChar,
+} = require("../utils/helpers");
 const { uploadFileToS3 } = require("../utils/uploadFileToS3");
 const { deleteFileFromS3 } = require("../utils/deleteFileFromS3");
 
@@ -65,39 +69,31 @@ const getArtworksByPrice = asyncHandler(async (req, res) => {
 // route GET /api/artworks/filter
 // access Public
 const getArtworksByFilter = asyncHandler(async (req, res) => {
-  // const { minPrice, maxPrice } = req.query;
-  const filterQuery = req.query;
-  console.log(filterQuery);
+  const { medium, rarity, price_range } = req.query;
 
-  // if (maxPrice && minPrice === undefined) {
-  //   const artworks = await Artwork.find({
-  //     price: { $lte: maxPrice },
-  //   })
-  //     .sort({ price: 1 })
-  //     .select("-owner")
-  //     .limit(6);
+  const query = {};
 
-  //   res.status(200).json(artworks);
-  // } else if (minPrice && maxPrice === undefined) {
-  //   const artworks = await Artwork.find({
-  //     price: { $gte: minPrice },
-  //   })
-  //     .sort({ price: 1 })
-  //     .select("-owner")
-  //     .limit(6);
+  if (medium) {
+    query.medium = capitalizeFirstChar(medium);
+  }
 
-  //   res.status(200).json(artworks);
-  // } else {
-  //   const artworks = await Artwork.find({
-  //     price: { $gte: minPrice, $lte: maxPrice },
-  //   })
-  //     .sort({ price: 1 })
-  //     .select("-owner")
-  //     .limit(6);
+  if (rarity) {
+    query.rarity;
+  }
 
-  //   res.status(200).json(artworks);
-  // }
-  res.status(200).json({ message: "artworks filtered" });
+  if (price_range) {
+    const [minPrice, maxPrice] = price_range.split("-");
+    query.price = { $gte: Number(minPrice), $lte: Number(maxPrice) };
+  }
+
+  const artworks = await Artwork.find(query);
+
+  if (artworks.length >= 1) {
+    res.status(200).json(artworks);
+  } else {
+    res.status(401);
+    throw new Error("No artwork match the filter query");
+  }
 });
 
 // @desc Get all artworks
