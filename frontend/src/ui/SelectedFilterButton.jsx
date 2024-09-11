@@ -109,13 +109,14 @@ function SelectedFilterButton({ text }) {
     }
 
     if (isInPrice) {
-      const value = `${
-        priceFilter.minPrice !== undefined ? priceFilter.minPrice : "%2B"
-      }-${priceFilter.maxPrice !== undefined ? priceFilter.maxPrice : "%2B"}`;
+      // const value = `${
+      //   priceFilter.minPrice !== undefined ? priceFilter.minPrice : "%2B"
+      // }-${priceFilter.maxPrice !== undefined ? priceFilter.maxPrice : "%2B"}`;
 
       dispatch(removePriceItem());
       dispatch(removePriceFilter());
-      removeUrlParams("price_range", value);
+      // removeUrlParams("price_range", value);
+      removeUrlParams("price_range");
     }
 
     if (isInSize) {

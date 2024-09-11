@@ -12,6 +12,8 @@ function FilterSort({ children, filters = [] }) {
 
   const clearParams = useClearUrlParams();
 
+  console.log(filters);
+
   useEffect(() => {
     const isValue = filters.filter((filter) => filter.value);
     if (isValue.length >= 2) {

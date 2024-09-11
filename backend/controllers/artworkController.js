@@ -69,7 +69,7 @@ const getArtworksByPrice = asyncHandler(async (req, res) => {
 // route GET /api/artworks/filter
 // access Public
 const getArtworksByFilter = asyncHandler(async (req, res) => {
-  const { medium, rarity, price_range, keyword } = req.query;
+  const { medium, rarity, price_range, keyword, artists } = req.query;
 
   const query = {};
 
@@ -85,20 +85,46 @@ const getArtworksByFilter = asyncHandler(async (req, res) => {
   }
 
   if (rarity) {
-    query.rarity = rarity;
+    query.editions = capitalizeFirstChar(rarity);
   }
 
   if (keyword) {
     query.keywords = keyword;
-    console.log(query);
+  }
+
+  if (artists) {
+    const artistQuery = artists
+      .split(/[+-]/)
+      .map((item) => capitalizeFirstChar(item))
+      .join(" ");
+
+    const multipleArtistsQuery = artists.includes("+")
+      ? artists.split("+").map((artist) => {
+          return artist
+            .split("-")
+            .map((item) => capitalizeFirstChar(item))
+            .join(" ");
+        })
+      : artistQuery;
+
+    query.artist = Array.isArray(multipleArtistsQuery)
+      ? { $in: multipleArtistsQuery }
+      : artistQuery;
   }
 
   if (price_range) {
     const [minPrice, maxPrice] = price_range.split("-");
-    query.price = { $gte: Number(minPrice), $lte: Number(maxPrice) };
+
+    const isNotANumber = isNaN(Number(minPrice));
+
+    if (isNotANumber) {
+      query.price = { $lte: Number(maxPrice) };
+    } else {
+      query.price = { $gte: Number(minPrice), $lte: Number(maxPrice) };
+    }
   }
 
-  const artworks = await Artwork.find(query);
+  const artworks = await Artwork.find(query).select("-owner");
 
   if (artworks.length >= 1) {
     res.status(200).json(artworks);

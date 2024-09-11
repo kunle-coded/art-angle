@@ -16,10 +16,13 @@ function filterPrice(minValue, maxValue) {
   const isMinValueValid = Number.isFinite(minVal);
   const isMaxValueValid = Number.isFinite(maxVal);
 
-  if (!isMinValueValid && isMaxValueValid) {
+  if ((!isMinValueValid || minVal === 0) && isMaxValueValid) {
     formatMax = formatCurrency(maxValue);
     price = `Under ${formatMax}`;
-  } else if (isMinValueValid && !isMaxValueValid) {
+  } else if (
+    isMinValueValid &&
+    (!isMaxValueValid || maxVal === MAX_FILTER_PRICE)
+  ) {
     formatMin = formatCurrency(minValue);
     price = `Over ${formatMin}`;
   } else if (isMinValueValid && isMaxValueValid) {
