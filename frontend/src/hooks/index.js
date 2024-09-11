@@ -150,10 +150,15 @@ export const useUrlParamsUpdate = () => {
       }
     } else if (paramObject) {
       if (paramObject.value) {
-        const paramValue = paramObject.value
-          ?.toLowerCase()
-          .split(" ")
-          .join("-");
+        let paramValue;
+
+        paramKey === "keyword"
+          ? (paramValue = paramObject.value.split(": ")[1])
+          : (paramValue = paramObject.value
+              ?.toLowerCase()
+              .split(" ")
+              .join("-"));
+
         const paramObj = { [paramKey]: paramValue };
         updateUrlParams(paramObj);
       } else {
@@ -220,21 +225,41 @@ export const useDeleteFilter = () => {
   return deleteFilter;
 };
 
+// Toggle show password in input fields of type password
+
 export const useShowPassword = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [passwordType, setPasswordType] = useState("password");
 
   function toggleShowPassword() {
     setShowPassword((prevState) => !prevState);
+  }
 
+  useEffect(() => {
     if (showPassword) {
       setPasswordType("text");
     } else {
       setPasswordType("password");
     }
-  }
+  }, [showPassword]);
 
   return { passwordType, toggleShowPassword };
+};
+
+export const useDebounce = (value, delay) => {
+  const [debouncedValue, setDebouncedValue] = useState(value);
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedValue(value);
+    }, delay);
+
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [value, delay]);
+
+  return debouncedValue;
 };
 
 export const useKeyPress = (key, callback) => {
@@ -254,6 +279,8 @@ export const useKeyPress = (key, callback) => {
 
   return handleKeyDown;
 };
+
+// Check if an object is empty
 
 export const emptyObject = (object) => {
   if (Object.keys(object).length === 0) {

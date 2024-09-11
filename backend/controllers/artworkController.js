@@ -69,7 +69,7 @@ const getArtworksByPrice = asyncHandler(async (req, res) => {
 // route GET /api/artworks/filter
 // access Public
 const getArtworksByFilter = asyncHandler(async (req, res) => {
-  const { medium, rarity, price_range } = req.query;
+  const { medium, rarity, price_range, keyword } = req.query;
 
   const query = {};
 
@@ -86,6 +86,11 @@ const getArtworksByFilter = asyncHandler(async (req, res) => {
 
   if (rarity) {
     query.rarity = rarity;
+  }
+
+  if (keyword) {
+    query.keywords = keyword;
+    console.log(query);
   }
 
   if (price_range) {

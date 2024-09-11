@@ -11,7 +11,12 @@ import {
   getSearch,
   updateKeyword,
 } from "../../slices/searchSlice";
-import { useDeleteUrlParams, useField, useUpdateUrlParams } from "../../hooks";
+import {
+  useDebounce,
+  useDeleteUrlParams,
+  useField,
+  useUpdateUrlParams,
+} from "../../hooks";
 
 import DropdownComponent from "../../ui/DropdownComponent";
 import Spacer from "../../ui/Spacer";
@@ -58,13 +63,15 @@ function AllFilters({ onCloseModal, isShowModal }) {
 
   const artistsNames = artists.map((artist) => artist.name);
 
+  const debouncedSearchQuery = useDebounce(keywordSearch.value, 500);
+
   useEffect(() => {
-    if (keywordSearch.value.length >= 3) {
-      const keyword = `Keyword: ${keywordSearch.value}`;
+    if (debouncedSearchQuery) {
+      const keyword = `Keyword: ${debouncedSearchQuery}`;
       dispatch(updateKeyword(keyword));
       setIsKeyword(true);
     }
-  }, [keywordSearch.value]);
+  }, [debouncedSearchQuery, dispatch]);
 
   useEffect(() => {
     if (!searchedKeyword.value && isKeyword) {
