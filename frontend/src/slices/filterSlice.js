@@ -182,6 +182,8 @@ const filterSlice = createSlice({
         (size) => size.value === action.payload
       );
 
+      console.log(exists);
+
       if (!exists) {
         state.selectedSize.push({
           value: action.payload,

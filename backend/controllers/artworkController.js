@@ -69,7 +69,7 @@ const getArtworksByPrice = asyncHandler(async (req, res) => {
 // route GET /api/artworks/filter
 // access Public
 const getArtworksByFilter = asyncHandler(async (req, res) => {
-  const { medium, rarity, price_range, keyword, artists } = req.query;
+  const { medium, rarity, price_range, keyword, artists, size } = req.query;
 
   const query = {};
 
@@ -124,6 +124,16 @@ const getArtworksByFilter = asyncHandler(async (req, res) => {
     }
   }
 
+  if (size) {
+    if (size === "SMALL") {
+      query["dimensions.width"] = { $lte: 16 };
+    } else if (size === "MEDIUM") {
+      query["dimensions.width"] = { $gte: 16, $lte: 40 };
+    } else if (size === "LARGE") {
+      query["dimensions.width"] = { $gte: 40 };
+    }
+  }
+  console.log(query);
   const artworks = await Artwork.find(query).select("-owner");
 
   if (artworks.length >= 1) {
