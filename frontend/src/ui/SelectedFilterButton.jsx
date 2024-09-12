@@ -115,7 +115,6 @@ function SelectedFilterButton({ text }) {
 
       dispatch(removePriceItem());
       dispatch(removePriceFilter());
-      // removeUrlParams("price_range", value);
       removeUrlParams("price_range");
     }
 

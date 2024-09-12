@@ -295,8 +295,6 @@ function Artworks() {
     const priceInput = filterPrice(priceValues.minPrice, priceValues.maxPrice);
     dispatch(updatePrice(priceInput));
 
-    console.log(priceValues);
-
     const priceRange = {
       price_range: `${priceValues.minPrice ? priceValues.minPrice : "+"}-${
         priceValues.maxPrice ? priceValues.maxPrice : "+"

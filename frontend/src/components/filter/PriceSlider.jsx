@@ -3,25 +3,31 @@ import { useDispatch, useSelector } from "react-redux";
 import styles from "./PriceSlider.module.css";
 import {
   getFilters,
+  removePriceFilter,
   removePriceItem,
   updatePrice,
 } from "../../slices/filterSlice";
 import filterPrice from "../../helpers/filterPrice";
 import { MAX_FILTER_PRICE, MIN_FILTER_PRICE } from "../../constants/constants";
+import { useDeleteUrlParams } from "../../hooks";
 
 function PriceSlider({ onPriceChange }) {
   const [minValue, setMinValue] = useState(MIN_FILTER_PRICE);
   const [maxValue, setMaxValue] = useState(MAX_FILTER_PRICE);
   const [inputMinValue, setInputMinValue] = useState("");
   const [inputMaxValue, setInputMaxValue] = useState("");
+  const [isDefault, setIsDefault] = useState(false);
 
-  const { priceFilter } = useSelector(getFilters);
+  const { priceFilter, selectedPrice } = useSelector(getFilters);
+
+  const removeUrlParams = useDeleteUrlParams();
 
   const dispatch = useDispatch();
 
   const { minPrice, maxPrice } = priceFilter;
 
   useEffect(() => {
+    console.log(priceFilter);
     if (minPrice || maxPrice) {
       const minVal = Number(minPrice);
       const maxVal = Number(maxPrice);
@@ -46,6 +52,15 @@ function PriceSlider({ onPriceChange }) {
     }
   }, [maxPrice, minPrice, priceFilter]);
 
+  useEffect(() => {
+    if ((minPrice || maxPrice) && selectedPrice.length >= 1) {
+      if (isDefault) {
+        removeUrlParams("price_range");
+        dispatch(removePriceFilter());
+      }
+    }
+  }, [minPrice, maxPrice, isDefault, selectedPrice.length]);
+
   function handleMinChange(e) {
     e.stopPropagation();
     const value = parseInt(e.target.value);
@@ -54,6 +69,12 @@ function PriceSlider({ onPriceChange }) {
       setInputMinValue(value);
 
       // onPriceChange({ minPrice: value, maxPrice: maxValue });
+
+      if (value === MIN_FILTER_PRICE) {
+        setIsDefault(true);
+      } else {
+        setIsDefault(false);
+      }
     }
   }
 
@@ -67,7 +88,9 @@ function PriceSlider({ onPriceChange }) {
       // onPriceChange({ minPrice: minValue, maxPrice: value });
       if (value === MAX_FILTER_PRICE) {
         setInputMaxValue("");
+        setIsDefault(true);
       } else {
+        setIsDefault(false);
         setInputMaxValue(value);
       }
     }
@@ -108,6 +131,7 @@ function PriceSlider({ onPriceChange }) {
     } else {
       setInputMinValue("");
       dispatch(removePriceItem());
+      // dispatch(removePriceFilter());
       onPriceChange({ minPrice: value });
     }
   }

@@ -150,7 +150,8 @@ const filterSlice = createSlice({
     },
 
     removePriceItem(state) {
-      state.selectedPrice = initialState.selectedPrice;
+      // state.selectedPrice = initialState.selectedPrice;
+      state.selectedPrice = [];
       localStorage.removeItem("selectedPrice");
     },
 
@@ -160,7 +161,8 @@ const filterSlice = createSlice({
     },
 
     removePriceFilter(state) {
-      state.priceFilter = initialState.priceFilter;
+      // state.priceFilter = initialState.priceFilter;
+      state.priceFilter = {};
       localStorage.removeItem("priceFilter");
     },
 
@@ -170,7 +172,8 @@ const filterSlice = createSlice({
     },
 
     removeSizeFilter(state) {
-      state.sizeFilter = initialState.sizeFilter;
+      // state.sizeFilter = initialState.sizeFilter;
+      state.sizeFilter = {};
       localStorage.removeItem("sizeFilter");
     },
 
