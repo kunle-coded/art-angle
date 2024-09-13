@@ -16,7 +16,6 @@ import styles from "./SizeComponent.module.css";
 import Checkbox from "./Checkbox";
 import SelectComponent from "../components/filter/SelectComponent";
 import Input from "./Input";
-import Button from "./Button";
 import FullButton from "./FullButton";
 
 function SizeComponent({ isOpen = false }) {

@@ -69,7 +69,8 @@ const getArtworksByPrice = asyncHandler(async (req, res) => {
 // route GET /api/artworks/filter
 // access Public
 const getArtworksByFilter = asyncHandler(async (req, res) => {
-  const { medium, rarity, price_range, keyword, artists, size } = req.query;
+  const { medium, rarity, price_range, keyword, artists, size, width, height } =
+    req.query;
 
   const query = {};
 
@@ -132,8 +133,36 @@ const getArtworksByFilter = asyncHandler(async (req, res) => {
     } else if (size === "LARGE") {
       query["dimensions.width"] = { $gte: 40 };
     }
+  } else {
+    if (width) {
+      const isSingleValue = width.includes("+");
+      const widthRange = width.split("-");
+
+      if (isSingleValue) {
+        const minWidth = Number(widthRange[0]);
+        query["dimensions.width"] = { $gte: minWidth };
+      } else {
+        const minWidth = Number(widthRange[0]);
+        const maxWidth = Number(widthRange[1]);
+        query["dimensions.width"] = { $gte: minWidth, $lte: maxWidth };
+      }
+    }
+
+    if (height) {
+      const isSingleValue = height.includes("+");
+      const heightRange = height.split("-");
+
+      if (isSingleValue) {
+        const minHeight = Number(heightRange[0]);
+        query["dimensions.height"] = { $gte: minHeight };
+      } else {
+        const minHeight = Number(heightRange[0]);
+        const maxHeight = Number(heightRange[1]);
+        query["dimensions.height"] = { $gte: minHeight, $lte: maxHeight };
+      }
+    }
   }
-  console.log(query);
+
   const artworks = await Artwork.find(query).select("-owner");
 
   if (artworks.length >= 1) {

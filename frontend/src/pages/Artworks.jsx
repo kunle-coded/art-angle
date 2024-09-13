@@ -431,7 +431,11 @@ function Artworks() {
       </FilterSort>
 
       <Section type="basic">
-        <SectionInfo info={`${artworks.length} Artworks:`} />
+        <SectionInfo
+          info={`${artworks.length} ${
+            artworks.length > 1 ? "Artworks" : "Artwork"
+          }:`}
+        />
         <Spacer small={true} />
         {isFilterLoading && <Spinner />}
         <ArtworkGrid>
