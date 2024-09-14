@@ -20,4 +20,31 @@ const generateImageName = (text) => {
   return fileName;
 };
 
-module.exports = { emptyObject, capitalizeFirstChar, generateImageName };
+const generateMultipleQueries = (string) => {
+  const singleQuery = string
+    .split(/[+-]/)
+    .map((item) => capitalizeFirstChar(item))
+    .join(" ");
+
+  const multipleQuery = string.includes("+")
+    ? string.split("+").map((part) => {
+        return part
+          .split("-")
+          .map((item) => capitalizeFirstChar(item))
+          .join(" ");
+      })
+    : singleQuery;
+
+  const queryValue = Array.isArray(multipleQuery)
+    ? { $in: multipleQuery }
+    : singleQuery;
+
+  return queryValue;
+};
+
+module.exports = {
+  emptyObject,
+  capitalizeFirstChar,
+  generateImageName,
+  generateMultipleQueries,
+};

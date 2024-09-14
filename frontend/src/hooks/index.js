@@ -132,7 +132,13 @@ export const useUrlParamsUpdate = () => {
 
         if (paramKey === "locations") {
           paramObj[paramKey] = paramList
-            .map((param) => param.value?.split(" ").join(""))
+            .map((param) => {
+              const paramValues = param.value?.split(", ");
+              const city = paramValues[0].split(" ").join("-");
+              const country = paramValues[1].split(" ").join("-");
+              const modified = `${city},${country}`;
+              return modified;
+            })
             .join("+");
         } else {
           paramObj[paramKey] = paramList

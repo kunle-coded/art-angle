@@ -5,6 +5,7 @@ const {
   emptyObject,
   generateImageName,
   capitalizeFirstChar,
+  generateMultipleQueries,
 } = require("../utils/helpers");
 const { uploadFileToS3 } = require("../utils/uploadFileToS3");
 const { deleteFileFromS3 } = require("../utils/deleteFileFromS3");
@@ -69,11 +70,24 @@ const getArtworksByPrice = asyncHandler(async (req, res) => {
 // route GET /api/artworks/filter
 // access Public
 const getArtworksByFilter = asyncHandler(async (req, res) => {
-  const { medium, rarity, price_range, keyword, artists, size, width, height } =
-    req.query;
+  const {
+    medium,
+    rarity,
+    price_range,
+    keyword,
+    artists,
+    size,
+    width,
+    height,
+    ways_to_buy,
+    materials,
+    locations,
+    periods,
+  } = req.query;
 
   const query = {};
 
+  // Filter artworks by medium
   if (medium) {
     if (medium.includes("+")) {
       const mediumQuery = medium
@@ -85,34 +99,23 @@ const getArtworksByFilter = asyncHandler(async (req, res) => {
     }
   }
 
+  // Filter artworks by rarity
   if (rarity) {
     query.editions = capitalizeFirstChar(rarity);
   }
 
+  // Filter artworks by keyword
   if (keyword) {
     query.keywords = keyword;
   }
 
+  // Filter artworks by artist
   if (artists) {
-    const artistQuery = artists
-      .split(/[+-]/)
-      .map((item) => capitalizeFirstChar(item))
-      .join(" ");
-
-    const multipleArtistsQuery = artists.includes("+")
-      ? artists.split("+").map((artist) => {
-          return artist
-            .split("-")
-            .map((item) => capitalizeFirstChar(item))
-            .join(" ");
-        })
-      : artistQuery;
-
-    query.artist = Array.isArray(multipleArtistsQuery)
-      ? { $in: multipleArtistsQuery }
-      : artistQuery;
+    const artistQuery = generateMultipleQueries(artists);
+    query.artist = artistQuery;
   }
 
+  // Filter artworks by price
   if (price_range) {
     const [minPrice, maxPrice] = price_range.split("-");
 
@@ -125,13 +128,17 @@ const getArtworksByFilter = asyncHandler(async (req, res) => {
     }
   }
 
+  // Filter artworks by size
   if (size) {
     if (size === "SMALL") {
       query["dimensions.width"] = { $lte: 16 };
+      query["dimensions.height"] = { $lte: 16 };
     } else if (size === "MEDIUM") {
       query["dimensions.width"] = { $gte: 16, $lte: 40 };
+      query["dimensions.height"] = { $gte: 16, $lte: 40 };
     } else if (size === "LARGE") {
       query["dimensions.width"] = { $gte: 40 };
+      query["dimensions.height"] = { $gte: 40 };
     }
   } else {
     if (width) {
@@ -160,6 +167,77 @@ const getArtworksByFilter = asyncHandler(async (req, res) => {
         const maxHeight = Number(heightRange[1]);
         query["dimensions.height"] = { $gte: minHeight, $lte: maxHeight };
       }
+    }
+  }
+
+  // Filter artworks by ways to buy
+  if (ways_to_buy) {
+    query.availability = "For Sale";
+  }
+
+  // Filter artworks by materials
+  if (materials) {
+    const queryValue = generateMultipleQueries(materials);
+    query.materials = queryValue;
+  }
+
+  // Filter artworks by location
+  if (locations) {
+    const singleQuery = locations.split(/[+,]/)[0].split("-").join(" ");
+
+    const multipleQuery = locations.includes("+")
+      ? locations.split("+").map((location) => {
+          return location.split(",")[0].split("-").join(" ");
+        })
+      : singleQuery;
+
+    if (Array.isArray(multipleQuery)) {
+      query["shippingAddress.city"] = { $in: multipleQuery };
+    } else {
+      query["shippingAddress.city"] = singleQuery;
+    }
+  }
+
+  // Filter artworks by year published
+  if (periods) {
+    const year = periods.split(/[s-]/)[0];
+    let singleQuery;
+
+    if (year === "late") {
+      singleQuery = 1870;
+    } else if (year === "mid") {
+      singleQuery = 1840;
+    } else if (year === "early") {
+      singleQuery = 1800;
+    } else {
+      singleQuery = Number(year);
+    }
+
+    const multipleQuery = periods.includes("+")
+      ? periods.split("+").map((period) => {
+          const year = period.split(/[s-]/)[0];
+          let modifiedYear;
+
+          if (year === "late") {
+            modifiedYear = 1870;
+          } else if (year === "mid") {
+            modifiedYear = 1840;
+          } else if (year === "early") {
+            modifiedYear = 1800;
+          } else {
+            modifiedYear = Number(year);
+          }
+          return modifiedYear;
+        })
+      : singleQuery;
+
+    if (Array.isArray(multipleQuery)) {
+      const minYear = Math.min(...multipleQuery);
+      const maxYear = Math.max(...multipleQuery);
+
+      query.published = { $gte: minYear, $lte: maxYear };
+    } else {
+      query.published = { $gte: singleQuery };
     }
   }
 

@@ -179,10 +179,26 @@ const filterSlice = createSlice({
 
     updateSize(state, action) {
       const exists = state.selectedSize.some(
-        (size) => size.value === action.payload
+        (size) => size?.value[0] === action.payload[0]
+      );
+      const update = state.selectedSize.filter(
+        (size) => size?.value[0] !== action.payload[0]
       );
 
-      if (!exists) {
+      if (exists) {
+        state.selectedSize = [
+          ...update,
+          {
+            value: action.payload,
+            timestamp: Date.now(),
+          },
+        ];
+
+        localStorage.setItem(
+          "selectedSize",
+          JSON.stringify(state.selectedSize)
+        );
+      } else {
         state.selectedSize.push({
           value: action.payload,
           timestamp: Date.now(),

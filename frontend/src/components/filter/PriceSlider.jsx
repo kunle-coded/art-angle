@@ -27,7 +27,6 @@ function PriceSlider({ onPriceChange }) {
   const { minPrice, maxPrice } = priceFilter;
 
   useEffect(() => {
-    console.log(priceFilter);
     if (minPrice || maxPrice) {
       const minVal = Number(minPrice);
       const maxVal = Number(maxPrice);
