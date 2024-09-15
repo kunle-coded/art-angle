@@ -83,6 +83,7 @@ const getArtworksByFilter = asyncHandler(async (req, res) => {
     materials,
     locations,
     periods,
+    colors,
   } = req.query;
 
   const query = {};
@@ -239,6 +240,22 @@ const getArtworksByFilter = asyncHandler(async (req, res) => {
     } else {
       query.published = { $gte: singleQuery };
     }
+  }
+
+  // Filter artworks by colors
+  if (colors) {
+    const singleQuery = colors.split(/[+-]/).join(" ");
+
+    const multipleQuery = colors.includes("+")
+      ? colors.split("+").map((part) => {
+          return part.split("-").join(" ");
+        })
+      : singleQuery;
+
+    query.keywords = Array.isArray(multipleQuery)
+      ? { $in: multipleQuery }
+      : singleQuery;
+    console.log(query);
   }
 
   const artworks = await Artwork.find(query).select("-owner");
