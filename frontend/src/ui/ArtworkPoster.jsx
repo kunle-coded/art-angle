@@ -3,6 +3,7 @@ import styles from "./ArtworkPoster.module.css";
 import { useRef, useState } from "react";
 import Heart from "./Heart";
 import formatCurrency from "../helpers/formatCurrency";
+import unitConverter from "../helpers/unitConverter";
 
 function ArtworkPoster({ poster }) {
   const [paddingBottom, setPaddingBottom] = useState("100%");
@@ -13,6 +14,7 @@ function ArtworkPoster({ poster }) {
     transform: "scale(1)",
     opacity: 1,
   });
+  const [isEnter, setIsEnter] = useState(false);
 
   const imageRef = useRef(null);
 
@@ -57,13 +59,19 @@ function ArtworkPoster({ poster }) {
     e.preventDefault();
   };
 
+  console.log(poster);
+
   return (
-    <div>
+    <Link
+      className={styles.posterContainer}
+      onMouseEnter={() => setIsEnter(true)}
+      onMouseLeave={() => setIsEnter(false)}
+    >
       <div
         className={styles.imageContainer}
         style={{ paddingBottom: paddingBottom }}
       >
-        <Link aria-label={poster.title} className={styles.imageLink}>
+        <div aria-label={poster.title} className={styles.imageLink}>
           <div className={styles.imageWrapper}>
             <div className={styles.imageCompact}>
               <img
@@ -80,19 +88,37 @@ function ArtworkPoster({ poster }) {
               />
             </div>
           </div>
-        </Link>
+        </div>
       </div>
 
-      <Link className={styles.posterContent}>
+      <div className={styles.posterContent}>
         <div className={styles.posterInfo}>
           <div className={styles.posterTitle}>
             <div className={styles.title}>{poster.title}</div>
             <Heart />
           </div>
-          <div className={styles.posterName}>
-            {poster.artist}, <span>{poster.published}</span>
+          <div className={styles.posterDetails}>
+            <div className={styles.posterName}>
+              {poster.artist}, <span>{poster.published}</span>
+            </div>
+            <div className={styles.posterMedium}>
+              {poster.medium},{" "}
+              <span>{`${unitConverter(poster.dimensions.width)} W x ${
+                poster.dimensions.height
+              } H x ${poster.dimensions.depth} D in`}</span>
+            </div>
+
+            <div
+              className={`${styles.posterExtraInfo} ${
+                isEnter ? styles.showExtraInfo : ""
+              }`}
+            >
+              <div className={styles.extraContainer}>
+                <div className={styles.extraWrapper}>{poster.editions}</div>
+                <div className={styles.extraWrapper}>{poster.medium}</div>
+              </div>
+            </div>
           </div>
-          <div className={styles.posterMedium}>{poster.medium}</div>
           <div
             className={`${styles.posterPrice} ${
               poster.availability !== "For Sale" ? styles.posterPriceAlt : ""
@@ -103,9 +129,9 @@ function ArtworkPoster({ poster }) {
               : poster.availability}
           </div>
         </div>
-      </Link>
+      </div>
       <div style={{ height: "40px" }}></div>
-    </div>
+    </Link>
   );
 }
 
