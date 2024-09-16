@@ -278,6 +278,8 @@ function Artworks() {
         setSelected(0);
         dispatch(updateCurrentSort(sortArray[0]));
       }
+    } else {
+      dispatch(updateCurrentSort(sortArray[0]));
     }
   }, [allParams, dispatch]);
 
