@@ -255,6 +255,32 @@ function Artworks() {
     setAllSelectedFiltersCount(selectedCount.length);
   }, [allSelectedFilters]);
 
+  // Update sort item from url
+  useEffect(() => {
+    const sortParams = allParams.sort;
+    if (sortParams) {
+      if (sortParams === "published-at") {
+        setSelected(1);
+        dispatch(updateCurrentSort(sortArray[1]));
+      } else if (sortParams === "price-descending") {
+        setSelected(2);
+        dispatch(updateCurrentSort(sortArray[2]));
+      } else if (sortParams === "price-ascending") {
+        setSelected(3);
+        dispatch(updateCurrentSort(sortArray[3]));
+      } else if (sortParams === "year-descending") {
+        setSelected(4);
+        dispatch(updateCurrentSort(sortArray[4]));
+      } else if (sortParams === "year-ascending") {
+        setSelected(5);
+        dispatch(updateCurrentSort(sortArray[5]));
+      } else {
+        setSelected(0);
+        dispatch(updateCurrentSort(sortArray[0]));
+      }
+    }
+  }, [allParams, dispatch]);
+
   function handleSort(index, sortItem) {
     setSelected((prevState) => (prevState !== index ? index : prevState));
     dispatch(updateCurrentSort(sortItem));
@@ -453,7 +479,7 @@ function Artworks() {
         </ArtworkGrid>
       </Section>
 
-      <Pagination />
+      {artworks.length >= 50 && <Pagination />}
 
       {/* <Spacer /> */}
 

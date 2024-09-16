@@ -17,7 +17,9 @@ const initialState = {
   successMessage: "",
   loginWindow: "",
   userType: "buyer",
-  currentSort: "Recommended",
+  currentSort: localStorage.getItem("sort")
+    ? localStorage.getItem("sort")
+    : "Recommended",
   priceSort: {},
 };
 
@@ -60,6 +62,7 @@ const globalSlice = createSlice({
     },
     updateCurrentSort(state, action) {
       state.currentSort = action.payload;
+      localStorage.setItem("sort", action.payload);
     },
     openModal(state) {
       state.isModalOpen = true;
