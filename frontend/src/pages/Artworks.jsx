@@ -393,6 +393,7 @@ function Artworks() {
         </PosterBlock>
       </Section>
 
+      {/* NOTE: To Add sticky prop later */}
       <FilterSort filters={selectedFilter}>
         <FilterComponent>
           <FilterButton

@@ -79,3 +79,7 @@
   font-size: var(--desktop-body-lg);
   font-weight: 600;
 }
+
+.posterPriceAlt {
+  text-transform: uppercase;
+}

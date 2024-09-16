@@ -84,9 +84,11 @@ const getArtworksByFilter = asyncHandler(async (req, res) => {
     locations,
     periods,
     colors,
+    sort,
   } = req.query;
 
   const query = {};
+  const sortOptions = {};
 
   // Filter artworks by medium
   if (medium) {
@@ -255,10 +257,33 @@ const getArtworksByFilter = asyncHandler(async (req, res) => {
     query.keywords = Array.isArray(multipleQuery)
       ? { $in: multipleQuery }
       : singleQuery;
-    console.log(query);
   }
 
-  const artworks = await Artwork.find(query).select("-owner");
+  // sort artworks
+  if (sort) {
+    if (sort === "price-descending") {
+      sortOptions.sortBy = "price";
+      sortOptions.sortOrder = "desc";
+    } else if (sort === "price-ascending") {
+      sortOptions.sortBy = "price";
+    } else if (sort === "year-descending") {
+      sortOptions.sortBy = "published";
+      sortOptions.sortOrder = "desc";
+    } else if (sort === "year-ascending") {
+      sortOptions.sortBy = "published";
+    } else {
+      sortOptions.sortBy = "createdAt";
+      sortOptions.sortOrder = "desc";
+    }
+  }
+
+  const artworks = await Artwork.find(query)
+    .select("-owner")
+    .sort(
+      sortOptions.sortBy
+        ? { [sortOptions.sortBy]: sortOptions.sortOrder === "desc" ? -1 : 1 }
+        : {}
+    );
 
   if (artworks.length >= 1) {
     res.status(200).json(artworks);

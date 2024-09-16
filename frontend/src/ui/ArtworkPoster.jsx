@@ -93,8 +93,14 @@ function ArtworkPoster({ poster }) {
             {poster.artist}, <span>{poster.published}</span>
           </div>
           <div className={styles.posterMedium}>{poster.medium}</div>
-          <div className={styles.posterPrice}>
-            {formatCurrency(poster.price)}
+          <div
+            className={`${styles.posterPrice} ${
+              poster.availability !== "For Sale" ? styles.posterPriceAlt : ""
+            }`}
+          >
+            {poster.availability === "For Sale"
+              ? formatCurrency(poster.price)
+              : poster.availability}
           </div>
         </div>
       </Link>
