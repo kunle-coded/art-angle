@@ -1,0 +1,40 @@
+.linksWrapper {
+  display: flex;
+  list-style: none;
+  margin: 0px;
+  padding: 0px;
+}
+
+.linkItem {
+  font-size: var(--desktop-body-lg);
+  line-height: 24px;
+}
+
+.linkItem > a {
+  color: var(--primary-variant);
+  text-decoration: none;
+}
+
+.linkItem > a:hover {
+  color: var(--secondary);
+  text-decoration: underline;
+}
+
+.linkItem > span {
+  color: var(--on-primary-container);
+  text-decoration: none;
+  text-transform: capitalize;
+}
+
+.linkItem > span:hover {
+  color: var(--on-primary-container);
+  text-decoration: none;
+}
+
+.linksDivider {
+  font-size: var(--desktop-body-lg);
+  line-height: 24px;
+  color: var(--primary-variant);
+  margin-left: 10px;
+  margin-right: 10px;
+}

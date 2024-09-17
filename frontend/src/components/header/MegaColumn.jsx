@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import styles from "./MegaColumn.module.css";
 
-function MegaColumn({ menuItems, columnTitle, linkText }) {
+function MegaColumn({ type = "", menuItems, columnTitle, linkText, onLink }) {
   return (
     <div className={`${styles.menu} ${linkText ? styles.bottomColumn : ""}`}>
       <div className={styles.categoryContainer}>
@@ -12,12 +12,20 @@ function MegaColumn({ menuItems, columnTitle, linkText }) {
           <Link
             to={`/${linkText.includes("Artworks") ? "artworks" : "artists"}`}
             className={styles.categoryLink}
+            onClick={onLink}
           >
             {linkText}
           </Link>
         ) : (
           menuItems.map((item) => (
-            <Link key={item} className={styles.categoryLink}>
+            <Link
+              to={`/${type === "artworks" ? "collection" : "artists"}/${item
+                .split(" ")[0]
+                .toLowerCase()}`}
+              key={item}
+              className={styles.categoryLink}
+              onClick={onLink}
+            >
               {item}
             </Link>
           ))

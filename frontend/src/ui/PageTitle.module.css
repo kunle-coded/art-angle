@@ -1,7 +1,7 @@
 .title {
   font-family: var(--primary-font);
   font-size: var(--desktop-headline-md);
-  font-weight: 400;
+  font-weight: 500;
   line-height: 48px;
   letter-spacing: -0.01em;
   color: var(--on-primary-container);

@@ -59,8 +59,6 @@ function ArtworkPoster({ poster }) {
     e.preventDefault();
   };
 
-  console.log(poster);
-
   return (
     <Link
       className={styles.posterContainer}

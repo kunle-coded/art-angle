@@ -36,7 +36,7 @@ const router = createBrowserRouter([
         element: <Artworks />,
       },
       {
-        path: "/collections/:name",
+        path: "/collection/:name",
         element: <Category />,
       },
       {

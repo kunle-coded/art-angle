@@ -4,7 +4,8 @@
   /* Typography */
 
   /* Font family */
-  --primary-font: "Josefin Sans", sans-serif;
+  /* --primary-font: "Josefin Sans", sans-serif; */
+  --primary-font: "Montserrat", sans-serif;
   --secondary-font: "Montserrat", sans-serif;
 
   /* Font size */
@@ -33,6 +34,7 @@
   --on-primary: #fafafa;
   --primary-container: #f3f3f3;
   --on-primary-container: #131313;
+  --on-primary-container: #000000;
   --primary-variant: #707070;
   --primary-hover-container: #f7f7f7;
   --primary-container-variant: #dadada;

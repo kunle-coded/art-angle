@@ -1,29 +1,28 @@
-import { Link } from "react-router-dom";
-import styles from "./PageHeader.module.css";
-import PageTitle from "./PageTitle";
+import styles from "./CategoryHeader.module.css";
+import Breadcrumb from "./Breadcrumb";
 
-function CategoryHeader({ title = "", subtitle = "" }) {
+function CategoryHeader({ categoryMeta, breadcumbLink }) {
   return (
-    <header className="container">
-      <div className={styles.headerWrapper}>
-        <div>
+    <div className={styles.container}>
+      <header className={styles.gridContainer}>
+        <div className={styles.gridColumn}>
           <div className={styles.headingWrapper}>
-            <PageTitle title={title} />
+            <h1 fontFamily="sans" className={styles.heading}>
+              {categoryMeta?.category}
+            </h1>
           </div>
-          <nav className={styles.breadcrumbWrapper}>
-            <ol>
-              <li></li>
-              <span>/</span>
-              <li></li>
-            </ol>
-          </nav>
+          <Breadcrumb link={breadcumbLink} />
         </div>
 
-        <div className={styles.subheadingWrapper}>
-          <div className={styles.subheading}>{subtitle}</div>
+        <div className={styles.gridColumn}>
+          <div className={styles.subheadingContainer}>
+            <span>
+              <p>{categoryMeta?.desc}</p>
+            </span>
+          </div>
         </div>
-      </div>
-    </header>
+      </header>
+    </div>
   );
 }
 

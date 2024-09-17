@@ -661,6 +661,44 @@ const categoriesList = [
   "20th-Century Art",
 ];
 
+const artworksCategories = [
+  {
+    id: 0,
+    category: "Contemporary Art",
+    desc: "Spanning from 1970 to the present day, Contemporary Art represents the most diverse and evolving era of artistic production. Artists within this category engage with current social, political, and cultural themes, often experimenting with new materials and techniques. From conceptual works to digital media, contemporary art challenges traditional boundaries, offering a reflection on the complexities of the modern world.",
+  },
+  {
+    id: 1,
+    category: "Emerging Art",
+    desc: "Emerging Art refers to the work of young or relatively new artists who are gaining recognition within the art world. These artists are often at the forefront of innovation, experimenting with fresh ideas and unorthodox mediums. While they may not yet have established reputations, their work often provides insight into future trends and shifts within the broader artistic landscape.",
+  },
+  {
+    id: 2,
+    category: "Abstract Art",
+    desc: "Abstract Art is a genre that avoids direct representation of objects or figures, focusing instead on shapes, colors, and forms to convey meaning. Originating in the early 20th century, abstract art allows artists to explore emotions, ideas, and perceptions without the constraints of realism. Well-known examples include works by Wassily Kandinsky, Jackson Pollock, and Piet Mondrian",
+  },
+  {
+    id: 3,
+    category: "Impressionist and Modern Art",
+    desc: "Impressionist and Modern Art encompasses the works produced between the mid-19th century and the mid-20th century. Impressionism, characterized by light brushstrokes and an emphasis on capturing fleeting moments, was revolutionary in its time. Modern art, following the movement, further broke with tradition by experimenting with form, color, and abstraction, paving the way for movements like Cubism and Surrealism.",
+  },
+  {
+    id: 4,
+    category: "Minimalism",
+    desc: "Minimalism emerged in the 1960s as a reaction against the highly expressive works of earlier movements like Abstract Expressionism. This art style is characterized by simplicity, clean lines, and a focus on the purity of form and color. Minimalist artists strip their work down to the essentials, often using geometric shapes and monochromatic palettes to explore concepts of space, repetition, and materiality.",
+  },
+  {
+    id: 5,
+    category: "Pop Art",
+    desc: "Pop Art is an art movement that began in the mid-1950s and flourished in the 1960s, primarily in the United States and the United Kingdom. Known for its use of bright colors, bold lines, and imagery from popular culture such as advertisements, comic strips, and consumer goods, Pop Art challenged traditional fine art by embracing mass media and the everyday. Key figures include Andy Warhol and Roy Lichtenstein.",
+  },
+  {
+    id: 6,
+    category: "Street Art",
+    desc: "Street Art refers to visual art created in public spaces, often outside the context of traditional galleries or museums. Emerging in the 1980s, this form of art includes graffiti, murals, and other forms of visual expression found on city walls and surfaces. It is closely associated with subcultures and often carries political or social messages. Artists like Banksy and Shepard Fairey have elevated street art to international recognition.",
+  },
+];
+
 const materials = [
   "Acrylic",
   "Acrylic on canvas",
@@ -1369,6 +1407,7 @@ export {
   artists,
   events,
   categoriesList,
+  artworksCategories,
   materials,
   medium,
   styles,

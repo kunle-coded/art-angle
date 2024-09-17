@@ -20,11 +20,10 @@ import {
   updatePriceFilter,
   updateRarity,
 } from "../slices/filterSlice";
-import { categories, rarity, medium } from "../data";
+import { categories, rarity, medium, artworksCategories } from "../data";
 
 import Section from "../components/sections/Section";
 import CategoryCardSmall from "../ui/CategoryCardSmall";
-import PageHeader from "../ui/PageHeader";
 import PosterBlock from "../ui/PosterBlock";
 import FilterSort from "../ui/FilterSort";
 import SortComponent from "../components/sort/SortComponent";
@@ -58,7 +57,8 @@ import {
 } from "../hooks";
 import filterPrice from "../helpers/filterPrice";
 import { getSearch } from "../slices/searchSlice";
-import { useSearchParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
+import CategoryHeader from "../ui/CategoryHeader";
 
 const sortArray = [
   "Recommended",
@@ -78,6 +78,7 @@ function Category() {
   const [showModal, setShowModal] = useState(false);
   const [skipFilter, setSkipFilter] = useState(true);
   const [priceValues, setPriceValues] = useState({});
+  const [pageMeta, setPageMeta] = useState({});
 
   const labelRef = useRef(null);
   const rarityRef = useRef(null);
@@ -155,6 +156,7 @@ function Category() {
   // const mediumParams = getUrlParams("medium");
   // const rarityParams = getUrlParams("rarity");
   const allParams = getUrlParams();
+  const { name } = useParams();
 
   const {
     data: filtered,
@@ -165,6 +167,14 @@ function Category() {
   } = useFiltertedArtworksQuery(allParams, {
     skip: skipFilter,
   });
+
+  useEffect(() => {
+    const meta = artworksCategories.find((category) =>
+      category.category.toLowerCase().includes(name)
+    );
+
+    setPageMeta(meta);
+  }, [name]);
 
   useEffect(() => {
     if (isSuccess) {
@@ -214,39 +224,6 @@ function Category() {
       }
     }
   }, []);
-
-  // useEffect(() => {
-  //   // const exists = selectedMedium.some(
-  //   //   (medium) => medium.value === item
-  //   // );
-  //   // console.log(exists);
-  //   if (mediumParams) {
-  //     const medArr = mediumParams.split("+");
-  //     console.log(medArr);
-
-  //     medArr.forEach((item) => {
-  //       // dispatch(updateMedium(item));
-  //     });
-  //   }
-  // }, []);
-
-  // useEffect(() => {
-  //   if (rarityParams) {
-  //     const rarityValue = rarityParams.split("-").join(" ");
-
-  //     dispatch(updateRarity(rarityValue));
-  //   }
-  // }, []);
-
-  // useEffect(() => {
-  //   if (priceParams) {
-  //     const { minPrice, maxPrice } = priceParams;
-  //     if (minPrice || maxPrice) {
-  //       const priceInput = filterPrice(minPrice, maxPrice);
-  //       dispatch(updatePrice(priceInput));
-  //     }
-  //   }
-  // }, []);
 
   useEffect(() => {
     const selectedCount = allSelectedFilters.filter(
@@ -404,13 +381,13 @@ function Category() {
 
   return (
     <div className="page">
-      <PageHeader
-        title="Discover and collect art online"
-        subtitle="Browse by Categories"
-      />
+      <CategoryHeader categoryMeta={pageMeta} breadcumbLink={name} />
 
-      <Section type="basic">
-        <Spacer small={true} />
+      <div style={{ marginTop: "100px" }}></div>
+
+      {/* TODO: Modify based on which category, show on some. */}
+      {/* <Section type="basic" title="Browse by Category">
+        <Spacer small />
         <PosterBlock>
           {categories.map(
             (category, i) =>
@@ -419,9 +396,9 @@ function Category() {
               )
           )}
         </PosterBlock>
-      </Section>
+      </Section> */}
 
-      {/* NOTE: To Add sticky prop later */}
+      {/* TODO: To Add sticky prop later */}
       <FilterSort filters={selectedFilter}>
         <FilterComponent>
           <FilterButton

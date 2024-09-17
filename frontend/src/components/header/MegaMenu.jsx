@@ -1,14 +1,11 @@
-import { useState } from "react";
 import styles from "./MegaMenu.module.css";
 
-function MegaMenu({ isShow, children }) {
-  const [isEnter, setIsEnter] = useState(false);
-
+function MegaMenu({ isShow, isEnter, onEnter, onLeave, children }) {
   return (
     <div
       className={styles.megaMenuContainer}
-      onMouseEnter={() => setIsEnter(true)}
-      onMouseLeave={() => setIsEnter(false)}
+      onMouseEnter={onEnter}
+      onMouseLeave={onLeave}
     >
       <div
         className={`${styles.megaMenu} ${
