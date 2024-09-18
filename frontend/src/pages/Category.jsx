@@ -44,6 +44,7 @@ import Pagination from "../components/pagination/Pagination";
 import NewsLetter from "../components/cta/NewsLetter";
 import {
   useAllArtworksQuery,
+  useArtworksCategoriesQuery,
   useFiltertedArtworksQuery,
 } from "../slices/artworksApiSlice";
 import Spinner from "../ui/Spinner";
@@ -70,7 +71,14 @@ const sortArray = [
 ];
 
 function Category() {
-  const { data, isSuccess } = useAllArtworksQuery();
+  const { name } = useParams();
+
+  const {
+    data: categoriesData,
+    isSuccess,
+    isError: isCategoriesError,
+  } = useArtworksCategoriesQuery(name);
+  const { data } = useAllArtworksQuery();
 
   const [artworks, setArtworks] = useState([]);
   const [selected, setSelected] = useState(0);
@@ -153,10 +161,9 @@ function Category() {
   const dispatch = useDispatch();
 
   const priceParams = getUrlParams("price_range");
-  // const mediumParams = getUrlParams("medium");
-  // const rarityParams = getUrlParams("rarity");
   const allParams = getUrlParams();
-  const { name } = useParams();
+
+  const categoryParams = { ...allParams, category: name };
 
   const {
     data: filtered,
@@ -164,9 +171,15 @@ function Category() {
     isError,
     isSuccess: isFilterSuccess,
     isLoading: isFilterLoading,
-  } = useFiltertedArtworksQuery(allParams, {
+  } = useFiltertedArtworksQuery(categoryParams, {
     skip: skipFilter,
   });
+
+  useEffect(() => {
+    if (isSuccess) {
+      setArtworks(categoriesData);
+    }
+  }, [categoriesData, isSuccess]);
 
   useEffect(() => {
     const meta = artworksCategories.find((category) =>
@@ -177,10 +190,10 @@ function Category() {
   }, [name]);
 
   useEffect(() => {
-    if (isSuccess) {
+    if (isCategoriesError || categoriesData?.length < 1) {
       setArtworks(data);
     }
-  }, [data, isSuccess]);
+  }, [data, isCategoriesError, categoriesData]);
 
   useEffect(() => {
     const isAllParamsEmpty = emptyObject(allParams);
@@ -210,20 +223,20 @@ function Category() {
     const isAllParamsEmpty = emptyObject(allParams);
 
     if (isFilterSuccess && isAllParamsEmpty) {
-      setArtworks(data);
+      setArtworks(categoriesData);
     }
-  }, [allParams, isFilterSuccess, data]);
+  }, [allParams, isFilterSuccess, categoriesData]);
 
-  useEffect(() => {
-    if (priceParams) {
-      const { minPrice, maxPrice } = priceParams;
-      if (minPrice || maxPrice) {
-        dispatch(updatePriceFilter({ minPrice, maxPrice }));
-        const priceInput = filterPrice(minPrice, maxPrice);
-        dispatch(updatePrice(priceInput));
-      }
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (priceParams) {
+  //     const { minPrice, maxPrice } = priceParams;
+  //     if (minPrice || maxPrice) {
+  //       dispatch(updatePriceFilter({ minPrice, maxPrice }));
+  //       const priceInput = filterPrice(minPrice, maxPrice);
+  //       dispatch(updatePrice(priceInput));
+  //     }
+  //   }
+  // }, []);
 
   useEffect(() => {
     const selectedCount = allSelectedFilters.filter(

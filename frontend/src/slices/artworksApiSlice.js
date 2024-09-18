@@ -23,6 +23,14 @@ export const artworksApiSlice = apiArtworkSlice.injectEndpoints({
 
         return `${ALL_ARTWORKS_URL}/filter?${params.toString()}`;
       },
+      providesTags: ["filteredArtworks"],
+    }),
+    artworksCategories: builder.query({
+      query: (category) => ({
+        url: `/api/collection/${category}`,
+      }),
+
+      providesTags: ["categories"],
     }),
     featuredArtworks: builder.query({
       query: () => ({
@@ -65,7 +73,12 @@ export const artworksApiSlice = apiArtworkSlice.injectEndpoints({
         method: "POST",
         body: data,
       }),
-      invalidatesTags: ["Artworks", "artistArtworks"],
+      invalidatesTags: [
+        "Artworks",
+        "artistArtworks",
+        "filtertedArtworks",
+        "categories",
+      ],
     }),
     uploadImage: builder.mutation({
       query: (data) => ({
@@ -89,14 +102,25 @@ export const artworksApiSlice = apiArtworkSlice.injectEndpoints({
         method: "PUT",
         body: data.value,
       }),
-      invalidatesTags: ["Artwork"],
+      invalidatesTags: [
+        "Artwork",
+        "artistArtworks",
+        "filtertedArtworks",
+        "categories",
+      ],
     }),
     deleteArtwork: builder.mutation({
       query: (id) => ({
         url: `${ARTWORKS_URL}/${id}`,
         method: "DELETE",
       }),
-      invalidatesTags: ["Artwork", "artistArtworks", "Artworks"],
+      invalidatesTags: [
+        "Artwork",
+        "artistArtworks",
+        "Artworks",
+        "filtertedArtworks",
+        "categories",
+      ],
     }),
   }),
 });
@@ -109,6 +133,7 @@ export const {
   useArtworksByPriceQuery,
   useArtistArtworksQuery,
   useUserSingleArtworkQuery,
+  useArtworksCategoriesQuery,
   useUploadMutation,
   useDeleteImageMutation,
   useUploadImageMutation,

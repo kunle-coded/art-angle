@@ -15,6 +15,7 @@
 
 .gridInnerWrapper {
   width: 100%;
+  min-height: 645px;
   display: flex;
 }
 

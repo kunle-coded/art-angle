@@ -85,6 +85,7 @@ const getArtworksByFilter = asyncHandler(async (req, res) => {
     periods,
     colors,
     sort,
+    category,
   } = req.query;
 
   const query = {};
@@ -277,6 +278,10 @@ const getArtworksByFilter = asyncHandler(async (req, res) => {
     }
   }
 
+  if (category) {
+    query.category = { $regex: category, $options: "i" };
+  }
+
   const artworks = await Artwork.find(query)
     .select("-owner")
     .sort(
@@ -291,6 +296,19 @@ const getArtworksByFilter = asyncHandler(async (req, res) => {
     res.status(401);
     throw new Error("No artwork match the filter query");
   }
+});
+
+// @desc Get artworks by categories
+// route GET /api/collection/:category
+// access Public
+const getArtworksByCategories = asyncHandler(async (req, res) => {
+  const { category } = req.params;
+
+  const artworks = await Artwork.find({
+    category: { $regex: category, $options: "i" },
+  }).select("-owner");
+
+  res.status(200).json(artworks);
 });
 
 // @desc Get all artworks
@@ -536,6 +554,7 @@ module.exports = {
   getArtworksByFilter,
   getUserArtworks,
   getUserSingleArtwork,
+  getArtworksByCategories,
   addArtworks,
   uploadArtworkImage,
   deleteArtworkImage,
